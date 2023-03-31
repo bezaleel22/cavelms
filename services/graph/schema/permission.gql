@@ -1,0 +1,63 @@
+type Permission {
+  id: ID!
+  role: Role!
+  model: AllowedModel!
+  permissions: [AllowedPermission!]!
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  SUPER_ADMIN
+  SUPPORT
+  ALUMNI
+  PARTNER
+  GUEST
+}
+
+enum AllowedModel {
+  COURSE
+  ACTIVITY
+  COURSE_CONTENT
+  FILE
+  FORUM
+  FORUM_POST
+  FORUM_COMMENT
+  GRADE
+  QUIZ
+  QUESTION
+  SUBMISSION
+  ANSWER_CHOICE
+  MATCHING_PAIR
+  NOTIFICATION
+  TARGET
+  USER
+}
+
+enum AllowedPermission {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  UPDATE_PERMISSIONS
+  GRANT_PERMISSIONS
+  REVOKE_PERMISSIONS
+}
+
+input PermissionInput {
+  role: Role!
+  model: AllowedModel!
+  permissions: [AllowedPermission!]!
+}
+
+extend type Query {
+  getPermissionsForUser(role: Role!): [Permission!]!
+  getPermissionsForModel(model: AllowedModel!): [Permission!]!
+}
+
+extend type Mutation {
+  updatePermission(input: PermissionInput!): Permission
+  grantPermission(input: PermissionInput!): Permission
+  revokePermission(input: PermissionInput!): Permission
+}

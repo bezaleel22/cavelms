@@ -1,0 +1,83 @@
+type EvaluationCriteria {
+  id: ID!
+  passingScore: Int!
+  scoreDistribution: [ScoreDistribution!]!
+  gradingScale: [GradeScale!]!
+  weight: Int!
+  penalties: [Penalty!]!
+  bonuses: [Bonus!]!
+  resubmissionPolicy: ResubmissionPolicy!
+  isPassFail: Boolean!
+  quiz: Quiz! 
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type ScoreDistribution {
+  id: ID!
+  minScore: Int!
+  maxScore: Int!
+  grade: String!
+  percentage: Int!
+}
+
+type GradeScale {
+  id: ID!
+  minScore: Int!
+  maxScore: Int!
+  grade: String!
+}
+
+type Penalty {
+  id: ID!
+  name: String!
+  description: String!
+  percentage: Int!
+}
+
+type Bonus {
+  id: ID!
+  name: String!
+  description: String!
+  percentage: Int!
+}
+
+enum ResubmissionPolicy {
+  ALLOWED
+  NOT_ALLOWED
+  LIMIT_NUMBER
+  LIMIT_TIME
+}
+
+input CreateEvaluationCriteriaInput {
+  passingScore: Int
+  weight: Int
+  resubmissionPolicy: ResubmissionPolicy
+  isPassFail: Boolean
+  quizId: ID!
+}
+
+input UpdateEvaluationCriteriaInput {
+  passingScore: Int
+  weight: Int
+  resubmissionPolicy: ResubmissionPolicy
+  isPassFail: Boolean
+  quizId: ID!
+}
+
+type Query {
+  evaluationCriterias: [EvaluationCriteria!]!
+  evaluationCriteria(id: ID!): EvaluationCriteria
+}
+
+type Mutation {
+  createEvaluationCriteria(
+    input: CreateEvaluationCriteriaInput!
+  ): EvaluationCriteria!
+  updateEvaluationCriteria(
+    id: ID!
+    input: UpdateEvaluationCriteriaInput!
+  ): EvaluationCriteria!
+  deleteEvaluationCriteria(id: ID!): EvaluationCriteria!
+}

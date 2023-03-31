@@ -1,0 +1,23 @@
+type Mail {
+  to: [String!]
+  subject: String!
+  body: String!
+  attach: Boolean!
+}
+
+input NewMail {
+  to: [String!]
+  subject: String!
+  attach: Boolean!
+  body: Any!
+}
+
+extend type Mutation {
+  send(tpl: String!, input: NewMail): Any
+  deleteMail(id: ID!): Mail
+}
+
+extend type Query {
+  mail(id: ID!): Mail
+  mails: [Mail]
+}

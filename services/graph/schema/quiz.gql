@@ -1,0 +1,203 @@
+type Quiz {
+  id: ID!
+  name: String!
+  description: String
+  quizType: QuizType!
+  duration: Int
+  passingScore: Int
+  proctoringMethod: ProctoringMethod
+  resultsReleaseDate: Time
+  certificate: Boolean
+  startTime: Time!
+  endTime: Time!
+  startDate: Time!
+  dueDate: String!
+  timeLimit: Int
+  randomizeQuestions: Boolean
+  randomizeAnswers: Boolean
+  categories: [String!]
+  course: Course!
+  questionIds: [ID!]!
+  gradeIds: [ID!]!
+  submissionIds: [ID]
+  isLocked: Boolean!
+  waitTime: Int
+  weight: Int
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+enum QuizType {
+  EXAM
+  ASSIGNMENT
+}
+
+enum ProctoringMethod {
+  NONE
+  MANUAL
+  AUTOMATED
+}
+
+input CreateQuizInput {
+  name: String!
+  timeLimit: Int
+  shuffleQuestions: Boolean
+  categories: [String!]
+  questions: [CreateQuestionInput!]!
+}
+
+input UpdateQuizInput {
+  id: ID!
+  name: String
+  timeLimit: Int
+  shuffleQuestions: Boolean
+  categories: [String!]
+  questions: [UpdateQuestionInput!]
+}
+
+type Question {
+  id: ID!
+  type: QuestionType!
+  text: String!
+  choices: [AnswerChoice]
+  correctAnswer: String
+  feedback: String
+  hints: [String]
+  randomize: Boolean
+  pointValue: Int
+  categories: [String]
+  matchingPairs: [MatchingPair]
+}
+
+input UpdateQuestionInput {
+  id: ID!
+  type: QuestionType!
+  text: String!
+  choices: [AnswerChoiceInput]
+  correctAnswer: String
+  feedback: String
+  hints: [String]
+  randomize: Boolean
+  pointValue: Int
+  categories: [String]
+  matchingPairs: [MatchingPairInput]
+}
+
+input CreateQuestionInput {
+  type: QuestionType!
+  text: String!
+  choices: [AnswerChoiceInput]
+  correctAnswer: String
+  feedback: String
+  hints: [String]
+  randomize: Boolean
+  pointValue: Int
+  categories: [String]
+  matchingPairs: [MatchingPairInput]
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  MULTIPLE_CORRECT
+  SHORT_ANSWER
+  ESSAY
+  MATCHING
+  TRUE_FALSE
+}
+
+type MatchingPair {
+  id: ID!
+  question: Question!
+  left: String!
+  right: String!
+}
+
+input MatchingPairInput {
+  left: String
+  right: String
+}
+
+type Answer {
+  id: ID!
+  submission: Submission!
+  question: Question!
+  choices: [AnswerChoice]
+  value: String
+  isCorrect: Boolean
+  weight: Int
+  pointsAwarded: Int
+  feedback: String
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+input AnswerInput {
+  submission: SubmissionInput!
+  question: UpdateQuestionInput!
+  choices: [AnswerChoiceInput]
+  value: String
+  isCorrect: Boolean
+  weight: Int
+  pointsAwarded: Int
+  feedback: String
+}
+
+type AnswerChoice {
+  id: ID!
+  text: String!
+  isCorrect: Boolean
+  feedback: String
+  weight: Int
+}
+
+input AnswerChoiceInput {
+  id: ID!
+  text: String!
+  isCorrect: Boolean
+  feedback: String
+  weight: Int
+}
+
+type Submission {
+  id: ID!
+  quiz: Quiz!
+  userID: String!
+  startTime: Time!
+  endTime: Time
+  answers: [Answer!]!
+  points: Int
+  grade: Float
+  weight: Int
+  feedback: [String]
+  startedAt: Time!
+  completedAt: Time
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+input SubmissionInput {
+  quiz: UpdateQuizInput!
+  userID: String!
+  startTime: Time!
+  endTime: Time
+  answers: [AnswerInput!]! 
+  points: Int
+  grade: Float
+  weight: Int
+  feedback: [String]
+  startedAt: Time!
+}
+
+extend type Query {
+  quiz(id: ID!): Quiz
+  quizzes: [Quiz!]!
+  submission(id: ID!): Submission
+  submissions: [Submission!]!
+}
+
+extend type Mutation {
+  createQuiz(input: CreateQuestionInput!): Quiz
+  updateQuiz(id: ID!, input: UpdateQuizInput!): Quiz
+  deleteQuiz(id: ID!): Boolean
+  submitQuiz(quizId: ID!, answers: [AnswerInput!]!): Submission
+}

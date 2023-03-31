@@ -1,0 +1,95 @@
+type File {
+  name: String!
+  mimetype: String!
+  encoding: String!
+  size: Int!
+  url: String!
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  PDF
+  WORD_DOC
+  TEXT
+  PPT
+  SPREADSHEET
+  ARCHIVE
+  OTHERS
+}
+
+type Media {
+  id: ID!
+  title: String!
+  description: String
+  category: String!
+  mediaType: MediaType!
+  duration: Int64!
+  videoPlayerInfo: VideoPlayerInfo
+  file: File!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type VideoPlayerInfo {
+  currentTime: Int
+  duration: Int
+}
+
+input VideoPlayerInfoInput {
+  currentTime: Int
+  totalTime: Int
+}
+
+input UpdateMediaInput {
+  id: ID!
+  title: String!
+  description: String
+  category: String!
+  mediaType: MediaType!
+  duration: Int64!
+  videoPlayerInfo: VideoPlayerInfoInput
+  file: UpdateFileInput!
+}
+
+input CreatMediaInput {
+  userId: ID!
+  courseID: ID!
+  title: String!
+  description: String
+  category: String!
+  mediaType: MediaType!
+  file: CreateFileInput!
+}
+
+input CreateFileInput {
+  name: String!
+  mimeType: String!
+  size: Int!
+  url: String!
+}
+
+input UpdateFileInput {
+  name: String!
+  mimetype: String!
+  encoding: String!
+  size: Int!
+  url: String!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+extend type Query {
+  media(id: ID!): Media
+  mediaByType(type: MediaType!): [Media!]!
+  allMedia: [Media!]!
+}
+
+extend type Mutation {
+  createMedia(input: CreatMediaInput!): Media
+  updateMedia(input: UpdateMediaInput!): Media
+  deleteMedia(id: ID!): Media
+}

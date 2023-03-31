@@ -1,0 +1,74 @@
+type Target {
+  id: ID!
+  name: String!
+  description: String
+  dueDate: Time!
+  course: Course! 
+  completionDate: Time
+  isCompleted: Boolean!
+  targetType: TargetType!
+  targetValue: Int
+  currentValue: Int
+  targetMetric: String
+  reminders: [Reminder]
+  units: String
+  repeatInterval: RepeatInterval
+  repeatEndDate: Time
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Reminder {
+  id: ID!
+  target: Target!
+  user: User!
+  message: String!
+  sendTime: Time!
+  sent: Boolean!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+enum TargetType {
+  TARGET
+  MINIMUM
+  MAXIMUM
+}
+
+enum RepeatInterval {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+input CreateTargetInput {
+  name: String!
+  description: String
+  startDate: Time!
+  endDate: Time!
+  courseId: ID!
+  targetValue: Int!
+  units: String
+}
+
+input UpdateTargetInput {
+  name: String
+  description: String
+  startDate: Time
+  endDate: Time
+  courseId: ID
+  targetValue: Int
+  units: String
+}
+
+extend type Query {
+  targets(courseId: ID): [Target!]!
+  target(id: ID!): Target
+}
+
+extend type Mutation {
+  createTarget(input: CreateTargetInput!): Target
+  updateTarget(id: ID!, input: UpdateTargetInput!): Target
+  deleteTarget(id: ID!): Target
+}

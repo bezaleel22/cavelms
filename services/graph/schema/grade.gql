@@ -1,0 +1,42 @@
+type Grade {
+  id: ID!
+  student: User!
+  course: Course!
+  quizId: ID!
+  value: Int!
+  criteria: String
+  comments: String
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+input CreateGradeInput {
+  studentId: ID!
+  courseId: ID!
+  assignmentId: ID!
+  value: Int!
+  criteria: String
+  comments: String
+}
+
+input UpdateGradeInput {
+  id: ID!
+  studentId: ID
+  courseId: ID
+  assignmentId: ID
+  value: Int
+  criteria: String
+  comments: String
+}
+
+extend type Mutation {
+  createGrade(input: CreateGradeInput!): Grade!
+  updateGrade(id: ID!, input: UpdateGradeInput!): Grade!
+  deleteGrade(id: ID!): Boolean!
+}
+
+extend type Query {
+  grades: [Grade!]!
+  grade(id: ID!): Grade!
+}

@@ -1,0 +1,46 @@
+type Notification {
+  id: ID!
+  sender: User!
+  recipient: User!
+  course: Course!
+  seen: Boolean!
+  text: String!
+  title: String!
+  type: NotificationType!
+  link: String
+  createdAt: Time!
+}
+
+enum NotificationType {
+  MESSAGE
+  ANNOUNCEMENT
+  COURSE_UPDATE
+  GRADE_UPDATE
+  FORUM_UPDATE
+}
+
+input CreateNotificationInput {
+  senderId: ID!
+  recipientId: ID!
+  courseId: ID!
+  type: NotificationType!
+  link: String
+}
+
+input UpdateNotificationInput {
+  read: Boolean
+}
+
+extend type Query {
+  notifications(courseId: ID, recipientId: ID, read: Boolean): [Notification!]!
+}
+
+extend type Mutation {
+  createNotification(input: CreateNotificationInput!): Notification!
+  updateNotification(id: ID!, input: UpdateNotificationInput!): Notification!
+  deleteNotification(id: ID!): Notification!
+}
+
+type Subscription {
+  notificationAdded: Notification!
+}

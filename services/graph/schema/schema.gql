@@ -1,0 +1,15 @@
+directive @requireAuth(token: String) on FIELD_DEFINITION
+
+scalar Time
+scalar Any
+scalar Int64
+scalar Upload
+
+type MailInput {
+  id: ID!
+  to: [String!]!
+  subject: String!
+  content: Any
+  attachmentUrl: String
+  template: String!
+}

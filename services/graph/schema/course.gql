@@ -1,0 +1,131 @@
+type Course {
+  id: ID!
+  userId: String!
+  code: String!
+  title: String!
+  shortDescription: String!
+  description: String
+  semester: String!
+  year: String!
+  startDate: Time
+  endDate: Time
+  matricNumber: String!
+  coverImageUrl: String
+  type: CourseType!
+  status: CourseStatus!
+  progress: CourseProgress!
+  programType: ProgramType!
+  instructorIds: [ID!]!
+  students: [User!]!
+  assignmentIds: [ID!]!
+  quizzeIds: [ID!]!
+  forumId: ID!
+  activityIds: [ID!]!
+  gradeIds: [ID!]!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type CourseProgress {
+  lecturesCompleted: Int!
+  assignmentsCompleted: Int!
+  quizzesCompleted: Int!
+  overallProgress: Int!
+}
+
+enum CourseType {
+  PRACTICUM
+  LESSONS
+  SHORT_COURSE
+}
+
+enum ProgramType {
+  PGDT
+  DIPLOMA
+}
+
+enum CourseStatus {
+  DELAYED
+  IN_PROGRESS
+  COMPLETED
+}
+
+input CreateCourseInput {
+  code: String!
+  title: String!
+  userId: ID!
+  shortDescription: String!
+  description: String
+  semester: String!
+  startDate: Time
+  endDate: Time
+  coverImageUrl: String
+  type: CourseType!
+  status: CourseStatus!
+  programType: ProgramType!
+  instructorIds: [ID!]!
+}
+
+input UpdateCourseInput {
+  id: ID!
+  code: String!
+  title: String!
+  shortDescription: String!
+  description: String
+  semester: String!
+  startDate: Time
+  endDate: Time
+  matricNumber: String!
+  coverImageUrl: String
+  type: CourseType!
+  status: CourseStatus!
+  programType: ProgramType!
+  instructorIds: [ID!]!
+  studentIds: [ID!]
+  courseContentIds: [ID!]
+  assignmentIds: [ID!]
+  quizIds: [ID!]
+  forumId: ID
+  activityIds: [ID!]
+  gradeIds: [ID!]
+}
+
+input NewCourse {
+  id: ID!
+  userId: ID!
+  title: String!
+  code: String!
+  coverImg: String!
+  type: String!
+  semester: String!
+  program: String!
+  tutors: [ID!]
+  shortDescription: String!
+  longDescription: String!
+}
+
+extend type Mutation {
+  createCourse(input: CreateCourseInput): Course!
+  updateCourse(input: Any): Course!
+  deleteCourse(id: ID!): Course!
+}
+
+extend type Query {
+  courses(userId: ID): [Course!]!
+  course(id: ID!): Course!
+}
+
+# - Course Category (Diploma or PGDT; First semester or second semester; For diploma they would have year one or year 2)
+# - Course Lecturer Details ( Name, short description, email)
+# - Students should be able to register for the courses they take themselves
+# - Lecture Videos
+# - Lecture Note
+# - Assignment (PDF & Essay that can be typed directly in a text box)
+# - Examination (Objective & Essay) The examination would have number of attempts and time duration
+# - Students should be able to send the lecturer messages regarding questions and grey areas as they watch the videos. And the lecturer should be able to give them answers.
+# - The examination and Assignment would have a timeline
+# - Students should be able to see their results after taking their exams or assignment. They should be able to also see their results whenever they login.
+# - The admin should be able to view the grades of students in one page.
+# - after watching the lecture video a grade should be assigned to the student.
+# - Grading is as follows ( Exams 40%, Assignment 20%, Online meeting attendance 20%, lecture video watching attendance 20%)

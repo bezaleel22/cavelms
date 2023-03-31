@@ -1,0 +1,61 @@
+type Activity {
+  id: ID!
+  userID: ID!
+  courseID: ID!
+  courseContentID: ID
+  activityType: ActivityType!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+enum ActivityType {
+  COURSE_VIEW
+  COURSE_ENROLLED
+  COURSE_COMPLETED
+  COURSE_PROGRESS
+  FORUM_POST_CREATED
+  FORUM_POST_UPDATED
+  FORUM_COMMENT_CREATED
+  FORUM_COMMENT_UPDATED
+  GRADE_RECEIVED
+  QUIZ_TAKEN
+  QUIZ_GRADE_RECEIVED
+  ASSIGNMENT_SUBMITTED
+  ASSIGNMENT_GRADE_RECEIVED
+  RESOURCE_ACCESSED
+  MEDIA_INTERACTION
+  PAGE_VIEW
+}
+
+input CreateActivityInput {
+  userID: ID!
+  courseID: ID!
+  courseContentID: ID
+  activityType: ActivityType!
+}
+
+input UpdateActivityInput {
+  id: ID!
+  courseContentID: ID
+  activityType: ActivityType!
+}
+
+extend type Query {
+  activities(courseID: ID): [Activity!]!
+  activity(id: ID!): Activity
+}
+
+extend type Mutation {
+  createActivity(input: CreateActivityInput!): Activity
+  updateActivity(input: UpdateActivityInput!): Activity
+  deleteActivity(id: ID!): Boolean!
+}
+
+extend type Subscription {
+  activityAdded: Activity
+  activityUpdated: Activity
+  activityDeleted: ID
+}
+
+
