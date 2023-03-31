@@ -1,24 +1,15 @@
-import { HoudiniClient, type RequestHandler } from "$houdini";
+import { HoudiniClient } from '$houdini';
 
-const requestHandler: RequestHandler = async ({
-  fetch,
-  text = "",
-  variables = {},
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  metadata,
-}) => {
-  const url = "http://localhost:8000/api/query ";
-  const result = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      query: text,
-      variables,
-    }),
-  });
-  return await result.json();
-};
+export default new HoudiniClient({
+    url: 'http://localhost:8000/api/query'
 
-export default new HoudiniClient(requestHandler);
+    // uncomment this to configure the network call (for things like authentication)
+    // for more information, please visit here: https://www.houdinigraphql.com/guides/authentication
+    // fetchParams({ session }) { 
+    //     return { 
+    //         headers: {
+    //             Authentication: `Bearer ${session.token}`,
+    //         }
+    //     }
+    // }
+})
