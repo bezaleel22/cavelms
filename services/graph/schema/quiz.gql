@@ -1,31 +1,35 @@
 type Quiz {
   id: ID!
   name: String!
-  description: String
+  description: String!
   quizType: QuizType!
-  duration: Int
-  passingScore: Int
-  proctoringMethod: ProctoringMethod
+  duration: Int!
+  passingScore: Int!
+  proctoringMethod: ProctoringMethod!
+  questions: [Question!]!
   resultsReleaseDate: Time
-  certificate: Boolean
+  certificate: Boolean!
   startTime: Time!
   endTime: Time!
   startDate: Time!
   dueDate: String!
-  timeLimit: Int
+  timeLimit: Int!
+  shuffleQuestions: Boolean!
   randomizeQuestions: Boolean
   randomizeAnswers: Boolean
   categories: [String!]
-  course: Course!
+  courseId: ID!
   questionIds: [ID!]!
   gradeIds: [ID!]!
   submissionIds: [ID]
   isLocked: Boolean!
-  waitTime: Int
-  weight: Int
+  waitTime: Int!
+  weight: Int!
   createdAt: Time!
   updatedAt: Time!
+  deletedAt: Time!
 }
+
 
 enum QuizType {
   EXAM
@@ -40,17 +44,17 @@ enum ProctoringMethod {
 
 input CreateQuizInput {
   name: String!
-  timeLimit: Int
-  shuffleQuestions: Boolean
+  timeLimit: Int!
+  shuffleQuestions: Boolean!
   categories: [String!]
   questions: [CreateQuestionInput!]!
 }
 
 input UpdateQuizInput {
   id: ID!
-  name: String
-  timeLimit: Int
-  shuffleQuestions: Boolean
+  name: String!
+  timeLimit: Int!
+  shuffleQuestions: Boolean!
   categories: [String!]
   questions: [UpdateQuestionInput!]
 }
@@ -59,41 +63,41 @@ type Question {
   id: ID!
   type: QuestionType!
   text: String!
-  choices: [AnswerChoice]
-  correctAnswer: String
-  feedback: String
-  hints: [String]
-  randomize: Boolean
-  pointValue: Int
-  categories: [String]
-  matchingPairs: [MatchingPair]
+  choices: [AnswerChoice!]!
+  correctAnswer: String!
+  feedback: String!
+  hints: [String!]!
+  randomize: Boolean!
+  pointValue: Int!
+  categories: [String!]!
+  matchingPairs: [MatchingPair!]!
 }
 
 input UpdateQuestionInput {
   id: ID!
   type: QuestionType!
   text: String!
-  choices: [AnswerChoiceInput]
-  correctAnswer: String
-  feedback: String
-  hints: [String]
-  randomize: Boolean
-  pointValue: Int
-  categories: [String]
-  matchingPairs: [MatchingPairInput]
+  choices: [AnswerChoiceInput!]!
+  correctAnswer: String!
+  feedback: String!
+  hints: [String!]!
+  randomize: Boolean!
+  pointValue: Int!
+  categories: [String!]!
+  matchingPairs: [MatchingPairInput!]!
 }
 
 input CreateQuestionInput {
   type: QuestionType!
   text: String!
-  choices: [AnswerChoiceInput]
-  correctAnswer: String
-  feedback: String
-  hints: [String]
-  randomize: Boolean
-  pointValue: Int
-  categories: [String]
-  matchingPairs: [MatchingPairInput]
+  choices: [AnswerChoiceInput!]!
+  correctAnswer: String!
+  feedback: String!
+  hints: [String!]!
+  randomize: Boolean!
+  pointValue: Int!
+  categories: [String!]!
+  matchingPairs: [MatchingPairInput!]!
 }
 
 enum QuestionType {
@@ -113,64 +117,63 @@ type MatchingPair {
 }
 
 input MatchingPairInput {
-  left: String
-  right: String
+  left: String!
+  right: String!
 }
 
 type Answer {
   id: ID!
-  submission: Submission!
-  question: Question!
-  choices: [AnswerChoice]
-  value: String
-  isCorrect: Boolean
-  weight: Int
-  pointsAwarded: Int
-  feedback: String
+  questionId: ID!
+  choices: [AnswerChoice!]!
+  value: String!
+  isCorrect: Boolean!
+  weight: Int!
+  pointsAwarded: Int!
+  feedback: String!
   createdAt: Time!
   updatedAt: Time!
 }
 
 input AnswerInput {
   submission: SubmissionInput!
-  question: UpdateQuestionInput!
-  choices: [AnswerChoiceInput]
-  value: String
-  isCorrect: Boolean
-  weight: Int
-  pointsAwarded: Int
-  feedback: String
+  questionId: ID!
+  choices: [AnswerChoiceInput!]!
+  value: String!
+  isCorrect: Boolean!
+  weight: Int!
+  pointsAwarded: Int!
+  feedback: String!
 }
 
 type AnswerChoice {
   id: ID!
   text: String!
-  isCorrect: Boolean
-  feedback: String
-  weight: Int
+  isCorrect: Boolean!
+  feedback: String!
+  weight: Int!
 }
 
 input AnswerChoiceInput {
   id: ID!
   text: String!
-  isCorrect: Boolean
-  feedback: String
-  weight: Int
+  isCorrect: Boolean!
+  feedback: String!
+  weight: Int!
 }
 
 type Submission {
   id: ID!
-  quiz: Quiz!
+  quizID: ID!
   userID: String!
   startTime: Time!
-  endTime: Time
+  endTime: Time!
   answers: [Answer!]!
-  points: Int
-  grade: Float
-  weight: Int
-  feedback: [String]
+  points: Int!
+  grade: Float!
+  weight: Int!
+  feedback: [String!]
   startedAt: Time!
-  completedAt: Time
+  completedAt: Time!
   createdAt: Time!
   updatedAt: Time!
 }
@@ -179,25 +182,25 @@ input SubmissionInput {
   quiz: UpdateQuizInput!
   userID: String!
   startTime: Time!
-  endTime: Time
-  answers: [AnswerInput!]! 
-  points: Int
-  grade: Float
-  weight: Int
-  feedback: [String]
+  endTime: Time!
+  answers: [AnswerInput!]!
+  points: Int!
+  grade: Float!
+  weight: Int!
+  feedback: [String!]!
   startedAt: Time!
 }
 
 extend type Query {
-  quiz(id: ID!): Quiz
+  quiz(id: ID!): Quiz!
   quizzes: [Quiz!]!
-  submission(id: ID!): Submission
+  submission(id: ID!): Submission!
   submissions: [Submission!]!
 }
 
 extend type Mutation {
-  createQuiz(input: CreateQuestionInput!): Quiz
+  createQuiz(input: CreateQuizInput!): Quiz
   updateQuiz(id: ID!, input: UpdateQuizInput!): Quiz
-  deleteQuiz(id: ID!): Boolean
-  submitQuiz(quizId: ID!, answers: [AnswerInput!]!): Submission
+  deleteQuiz(id: ID!): Boolean!
+  submitQuiz(quizId: ID!, input: SubmissionInput!): Submission
 }

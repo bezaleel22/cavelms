@@ -12,27 +12,47 @@ import (
 
 // CreateActivity is the resolver for the createActivity field.
 func (r *mutationResolver) CreateActivity(ctx context.Context, input model.CreateActivityInput) (*model.Activity, error) {
-	panic(fmt.Errorf("not implemented: CreateActivity - createActivity"))
+	activity, err := r.Service.CreateActivity(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return activity, nil
 }
 
 // UpdateActivity is the resolver for the updateActivity field.
 func (r *mutationResolver) UpdateActivity(ctx context.Context, input model.UpdateActivityInput) (*model.Activity, error) {
-	panic(fmt.Errorf("not implemented: UpdateActivity - updateActivity"))
+	activity, err := r.Service.UpdateActivity(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return activity, nil
 }
 
 // DeleteActivity is the resolver for the deleteActivity field.
 func (r *mutationResolver) DeleteActivity(ctx context.Context, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteActivity - deleteActivity"))
+	activity, err := r.Service.DeleteActivity(ctx, id)
+	if err != nil {
+		return false, err
+	}
+	return activity, nil
 }
 
 // Activities is the resolver for the activities field.
 func (r *queryResolver) Activities(ctx context.Context, courseID *string) ([]model.Activity, error) {
-	panic(fmt.Errorf("not implemented: Activities - activities"))
+	activities, err := r.Service.GetActivities(ctx, courseID)
+	if err != nil {
+		return nil, err
+	}
+	return activities, nil
 }
 
 // Activity is the resolver for the activity field.
 func (r *queryResolver) Activity(ctx context.Context, id string) (*model.Activity, error) {
-	panic(fmt.Errorf("not implemented: Activity - activity"))
+	activity, err := r.Service.GetActivity(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return activity, nil
 }
 
 // ActivityAdded is the resolver for the activityAdded field.

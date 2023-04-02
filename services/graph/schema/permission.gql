@@ -52,7 +52,7 @@ input PermissionInput {
 }
 
 extend type Query {
-  getPermissionsForUser(role: Role!): [Permission!]!
+  getPermissionsForUser(userID: ID!): [Permission!]!
   getPermissionsForModel(model: AllowedModel!): [Permission!]!
 }
 

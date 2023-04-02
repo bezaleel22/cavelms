@@ -98,7 +98,7 @@ input UpdateTagInput {
 extend type Query {
   forums(courseId: ID): [Forum!]!
   forum(id: ID!): Forum
-  forumPosts(courseId: ID, tags: [ID]): [ForumPost!]!
+  forumPosts(courseId: ID, tags: [ID!]!): [ForumPost!]!
   forumPost(id: ID!): ForumPost
   forumComments(courseId: ID): [ForumComment!]!
   forumComment(id: ID!): ForumComment

@@ -5,7 +5,6 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/cavelms/graph/generated"
 	"github.com/cavelms/internal/model"
@@ -13,27 +12,47 @@ import (
 
 // CreateEvaluationCriteria is the resolver for the createEvaluationCriteria field.
 func (r *mutationResolver) CreateEvaluationCriteria(ctx context.Context, input model.CreateEvaluationCriteriaInput) (*model.EvaluationCriteria, error) {
-	panic(fmt.Errorf("not implemented: CreateEvaluationCriteria - createEvaluationCriteria"))
+	evalCriteria, err := r.Service.CreateEvaluationCriteria(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return evalCriteria, nil
 }
 
 // UpdateEvaluationCriteria is the resolver for the updateEvaluationCriteria field.
 func (r *mutationResolver) UpdateEvaluationCriteria(ctx context.Context, id string, input model.UpdateEvaluationCriteriaInput) (*model.EvaluationCriteria, error) {
-	panic(fmt.Errorf("not implemented: UpdateEvaluationCriteria - updateEvaluationCriteria"))
+	evalCriteria, err := r.Service.UpdateEvaluationCriteria(ctx, id, input)
+	if err != nil {
+		return nil, err
+	}
+	return evalCriteria, nil
 }
 
 // DeleteEvaluationCriteria is the resolver for the deleteEvaluationCriteria field.
 func (r *mutationResolver) DeleteEvaluationCriteria(ctx context.Context, id string) (*model.EvaluationCriteria, error) {
-	panic(fmt.Errorf("not implemented: DeleteEvaluationCriteria - deleteEvaluationCriteria"))
+	evalCriteria, err := r.Service.DeleteEvaluationCriteria(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return evalCriteria, nil
 }
 
 // EvaluationCriterias is the resolver for the evaluationCriterias field.
 func (r *queryResolver) EvaluationCriterias(ctx context.Context) ([]model.EvaluationCriteria, error) {
-	panic(fmt.Errorf("not implemented: EvaluationCriterias - evaluationCriterias"))
+	evalCriterias, err := r.Service.EvaluationCriterias(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return evalCriterias, nil
 }
 
 // EvaluationCriteria is the resolver for the evaluationCriteria field.
 func (r *queryResolver) EvaluationCriteria(ctx context.Context, id string) (*model.EvaluationCriteria, error) {
-	panic(fmt.Errorf("not implemented: EvaluationCriteria - evaluationCriteria"))
+	evalCriteria, err := r.Service.EvaluationCriteria(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	return evalCriteria, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

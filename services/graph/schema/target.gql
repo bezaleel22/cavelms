@@ -2,20 +2,21 @@ type Target {
   id: ID!
   name: String!
   description: String
-  dueDate: Time!
-  course: Course! 
+  dueDate: Time
+  startDate:Time
+  courseId: ID!
   completionDate: Time
   isCompleted: Boolean!
   targetType: TargetType!
   targetValue: Int
   currentValue: Int
-  targetMetric: String
+  targetMetric: String!
   reminders: [Reminder]
-  units: String
-  repeatInterval: RepeatInterval
+  units: String!
+  repeatInterval: RepeatInterval!
   repeatEndDate: Time
-  createdAt: Time!
-  updatedAt: Time!
+  createdAt: Time
+  updatedAt: Time
 }
 
 type Reminder {
@@ -45,9 +46,11 @@ enum RepeatInterval {
 input CreateTargetInput {
   name: String!
   description: String
-  startDate: Time!
-  endDate: Time!
+  startDate: Time
+  endDate: Time
   courseId: ID!
+  targetType: TargetType
+  targetMetric: String!
   targetValue: Int!
   units: String
 }

@@ -18,9 +18,9 @@ type JWTService interface {
 }
 
 type TokenClaims struct {
-	TokenID string     `json:"tokenId"`
-	UserID  string     `json:"userId"`
-	Email   string     `json:"email"`
+	TokenID string       `json:"tokenId"`
+	UserID  string       `json:"userId"`
+	Email   string       `json:"email"`
 	Role    []model.Role `json:"role"`
 	jwt.RegisteredClaims
 }

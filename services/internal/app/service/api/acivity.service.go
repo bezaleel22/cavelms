@@ -49,7 +49,7 @@ func (api *API) DeleteActivity(ctx context.Context, id string) (bool, error) {
 }
 
 // Activities is the resolver for the activities field.
-func (api *API) Activities(ctx context.Context, courseID *string) ([]model.Activity, error) {
+func (api *API) GetActivities(ctx context.Context, courseID *string) ([]model.Activity, error) {
 	var activities []model.Activity
 	var err error
 	if courseID == nil {
@@ -64,7 +64,7 @@ func (api *API) Activities(ctx context.Context, courseID *string) ([]model.Activ
 }
 
 // Activity is the resolver for the activity field.
-func (api *API) Activity(ctx context.Context, id string) (*model.Activity, error) {
+func (api *API) GetActivity(ctx context.Context, id string) (*model.Activity, error) {
 	activity := &model.Activity{
 		ID: id,
 	}

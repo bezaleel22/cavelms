@@ -1,139 +1,213 @@
 package api
 
-// import (
-// 	"context"
+import (
+	"context"
 
-// 	"github.com/cavelms/internal/model"
-// )
+	"github.com/cavelms/internal/model"
+)
 
-// func (api *API) CreateQuiz(ctx context.Context, input model.CreateQuizInput) (*model.Quiz, error) {
-// 	quiz := &model.Quiz{
-// 		Name:               input.Name,
-// 		Description:        input.Description,
-// 		QuizType:           input.QuizType,
-// 		Duration:           input.Duration,
-// 		PassingScore:       input.PassingScore,
-// 		ProctoringMethod:   input.ProctoringMethod,
-// 		ResultsReleaseDate: input.ResultsReleaseDate,
-// 		Certificate:        input.Certificate,
-// 		StartTime:          input.StartTime,
-// 		EndTime:            input.EndTime,
-// 		StartDate:          input.StartDate,
-// 		DueDate:            input.DueDate,
-// 		TimeLimit:          input.TimeLimit,
-// 		RandomizeQuestions: input.RandomizeQuestions,
-// 		RandomizeAnswers:   input.RandomizeAnswers,
-// 		Categories:         input.Categories,
-// 	}
-// 	err := api.DB.Create(quiz)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return quiz, nil
-// }
+func (api *API) CreateQuiz(ctx context.Context, input model.CreateQuizInput) (*model.Quiz, error) {
+	questions := []model.Question{}
 
-// func (api *API) UpdateQuiz(ctx context.Context, id string, input model.UpdateQuizInput) (*model.Quiz, error) {
-// 	quiz := &model.Quiz{
-// 		ID:                 id,
-// 		Name:               input.Name,
-// 		Duration:           input.Duration,
-// 		PassingScore:       input.PassingScore,
-// 		ProctoringMethod:   input.ProctoringMethod,
-// 		ResultsReleaseDate: input.ResultsReleaseDate,
-// 		Certificate:        input.Certificate,
-// 		TimeLimit:          input.TimeLimit,
-// 		RandomizeQuestions: input.RandomizeQuestions,
-// 		RandomizeAnswers:   input.RandomizeAnswers,
-// 	}
-// 	err := api.DB.UpdateOne(quiz)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return quiz, nil
-// }
+	for _, q := range input.Questions {
+		choices := []model.AnswerChoice{}
+		for _, c := range q.Choices {
+			choice := model.AnswerChoice(c)
+			choices = append(choices, choice)
+		}
 
-// func (api *API) DeleteQuiz(ctx context.Context, id string) (*bool, error) {
-// 	err := api.DB.Delete(&model.Quiz{ID: id})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return true, nil
-// }
+		matchingPairs := []model.MatchingPair{}
+		for _, m := range q.MatchingPairs {
+			matchingPair := model.MatchingPair{
+				Left:  m.Left,
+				Right: m.Right,
+			}
 
-// func (api *API) SubmitQuiz(ctx context.Context, quizID string, answers []model.AnswerInput) (*model.Submission, error) {
-// 	submission := &model.Submission{
-// 		QuizID,
-// 		Answers,
-// 	}
-// 	err := api.DB.Create(submission)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return submission, nil
-// }
+			matchingPairs = append(matchingPairs, matchingPair)
+		}
 
-// func (api *API) CreateCategory(ctx context.Context, input model.CreateCategoryInput) (*model.Category, error) {
-// 	category := &model.Category{
-// 		Name:        input.Name,
-// 		Description: input.Description,
-// 	}
-// 	err := api.DB.Create(category)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return category, nil
-// }
+		question := model.Question{
+			CorrectAnswer: q.CorrectAnswer,
+			Type:          q.Type,
+			Feedback:      q.Feedback,
+			Choices:       choices,
+			Text:          q.Text,
+			Categories:    q.Categories,
+			Hints:         q.Hints,
+			MatchingPairs: matchingPairs,
+			PointValue:    q.PointValue,
+		}
+		questions = append(questions, question)
+	}
 
-// func (api *API) UpdateCategory(ctx context.Context, id string, input model.UpdateCategoryInput) (*model.Category, error) {
-// 	category := &model.Category{
-// 		ID:          id,
-// 		Name:        input.Name,
-// 		Description: input.Description,
-// 	}
-// 	err := api.DB.UpdateOne(category)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return category, nil
-// }
+	quiz := &model.Quiz{
+		Name:             input.Name,
+		TimeLimit:        input.TimeLimit,
+		ShuffleQuestions: input.ShuffleQuestions,
+		Categories:       input.Categories,
+		Questions:        questions,
+	}
 
-// func (api *API) DeleteCategory(ctx context.Context, id string) (*bool, error) {
-// 	err := api.DB.Delete(&model.Category{ID: id})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return true, nil
-// }
+	err := api.DB.Create(quiz)
+	if err != nil {
+		return nil, err
+	}
 
-// func (api *API) CreateMatchingPair(ctx context.Context, input model.CreateMatchingPairInput) (*model.MatchingPair, error) {
-// 	matchingPair := &model.MatchingPair{
-// 		LeftItem:  input.LeftItem,
-// 		RightItem: input.RightItem,
-// 	}
-// 	err := api.DB.Create(matchingPair)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return matchingPair, nil
-// }
+	return quiz, nil
+}
 
-// func (api *API) UpdateMatchingPair(ctx context.Context, id string, input model.UpdateMatchingPairInput) (*model.MatchingPair, error) {
-// 	matchingPair := &model.MatchingPair{
-// 		ID:        id,
-// 		LeftItem:  input.LeftItem,
-// 		RightItem: input.RightItem,
-// 	}
-// 	err := api.DB.UpdateOne(matchingPair)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return matchingPair, nil
-// }
+func (api *API) UpdateQuiz(ctx context.Context, id string, input model.UpdateQuizInput) (*model.Quiz, error) {
+	questions := []model.Question{}
 
-// func (api *API) DeleteMatchingPair(ctx context.Context, id string) (*bool, error) {
-// 	err := api.DB.Delete(&model.MatchingPair{ID: id})
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return true, nil
-// }
+	for _, q := range input.Questions {
+
+		choices := []model.AnswerChoice{}
+		for _, c := range q.Choices {
+			choice := model.AnswerChoice(c)
+			choices = append(choices, choice)
+		}
+
+		matchingPairs := []model.MatchingPair{}
+		for _, m := range q.MatchingPairs {
+			matchingPair := model.MatchingPair{
+				Left:  m.Left,
+				Right: m.Right,
+			}
+
+			matchingPairs = append(matchingPairs, matchingPair)
+		}
+
+		question := model.Question{
+			ID:            q.ID,
+			CorrectAnswer: q.CorrectAnswer,
+			Type:          q.Type,
+			Feedback:      q.Feedback,
+			Choices:       choices,
+			Text:          q.Text,
+			Categories:    q.Categories,
+			Hints:         q.Hints,
+			MatchingPairs: matchingPairs,
+			PointValue:    q.PointValue,
+		}
+		questions = append(questions, question)
+	}
+
+	quiz := &model.Quiz{
+		ID:               id,
+		Name:             input.Name,
+		TimeLimit:        input.TimeLimit,
+		ShuffleQuestions: input.ShuffleQuestions,
+		Categories:       input.Categories,
+		Questions:        questions,
+	}
+
+	err := api.DB.UpdateOne(quiz)
+	if err != nil {
+		return nil, err
+	}
+	return quiz, nil
+}
+
+func (api *API) DeleteQuiz(ctx context.Context, id string) (bool, error) {
+	err := api.DB.Delete(&model.Quiz{ID: id})
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (api *API) SubmitQuiz(ctx context.Context, quizID string, input model.SubmissionInput) (*model.Submission, error) {
+
+	answers := []model.Answer{}
+	for _, a := range input.Answers {
+
+		choices := []model.AnswerChoice{}
+		for _, c := range a.Choices {
+			choice := model.AnswerChoice(c)
+			choices = append(choices, choice)
+		}
+
+		answer := model.Answer{
+			QuestionID:    a.QuestionID,
+			Feedback:      a.Feedback,
+			Choices:       choices,
+			IsCorrect:     a.IsCorrect,
+			PointsAwarded: a.PointsAwarded,
+		}
+
+		answers = append(answers, answer)
+	}
+
+	submission := &model.Submission{
+		QuizID:  quizID,
+		Answers: answers,
+	}
+
+	err := api.DB.Create(submission)
+	if err != nil {
+		return nil, err
+	}
+	return submission, nil
+}
+
+func (api *API) GetQuizes(ctx context.Context, courseId *string) ([]model.Quiz, error) {
+	quiz := new(model.Quiz)
+	quizes := []model.Quiz{}
+
+	if courseId != nil {
+		quiz.CourseID = *courseId
+		err := api.DB.FetchByUserID(&quizes, quiz)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err := api.DB.FetchAll(&quizes, quiz)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return quizes, nil
+}
+
+func (api *API) GetQuize(ctx context.Context, id string) (*model.Quiz, error) {
+	quiz := new(model.Quiz)
+	quiz.ID = id
+	err := api.DB.FetchByID(quiz)
+	if err != nil {
+		return nil, err
+	}
+
+	return quiz, nil
+}
+
+func (api *API) GetSubmissions(ctx context.Context, quizID *string) ([]model.Submission, error) {
+	submission := new(model.Submission)
+	submissions := []model.Submission{}
+
+	if quizID != nil {
+		submission.QuizID = *quizID
+		err := api.DB.FetchByUserID(&submissions, submission)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		err := api.DB.FetchAll(&submissions, submission)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return submissions, nil
+}
+
+func (api *API) GetSubmission(ctx context.Context, id string) (*model.Submission, error) {
+	submission := new(model.Submission)
+	submission.ID = id
+	err := api.DB.FetchByID(submission)
+	if err != nil {
+		return nil, err
+	}
+
+	return submission, nil
+}

@@ -5,7 +5,6 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/cavelms/internal/model"
 )
@@ -52,5 +51,10 @@ func (r *queryResolver) Courses(ctx context.Context, userID *string) ([]model.Co
 
 // Course is the resolver for the course field.
 func (r *queryResolver) Course(ctx context.Context, id string) (*model.Course, error) {
-	panic(fmt.Errorf("not implemented: Course - course"))
+	course, err := r.Service.GetCourseByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return course, nil
 }

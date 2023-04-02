@@ -73,7 +73,6 @@ type User {
 
 type Qualification {
   id: ID!
-  userId: ID!
   degree: String!
   institution: String!
   graduationYear: String!
@@ -82,15 +81,27 @@ type Qualification {
   deletedAt: Time
 }
 
+input NewQualification {
+  degree: String!
+  institution: String!
+  graduationYear: String!
+}
+
 type Referee {
   id: ID!
-  userId: ID!
   fullName: String!
   email: String!
   phone: String!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
+}
+
+input NewReferee {
+  userId: ID!
+  fullName: String!
+  email: String!
+  phone: String!
 }
 
 input NewUser {
@@ -112,8 +123,10 @@ extend type Query {
 }
 
 extend type Mutation {
-  createUser(input: NewUser): User
+  createUser(input: NewUser!): User
+  createRefree(userId: ID!, input: NewReferee!): Referee
+  createQualification(userId: ID!, input: NewQualification!): Qualification
   updateUser(data: Any): User
-  deleteUser(id: ID): User
-  deleteManyUsers(id: [ID!]): User
+  deleteUser(id: ID!): User
+  deleteManyUsers(ids: [ID!]): User
 }

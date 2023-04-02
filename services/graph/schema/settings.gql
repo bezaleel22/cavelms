@@ -1,25 +1,93 @@
+type UserSetting {
+  id: ID!
+  userId: ID!
+  type: SettingType!
+  key: UserSettingKeys!
+  value: String!
+}
 
-type Setting {
-    id: ID!
-    userId: ID!
-    type: String
-    roles: [ID!]
+type GlobalSetting {
+  id: ID!
+  type: SettingType!
+  key: GlobalSettingKeys!
+  value: String!
+}
+
+enum SettingType {
+  BOOLEAN
+  STRING
+  NUMBER
+  DATE
+  TIME
+}
+
+enum UserSettingKeys {
+  EMAIL_NOTIFICATIONS_ENABLED
+  DEFAULT_TIMEZONE
+  DEFAULT_LANGUAGE
+  DARK_MODE_ENABLED
+  SHOW_UNFINISHED_COURSES
+  SHOW_COMPLETED_COURSES
+  AUTO_ENROLLMENT_ENABLED
+  SHOW_COURSE_PROGRESS
+  DEFAULT_FONT_SIZE
+  ENABLE_TTS
+  SHOW_ENROLLED_COURSES_COUNT
+  SHOW_INSTRUCTOR_AVAILABILITY
+  SHOW_RELATED_COURSES
+  SHOW_COURSE_RATINGS
+  SHOW_COURSE_REVIEWS
+  ALLOW_PUSH_NOTIFICATIONS
+  ENABLE_OFFLINE_MODE
+  SHOW_COURSE_ACTIVITY_FEED
+}
+
+enum GlobalSettingKeys {
+  ENROLLMENT_OPEN
+  MAX_ENROLLMENT
+  DEFAULT_TIMEZONE
+  DEFAULT_LANGUAGE
+  SHOW_INSTRUCTOR_INFO
+  ALLOW_STUDENT_MESSAGES
+  COURSE_PASSING_GRADE
+  SHOW_POPULAR_COURSES
+  SHOW_RECOMMENDED_COURSES
+  DEFAULT_COURSE_TEMPLATE
+  SHOW_ALL_COURSES
+  ALLOW_COURSE_DISCOVERY
+  ENABLE_BADGES
+  SHOW_COURSE_TAGS
+  ALLOW_COURSE_COMMENTS
+  ENABLE_SSO_LOGIN
+  SHOW_ANNOUNCEMENTS
+  SHOW_COURSE_SCHEDULE
 }
 
 input NewSetting {
-  type: String
+  type: SettingType!
+  userKey: UserSettingKeys
+  globalKey: GlobalSettingKeys
+  value: String!
 }
 
 input UpdateSetting {
-  name: String
-  permissions: [String]
+  value: String
 }
 
 extend type Mutation {
-  createSetting(input: NewSetting!): Setting!
+  createUserSetting(userId: ID!, input: NewSetting!): UserSetting!
+  updateUserSetting(id: ID!, input: UpdateSetting!): UserSetting!
+  deleteUserSetting(id: ID!): Boolean!
+
+  createGlobalSetting(input: NewSetting!): GlobalSetting!
+  updateGlobalSetting(id: ID!, input: UpdateSetting!): GlobalSetting!
+  deleteGlobalSetting(id: ID!): Boolean!
 }
 
 extend type Query {
-  setting(id: ID!): Role!
-  settings(limit: Int = 25, offset: Int = 0): [Setting!]!
+  userSetting(id: ID!): UserSetting!
+  userSettings(userId: ID!, limit: Int = 25, offset: Int = 0): [UserSetting!]!
+
+  globalSetting(id: ID!): GlobalSetting!
+  globalSettings(limit: Int = 25, offset: Int = 0): [GlobalSetting!]!
 }

@@ -1,14 +1,16 @@
 type Notification {
   id: ID!
-  sender: User!
-  recipient: User!
-  course: Course!
+  senderId: ID!
+  recipientId: ID!
+  courseId: ID!
   seen: Boolean!
   text: String!
   title: String!
   type: NotificationType!
   link: String
   createdAt: Time!
+  updatedAt: Time!
+  deletedAt: Time!
 }
 
 enum NotificationType {
@@ -23,6 +25,8 @@ input CreateNotificationInput {
   senderId: ID!
   recipientId: ID!
   courseId: ID!
+  text: String!
+  title: String!
   type: NotificationType!
   link: String
 }

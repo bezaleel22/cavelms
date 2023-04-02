@@ -5,32 +5,51 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/cavelms/internal/model"
 )
 
 // UpdatePermission is the resolver for the updatePermission field.
 func (r *mutationResolver) UpdatePermission(ctx context.Context, input model.PermissionInput) (*model.Permission, error) {
-	panic(fmt.Errorf("not implemented: UpdatePermission - updatePermission"))
+	permission, err := r.Service.UpdatePermission(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return permission, nil
 }
 
 // GrantPermission is the resolver for the grantPermission field.
 func (r *mutationResolver) GrantPermission(ctx context.Context, input model.PermissionInput) (*model.Permission, error) {
-	panic(fmt.Errorf("not implemented: GrantPermission - grantPermission"))
+	permission, err := r.Service.GrantPermission(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return permission, nil
 }
 
 // RevokePermission is the resolver for the revokePermission field.
 func (r *mutationResolver) RevokePermission(ctx context.Context, input model.PermissionInput) (*model.Permission, error) {
-	panic(fmt.Errorf("not implemented: RevokePermission - revokePermission"))
+	permission, err := r.Service.RevokePermission(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return permission, nil
 }
 
 // GetPermissionsForUser is the resolver for the getPermissionsForUser field.
-func (r *queryResolver) GetPermissionsForUser(ctx context.Context, role model.Role) ([]model.Permission, error) {
-	panic(fmt.Errorf("not implemented: GetPermissionsForUser - getPermissionsForUser"))
+func (r *queryResolver) GetPermissionsForUser(ctx context.Context, userID string) ([]model.Permission, error) {
+	permissions, err := r.Service.GetPermissionsForUser(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+	return permissions, nil
 }
 
 // GetPermissionsForModel is the resolver for the getPermissionsForModel field.
 func (r *queryResolver) GetPermissionsForModel(ctx context.Context, model model.AllowedModel) ([]model.Permission, error) {
-	panic(fmt.Errorf("not implemented: GetPermissionsForModel - getPermissionsForModel"))
+	permissions, err := r.Service.GetPermissionsForModel(ctx, model)
+	if err != nil {
+		return nil, err
+	}
+	return permissions, nil
 }

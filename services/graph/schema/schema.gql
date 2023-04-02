@@ -1,6 +1,7 @@
 directive @requireAuth(token: String) on FIELD_DEFINITION
 
 scalar Time
+scalar Date
 scalar Any
 scalar Int64
 scalar Upload

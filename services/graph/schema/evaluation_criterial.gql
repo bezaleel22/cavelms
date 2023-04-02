@@ -8,7 +8,7 @@ type EvaluationCriteria {
   bonuses: [Bonus!]!
   resubmissionPolicy: ResubmissionPolicy!
   isPassFail: Boolean!
-  quiz: Quiz! 
+  quizId: ID!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
@@ -51,10 +51,10 @@ enum ResubmissionPolicy {
 }
 
 input CreateEvaluationCriteriaInput {
-  passingScore: Int
-  weight: Int
+  passingScore: Int!
+  weight: Int!
   resubmissionPolicy: ResubmissionPolicy
-  isPassFail: Boolean
+  isPassFail: Boolean!
   quizId: ID!
 }
 
@@ -63,7 +63,7 @@ input UpdateEvaluationCriteriaInput {
   weight: Int
   resubmissionPolicy: ResubmissionPolicy
   isPassFail: Boolean
-  quizId: ID!
+  quizId: ID
 }
 
 type Query {
@@ -72,12 +72,7 @@ type Query {
 }
 
 type Mutation {
-  createEvaluationCriteria(
-    input: CreateEvaluationCriteriaInput!
-  ): EvaluationCriteria!
-  updateEvaluationCriteria(
-    id: ID!
-    input: UpdateEvaluationCriteriaInput!
-  ): EvaluationCriteria!
+  createEvaluationCriteria(input: CreateEvaluationCriteriaInput!): EvaluationCriteria!
+  updateEvaluationCriteria(id: ID!, input: UpdateEvaluationCriteriaInput!): EvaluationCriteria!
   deleteEvaluationCriteria(id: ID!): EvaluationCriteria!
 }

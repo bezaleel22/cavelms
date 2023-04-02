@@ -21,44 +21,43 @@ type Activity struct {
 }
 
 type Answer struct {
-	ID            string          `json:"id" bson:"_id"`
-	Submission    *Submission     `json:"submission" bson:"submission,omitempty"`
-	Question      *Question       `json:"question" bson:"question,omitempty"`
-	Choices       []*AnswerChoice `json:"choices" bson:"choices,omitempty"`
-	Value         *string         `json:"value" bson:"value,omitempty"`
-	IsCorrect     *bool           `json:"isCorrect" bson:"isCorrect,omitempty"`
-	Weight        *int            `json:"weight" bson:"weight,omitempty"`
-	PointsAwarded *int            `json:"pointsAwarded" bson:"pointsAwarded,omitempty"`
-	Feedback      *string         `json:"feedback" bson:"feedback,omitempty"`
-	CreatedAt     time.Time       `json:"createdAt" bson:"createdAt,omitempty"`
-	UpdatedAt     time.Time       `json:"updatedAt" bson:"updatedAt,omitempty"`
+	ID            string         `json:"id" bson:"_id"`
+	QuestionID    string         `json:"questionId" bson:"questionId,omitempty"`
+	Choices       []AnswerChoice `json:"choices" bson:"choices,omitempty"`
+	Value         string         `json:"value" bson:"value,omitempty"`
+	IsCorrect     bool           `json:"isCorrect" bson:"isCorrect,omitempty"`
+	Weight        int            `json:"weight" bson:"weight,omitempty"`
+	PointsAwarded int            `json:"pointsAwarded" bson:"pointsAwarded,omitempty"`
+	Feedback      string         `json:"feedback" bson:"feedback,omitempty"`
+	CreatedAt     time.Time      `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt     time.Time      `json:"updatedAt" bson:"updatedAt,omitempty"`
 }
 
 type AnswerChoice struct {
-	ID        string  `json:"id" bson:"_id"`
-	Text      string  `json:"text" bson:"text,omitempty"`
-	IsCorrect *bool   `json:"isCorrect" bson:"isCorrect,omitempty"`
-	Feedback  *string `json:"feedback" bson:"feedback,omitempty"`
-	Weight    *int    `json:"weight" bson:"weight,omitempty"`
+	ID        string `json:"id" bson:"_id"`
+	Text      string `json:"text" bson:"text,omitempty"`
+	IsCorrect bool   `json:"isCorrect" bson:"isCorrect,omitempty"`
+	Feedback  string `json:"feedback" bson:"feedback,omitempty"`
+	Weight    int    `json:"weight" bson:"weight,omitempty"`
 }
 
 type AnswerChoiceInput struct {
-	ID        string  `json:"id" bson:"_id"`
-	Text      string  `json:"text" bson:"text,omitempty"`
-	IsCorrect *bool   `json:"isCorrect" bson:"isCorrect,omitempty"`
-	Feedback  *string `json:"feedback" bson:"feedback,omitempty"`
-	Weight    *int    `json:"weight" bson:"weight,omitempty"`
+	ID        string `json:"id" bson:"_id"`
+	Text      string `json:"text" bson:"text,omitempty"`
+	IsCorrect bool   `json:"isCorrect" bson:"isCorrect,omitempty"`
+	Feedback  string `json:"feedback" bson:"feedback,omitempty"`
+	Weight    int    `json:"weight" bson:"weight,omitempty"`
 }
 
 type AnswerInput struct {
-	Submission    *SubmissionInput     `json:"submission" bson:"submission,omitempty"`
-	Question      *UpdateQuestionInput `json:"question" bson:"question,omitempty"`
-	Choices       []*AnswerChoiceInput `json:"choices" bson:"choices,omitempty"`
-	Value         *string              `json:"value" bson:"value,omitempty"`
-	IsCorrect     *bool                `json:"isCorrect" bson:"isCorrect,omitempty"`
-	Weight        *int                 `json:"weight" bson:"weight,omitempty"`
-	PointsAwarded *int                 `json:"pointsAwarded" bson:"pointsAwarded,omitempty"`
-	Feedback      *string              `json:"feedback" bson:"feedback,omitempty"`
+	Submission    *SubmissionInput    `json:"submission" bson:"submission,omitempty"`
+	QuestionID    string              `json:"questionId" bson:"questionId,omitempty"`
+	Choices       []AnswerChoiceInput `json:"choices" bson:"choices,omitempty"`
+	Value         string              `json:"value" bson:"value,omitempty"`
+	IsCorrect     bool                `json:"isCorrect" bson:"isCorrect,omitempty"`
+	Weight        int                 `json:"weight" bson:"weight,omitempty"`
+	PointsAwarded int                 `json:"pointsAwarded" bson:"pointsAwarded,omitempty"`
+	Feedback      string              `json:"feedback" bson:"feedback,omitempty"`
 }
 
 type Bonus struct {
@@ -138,10 +137,10 @@ type CreateCourseInput struct {
 }
 
 type CreateEvaluationCriteriaInput struct {
-	PassingScore       *int                `json:"passingScore" bson:"passingScore,omitempty"`
-	Weight             *int                `json:"weight" bson:"weight,omitempty"`
+	PassingScore       int                 `json:"passingScore" bson:"passingScore,omitempty"`
+	Weight             int                 `json:"weight" bson:"weight,omitempty"`
 	ResubmissionPolicy *ResubmissionPolicy `json:"resubmissionPolicy" bson:"resubmissionPolicy,omitempty"`
-	IsPassFail         *bool               `json:"isPassFail" bson:"isPassFail,omitempty"`
+	IsPassFail         bool                `json:"isPassFail" bson:"isPassFail,omitempty"`
 	QuizID             string              `json:"quizId" bson:"quizId,omitempty"`
 }
 
@@ -175,39 +174,41 @@ type CreateForumPostInput struct {
 }
 
 type CreateGradeInput struct {
-	StudentID    string  `json:"studentId" bson:"studentId,omitempty"`
-	CourseID     string  `json:"courseId" bson:"courseId,omitempty"`
-	AssignmentID string  `json:"assignmentId" bson:"assignmentId,omitempty"`
-	Value        int     `json:"value" bson:"value,omitempty"`
-	Criteria     *string `json:"criteria" bson:"criteria,omitempty"`
-	Comments     *string `json:"comments" bson:"comments,omitempty"`
+	CourseID  string `json:"courseId" bson:"courseId,omitempty"`
+	StudentID string `json:"studentId" bson:"studentId,omitempty"`
+	QuizID    string `json:"quizId" bson:"quizId,omitempty"`
+	Value     int    `json:"value" bson:"value,omitempty"`
+	Criteria  string `json:"criteria" bson:"criteria,omitempty"`
+	Comments  string `json:"comments" bson:"comments,omitempty"`
 }
 
 type CreateNotificationInput struct {
 	SenderID    string           `json:"senderId" bson:"senderId,omitempty"`
 	RecipientID string           `json:"recipientId" bson:"recipientId,omitempty"`
 	CourseID    string           `json:"courseId" bson:"courseId,omitempty"`
+	Text        string           `json:"text" bson:"text,omitempty"`
+	Title       string           `json:"title" bson:"title,omitempty"`
 	Type        NotificationType `json:"type" bson:"type,omitempty"`
 	Link        *string          `json:"link" bson:"link,omitempty"`
 }
 
 type CreateQuestionInput struct {
-	Type          QuestionType         `json:"type" bson:"type,omitempty"`
-	Text          string               `json:"text" bson:"text,omitempty"`
-	Choices       []*AnswerChoiceInput `json:"choices" bson:"choices,omitempty"`
-	CorrectAnswer *string              `json:"correctAnswer" bson:"correctAnswer,omitempty"`
-	Feedback      *string              `json:"feedback" bson:"feedback,omitempty"`
-	Hints         []*string            `json:"hints" bson:"hints,omitempty"`
-	Randomize     *bool                `json:"randomize" bson:"randomize,omitempty"`
-	PointValue    *int                 `json:"pointValue" bson:"pointValue,omitempty"`
-	Categories    []*string            `json:"categories" bson:"categories,omitempty"`
-	MatchingPairs []*MatchingPairInput `json:"matchingPairs" bson:"matchingPairs,omitempty"`
+	Type          QuestionType        `json:"type" bson:"type,omitempty"`
+	Text          string              `json:"text" bson:"text,omitempty"`
+	Choices       []AnswerChoiceInput `json:"choices" bson:"choices,omitempty"`
+	CorrectAnswer string              `json:"correctAnswer" bson:"correctAnswer,omitempty"`
+	Feedback      string              `json:"feedback" bson:"feedback,omitempty"`
+	Hints         []string            `json:"hints" bson:"hints,omitempty"`
+	Randomize     bool                `json:"randomize" bson:"randomize,omitempty"`
+	PointValue    int                 `json:"pointValue" bson:"pointValue,omitempty"`
+	Categories    []string            `json:"categories" bson:"categories,omitempty"`
+	MatchingPairs []MatchingPairInput `json:"matchingPairs" bson:"matchingPairs,omitempty"`
 }
 
 type CreateQuizInput struct {
 	Name             string                `json:"name" bson:"name,omitempty"`
-	TimeLimit        *int                  `json:"timeLimit" bson:"timeLimit,omitempty"`
-	ShuffleQuestions *bool                 `json:"shuffleQuestions" bson:"shuffleQuestions,omitempty"`
+	TimeLimit        int                   `json:"timeLimit" bson:"timeLimit,omitempty"`
+	ShuffleQuestions bool                  `json:"shuffleQuestions" bson:"shuffleQuestions,omitempty"`
 	Categories       []string              `json:"categories" bson:"categories,omitempty"`
 	Questions        []CreateQuestionInput `json:"questions" bson:"questions,omitempty"`
 }
@@ -217,13 +218,15 @@ type CreateTagInput struct {
 }
 
 type CreateTargetInput struct {
-	Name        string    `json:"name" bson:"name,omitempty"`
-	Description *string   `json:"description" bson:"description,omitempty"`
-	StartDate   time.Time `json:"startDate" bson:"startDate,omitempty"`
-	EndDate     time.Time `json:"endDate" bson:"endDate,omitempty"`
-	CourseID    string    `json:"courseId" bson:"courseId,omitempty"`
-	TargetValue int       `json:"targetValue" bson:"targetValue,omitempty"`
-	Units       *string   `json:"units" bson:"units,omitempty"`
+	Name         string      `json:"name" bson:"name,omitempty"`
+	Description  *string     `json:"description" bson:"description,omitempty"`
+	StartDate    *time.Time  `json:"startDate" bson:"startDate,omitempty"`
+	EndDate      *time.Time  `json:"endDate" bson:"endDate,omitempty"`
+	CourseID     string      `json:"courseId" bson:"courseId,omitempty"`
+	TargetType   *TargetType `json:"targetType" bson:"targetType,omitempty"`
+	TargetMetric string      `json:"targetMetric" bson:"targetMetric,omitempty"`
+	TargetValue  int         `json:"targetValue" bson:"targetValue,omitempty"`
+	Units        *string     `json:"units" bson:"units,omitempty"`
 }
 
 type EvaluationCriteria struct {
@@ -236,7 +239,7 @@ type EvaluationCriteria struct {
 	Bonuses            []Bonus             `json:"bonuses" bson:"bonuses,omitempty"`
 	ResubmissionPolicy ResubmissionPolicy  `json:"resubmissionPolicy" bson:"resubmissionPolicy,omitempty"`
 	IsPassFail         bool                `json:"isPassFail" bson:"isPassFail,omitempty"`
-	Quiz               *Quiz               `json:"quiz" bson:"quiz,omitempty"`
+	QuizID             string              `json:"quizId" bson:"quizId,omitempty"`
 	CreatedAt          *time.Time          `json:"createdAt" bson:"createdAt,omitempty"`
 	UpdatedAt          *time.Time          `json:"updatedAt" bson:"updatedAt,omitempty"`
 	DeletedAt          *time.Time          `json:"deletedAt" bson:"deletedAt,omitempty"`
@@ -292,14 +295,21 @@ type ForumPost struct {
 	DeletedAt  *time.Time `json:"deletedAt" bson:"deletedAt,omitempty"`
 }
 
+type GlobalSetting struct {
+	ID    string            `json:"id" bson:"_id"`
+	Type  SettingType       `json:"type" bson:"type,omitempty"`
+	Key   GlobalSettingKeys `json:"key" bson:"key,omitempty"`
+	Value string            `json:"value" bson:"value,omitempty"`
+}
+
 type Grade struct {
 	ID        string     `json:"id" bson:"_id"`
-	Student   *User      `json:"student" bson:"student,omitempty"`
-	Course    *Course    `json:"course" bson:"course,omitempty"`
+	StudentID string     `json:"studentId" bson:"studentId,omitempty"`
+	CourseID  string     `json:"courseId" bson:"courseId,omitempty"`
 	QuizID    string     `json:"quizId" bson:"quizId,omitempty"`
 	Value     int        `json:"value" bson:"value,omitempty"`
-	Criteria  *string    `json:"criteria" bson:"criteria,omitempty"`
-	Comments  *string    `json:"comments" bson:"comments,omitempty"`
+	Criteria  string     `json:"criteria" bson:"criteria,omitempty"`
+	Comments  string     `json:"comments" bson:"comments,omitempty"`
 	CreatedAt *time.Time `json:"createdAt" bson:"createdAt,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt" bson:"updatedAt,omitempty"`
 	DeletedAt *time.Time `json:"deletedAt" bson:"deletedAt,omitempty"`
@@ -329,8 +339,8 @@ type MatchingPair struct {
 }
 
 type MatchingPairInput struct {
-	Left  *string `json:"left" bson:"left,omitempty"`
-	Right *string `json:"right" bson:"right,omitempty"`
+	Left  string `json:"left" bson:"left,omitempty"`
+	Right string `json:"right" bson:"right,omitempty"`
 }
 
 type Media struct {
@@ -361,8 +371,24 @@ type NewCourse struct {
 	LongDescription  string   `json:"longDescription" bson:"longDescription,omitempty"`
 }
 
+type NewQualification struct {
+	Degree         string `json:"degree" bson:"degree,omitempty"`
+	Institution    string `json:"institution" bson:"institution,omitempty"`
+	GraduationYear string `json:"graduationYear" bson:"graduationYear,omitempty"`
+}
+
+type NewReferee struct {
+	UserID   string `json:"userId" bson:"userId,omitempty"`
+	FullName string `json:"fullName" bson:"fullName,omitempty"`
+	Email    string `json:"email" bson:"email,omitempty"`
+	Phone    string `json:"phone" bson:"phone,omitempty"`
+}
+
 type NewSetting struct {
-	Type *string `json:"type" bson:"type,omitempty"`
+	Type      SettingType        `json:"type" bson:"type,omitempty"`
+	UserKey   *UserSettingKeys   `json:"userKey" bson:"userKey,omitempty"`
+	GlobalKey *GlobalSettingKeys `json:"globalKey" bson:"globalKey,omitempty"`
+	Value     string             `json:"value" bson:"value,omitempty"`
 }
 
 type NewUser struct {
@@ -373,16 +399,18 @@ type NewUser struct {
 }
 
 type Notification struct {
-	ID        string           `json:"id" bson:"_id"`
-	Sender    *User            `json:"sender" bson:"sender,omitempty"`
-	Recipient *User            `json:"recipient" bson:"recipient,omitempty"`
-	Course    *Course          `json:"course" bson:"course,omitempty"`
-	Seen      bool             `json:"seen" bson:"seen,omitempty"`
-	Text      string           `json:"text" bson:"text,omitempty"`
-	Title     string           `json:"title" bson:"title,omitempty"`
-	Type      NotificationType `json:"type" bson:"type,omitempty"`
-	Link      *string          `json:"link" bson:"link,omitempty"`
-	CreatedAt time.Time        `json:"createdAt" bson:"createdAt,omitempty"`
+	ID          string           `json:"id" bson:"_id"`
+	SenderID    string           `json:"senderId" bson:"senderId,omitempty"`
+	RecipientID string           `json:"recipientId" bson:"recipientId,omitempty"`
+	CourseID    string           `json:"courseId" bson:"courseId,omitempty"`
+	Seen        bool             `json:"seen" bson:"seen,omitempty"`
+	Text        string           `json:"text" bson:"text,omitempty"`
+	Title       string           `json:"title" bson:"title,omitempty"`
+	Type        NotificationType `json:"type" bson:"type,omitempty"`
+	Link        *string          `json:"link" bson:"link,omitempty"`
+	CreatedAt   time.Time        `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt   time.Time        `json:"updatedAt" bson:"updatedAt,omitempty"`
+	DeletedAt   time.Time        `json:"deletedAt" bson:"deletedAt,omitempty"`
 }
 
 type Penalty struct {
@@ -407,7 +435,6 @@ type PermissionInput struct {
 
 type Qualification struct {
 	ID             string     `json:"id" bson:"_id"`
-	UserID         string     `json:"userId" bson:"userId,omitempty"`
 	Degree         string     `json:"degree" bson:"degree,omitempty"`
 	Institution    string     `json:"institution" bson:"institution,omitempty"`
 	GraduationYear string     `json:"graduationYear" bson:"graduationYear,omitempty"`
@@ -417,51 +444,53 @@ type Qualification struct {
 }
 
 type Question struct {
-	ID            string          `json:"id" bson:"_id"`
-	Type          QuestionType    `json:"type" bson:"type,omitempty"`
-	Text          string          `json:"text" bson:"text,omitempty"`
-	Choices       []*AnswerChoice `json:"choices" bson:"choices,omitempty"`
-	CorrectAnswer *string         `json:"correctAnswer" bson:"correctAnswer,omitempty"`
-	Feedback      *string         `json:"feedback" bson:"feedback,omitempty"`
-	Hints         []*string       `json:"hints" bson:"hints,omitempty"`
-	Randomize     *bool           `json:"randomize" bson:"randomize,omitempty"`
-	PointValue    *int            `json:"pointValue" bson:"pointValue,omitempty"`
-	Categories    []*string       `json:"categories" bson:"categories,omitempty"`
-	MatchingPairs []*MatchingPair `json:"matchingPairs" bson:"matchingPairs,omitempty"`
+	ID            string         `json:"id" bson:"_id"`
+	Type          QuestionType   `json:"type" bson:"type,omitempty"`
+	Text          string         `json:"text" bson:"text,omitempty"`
+	Choices       []AnswerChoice `json:"choices" bson:"choices,omitempty"`
+	CorrectAnswer string         `json:"correctAnswer" bson:"correctAnswer,omitempty"`
+	Feedback      string         `json:"feedback" bson:"feedback,omitempty"`
+	Hints         []string       `json:"hints" bson:"hints,omitempty"`
+	Randomize     bool           `json:"randomize" bson:"randomize,omitempty"`
+	PointValue    int            `json:"pointValue" bson:"pointValue,omitempty"`
+	Categories    []string       `json:"categories" bson:"categories,omitempty"`
+	MatchingPairs []MatchingPair `json:"matchingPairs" bson:"matchingPairs,omitempty"`
 }
 
 type Quiz struct {
-	ID                 string            `json:"id" bson:"_id"`
-	Name               string            `json:"name" bson:"name,omitempty"`
-	Description        *string           `json:"description" bson:"description,omitempty"`
-	QuizType           QuizType          `json:"quizType" bson:"quizType,omitempty"`
-	Duration           *int              `json:"duration" bson:"duration,omitempty"`
-	PassingScore       *int              `json:"passingScore" bson:"passingScore,omitempty"`
-	ProctoringMethod   *ProctoringMethod `json:"proctoringMethod" bson:"proctoringMethod,omitempty"`
-	ResultsReleaseDate *time.Time        `json:"resultsReleaseDate" bson:"resultsReleaseDate,omitempty"`
-	Certificate        *bool             `json:"certificate" bson:"certificate,omitempty"`
-	StartTime          time.Time         `json:"startTime" bson:"startTime,omitempty"`
-	EndTime            time.Time         `json:"endTime" bson:"endTime,omitempty"`
-	StartDate          time.Time         `json:"startDate" bson:"startDate,omitempty"`
-	DueDate            string            `json:"dueDate" bson:"dueDate,omitempty"`
-	TimeLimit          *int              `json:"timeLimit" bson:"timeLimit,omitempty"`
-	RandomizeQuestions *bool             `json:"randomizeQuestions" bson:"randomizeQuestions,omitempty"`
-	RandomizeAnswers   *bool             `json:"randomizeAnswers" bson:"randomizeAnswers,omitempty"`
-	Categories         []string          `json:"categories" bson:"categories,omitempty"`
-	Course             *Course           `json:"course" bson:"course,omitempty"`
-	QuestionIds        []string          `json:"questionIds" bson:"questionIds,omitempty"`
-	GradeIds           []string          `json:"gradeIds" bson:"gradeIds,omitempty"`
-	SubmissionIds      []*string         `json:"submissionIds" bson:"submissionIds,omitempty"`
-	IsLocked           bool              `json:"isLocked" bson:"isLocked,omitempty"`
-	WaitTime           *int              `json:"waitTime" bson:"waitTime,omitempty"`
-	Weight             *int              `json:"weight" bson:"weight,omitempty"`
-	CreatedAt          time.Time         `json:"createdAt" bson:"createdAt,omitempty"`
-	UpdatedAt          time.Time         `json:"updatedAt" bson:"updatedAt,omitempty"`
+	ID                 string           `json:"id" bson:"_id"`
+	Name               string           `json:"name" bson:"name,omitempty"`
+	Description        string           `json:"description" bson:"description,omitempty"`
+	QuizType           QuizType         `json:"quizType" bson:"quizType,omitempty"`
+	Duration           int              `json:"duration" bson:"duration,omitempty"`
+	PassingScore       int              `json:"passingScore" bson:"passingScore,omitempty"`
+	ProctoringMethod   ProctoringMethod `json:"proctoringMethod" bson:"proctoringMethod,omitempty"`
+	Questions          []Question       `json:"questions" bson:"questions,omitempty"`
+	ResultsReleaseDate *time.Time       `json:"resultsReleaseDate" bson:"resultsReleaseDate,omitempty"`
+	Certificate        bool             `json:"certificate" bson:"certificate,omitempty"`
+	StartTime          time.Time        `json:"startTime" bson:"startTime,omitempty"`
+	EndTime            time.Time        `json:"endTime" bson:"endTime,omitempty"`
+	StartDate          time.Time        `json:"startDate" bson:"startDate,omitempty"`
+	DueDate            string           `json:"dueDate" bson:"dueDate,omitempty"`
+	TimeLimit          int              `json:"timeLimit" bson:"timeLimit,omitempty"`
+	ShuffleQuestions   bool             `json:"shuffleQuestions" bson:"shuffleQuestions,omitempty"`
+	RandomizeQuestions *bool            `json:"randomizeQuestions" bson:"randomizeQuestions,omitempty"`
+	RandomizeAnswers   *bool            `json:"randomizeAnswers" bson:"randomizeAnswers,omitempty"`
+	Categories         []string         `json:"categories" bson:"categories,omitempty"`
+	CourseID           string           `json:"courseId" bson:"courseId,omitempty"`
+	QuestionIds        []string         `json:"questionIds" bson:"questionIds,omitempty"`
+	GradeIds           []string         `json:"gradeIds" bson:"gradeIds,omitempty"`
+	SubmissionIds      []*string        `json:"submissionIds" bson:"submissionIds,omitempty"`
+	IsLocked           bool             `json:"isLocked" bson:"isLocked,omitempty"`
+	WaitTime           int              `json:"waitTime" bson:"waitTime,omitempty"`
+	Weight             int              `json:"weight" bson:"weight,omitempty"`
+	CreatedAt          time.Time        `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt          time.Time        `json:"updatedAt" bson:"updatedAt,omitempty"`
+	DeletedAt          time.Time        `json:"deletedAt" bson:"deletedAt,omitempty"`
 }
 
 type Referee struct {
 	ID        string     `json:"id" bson:"_id"`
-	UserID    string     `json:"userId" bson:"userId,omitempty"`
 	FullName  string     `json:"fullName" bson:"fullName,omitempty"`
 	Email     string     `json:"email" bson:"email,omitempty"`
 	Phone     string     `json:"phone" bson:"phone,omitempty"`
@@ -489,40 +518,33 @@ type ScoreDistribution struct {
 	Percentage int    `json:"percentage" bson:"percentage,omitempty"`
 }
 
-type Setting struct {
-	ID     string   `json:"id" bson:"_id"`
-	UserID string   `json:"userId" bson:"userId,omitempty"`
-	Type   *string  `json:"type" bson:"type,omitempty"`
-	Roles  []string `json:"roles" bson:"roles,omitempty"`
-}
-
 type Submission struct {
-	ID          string     `json:"id" bson:"_id"`
-	Quiz        *Quiz      `json:"quiz" bson:"quiz,omitempty"`
-	UserID      string     `json:"userID" bson:"userID,omitempty"`
-	StartTime   time.Time  `json:"startTime" bson:"startTime,omitempty"`
-	EndTime     *time.Time `json:"endTime" bson:"endTime,omitempty"`
-	Answers     []Answer   `json:"answers" bson:"answers,omitempty"`
-	Points      *int       `json:"points" bson:"points,omitempty"`
-	Grade       *float64   `json:"grade" bson:"grade,omitempty"`
-	Weight      *int       `json:"weight" bson:"weight,omitempty"`
-	Feedback    []*string  `json:"feedback" bson:"feedback,omitempty"`
-	StartedAt   time.Time  `json:"startedAt" bson:"startedAt,omitempty"`
-	CompletedAt *time.Time `json:"completedAt" bson:"completedAt,omitempty"`
-	CreatedAt   time.Time  `json:"createdAt" bson:"createdAt,omitempty"`
-	UpdatedAt   time.Time  `json:"updatedAt" bson:"updatedAt,omitempty"`
+	ID          string    `json:"id" bson:"_id"`
+	QuizID      string    `json:"quizID" bson:"quizID,omitempty"`
+	UserID      string    `json:"userID" bson:"userID,omitempty"`
+	StartTime   time.Time `json:"startTime" bson:"startTime,omitempty"`
+	EndTime     time.Time `json:"endTime" bson:"endTime,omitempty"`
+	Answers     []Answer  `json:"answers" bson:"answers,omitempty"`
+	Points      int       `json:"points" bson:"points,omitempty"`
+	Grade       float64   `json:"grade" bson:"grade,omitempty"`
+	Weight      int       `json:"weight" bson:"weight,omitempty"`
+	Feedback    []string  `json:"feedback" bson:"feedback,omitempty"`
+	StartedAt   time.Time `json:"startedAt" bson:"startedAt,omitempty"`
+	CompletedAt time.Time `json:"completedAt" bson:"completedAt,omitempty"`
+	CreatedAt   time.Time `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt   time.Time `json:"updatedAt" bson:"updatedAt,omitempty"`
 }
 
 type SubmissionInput struct {
 	Quiz      *UpdateQuizInput `json:"quiz" bson:"quiz,omitempty"`
 	UserID    string           `json:"userID" bson:"userID,omitempty"`
 	StartTime time.Time        `json:"startTime" bson:"startTime,omitempty"`
-	EndTime   *time.Time       `json:"endTime" bson:"endTime,omitempty"`
+	EndTime   time.Time        `json:"endTime" bson:"endTime,omitempty"`
 	Answers   []AnswerInput    `json:"answers" bson:"answers,omitempty"`
-	Points    *int             `json:"points" bson:"points,omitempty"`
-	Grade     *float64         `json:"grade" bson:"grade,omitempty"`
-	Weight    *int             `json:"weight" bson:"weight,omitempty"`
-	Feedback  []*string        `json:"feedback" bson:"feedback,omitempty"`
+	Points    int              `json:"points" bson:"points,omitempty"`
+	Grade     float64          `json:"grade" bson:"grade,omitempty"`
+	Weight    int              `json:"weight" bson:"weight,omitempty"`
+	Feedback  []string         `json:"feedback" bson:"feedback,omitempty"`
 	StartedAt time.Time        `json:"startedAt" bson:"startedAt,omitempty"`
 }
 
@@ -534,23 +556,24 @@ type Tag struct {
 }
 
 type Target struct {
-	ID             string          `json:"id" bson:"_id"`
-	Name           string          `json:"name" bson:"name,omitempty"`
-	Description    *string         `json:"description" bson:"description,omitempty"`
-	DueDate        time.Time       `json:"dueDate" bson:"dueDate,omitempty"`
-	Course         *Course         `json:"course" bson:"course,omitempty"`
-	CompletionDate *time.Time      `json:"completionDate" bson:"completionDate,omitempty"`
-	IsCompleted    bool            `json:"isCompleted" bson:"isCompleted,omitempty"`
-	TargetType     TargetType      `json:"targetType" bson:"targetType,omitempty"`
-	TargetValue    *int            `json:"targetValue" bson:"targetValue,omitempty"`
-	CurrentValue   *int            `json:"currentValue" bson:"currentValue,omitempty"`
-	TargetMetric   *string         `json:"targetMetric" bson:"targetMetric,omitempty"`
-	Reminders      []*Reminder     `json:"reminders" bson:"reminders,omitempty"`
-	Units          *string         `json:"units" bson:"units,omitempty"`
-	RepeatInterval *RepeatInterval `json:"repeatInterval" bson:"repeatInterval,omitempty"`
-	RepeatEndDate  *time.Time      `json:"repeatEndDate" bson:"repeatEndDate,omitempty"`
-	CreatedAt      time.Time       `json:"createdAt" bson:"createdAt,omitempty"`
-	UpdatedAt      time.Time       `json:"updatedAt" bson:"updatedAt,omitempty"`
+	ID             string         `json:"id" bson:"_id"`
+	Name           string         `json:"name" bson:"name,omitempty"`
+	Description    *string        `json:"description" bson:"description,omitempty"`
+	DueDate        *time.Time     `json:"dueDate" bson:"dueDate,omitempty"`
+	StartDate      *time.Time     `json:"startDate" bson:"startDate,omitempty"`
+	CourseID       string         `json:"courseId" bson:"courseId,omitempty"`
+	CompletionDate *time.Time     `json:"completionDate" bson:"completionDate,omitempty"`
+	IsCompleted    bool           `json:"isCompleted" bson:"isCompleted,omitempty"`
+	TargetType     TargetType     `json:"targetType" bson:"targetType,omitempty"`
+	TargetValue    *int           `json:"targetValue" bson:"targetValue,omitempty"`
+	CurrentValue   *int           `json:"currentValue" bson:"currentValue,omitempty"`
+	TargetMetric   string         `json:"targetMetric" bson:"targetMetric,omitempty"`
+	Reminders      []*Reminder    `json:"reminders" bson:"reminders,omitempty"`
+	Units          string         `json:"units" bson:"units,omitempty"`
+	RepeatInterval RepeatInterval `json:"repeatInterval" bson:"repeatInterval,omitempty"`
+	RepeatEndDate  *time.Time     `json:"repeatEndDate" bson:"repeatEndDate,omitempty"`
+	CreatedAt      *time.Time     `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt      *time.Time     `json:"updatedAt" bson:"updatedAt,omitempty"`
 }
 
 type UpdateActivityInput struct {
@@ -588,7 +611,7 @@ type UpdateEvaluationCriteriaInput struct {
 	Weight             *int                `json:"weight" bson:"weight,omitempty"`
 	ResubmissionPolicy *ResubmissionPolicy `json:"resubmissionPolicy" bson:"resubmissionPolicy,omitempty"`
 	IsPassFail         *bool               `json:"isPassFail" bson:"isPassFail,omitempty"`
-	QuizID             string              `json:"quizId" bson:"quizId,omitempty"`
+	QuizID             *string             `json:"quizId" bson:"quizId,omitempty"`
 }
 
 type UpdateFileInput struct {
@@ -621,13 +644,13 @@ type UpdateForumPostInput struct {
 }
 
 type UpdateGradeInput struct {
-	ID           string  `json:"id" bson:"_id"`
-	StudentID    *string `json:"studentId" bson:"studentId,omitempty"`
-	CourseID     *string `json:"courseId" bson:"courseId,omitempty"`
-	AssignmentID *string `json:"assignmentId" bson:"assignmentId,omitempty"`
-	Value        *int    `json:"value" bson:"value,omitempty"`
-	Criteria     *string `json:"criteria" bson:"criteria,omitempty"`
-	Comments     *string `json:"comments" bson:"comments,omitempty"`
+	ID        string `json:"id" bson:"_id"`
+	StudentID string `json:"studentId" bson:"studentId,omitempty"`
+	CourseID  string `json:"courseId" bson:"courseId,omitempty"`
+	QuizID    string `json:"quizId" bson:"quizId,omitempty"`
+	Value     int    `json:"value" bson:"value,omitempty"`
+	Criteria  string `json:"criteria" bson:"criteria,omitempty"`
+	Comments  string `json:"comments" bson:"comments,omitempty"`
 }
 
 type UpdateMediaInput struct {
@@ -646,31 +669,30 @@ type UpdateNotificationInput struct {
 }
 
 type UpdateQuestionInput struct {
-	ID            string               `json:"id" bson:"_id"`
-	Type          QuestionType         `json:"type" bson:"type,omitempty"`
-	Text          string               `json:"text" bson:"text,omitempty"`
-	Choices       []*AnswerChoiceInput `json:"choices" bson:"choices,omitempty"`
-	CorrectAnswer *string              `json:"correctAnswer" bson:"correctAnswer,omitempty"`
-	Feedback      *string              `json:"feedback" bson:"feedback,omitempty"`
-	Hints         []*string            `json:"hints" bson:"hints,omitempty"`
-	Randomize     *bool                `json:"randomize" bson:"randomize,omitempty"`
-	PointValue    *int                 `json:"pointValue" bson:"pointValue,omitempty"`
-	Categories    []*string            `json:"categories" bson:"categories,omitempty"`
-	MatchingPairs []*MatchingPairInput `json:"matchingPairs" bson:"matchingPairs,omitempty"`
+	ID            string              `json:"id" bson:"_id"`
+	Type          QuestionType        `json:"type" bson:"type,omitempty"`
+	Text          string              `json:"text" bson:"text,omitempty"`
+	Choices       []AnswerChoiceInput `json:"choices" bson:"choices,omitempty"`
+	CorrectAnswer string              `json:"correctAnswer" bson:"correctAnswer,omitempty"`
+	Feedback      string              `json:"feedback" bson:"feedback,omitempty"`
+	Hints         []string            `json:"hints" bson:"hints,omitempty"`
+	Randomize     bool                `json:"randomize" bson:"randomize,omitempty"`
+	PointValue    int                 `json:"pointValue" bson:"pointValue,omitempty"`
+	Categories    []string            `json:"categories" bson:"categories,omitempty"`
+	MatchingPairs []MatchingPairInput `json:"matchingPairs" bson:"matchingPairs,omitempty"`
 }
 
 type UpdateQuizInput struct {
 	ID               string                `json:"id" bson:"_id"`
-	Name             *string               `json:"name" bson:"name,omitempty"`
-	TimeLimit        *int                  `json:"timeLimit" bson:"timeLimit,omitempty"`
-	ShuffleQuestions *bool                 `json:"shuffleQuestions" bson:"shuffleQuestions,omitempty"`
+	Name             string                `json:"name" bson:"name,omitempty"`
+	TimeLimit        int                   `json:"timeLimit" bson:"timeLimit,omitempty"`
+	ShuffleQuestions bool                  `json:"shuffleQuestions" bson:"shuffleQuestions,omitempty"`
 	Categories       []string              `json:"categories" bson:"categories,omitempty"`
 	Questions        []UpdateQuestionInput `json:"questions" bson:"questions,omitempty"`
 }
 
 type UpdateSetting struct {
-	Name        *string   `json:"name" bson:"name,omitempty"`
-	Permissions []*string `json:"permissions" bson:"permissions,omitempty"`
+	Value *string `json:"value" bson:"value,omitempty"`
 }
 
 type UpdateTagInput struct {
@@ -746,6 +768,14 @@ type User struct {
 	DeletedAt              *time.Time      `json:"deletedAt" bson:"deletedAt,omitempty"`
 	ConfirmedAt            *time.Time      `json:"confirmedAt" bson:"confirmedAt,omitempty"`
 	ConfirmationMailSentAt *time.Time      `json:"confirmationMailSentAt" bson:"confirmationMailSentAt,omitempty"`
+}
+
+type UserSetting struct {
+	ID     string          `json:"id" bson:"_id"`
+	UserID string          `json:"userId" bson:"userId,omitempty"`
+	Type   SettingType     `json:"type" bson:"type,omitempty"`
+	Key    UserSettingKeys `json:"key" bson:"key,omitempty"`
+	Value  string          `json:"value" bson:"value,omitempty"`
 }
 
 type VerifyInput struct {
@@ -1036,6 +1066,79 @@ func (e *CourseType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e CourseType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type GlobalSettingKeys string
+
+const (
+	GlobalSettingKeysEnrollmentOpen         GlobalSettingKeys = "ENROLLMENT_OPEN"
+	GlobalSettingKeysMaxEnrollment          GlobalSettingKeys = "MAX_ENROLLMENT"
+	GlobalSettingKeysDefaultTimezone        GlobalSettingKeys = "DEFAULT_TIMEZONE"
+	GlobalSettingKeysDefaultLanguage        GlobalSettingKeys = "DEFAULT_LANGUAGE"
+	GlobalSettingKeysShowInstructorInfo     GlobalSettingKeys = "SHOW_INSTRUCTOR_INFO"
+	GlobalSettingKeysAllowStudentMessages   GlobalSettingKeys = "ALLOW_STUDENT_MESSAGES"
+	GlobalSettingKeysCoursePassingGrade     GlobalSettingKeys = "COURSE_PASSING_GRADE"
+	GlobalSettingKeysShowPopularCourses     GlobalSettingKeys = "SHOW_POPULAR_COURSES"
+	GlobalSettingKeysShowRecommendedCourses GlobalSettingKeys = "SHOW_RECOMMENDED_COURSES"
+	GlobalSettingKeysDefaultCourseTemplate  GlobalSettingKeys = "DEFAULT_COURSE_TEMPLATE"
+	GlobalSettingKeysShowAllCourses         GlobalSettingKeys = "SHOW_ALL_COURSES"
+	GlobalSettingKeysAllowCourseDiscovery   GlobalSettingKeys = "ALLOW_COURSE_DISCOVERY"
+	GlobalSettingKeysEnableBadges           GlobalSettingKeys = "ENABLE_BADGES"
+	GlobalSettingKeysShowCourseTags         GlobalSettingKeys = "SHOW_COURSE_TAGS"
+	GlobalSettingKeysAllowCourseComments    GlobalSettingKeys = "ALLOW_COURSE_COMMENTS"
+	GlobalSettingKeysEnableSsoLogin         GlobalSettingKeys = "ENABLE_SSO_LOGIN"
+	GlobalSettingKeysShowAnnouncements      GlobalSettingKeys = "SHOW_ANNOUNCEMENTS"
+	GlobalSettingKeysShowCourseSchedule     GlobalSettingKeys = "SHOW_COURSE_SCHEDULE"
+)
+
+var AllGlobalSettingKeys = []GlobalSettingKeys{
+	GlobalSettingKeysEnrollmentOpen,
+	GlobalSettingKeysMaxEnrollment,
+	GlobalSettingKeysDefaultTimezone,
+	GlobalSettingKeysDefaultLanguage,
+	GlobalSettingKeysShowInstructorInfo,
+	GlobalSettingKeysAllowStudentMessages,
+	GlobalSettingKeysCoursePassingGrade,
+	GlobalSettingKeysShowPopularCourses,
+	GlobalSettingKeysShowRecommendedCourses,
+	GlobalSettingKeysDefaultCourseTemplate,
+	GlobalSettingKeysShowAllCourses,
+	GlobalSettingKeysAllowCourseDiscovery,
+	GlobalSettingKeysEnableBadges,
+	GlobalSettingKeysShowCourseTags,
+	GlobalSettingKeysAllowCourseComments,
+	GlobalSettingKeysEnableSsoLogin,
+	GlobalSettingKeysShowAnnouncements,
+	GlobalSettingKeysShowCourseSchedule,
+}
+
+func (e GlobalSettingKeys) IsValid() bool {
+	switch e {
+	case GlobalSettingKeysEnrollmentOpen, GlobalSettingKeysMaxEnrollment, GlobalSettingKeysDefaultTimezone, GlobalSettingKeysDefaultLanguage, GlobalSettingKeysShowInstructorInfo, GlobalSettingKeysAllowStudentMessages, GlobalSettingKeysCoursePassingGrade, GlobalSettingKeysShowPopularCourses, GlobalSettingKeysShowRecommendedCourses, GlobalSettingKeysDefaultCourseTemplate, GlobalSettingKeysShowAllCourses, GlobalSettingKeysAllowCourseDiscovery, GlobalSettingKeysEnableBadges, GlobalSettingKeysShowCourseTags, GlobalSettingKeysAllowCourseComments, GlobalSettingKeysEnableSsoLogin, GlobalSettingKeysShowAnnouncements, GlobalSettingKeysShowCourseSchedule:
+		return true
+	}
+	return false
+}
+
+func (e GlobalSettingKeys) String() string {
+	return string(e)
+}
+
+func (e *GlobalSettingKeys) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GlobalSettingKeys(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GlobalSettingKeys", str)
+	}
+	return nil
+}
+
+func (e GlobalSettingKeys) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -1460,6 +1563,53 @@ func (e Role) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SettingType string
+
+const (
+	SettingTypeBoolean SettingType = "BOOLEAN"
+	SettingTypeString  SettingType = "STRING"
+	SettingTypeNumber  SettingType = "NUMBER"
+	SettingTypeDate    SettingType = "DATE"
+	SettingTypeTime    SettingType = "TIME"
+)
+
+var AllSettingType = []SettingType{
+	SettingTypeBoolean,
+	SettingTypeString,
+	SettingTypeNumber,
+	SettingTypeDate,
+	SettingTypeTime,
+}
+
+func (e SettingType) IsValid() bool {
+	switch e {
+	case SettingTypeBoolean, SettingTypeString, SettingTypeNumber, SettingTypeDate, SettingTypeTime:
+		return true
+	}
+	return false
+}
+
+func (e SettingType) String() string {
+	return string(e)
+}
+
+func (e *SettingType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SettingType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SettingType", str)
+	}
+	return nil
+}
+
+func (e SettingType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type TargetType string
 
 const (
@@ -1500,5 +1650,78 @@ func (e *TargetType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e TargetType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type UserSettingKeys string
+
+const (
+	UserSettingKeysEmailNotificationsEnabled  UserSettingKeys = "EMAIL_NOTIFICATIONS_ENABLED"
+	UserSettingKeysDefaultTimezone            UserSettingKeys = "DEFAULT_TIMEZONE"
+	UserSettingKeysDefaultLanguage            UserSettingKeys = "DEFAULT_LANGUAGE"
+	UserSettingKeysDarkModeEnabled            UserSettingKeys = "DARK_MODE_ENABLED"
+	UserSettingKeysShowUnfinishedCourses      UserSettingKeys = "SHOW_UNFINISHED_COURSES"
+	UserSettingKeysShowCompletedCourses       UserSettingKeys = "SHOW_COMPLETED_COURSES"
+	UserSettingKeysAutoEnrollmentEnabled      UserSettingKeys = "AUTO_ENROLLMENT_ENABLED"
+	UserSettingKeysShowCourseProgress         UserSettingKeys = "SHOW_COURSE_PROGRESS"
+	UserSettingKeysDefaultFontSize            UserSettingKeys = "DEFAULT_FONT_SIZE"
+	UserSettingKeysEnableTts                  UserSettingKeys = "ENABLE_TTS"
+	UserSettingKeysShowEnrolledCoursesCount   UserSettingKeys = "SHOW_ENROLLED_COURSES_COUNT"
+	UserSettingKeysShowInstructorAvailability UserSettingKeys = "SHOW_INSTRUCTOR_AVAILABILITY"
+	UserSettingKeysShowRelatedCourses         UserSettingKeys = "SHOW_RELATED_COURSES"
+	UserSettingKeysShowCourseRatings          UserSettingKeys = "SHOW_COURSE_RATINGS"
+	UserSettingKeysShowCourseReviews          UserSettingKeys = "SHOW_COURSE_REVIEWS"
+	UserSettingKeysAllowPushNotifications     UserSettingKeys = "ALLOW_PUSH_NOTIFICATIONS"
+	UserSettingKeysEnableOfflineMode          UserSettingKeys = "ENABLE_OFFLINE_MODE"
+	UserSettingKeysShowCourseActivityFeed     UserSettingKeys = "SHOW_COURSE_ACTIVITY_FEED"
+)
+
+var AllUserSettingKeys = []UserSettingKeys{
+	UserSettingKeysEmailNotificationsEnabled,
+	UserSettingKeysDefaultTimezone,
+	UserSettingKeysDefaultLanguage,
+	UserSettingKeysDarkModeEnabled,
+	UserSettingKeysShowUnfinishedCourses,
+	UserSettingKeysShowCompletedCourses,
+	UserSettingKeysAutoEnrollmentEnabled,
+	UserSettingKeysShowCourseProgress,
+	UserSettingKeysDefaultFontSize,
+	UserSettingKeysEnableTts,
+	UserSettingKeysShowEnrolledCoursesCount,
+	UserSettingKeysShowInstructorAvailability,
+	UserSettingKeysShowRelatedCourses,
+	UserSettingKeysShowCourseRatings,
+	UserSettingKeysShowCourseReviews,
+	UserSettingKeysAllowPushNotifications,
+	UserSettingKeysEnableOfflineMode,
+	UserSettingKeysShowCourseActivityFeed,
+}
+
+func (e UserSettingKeys) IsValid() bool {
+	switch e {
+	case UserSettingKeysEmailNotificationsEnabled, UserSettingKeysDefaultTimezone, UserSettingKeysDefaultLanguage, UserSettingKeysDarkModeEnabled, UserSettingKeysShowUnfinishedCourses, UserSettingKeysShowCompletedCourses, UserSettingKeysAutoEnrollmentEnabled, UserSettingKeysShowCourseProgress, UserSettingKeysDefaultFontSize, UserSettingKeysEnableTts, UserSettingKeysShowEnrolledCoursesCount, UserSettingKeysShowInstructorAvailability, UserSettingKeysShowRelatedCourses, UserSettingKeysShowCourseRatings, UserSettingKeysShowCourseReviews, UserSettingKeysAllowPushNotifications, UserSettingKeysEnableOfflineMode, UserSettingKeysShowCourseActivityFeed:
+		return true
+	}
+	return false
+}
+
+func (e UserSettingKeys) String() string {
+	return string(e)
+}
+
+func (e *UserSettingKeys) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserSettingKeys(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserSettingKeys", str)
+	}
+	return nil
+}
+
+func (e UserSettingKeys) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }

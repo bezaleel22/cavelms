@@ -3,10 +3,10 @@ package api
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/cavelms/internal/model"
 	"github.com/cavelms/pkg/utils"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // CreateUser is the resolver for the createUser field.
@@ -110,5 +110,62 @@ func (api *API) GetUserByID(ctx context.Context, id string) (*model.User, error)
 
 // GetUserByEmail is the resolver for the getUserByEmail field.
 func (api *API) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: GetUserByEmail - getUserByEmail"))
+	user := new(model.User)
+	user.Email = email
+	err := api.DB.FetchByID(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func (api *API) CreateRefree(ctx context.Context, userID string, input model.NewReferee) (*model.Referee, error) {
+
+	referee := model.Referee{
+		ID:       primitive.NewObjectID().Hex(),
+		FullName: input.FullName,
+		Email:    input.Email,
+		Phone:    input.Phone,
+	}
+
+	user := new(model.User)
+	user.ID = userID
+	err := api.DB.FetchByID(user)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Referees = append(user.Referees, referee)
+	err = api.DB.Create(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &referee, nil
+}
+
+func (api *API) CreateQualification(ctx context.Context, userID string, input model.NewQualification) (*model.Qualification, error) {
+
+	qualification := model.Qualification{
+		ID:             primitive.NewObjectID().Hex(),
+		Degree:         input.Degree,
+		Institution:    input.Institution,
+		GraduationYear: input.GraduationYear,
+	}
+
+	user := new(model.User)
+	user.ID = userID
+	err := api.DB.FetchByID(user)
+	if err != nil {
+		return nil, err
+	}
+
+	user.Qualifications = append(user.Qualifications, qualification)
+	err = api.DB.Create(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &qualification, nil
 }
