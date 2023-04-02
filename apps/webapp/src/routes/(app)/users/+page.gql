@@ -1,0 +1,16 @@
+query GetUsers {
+  users {
+    id
+    fullName
+    email
+    role
+    username
+    avatarUrl
+    isVerified
+    progress
+    token
+    tokenExpiredAt
+    loggedIn
+    createdAt
+  }
+}

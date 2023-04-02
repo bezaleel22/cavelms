@@ -1,59 +1,36 @@
 <script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+  import Call2action from "./call2action.svelte";
+  import Category from "./category.svelte";
+  import Events from "./events.svelte";
+  import Feature from "./feature.svelte";
+  import Hero from "./hero.svelte";
+  import Testimonial from "./testimonial.svelte";
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+  <title>Home</title>
+  <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+<section class="main-banner-wrap-style-4">
+  <Hero />
 </section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
+<section class="category-wrap-style-3">
+  <Category />
+</section>
+<section class="feature-wrap-style-2 motion-effects-wrap">
+  <Feature />
+</section>
+<section class="team-wrap-style-1">
+  <Events />
+</section>
+<section class="testimonial-wrap-style-4">
+  <Testimonial />
+</section>
+<section
+  class="call-to-action-wrap-style-3 box-layout wow animated fadeInUp"
+  data-wow-duration="1s"
+  data-wow-delay="0.3s"
+>
+  <Call2action />
+</section>

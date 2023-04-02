@@ -2,7 +2,7 @@
 	"name": "website",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev",
+		"start": "vite dev --port 9090 --open",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
