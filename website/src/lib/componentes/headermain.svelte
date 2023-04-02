@@ -3,13 +3,14 @@
 </script>
 
 <header class="header-style-2 sticky-on">
-  <div id="sticky-placeholder" />
   <div id="topbar-wrap" class="topbar style-3">
     <div class="container">
       <div class="topbar-row">
         <ul class="left-box inline-list align-items-center">
           <strong>
-            <li><i class="fas fa-phone-alt" /> +234 802 216 4432, +234 706 515 8197</li>
+            <li>
+              <i class="fas fa-phone-alt" /> +234 802 216 4432, +234 706 515 8197
+            </li>
             <li>
               <i class="fas fa-map-marker-alt" /> 4 Remnant Avenue, opposite State Library, Makurdi,
               Benue State.
@@ -17,15 +18,15 @@
             <li><i class="far fa-clock" /> Mon - Sat 8.00 - 4.00 GMT+1</li></strong
           >
         </ul>
-
         <ul class="right-box inline-list">
           <li class="social align-items-center">
             <a href={null}><i class="fab fa-facebook-f" /></a>
             <a href={null}><i class="fab fa-twitter" /></a>
-
-            <a href="https://www.youtube.com/channel/UCg7kJOsWDdksyuUv5HiIvFg" target="_blank"
-              ><i class="fab fa-youtube" /></a
-            >
+            <a href={null}><i class="fab fa-instagram" /></a>
+            <a href={null}><i class="fab fa-pinterest-p" /></a>
+            <a href="https://www.youtube.com/channel/UCg7kJOsWDdksyuUv5HiIvFg" target="_blank">
+              <i class="fab fa-youtube" />
+            </a>
           </li>
         </ul>
       </div>
@@ -37,9 +38,9 @@
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div class="site-branding">
-            <a href="index.php" class="logo"
-              ><img src="images/media/logo-dark.png" alt="Logo" width="101" height="37" /></a
-            >
+            <a href="/" class="logo">
+              <img src="images/media/logo-light.png" alt="Logo" width="101" height="37" />
+            </a>
           </div>
           <nav class="template-main-menu">
             <ul class="menu">
@@ -132,10 +133,9 @@
   </div>
 </header>
 <div class="rt-header-menu mean-container position-relative" id="meanmenu">
-  <div class="topbar style-1" />
   <div class="mean-bar">
-    <a href="index.php">
-      <img src="media/logo-mobile.png" alt="Logo" width="80" height="29" />
+    <a href={null}>
+      <img src="images/media/logo-mobile.png" alt="Logo" width="80" height="29" />
     </a>
     <div class="mean-bar--right">
       <div class="actions user">

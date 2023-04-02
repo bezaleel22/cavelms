@@ -1,6 +1,8 @@
 <script>
+  import { page } from "$app/stores";
   import Footer from "$lib/componentes/footer.svelte";
-  import Header from "$lib/componentes/header.svelte";
+  import Headermain from "$lib/componentes/headermain.svelte";
+  import Header from "$lib/componentes/headermain.svelte";
   import "./styles.css";
 </script>
 
@@ -12,7 +14,13 @@
     </div>
   </div>
   <div id="wrapper" class="wrapper">
-    <Header />
+    
+    {#if $page.url.pathname == "/"}
+      <Headermain />
+    {:else}
+      <Header />
+    {/if}
+
     <main>
       <slot />
     </main>

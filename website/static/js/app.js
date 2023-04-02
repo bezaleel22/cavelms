@@ -585,7 +585,7 @@
   /*-------------------------------------
     Section background image 
     -------------------------------------*/
-  imageFunction();
+  // imageFunction();
 
   function imageFunction() {
     $("[data-bg-image]").each(function () {
