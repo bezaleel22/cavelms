@@ -1,0 +1,3 @@
+mutation deleteUserSetting($id: ID!) {
+  deleteUserSetting(id: $id)
+}

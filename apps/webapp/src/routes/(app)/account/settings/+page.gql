@@ -1,0 +1,18 @@
+query UserData($id: ID!) {
+  user(id: $id) {
+    id
+    firstName
+    lastName
+    fullName
+    email
+    role
+    permissions
+    avatarUrl
+    isVerified
+    progress
+    token
+    tokenExpiredAt
+    loggedIn
+    createdAt
+  }
+}

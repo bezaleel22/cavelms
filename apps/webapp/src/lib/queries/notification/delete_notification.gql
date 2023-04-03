@@ -1,0 +1,16 @@
+mutation DeleteNotification($id: ID!) {
+  deleteNotification(id: $id) {
+    id
+    senderId
+    recipientId
+    courseId
+    seen
+    text
+    title
+    type
+    link
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

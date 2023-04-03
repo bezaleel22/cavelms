@@ -1,0 +1,13 @@
+query getForum($id: ID!) {
+  forum(id: $id) {
+    id
+    name
+    description
+    courseId
+    postIds
+    tagIds
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

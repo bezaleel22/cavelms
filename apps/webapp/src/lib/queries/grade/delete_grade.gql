@@ -1,0 +1,3 @@
+mutation DeleteGrade($id: ID!) {
+  deleteGrade(id: $id)
+}

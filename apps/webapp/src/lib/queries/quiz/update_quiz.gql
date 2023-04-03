@@ -1,0 +1,55 @@
+mutation UpdateQuiz($id: ID!, $input: UpdateQuizInput!) {
+  updateQuiz(id: $id, input: $input) {
+    id
+    name
+    description
+    quizType
+    duration
+    passingScore
+    proctoringMethod
+    questions {
+      id
+      type
+      text
+      choices {
+        id
+        text
+        isCorrect
+        feedback
+        weight
+      }
+      correctAnswer
+      feedback
+      hints
+      randomize
+      pointValue
+      categories
+      matchingPairs {
+        id
+        left
+        right
+      }
+    }
+    resultsReleaseDate
+    certificate
+    startTime
+    endTime
+    startDate
+    dueDate
+    timeLimit
+    shuffleQuestions
+    randomizeQuestions
+    randomizeAnswers
+    categories
+    courseId
+    questionIds
+    gradeIds
+    submissionIds
+    isLocked
+    waitTime
+    weight
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

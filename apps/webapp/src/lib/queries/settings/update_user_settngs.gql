@@ -1,0 +1,9 @@
+mutation updateUserSetting($id: ID!, $value: String) {
+  updateUserSetting(id: $id, input: { value: $value }) {
+    id
+    userId
+    type
+    key
+    value
+  }
+}

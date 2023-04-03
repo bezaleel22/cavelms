@@ -1,0 +1,8 @@
+mutation createGlobalSetting($type: SettingType!, $globalKey: GlobalSettingKeys!, $value: String!) {
+  createGlobalSetting(input: { type: $type, globalKey: $globalKey, value: $value }) {
+    id
+    type
+    key
+    value
+  }
+}

@@ -18,6 +18,8 @@ type ForumPost {
   author: ID!
   commentIds: [ID!]!
   fileIds: [ID!]!
+  forumId: ID!
+  userId: ID!
   tags: [ID!]!
   upvotes: Int!
   downvotes: Int!
@@ -32,6 +34,7 @@ type ForumComment {
   courseId: ID!
   userId: ID!
   postId: ID!
+  parentId: ID!
   fileIds: [ID!]!
   upvotes: Int!
   downvotes: Int!
@@ -64,6 +67,8 @@ input CreateForumPostInput {
   title: String!
   content: String!
   courseId: ID!
+  forumId: ID!
+  userId: ID!
   tags: [ID!]
   files: [ID!]
 }
@@ -76,6 +81,8 @@ input UpdateForumPostInput {
 }
 
 input CreateForumCommentInput {
+  userId: ID!
+  parentId: ID!
   content: String!
   courseId: ID!
   postId: ID!
@@ -104,64 +111,20 @@ extend type Query {
   forumComment(id: ID!): ForumComment
 }
 
-# I need your help in implement some query and mutation operations in Golang for some GraphQL models using the repository functions I will provide. you will not need to write the struct definitions because i will be using the gqlgen library to generate them.
+extend type Mutation {
+  createForum(input: CreateForumInput!): Forum!
+  updateForum(id: ID!, input: UpdateForumInput!): Forum!
+  deleteForum(id: ID!): Forum!
 
-# The following is the repository functions you will use in database transaction, do not impliment these funtions, they already exist:
-# type MongoDB interface {
-# 	Create(m interface{}) error
-# 	FetchByID(m interface{}) error
-# 	FetchByIDs(m interface{}, ids []string) error
-# 	FetchByEmail(m interface{}) error
-# 	FetchAll(ml interface{}, m interface{}) error
-# 	FetchManyWhere(ml interface{}, m interface{}, key string) error
-# 	UpdateOne(m interface{}) error
-# 	Delete(m interface{}) error
-# 	DeleteMany(m interface{}, ids []string) error
-# 	FetchByUserID(ml interface{}, m interface{}) error
-# 	UpdateManyWhere(m interface{}, field, value string) error
-# }.
+  createForumPost(input: CreateForumPostInput!): ForumPost!
+  updateForumPost(id: ID!, input: UpdateForumPostInput!): ForumPost!
+  deleteForumPost(id: ID!): ForumPost!
 
-# i only need you to implement the query and mutation operations as defined in the graphql model. the following is the funtion prototype of the query and mutation operations:
+  createForumComment(input: CreateForumCommentInput!): ForumComment!
+  updateForumComment(id: ID!, input: UpdateForumCommentInput!): ForumComment!
+  deleteForumComment(id: ID!): ForumComment!
 
-# func (r *mutationResolver) CreateQuiz(ctx context.Context, input model.CreateQuestionInput) (*model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: CreateQuiz - createQuiz"))
-# }
-
-# // UpdateQuiz is the resolver for the updateQuiz field.
-# func (r *mutationResolver) UpdateQuiz(ctx context.Context, id string, input model.UpdateQuizInput) (*model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: UpdateQuiz - updateQuiz"))
-# }
-
-# // DeleteQuiz is the resolver for the deleteQuiz field.
-# func (r *mutationResolver) DeleteQuiz(ctx context.Context, id string) (*bool, error) {
-# 	panic(fmt.Errorf("not implemented: DeleteQuiz - deleteQuiz"))
-# }
-
-# // SubmitQuiz is the resolver for the submitQuiz field.
-# func (r *mutationResolver) SubmitQuiz(ctx context.Context, quizID string, answers []model.AnswerInput) (*model.Submission, error) {
-# 	panic(fmt.Errorf("not implemented: SubmitQuiz - submitQuiz"))
-# }
-
-# // Quiz is the resolver for the quiz field.
-# func (r *queryResolver) Quiz(ctx context.Context, id string) (*model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: Quiz - quiz"))
-# }
-
-# // Quizzes is the resolver for the quizzes field.
-# func (r *queryResolver) Quizzes(ctx context.Context) ([]model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: Quizzes - quizzes"))
-# }
-
-# // Submission is the resolver for the submission field.
-# func (r *queryResolver) Submission(ctx context.Context, id string) (*model.Submission, error) {
-# 	panic(fmt.Errorf("not implemented: Submission - submission"))
-# }
-
-# // Submissions is the resolver for the submissions field.
-# func (r *queryResolver) Submissions(ctx context.Context) ([]model.Submission, error) {
-# 	panic(fmt.Errorf("not implemented: Submissions - submissions"))
-# }
-
-# Now i will be giving you the GrapQL models and you will write the query and mutation operations based on the prototypes above
-
-#  please is important to ensure all funtion parameter and returned variables follows the exact name of the GraphQL mutation and query as given in the template. do you understand
+  createTag(input: CreateTagInput!): Tag!
+  updateTag(id: ID!, input: UpdateTagInput!): Tag!
+  deleteTag(id: ID!): Tag!
+}

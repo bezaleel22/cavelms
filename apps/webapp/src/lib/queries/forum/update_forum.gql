@@ -1,0 +1,13 @@
+mutation updateForum($id: ID!, $input: UpdateForumInput!) {
+  updateForum(id: $id, input: $input) {
+    id
+    name
+    description
+    courseId
+    postIds
+    tagIds
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

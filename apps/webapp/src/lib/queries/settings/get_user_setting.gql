@@ -1,0 +1,9 @@
+query getUserSetting($id: ID!) {
+  userSetting(id: $id) {
+    id
+    userId
+    type
+    key
+    value
+  }
+}

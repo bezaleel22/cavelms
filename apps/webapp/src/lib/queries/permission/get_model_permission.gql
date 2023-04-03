@@ -1,0 +1,8 @@
+query GetPermissionsForModel($model: AllowedModel!) {
+  getPermissionsForModel(model: $model) {
+    id
+    role
+    model
+    permissions
+  }
+}

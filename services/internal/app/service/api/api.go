@@ -63,6 +63,18 @@ type APIService interface {
 	ForumPost(ctx context.Context, id string) (*model.ForumPost, error)
 	ForumComments(ctx context.Context, courseID *string) ([]model.ForumComment, error)
 	ForumComment(ctx context.Context, id string) (*model.ForumComment, error)
+	CreateForum(ctx context.Context, input model.CreateForumInput) (*model.Forum, error)
+	UpdateForum(ctx context.Context, id string, input model.UpdateForumInput) (*model.Forum, error)
+	DeleteForum(ctx context.Context, id string) (*model.Forum, error)
+	CreateForumPost(ctx context.Context, input model.CreateForumPostInput) (*model.ForumPost, error)
+	UpdateForumPost(ctx context.Context, id string, input model.UpdateForumPostInput) (*model.ForumPost, error)
+	DeleteForumPost(ctx context.Context, id string) (*model.ForumPost, error)
+	CreateForumComment(ctx context.Context, input model.CreateForumCommentInput) (*model.ForumComment, error)
+	UpdateForumComment(ctx context.Context, id string, input model.UpdateForumCommentInput) (*model.ForumComment, error)
+	DeleteForumComment(ctx context.Context, id string) (*model.ForumComment, error)
+	CreateTag(ctx context.Context, input model.CreateTagInput) (*model.Tag, error)
+	UpdateTag(ctx context.Context, id string, input model.UpdateTagInput) (*model.Tag, error)
+	DeleteTag(ctx context.Context, id string) (*model.Tag, error)
 
 	// EvaluationCriteria Interface
 	CreateEvaluationCriteria(ctx context.Context, input model.CreateEvaluationCriteriaInput) (*model.EvaluationCriteria, error)

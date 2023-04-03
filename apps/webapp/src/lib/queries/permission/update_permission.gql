@@ -1,0 +1,8 @@
+mutation UpdatePermission($input: PermissionInput!) {
+  updatePermission(input: $input) {
+    id
+    role
+    model
+    permissions
+  }
+}

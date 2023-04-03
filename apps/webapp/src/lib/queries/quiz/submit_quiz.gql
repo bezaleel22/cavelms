@@ -1,0 +1,35 @@
+mutation SubmitQuiz($quizId: ID!, $input: SubmissionInput!) {
+  submitQuiz(quizId: $quizId, input: $input) {
+    id
+    quizID
+    userID
+    startTime
+    endTime
+    answers {
+      id
+      questionId
+      choices {
+        id
+        text
+        isCorrect
+        feedback
+        weight
+      }
+      value
+      isCorrect
+      weight
+      pointsAwarded
+      feedback
+      createdAt
+      updatedAt
+    }
+    points
+    grade
+    weight
+    feedback
+    startedAt
+    completedAt
+    createdAt
+    updatedAt
+  }
+}

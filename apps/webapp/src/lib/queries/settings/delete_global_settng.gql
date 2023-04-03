@@ -1,0 +1,3 @@
+mutation deleteGlobalSetting($id: ID!) {
+  deleteGlobalSetting(id: $id)
+}

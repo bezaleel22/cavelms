@@ -1,0 +1,8 @@
+mutation updateGlobalSetting($id: ID!, $value: String) {
+  updateGlobalSetting(id: $id, input: { value: $value }) {
+    id
+    type
+    key
+    value
+  }
+}

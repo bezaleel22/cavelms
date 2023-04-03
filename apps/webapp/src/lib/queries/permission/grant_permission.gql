@@ -1,0 +1,8 @@
+mutation GrantPermission($input: PermissionInput!) {
+  grantPermission(input: $input) {
+    id
+    role
+    model
+    permissions
+  }
+}

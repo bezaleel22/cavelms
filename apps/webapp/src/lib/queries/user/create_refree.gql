@@ -1,0 +1,8 @@
+mutation CreateReferee($userId: ID!, $input: NewReferee!) {
+  createReferee(userId: $userId, input: $input) {
+    id
+    fullName
+    email
+    phone
+  }
+}

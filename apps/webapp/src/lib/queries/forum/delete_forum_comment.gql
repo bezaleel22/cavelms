@@ -1,0 +1,5 @@
+mutation deleteForumComment($id: ID!) {
+  deleteForumComment(id: $id) {
+    id
+  }
+}

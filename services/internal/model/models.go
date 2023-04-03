@@ -152,6 +152,8 @@ type CreateFileInput struct {
 }
 
 type CreateForumCommentInput struct {
+	UserID   string   `json:"userId" bson:"userId,omitempty"`
+	ParentID string   `json:"parentId" bson:"parentId,omitempty"`
 	Content  string   `json:"content" bson:"content,omitempty"`
 	CourseID string   `json:"courseId" bson:"courseId,omitempty"`
 	PostID   string   `json:"postId" bson:"postId,omitempty"`
@@ -169,6 +171,8 @@ type CreateForumPostInput struct {
 	Title    string   `json:"title" bson:"title,omitempty"`
 	Content  string   `json:"content" bson:"content,omitempty"`
 	CourseID string   `json:"courseId" bson:"courseId,omitempty"`
+	ForumID  string   `json:"forumId" bson:"forumId,omitempty"`
+	UserID   string   `json:"userId" bson:"userId,omitempty"`
 	Tags     []string `json:"tags" bson:"tags,omitempty"`
 	Files    []string `json:"files" bson:"files,omitempty"`
 }
@@ -271,6 +275,7 @@ type ForumComment struct {
 	CourseID  string     `json:"courseId" bson:"courseId,omitempty"`
 	UserID    string     `json:"userId" bson:"userId,omitempty"`
 	PostID    string     `json:"postId" bson:"postId,omitempty"`
+	ParentID  string     `json:"parentId" bson:"parentId,omitempty"`
 	FileIds   []string   `json:"fileIds" bson:"fileIds,omitempty"`
 	Upvotes   int        `json:"upvotes" bson:"upvotes,omitempty"`
 	Downvotes int        `json:"downvotes" bson:"downvotes,omitempty"`
@@ -287,6 +292,8 @@ type ForumPost struct {
 	Author     string     `json:"author" bson:"author,omitempty"`
 	CommentIds []string   `json:"commentIds" bson:"commentIds,omitempty"`
 	FileIds    []string   `json:"fileIds" bson:"fileIds,omitempty"`
+	ForumID    string     `json:"forumId" bson:"forumId,omitempty"`
+	UserID     string     `json:"userId" bson:"userId,omitempty"`
 	Tags       []string   `json:"tags" bson:"tags,omitempty"`
 	Upvotes    int        `json:"upvotes" bson:"upvotes,omitempty"`
 	Downvotes  int        `json:"downvotes" bson:"downvotes,omitempty"`
@@ -668,6 +675,34 @@ type UpdateNotificationInput struct {
 	Read *bool `json:"read" bson:"read,omitempty"`
 }
 
+type UpdateProspective struct {
+	FirstName              *string            `json:"firstName" bson:"firstName,omitempty"`
+	LastName               *string            `json:"lastName" bson:"lastName,omitempty"`
+	Email                  *string            `json:"email" bson:"email,omitempty"`
+	Dob                    *string            `json:"dob" bson:"dob,omitempty"`
+	Phone                  *string            `json:"phone" bson:"phone,omitempty"`
+	Address                *string            `json:"address" bson:"address,omitempty"`
+	City                   *string            `json:"city" bson:"city,omitempty"`
+	State                  *string            `json:"state" bson:"state,omitempty"`
+	Country                *string            `json:"country" bson:"country,omitempty"`
+	Zip                    *string            `json:"zip" bson:"zip,omitempty"`
+	Nationality            *string            `json:"nationality" bson:"nationality,omitempty"`
+	Platform               *string            `json:"platform" bson:"platform,omitempty"`
+	Program                *string            `json:"program" bson:"program,omitempty"`
+	SalvationBrief         string             `json:"salvationBrief" bson:"salvationBrief,omitempty"`
+	GodsWorkings           []string           `json:"godsWorkings" bson:"godsWorkings,omitempty"`
+	Reason                 string             `json:"reason" bson:"reason,omitempty"`
+	ChurchName             string             `json:"churchName" bson:"churchName,omitempty"`
+	ChurchAddress          *string            `json:"churchAddress" bson:"churchAddress,omitempty"`
+	PastorName             *string            `json:"pastorName" bson:"pastorName,omitempty"`
+	PastorEmail            *string            `json:"pastorEmail" bson:"pastorEmail,omitempty"`
+	PastorPhone            *string            `json:"pastorPhone" bson:"pastorPhone,omitempty"`
+	ChurchInvolved         *string            `json:"churchInvolved" bson:"churchInvolved,omitempty"`
+	HealthConditions       []*string          `json:"healthConditions" bson:"healthConditions,omitempty"`
+	HealthIssueDescription *string            `json:"healthIssueDescription" bson:"healthIssueDescription,omitempty"`
+	Status                 RegistrationStatus `json:"status" bson:"status,omitempty"`
+}
+
 type UpdateQuestionInput struct {
 	ID            string              `json:"id" bson:"_id"`
 	Type          QuestionType        `json:"type" bson:"type,omitempty"`
@@ -710,64 +745,65 @@ type UpdateTargetInput struct {
 }
 
 type User struct {
-	ID                     string          `json:"id" bson:"_id"`
-	FirstName              string          `json:"firstName" bson:"firstName,omitempty"`
-	LastName               string          `json:"lastName" bson:"lastName,omitempty"`
-	MiddleName             string          `json:"middleName" bson:"middleName,omitempty"`
-	FullName               string          `json:"fullName" bson:"fullName,omitempty"`
-	Email                  string          `json:"email" bson:"email,omitempty"`
-	Role                   []Role          `json:"role" bson:"role,omitempty"`
-	PermissionIds          []string        `json:"permissionIds" bson:"permissionIds,omitempty"`
-	Phone                  string          `json:"phone" bson:"phone,omitempty"`
-	AvatarURL              string          `json:"avatarUrl" bson:"avatarUrl,omitempty"`
-	Dob                    string          `json:"dob" bson:"dob,omitempty"`
-	Gender                 string          `json:"gender" bson:"gender,omitempty"`
-	Address                string          `json:"address" bson:"address,omitempty"`
-	City                   string          `json:"city" bson:"city,omitempty"`
-	State                  string          `json:"state" bson:"state,omitempty"`
-	Country                string          `json:"country" bson:"country,omitempty"`
-	Zip                    string          `json:"zip" bson:"zip,omitempty"`
-	Nationality            string          `json:"nationality" bson:"nationality,omitempty"`
-	Profession             string          `json:"profession" bson:"profession,omitempty"`
-	PasswordSalt           string          `json:"passwordSalt" bson:"passwordSalt,omitempty"`
-	PasswordHash           string          `json:"passwordHash" bson:"passwordHash,omitempty"`
-	Permissions            []*string       `json:"permissions" bson:"permissions,omitempty"`
-	Username               string          `json:"username" bson:"username,omitempty"`
-	IsVerified             bool            `json:"isVerified" bson:"isVerified,omitempty"`
-	About                  string          `json:"about" bson:"about,omitempty"`
-	Wallet                 float64         `json:"wallet" bson:"wallet,omitempty"`
-	TimeZone               string          `json:"timeZone" bson:"timeZone,omitempty"`
-	Progress               int             `json:"progress" bson:"progress,omitempty"`
-	Token                  string          `json:"token" bson:"token,omitempty"`
-	TokenExpiredAt         int64           `json:"tokenExpiredAt" bson:"tokenExpiredAt,omitempty"`
-	LoggedIn               bool            `json:"loggedIn" bson:"loggedIn,omitempty"`
-	MatricNumber           string          `json:"matricNumber" bson:"matricNumber,omitempty"`
-	Platform               string          `json:"platform" bson:"platform,omitempty"`
-	Program                string          `json:"program" bson:"program,omitempty"`
-	RegNumber              string          `json:"regNumber" bson:"regNumber,omitempty"`
-	Files                  []string        `json:"files" bson:"files,omitempty"`
-	Courses                []string        `json:"courses" bson:"courses,omitempty"`
-	SalvationBrief         string          `json:"salvationBrief" bson:"salvationBrief,omitempty"`
-	GodsWorkings           []string        `json:"godsWorkings" bson:"godsWorkings,omitempty"`
-	Reason                 string          `json:"reason" bson:"reason,omitempty"`
-	ChurchName             string          `json:"churchName" bson:"churchName,omitempty"`
-	ChurchAddress          string          `json:"churchAddress" bson:"churchAddress,omitempty"`
-	PastorName             string          `json:"pastorName" bson:"pastorName,omitempty"`
-	PastorEmail            string          `json:"pastorEmail" bson:"pastorEmail,omitempty"`
-	PastorPhone            string          `json:"pastorPhone" bson:"pastorPhone,omitempty"`
-	ChurchInvolved         string          `json:"churchInvolved" bson:"churchInvolved,omitempty"`
-	HealthConditions       []string        `json:"healthConditions" bson:"healthConditions,omitempty"`
-	HealthIssueDescription string          `json:"healthIssueDescription" bson:"healthIssueDescription,omitempty"`
-	Scholarship            *bool           `json:"scholarship" bson:"scholarship,omitempty"`
-	ScholarshipReason      string          `json:"scholarshipReason" bson:"scholarshipReason,omitempty"`
-	Qualifications         []Qualification `json:"qualifications" bson:"qualifications,omitempty"`
-	Referees               []Referee       `json:"referees" bson:"referees,omitempty"`
-	Notifications          []Notification  `json:"notifications" bson:"notifications,omitempty"`
-	CreatedAt              *time.Time      `json:"createdAt" bson:"createdAt,omitempty"`
-	UpdatedAt              *time.Time      `json:"updatedAt" bson:"updatedAt,omitempty"`
-	DeletedAt              *time.Time      `json:"deletedAt" bson:"deletedAt,omitempty"`
-	ConfirmedAt            *time.Time      `json:"confirmedAt" bson:"confirmedAt,omitempty"`
-	ConfirmationMailSentAt *time.Time      `json:"confirmationMailSentAt" bson:"confirmationMailSentAt,omitempty"`
+	ID                     string              `json:"id" bson:"_id"`
+	FirstName              string              `json:"firstName" bson:"firstName,omitempty"`
+	LastName               string              `json:"lastName" bson:"lastName,omitempty"`
+	MiddleName             string              `json:"middleName" bson:"middleName,omitempty"`
+	FullName               string              `json:"fullName" bson:"fullName,omitempty"`
+	Email                  string              `json:"email" bson:"email,omitempty"`
+	Role                   []Role              `json:"role" bson:"role,omitempty"`
+	PermissionIds          []string            `json:"permissionIds" bson:"permissionIds,omitempty"`
+	Phone                  string              `json:"phone" bson:"phone,omitempty"`
+	AvatarURL              string              `json:"avatarUrl" bson:"avatarUrl,omitempty"`
+	Dob                    string              `json:"dob" bson:"dob,omitempty"`
+	Gender                 string              `json:"gender" bson:"gender,omitempty"`
+	Address                string              `json:"address" bson:"address,omitempty"`
+	City                   string              `json:"city" bson:"city,omitempty"`
+	State                  string              `json:"state" bson:"state,omitempty"`
+	Country                string              `json:"country" bson:"country,omitempty"`
+	Zip                    string              `json:"zip" bson:"zip,omitempty"`
+	Nationality            string              `json:"nationality" bson:"nationality,omitempty"`
+	Profession             string              `json:"profession" bson:"profession,omitempty"`
+	PasswordSalt           string              `json:"passwordSalt" bson:"passwordSalt,omitempty"`
+	PasswordHash           string              `json:"passwordHash" bson:"passwordHash,omitempty"`
+	Permissions            []*string           `json:"permissions" bson:"permissions,omitempty"`
+	Username               string              `json:"username" bson:"username,omitempty"`
+	IsVerified             bool                `json:"isVerified" bson:"isVerified,omitempty"`
+	About                  string              `json:"about" bson:"about,omitempty"`
+	Wallet                 float64             `json:"wallet" bson:"wallet,omitempty"`
+	TimeZone               string              `json:"timeZone" bson:"timeZone,omitempty"`
+	Progress               int                 `json:"progress" bson:"progress,omitempty"`
+	Token                  string              `json:"token" bson:"token,omitempty"`
+	TokenExpiredAt         int64               `json:"tokenExpiredAt" bson:"tokenExpiredAt,omitempty"`
+	LoggedIn               bool                `json:"loggedIn" bson:"loggedIn,omitempty"`
+	Status                 *RegistrationStatus `json:"status" bson:"status,omitempty"`
+	MatricNumber           string              `json:"matricNumber" bson:"matricNumber,omitempty"`
+	Platform               string              `json:"platform" bson:"platform,omitempty"`
+	Program                string              `json:"program" bson:"program,omitempty"`
+	RegNumber              string              `json:"regNumber" bson:"regNumber,omitempty"`
+	Files                  []string            `json:"files" bson:"files,omitempty"`
+	Courses                []string            `json:"courses" bson:"courses,omitempty"`
+	SalvationBrief         string              `json:"salvationBrief" bson:"salvationBrief,omitempty"`
+	GodsWorkings           []string            `json:"godsWorkings" bson:"godsWorkings,omitempty"`
+	Reason                 string              `json:"reason" bson:"reason,omitempty"`
+	ChurchName             string              `json:"churchName" bson:"churchName,omitempty"`
+	ChurchAddress          string              `json:"churchAddress" bson:"churchAddress,omitempty"`
+	PastorName             string              `json:"pastorName" bson:"pastorName,omitempty"`
+	PastorEmail            string              `json:"pastorEmail" bson:"pastorEmail,omitempty"`
+	PastorPhone            string              `json:"pastorPhone" bson:"pastorPhone,omitempty"`
+	ChurchInvolved         string              `json:"churchInvolved" bson:"churchInvolved,omitempty"`
+	HealthConditions       []string            `json:"healthConditions" bson:"healthConditions,omitempty"`
+	HealthIssueDescription string              `json:"healthIssueDescription" bson:"healthIssueDescription,omitempty"`
+	Scholarship            *bool               `json:"scholarship" bson:"scholarship,omitempty"`
+	ScholarshipReason      string              `json:"scholarshipReason" bson:"scholarshipReason,omitempty"`
+	Qualifications         []Qualification     `json:"qualifications" bson:"qualifications,omitempty"`
+	Referees               []Referee           `json:"referees" bson:"referees,omitempty"`
+	Notifications          []Notification      `json:"notifications" bson:"notifications,omitempty"`
+	CreatedAt              *time.Time          `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt              *time.Time          `json:"updatedAt" bson:"updatedAt,omitempty"`
+	DeletedAt              *time.Time          `json:"deletedAt" bson:"deletedAt,omitempty"`
+	ConfirmedAt            *time.Time          `json:"confirmedAt" bson:"confirmedAt,omitempty"`
+	ConfirmationMailSentAt *time.Time          `json:"confirmationMailSentAt" bson:"confirmationMailSentAt,omitempty"`
 }
 
 type UserSetting struct {
@@ -1417,6 +1453,51 @@ func (e *QuizType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e QuizType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type RegistrationStatus string
+
+const (
+	RegistrationStatusCreated    RegistrationStatus = "CREATED"
+	RegistrationStatusInProgress RegistrationStatus = "IN_PROGRESS"
+	RegistrationStatusCompleted  RegistrationStatus = "COMPLETED"
+	RegistrationStatusRejected   RegistrationStatus = "REJECTED"
+)
+
+var AllRegistrationStatus = []RegistrationStatus{
+	RegistrationStatusCreated,
+	RegistrationStatusInProgress,
+	RegistrationStatusCompleted,
+	RegistrationStatusRejected,
+}
+
+func (e RegistrationStatus) IsValid() bool {
+	switch e {
+	case RegistrationStatusCreated, RegistrationStatusInProgress, RegistrationStatusCompleted, RegistrationStatusRejected:
+		return true
+	}
+	return false
+}
+
+func (e RegistrationStatus) String() string {
+	return string(e)
+}
+
+func (e *RegistrationStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = RegistrationStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid RegistrationStatus", str)
+	}
+	return nil
+}
+
+func (e RegistrationStatus) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

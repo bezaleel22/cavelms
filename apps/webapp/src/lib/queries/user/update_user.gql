@@ -1,0 +1,8 @@
+mutation UpdateUser($input: Any) {
+  updateUser(input: $input) {
+    id
+    firstName
+    lastName
+    email
+  }
+}

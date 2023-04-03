@@ -1,0 +1,8 @@
+mutation RevokePermission($input: PermissionInput!) {
+  revokePermission(input: $input) {
+    id
+    role
+    model
+    permissions
+  }
+}

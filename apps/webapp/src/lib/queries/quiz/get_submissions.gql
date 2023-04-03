@@ -1,0 +1,33 @@
+query Submissions {
+  submissions {
+    id
+    quizID
+    userID
+    startTime
+    endTime
+    answers {
+      id
+      questionId
+      value
+      isCorrect
+      weight
+      pointsAwarded
+      feedback
+      choices {
+        id
+        text
+        isCorrect
+        feedback
+        weight
+      }
+    }
+    points
+    grade
+    weight
+    feedback
+    startedAt
+    completedAt
+    createdAt
+    updatedAt
+  }
+}

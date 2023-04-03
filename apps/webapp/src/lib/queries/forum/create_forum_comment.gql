@@ -1,0 +1,15 @@
+mutation createForumComment($input: CreateForumCommentInput!) {
+  createForumComment(input: $input) {
+    id
+    content
+    courseId
+    userId
+    postId
+    fileIds
+    upvotes
+    downvotes
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

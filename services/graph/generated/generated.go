@@ -167,6 +167,7 @@ type ComplexityRoot struct {
 		Downvotes func(childComplexity int) int
 		FileIds   func(childComplexity int) int
 		ID        func(childComplexity int) int
+		ParentID  func(childComplexity int) int
 		PostID    func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 		Upvotes   func(childComplexity int) int
@@ -182,11 +183,13 @@ type ComplexityRoot struct {
 		DeletedAt  func(childComplexity int) int
 		Downvotes  func(childComplexity int) int
 		FileIds    func(childComplexity int) int
+		ForumID    func(childComplexity int) int
 		ID         func(childComplexity int) int
 		Tags       func(childComplexity int) int
 		Title      func(childComplexity int) int
 		UpdatedAt  func(childComplexity int) int
 		Upvotes    func(childComplexity int) int
+		UserID     func(childComplexity int) int
 	}
 
 	GlobalSetting struct {
@@ -250,25 +253,33 @@ type ComplexityRoot struct {
 		CreateActivity           func(childComplexity int, input model.CreateActivityInput) int
 		CreateCourse             func(childComplexity int, input *model.CreateCourseInput) int
 		CreateEvaluationCriteria func(childComplexity int, input model.CreateEvaluationCriteriaInput) int
+		CreateForum              func(childComplexity int, input model.CreateForumInput) int
+		CreateForumComment       func(childComplexity int, input model.CreateForumCommentInput) int
+		CreateForumPost          func(childComplexity int, input model.CreateForumPostInput) int
 		CreateGlobalSetting      func(childComplexity int, input model.NewSetting) int
 		CreateGrade              func(childComplexity int, input model.CreateGradeInput) int
 		CreateMedia              func(childComplexity int, input model.CreatMediaInput) int
 		CreateNotification       func(childComplexity int, input model.CreateNotificationInput) int
 		CreateQualification      func(childComplexity int, userID string, input model.NewQualification) int
 		CreateQuiz               func(childComplexity int, input model.CreateQuizInput) int
-		CreateRefree             func(childComplexity int, userID string, input model.NewReferee) int
+		CreateReferee            func(childComplexity int, userID string, input model.NewReferee) int
+		CreateTag                func(childComplexity int, input model.CreateTagInput) int
 		CreateTarget             func(childComplexity int, input model.CreateTargetInput) int
 		CreateUser               func(childComplexity int, input model.NewUser) int
 		CreateUserSetting        func(childComplexity int, userID string, input model.NewSetting) int
 		DeleteActivity           func(childComplexity int, id string) int
 		DeleteCourse             func(childComplexity int, id string) int
 		DeleteEvaluationCriteria func(childComplexity int, id string) int
+		DeleteForum              func(childComplexity int, id string) int
+		DeleteForumComment       func(childComplexity int, id string) int
+		DeleteForumPost          func(childComplexity int, id string) int
 		DeleteGlobalSetting      func(childComplexity int, id string) int
 		DeleteGrade              func(childComplexity int, id string) int
-		DeleteManyUsers          func(childComplexity int, id []string) int
+		DeleteManyUsers          func(childComplexity int, ids []string) int
 		DeleteMedia              func(childComplexity int, id string) int
 		DeleteNotification       func(childComplexity int, id string) int
 		DeleteQuiz               func(childComplexity int, id string) int
+		DeleteTag                func(childComplexity int, id string) int
 		DeleteTarget             func(childComplexity int, id string) int
 		DeleteUser               func(childComplexity int, id string) int
 		DeleteUserSetting        func(childComplexity int, id string) int
@@ -278,14 +289,19 @@ type ComplexityRoot struct {
 		UpdateActivity           func(childComplexity int, input model.UpdateActivityInput) int
 		UpdateCourse             func(childComplexity int, input interface{}) int
 		UpdateEvaluationCriteria func(childComplexity int, id string, input model.UpdateEvaluationCriteriaInput) int
+		UpdateForum              func(childComplexity int, id string, input model.UpdateForumInput) int
+		UpdateForumComment       func(childComplexity int, id string, input model.UpdateForumCommentInput) int
+		UpdateForumPost          func(childComplexity int, id string, input model.UpdateForumPostInput) int
 		UpdateGlobalSetting      func(childComplexity int, id string, input model.UpdateSetting) int
 		UpdateGrade              func(childComplexity int, id string, input model.UpdateGradeInput) int
 		UpdateMedia              func(childComplexity int, input model.UpdateMediaInput) int
 		UpdateNotification       func(childComplexity int, id string, input model.UpdateNotificationInput) int
 		UpdatePermission         func(childComplexity int, input model.PermissionInput) int
+		UpdateProspective        func(childComplexity int, input *model.UpdateProspective) int
 		UpdateQuiz               func(childComplexity int, id string, input model.UpdateQuizInput) int
+		UpdateTag                func(childComplexity int, id string, input model.UpdateTagInput) int
 		UpdateTarget             func(childComplexity int, id string, input model.UpdateTargetInput) int
-		UpdateUser               func(childComplexity int, data interface{}) int
+		UpdateUser               func(childComplexity int, input interface{}) int
 		UpdateUserSetting        func(childComplexity int, id string, input model.UpdateSetting) int
 	}
 
@@ -542,6 +558,7 @@ type ComplexityRoot struct {
 		Scholarship            func(childComplexity int) int
 		ScholarshipReason      func(childComplexity int) int
 		State                  func(childComplexity int) int
+		Status                 func(childComplexity int) int
 		TimeZone               func(childComplexity int) int
 		Token                  func(childComplexity int) int
 		TokenExpiredAt         func(childComplexity int) int
@@ -575,6 +592,18 @@ type MutationResolver interface {
 	CreateCourse(ctx context.Context, input *model.CreateCourseInput) (*model.Course, error)
 	UpdateCourse(ctx context.Context, input interface{}) (*model.Course, error)
 	DeleteCourse(ctx context.Context, id string) (*model.Course, error)
+	CreateForum(ctx context.Context, input model.CreateForumInput) (*model.Forum, error)
+	UpdateForum(ctx context.Context, id string, input model.UpdateForumInput) (*model.Forum, error)
+	DeleteForum(ctx context.Context, id string) (*model.Forum, error)
+	CreateForumPost(ctx context.Context, input model.CreateForumPostInput) (*model.ForumPost, error)
+	UpdateForumPost(ctx context.Context, id string, input model.UpdateForumPostInput) (*model.ForumPost, error)
+	DeleteForumPost(ctx context.Context, id string) (*model.ForumPost, error)
+	CreateForumComment(ctx context.Context, input model.CreateForumCommentInput) (*model.ForumComment, error)
+	UpdateForumComment(ctx context.Context, id string, input model.UpdateForumCommentInput) (*model.ForumComment, error)
+	DeleteForumComment(ctx context.Context, id string) (*model.ForumComment, error)
+	CreateTag(ctx context.Context, input model.CreateTagInput) (*model.Tag, error)
+	UpdateTag(ctx context.Context, id string, input model.UpdateTagInput) (*model.Tag, error)
+	DeleteTag(ctx context.Context, id string) (*model.Tag, error)
 	CreateGrade(ctx context.Context, input model.CreateGradeInput) (*model.Grade, error)
 	UpdateGrade(ctx context.Context, id string, input model.UpdateGradeInput) (*model.Grade, error)
 	DeleteGrade(ctx context.Context, id string) (bool, error)
@@ -601,11 +630,12 @@ type MutationResolver interface {
 	UpdateTarget(ctx context.Context, id string, input model.UpdateTargetInput) (*model.Target, error)
 	DeleteTarget(ctx context.Context, id string) (*model.Target, error)
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	CreateRefree(ctx context.Context, userID string, input model.NewReferee) (*model.Referee, error)
+	CreateReferee(ctx context.Context, userID string, input model.NewReferee) (*model.Referee, error)
 	CreateQualification(ctx context.Context, userID string, input model.NewQualification) (*model.Qualification, error)
-	UpdateUser(ctx context.Context, data interface{}) (*model.User, error)
+	UpdateUser(ctx context.Context, input interface{}) (*model.User, error)
+	UpdateProspective(ctx context.Context, input *model.UpdateProspective) (*model.User, error)
 	DeleteUser(ctx context.Context, id string) (*model.User, error)
-	DeleteManyUsers(ctx context.Context, id []string) (*model.User, error)
+	DeleteManyUsers(ctx context.Context, ids []string) (*model.User, error)
 }
 type QueryResolver interface {
 	EvaluationCriterias(ctx context.Context) ([]model.EvaluationCriteria, error)
@@ -1300,6 +1330,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.ForumComment.ID(childComplexity), true
 
+	case "ForumComment.parentId":
+		if e.complexity.ForumComment.ParentID == nil {
+			break
+		}
+
+		return e.complexity.ForumComment.ParentID(childComplexity), true
+
 	case "ForumComment.postId":
 		if e.complexity.ForumComment.PostID == nil {
 			break
@@ -1384,6 +1421,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.ForumPost.FileIds(childComplexity), true
 
+	case "ForumPost.forumId":
+		if e.complexity.ForumPost.ForumID == nil {
+			break
+		}
+
+		return e.complexity.ForumPost.ForumID(childComplexity), true
+
 	case "ForumPost.id":
 		if e.complexity.ForumPost.ID == nil {
 			break
@@ -1418,6 +1462,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.ForumPost.Upvotes(childComplexity), true
+
+	case "ForumPost.userId":
+		if e.complexity.ForumPost.UserID == nil {
+			break
+		}
+
+		return e.complexity.ForumPost.UserID(childComplexity), true
 
 	case "GlobalSetting.id":
 		if e.complexity.GlobalSetting.ID == nil {
@@ -1728,6 +1779,42 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateEvaluationCriteria(childComplexity, args["input"].(model.CreateEvaluationCriteriaInput)), true
 
+	case "Mutation.createForum":
+		if e.complexity.Mutation.CreateForum == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createForum_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateForum(childComplexity, args["input"].(model.CreateForumInput)), true
+
+	case "Mutation.createForumComment":
+		if e.complexity.Mutation.CreateForumComment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createForumComment_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateForumComment(childComplexity, args["input"].(model.CreateForumCommentInput)), true
+
+	case "Mutation.createForumPost":
+		if e.complexity.Mutation.CreateForumPost == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createForumPost_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateForumPost(childComplexity, args["input"].(model.CreateForumPostInput)), true
+
 	case "Mutation.createGlobalSetting":
 		if e.complexity.Mutation.CreateGlobalSetting == nil {
 			break
@@ -1800,17 +1887,29 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateQuiz(childComplexity, args["input"].(model.CreateQuizInput)), true
 
-	case "Mutation.createRefree":
-		if e.complexity.Mutation.CreateRefree == nil {
+	case "Mutation.createReferee":
+		if e.complexity.Mutation.CreateReferee == nil {
 			break
 		}
 
-		args, err := ec.field_Mutation_createRefree_args(context.TODO(), rawArgs)
+		args, err := ec.field_Mutation_createReferee_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateRefree(childComplexity, args["userId"].(string), args["input"].(model.NewReferee)), true
+		return e.complexity.Mutation.CreateReferee(childComplexity, args["userId"].(string), args["input"].(model.NewReferee)), true
+
+	case "Mutation.createTag":
+		if e.complexity.Mutation.CreateTag == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createTag_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreateTag(childComplexity, args["input"].(model.CreateTagInput)), true
 
 	case "Mutation.createTarget":
 		if e.complexity.Mutation.CreateTarget == nil {
@@ -1884,6 +1983,42 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.DeleteEvaluationCriteria(childComplexity, args["id"].(string)), true
 
+	case "Mutation.deleteForum":
+		if e.complexity.Mutation.DeleteForum == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteForum_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteForum(childComplexity, args["id"].(string)), true
+
+	case "Mutation.deleteForumComment":
+		if e.complexity.Mutation.DeleteForumComment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteForumComment_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteForumComment(childComplexity, args["id"].(string)), true
+
+	case "Mutation.deleteForumPost":
+		if e.complexity.Mutation.DeleteForumPost == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteForumPost_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteForumPost(childComplexity, args["id"].(string)), true
+
 	case "Mutation.deleteGlobalSetting":
 		if e.complexity.Mutation.DeleteGlobalSetting == nil {
 			break
@@ -1918,7 +2053,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteManyUsers(childComplexity, args["id"].([]string)), true
+		return e.complexity.Mutation.DeleteManyUsers(childComplexity, args["ids"].([]string)), true
 
 	case "Mutation.deleteMedia":
 		if e.complexity.Mutation.DeleteMedia == nil {
@@ -1955,6 +2090,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteQuiz(childComplexity, args["id"].(string)), true
+
+	case "Mutation.deleteTag":
+		if e.complexity.Mutation.DeleteTag == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteTag_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteTag(childComplexity, args["id"].(string)), true
 
 	case "Mutation.deleteTarget":
 		if e.complexity.Mutation.DeleteTarget == nil {
@@ -2064,6 +2211,42 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateEvaluationCriteria(childComplexity, args["id"].(string), args["input"].(model.UpdateEvaluationCriteriaInput)), true
 
+	case "Mutation.updateForum":
+		if e.complexity.Mutation.UpdateForum == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateForum_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateForum(childComplexity, args["id"].(string), args["input"].(model.UpdateForumInput)), true
+
+	case "Mutation.updateForumComment":
+		if e.complexity.Mutation.UpdateForumComment == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateForumComment_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateForumComment(childComplexity, args["id"].(string), args["input"].(model.UpdateForumCommentInput)), true
+
+	case "Mutation.updateForumPost":
+		if e.complexity.Mutation.UpdateForumPost == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateForumPost_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateForumPost(childComplexity, args["id"].(string), args["input"].(model.UpdateForumPostInput)), true
+
 	case "Mutation.updateGlobalSetting":
 		if e.complexity.Mutation.UpdateGlobalSetting == nil {
 			break
@@ -2124,6 +2307,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdatePermission(childComplexity, args["input"].(model.PermissionInput)), true
 
+	case "Mutation.updateProspective":
+		if e.complexity.Mutation.UpdateProspective == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateProspective_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateProspective(childComplexity, args["input"].(*model.UpdateProspective)), true
+
 	case "Mutation.updateQuiz":
 		if e.complexity.Mutation.UpdateQuiz == nil {
 			break
@@ -2135,6 +2330,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateQuiz(childComplexity, args["id"].(string), args["input"].(model.UpdateQuizInput)), true
+
+	case "Mutation.updateTag":
+		if e.complexity.Mutation.UpdateTag == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateTag_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateTag(childComplexity, args["id"].(string), args["input"].(model.UpdateTagInput)), true
 
 	case "Mutation.updateTarget":
 		if e.complexity.Mutation.UpdateTarget == nil {
@@ -2158,7 +2365,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateUser(childComplexity, args["data"].(interface{})), true
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(interface{})), true
 
 	case "Mutation.updateUserSetting":
 		if e.complexity.Mutation.UpdateUserSetting == nil {
@@ -3772,6 +3979,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.State(childComplexity), true
 
+	case "User.status":
+		if e.complexity.User.Status == nil {
+			break
+		}
+
+		return e.complexity.User.Status(childComplexity), true
+
 	case "User.timeZone":
 		if e.complexity.User.TimeZone == nil {
 			break
@@ -3912,6 +4126,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateGradeInput,
 		ec.unmarshalInputUpdateMediaInput,
 		ec.unmarshalInputUpdateNotificationInput,
+		ec.unmarshalInputUpdateProspective,
 		ec.unmarshalInputUpdateQuestionInput,
 		ec.unmarshalInputUpdateQuizInput,
 		ec.unmarshalInputUpdateSetting,
@@ -4289,6 +4504,8 @@ type ForumPost {
   author: ID!
   commentIds: [ID!]!
   fileIds: [ID!]!
+  forumId: ID!
+  userId: ID!
   tags: [ID!]!
   upvotes: Int!
   downvotes: Int!
@@ -4303,6 +4520,7 @@ type ForumComment {
   courseId: ID!
   userId: ID!
   postId: ID!
+  parentId: ID!
   fileIds: [ID!]!
   upvotes: Int!
   downvotes: Int!
@@ -4335,6 +4553,8 @@ input CreateForumPostInput {
   title: String!
   content: String!
   courseId: ID!
+  forumId: ID!
+  userId: ID!
   tags: [ID!]
   files: [ID!]
 }
@@ -4347,6 +4567,8 @@ input UpdateForumPostInput {
 }
 
 input CreateForumCommentInput {
+  userId: ID!
+  parentId: ID!
   content: String!
   courseId: ID!
   postId: ID!
@@ -4375,67 +4597,23 @@ extend type Query {
   forumComment(id: ID!): ForumComment
 }
 
-# I need your help in implement some query and mutation operations in Golang for some GraphQL models using the repository functions I will provide. you will not need to write the struct definitions because i will be using the gqlgen library to generate them.
+extend type Mutation {
+  createForum(input: CreateForumInput!): Forum!
+  updateForum(id: ID!, input: UpdateForumInput!): Forum!
+  deleteForum(id: ID!): Forum!
 
-# The following is the repository functions you will use in database transaction, do not impliment these funtions, they already exist:
-# type MongoDB interface {
-# 	Create(m interface{}) error
-# 	FetchByID(m interface{}) error
-# 	FetchByIDs(m interface{}, ids []string) error
-# 	FetchByEmail(m interface{}) error
-# 	FetchAll(ml interface{}, m interface{}) error
-# 	FetchManyWhere(ml interface{}, m interface{}, key string) error
-# 	UpdateOne(m interface{}) error
-# 	Delete(m interface{}) error
-# 	DeleteMany(m interface{}, ids []string) error
-# 	FetchByUserID(ml interface{}, m interface{}) error
-# 	UpdateManyWhere(m interface{}, field, value string) error
-# }.
+  createForumPost(input: CreateForumPostInput!): ForumPost!
+  updateForumPost(id: ID!, input: UpdateForumPostInput!): ForumPost!
+  deleteForumPost(id: ID!): ForumPost!
 
-# i only need you to implement the query and mutation operations as defined in the graphql model. the following is the funtion prototype of the query and mutation operations:
+  createForumComment(input: CreateForumCommentInput!): ForumComment!
+  updateForumComment(id: ID!, input: UpdateForumCommentInput!): ForumComment!
+  deleteForumComment(id: ID!): ForumComment!
 
-# func (r *mutationResolver) CreateQuiz(ctx context.Context, input model.CreateQuestionInput) (*model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: CreateQuiz - createQuiz"))
-# }
-
-# // UpdateQuiz is the resolver for the updateQuiz field.
-# func (r *mutationResolver) UpdateQuiz(ctx context.Context, id string, input model.UpdateQuizInput) (*model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: UpdateQuiz - updateQuiz"))
-# }
-
-# // DeleteQuiz is the resolver for the deleteQuiz field.
-# func (r *mutationResolver) DeleteQuiz(ctx context.Context, id string) (*bool, error) {
-# 	panic(fmt.Errorf("not implemented: DeleteQuiz - deleteQuiz"))
-# }
-
-# // SubmitQuiz is the resolver for the submitQuiz field.
-# func (r *mutationResolver) SubmitQuiz(ctx context.Context, quizID string, answers []model.AnswerInput) (*model.Submission, error) {
-# 	panic(fmt.Errorf("not implemented: SubmitQuiz - submitQuiz"))
-# }
-
-# // Quiz is the resolver for the quiz field.
-# func (r *queryResolver) Quiz(ctx context.Context, id string) (*model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: Quiz - quiz"))
-# }
-
-# // Quizzes is the resolver for the quizzes field.
-# func (r *queryResolver) Quizzes(ctx context.Context) ([]model.Quiz, error) {
-# 	panic(fmt.Errorf("not implemented: Quizzes - quizzes"))
-# }
-
-# // Submission is the resolver for the submission field.
-# func (r *queryResolver) Submission(ctx context.Context, id string) (*model.Submission, error) {
-# 	panic(fmt.Errorf("not implemented: Submission - submission"))
-# }
-
-# // Submissions is the resolver for the submissions field.
-# func (r *queryResolver) Submissions(ctx context.Context) ([]model.Submission, error) {
-# 	panic(fmt.Errorf("not implemented: Submissions - submissions"))
-# }
-
-# Now i will be giving you the GrapQL models and you will write the query and mutation operations based on the prototypes above
-
-#  please is important to ensure all funtion parameter and returned variables follows the exact name of the GraphQL mutation and query as given in the template. do you understand
+  createTag(input: CreateTagInput!): Tag!
+  updateTag(id: ID!, input: UpdateTagInput!): Tag!
+  deleteTag(id: ID!): Tag!
+}
 `, BuiltIn: false},
 	{Name: "../schema/grade.gql", Input: `type Grade {
   id: ID!
@@ -5007,8 +5185,7 @@ extend type Query {
 
   globalSetting(id: ID!): GlobalSetting!
   globalSettings(limit: Int = 25, offset: Int = 0): [GlobalSetting!]!
-}
-`, BuiltIn: false},
+}`, BuiltIn: false},
 	{Name: "../schema/target.gql", Input: `type Target {
   id: ID!
   name: String!
@@ -5122,6 +5299,7 @@ type User {
   token: String!
   tokenExpiredAt: Int64!
   loggedIn: Boolean!
+  status: RegistrationStatus
 
   # School Data
   matricNumber: String!
@@ -5158,6 +5336,41 @@ type User {
   deletedAt: Time
   confirmedAt: Time
   confirmationMailSentAt: Time
+}
+
+enum RegistrationStatus {
+  CREATED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+input UpdateProspective {
+  firstName: String
+  lastName: String
+  email: String
+  dob: String
+  phone: String
+  address: String
+  city: String
+  state: String
+  country: String
+  zip: String
+  nationality: String
+  platform: String
+  program: String
+  salvationBrief: String!
+  godsWorkings: [String!]
+  reason: String!
+  churchName: String!
+  churchAddress: String
+  pastorName: String
+  pastorEmail: String
+  pastorPhone: String
+  churchInvolved: String
+  healthConditions: [String]
+  healthIssueDescription: String
+  status: RegistrationStatus!
 }
 
 type Qualification {
@@ -5213,11 +5426,12 @@ extend type Query {
 
 extend type Mutation {
   createUser(input: NewUser!): User
-  createRefree(userId: ID!, input: NewReferee!): Referee
+  createReferee(userId: ID!, input: NewReferee!): Referee
   createQualification(userId: ID!, input: NewQualification!): Qualification
-  updateUser(data: Any): User
+  updateUser(input: Any): User
+  updateProspective(input: UpdateProspective): User
   deleteUser(id: ID!): User
-  deleteManyUsers(id: [ID!]): User
+  deleteManyUsers(ids: [ID!]): User
 }
 `, BuiltIn: false},
 }
@@ -5279,6 +5493,51 @@ func (ec *executionContext) field_Mutation_createEvaluationCriteria_args(ctx con
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNCreateEvaluationCriteriaInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateEvaluationCriteriaInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createForumComment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateForumCommentInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNCreateForumCommentInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumCommentInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createForumPost_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateForumPostInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNCreateForumPostInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumPostInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createForum_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateForumInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNCreateForumInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5386,7 +5645,7 @@ func (ec *executionContext) field_Mutation_createQuiz_args(ctx context.Context, 
 	return args, nil
 }
 
-func (ec *executionContext) field_Mutation_createRefree_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_createReferee_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
@@ -5407,6 +5666,21 @@ func (ec *executionContext) field_Mutation_createRefree_args(ctx context.Context
 		}
 	}
 	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_createTag_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.CreateTagInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNCreateTagInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateTagInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -5509,6 +5783,51 @@ func (ec *executionContext) field_Mutation_deleteEvaluationCriteria_args(ctx con
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteForumComment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteForumPost_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteForum_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteGlobalSetting_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -5543,14 +5862,14 @@ func (ec *executionContext) field_Mutation_deleteManyUsers_args(ctx context.Cont
 	var err error
 	args := map[string]interface{}{}
 	var arg0 []string
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+	if tmp, ok := rawArgs["ids"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ids"))
 		arg0, err = ec.unmarshalOID2ᚕstringᚄ(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
+	args["ids"] = arg0
 	return args, nil
 }
 
@@ -5585,6 +5904,21 @@ func (ec *executionContext) field_Mutation_deleteNotification_args(ctx context.C
 }
 
 func (ec *executionContext) field_Mutation_deleteQuiz_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteTag_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
@@ -5752,6 +6086,78 @@ func (ec *executionContext) field_Mutation_updateEvaluationCriteria_args(ctx con
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_updateForumComment_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 model.UpdateForumCommentInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNUpdateForumCommentInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumCommentInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateForumPost_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 model.UpdateForumPostInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNUpdateForumPostInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumPostInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateForum_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 model.UpdateForumInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNUpdateForumInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_updateGlobalSetting_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -5854,6 +6260,21 @@ func (ec *executionContext) field_Mutation_updatePermission_args(ctx context.Con
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_updateProspective_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.UpdateProspective
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalOUpdateProspective2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateProspective(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_updateQuiz_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -5870,6 +6291,30 @@ func (ec *executionContext) field_Mutation_updateQuiz_args(ctx context.Context, 
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg1, err = ec.unmarshalNUpdateQuizInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateQuizInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateTag_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	var arg1 model.UpdateTagInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalNUpdateTagInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateTagInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -5930,14 +6375,14 @@ func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, 
 	var err error
 	args := map[string]interface{}{}
 	var arg0 interface{}
-	if tmp, ok := rawArgs["data"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("data"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalOAny2interface(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["data"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -8473,6 +8918,8 @@ func (ec *executionContext) fieldContext_Course_students(ctx context.Context, fi
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -10482,6 +10929,50 @@ func (ec *executionContext) fieldContext_ForumComment_postId(ctx context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _ForumComment_parentId(ctx context.Context, field graphql.CollectedField, obj *model.ForumComment) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ForumComment_parentId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ParentID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ForumComment_parentId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ForumComment",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _ForumComment_fileIds(ctx context.Context, field graphql.CollectedField, obj *model.ForumComment) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_ForumComment_fileIds(ctx, field)
 	if err != nil {
@@ -11033,6 +11524,94 @@ func (ec *executionContext) _ForumPost_fileIds(ctx context.Context, field graphq
 }
 
 func (ec *executionContext) fieldContext_ForumPost_fileIds(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ForumPost",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ForumPost_forumId(ctx context.Context, field graphql.CollectedField, obj *model.ForumPost) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ForumPost_forumId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ForumID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ForumPost_forumId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "ForumPost",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _ForumPost_userId(ctx context.Context, field graphql.CollectedField, obj *model.ForumPost) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_ForumPost_userId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_ForumPost_userId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "ForumPost",
 		Field:      field,
@@ -13805,6 +14384,930 @@ func (ec *executionContext) fieldContext_Mutation_deleteCourse(ctx context.Conte
 	return fc, nil
 }
 
+func (ec *executionContext) _Mutation_createForum(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createForum(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateForum(rctx, fc.Args["input"].(model.CreateForumInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Forum)
+	fc.Result = res
+	return ec.marshalNForum2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForum(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createForum(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Forum_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Forum_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Forum_description(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Forum_courseId(ctx, field)
+			case "postIds":
+				return ec.fieldContext_Forum_postIds(ctx, field)
+			case "tagIds":
+				return ec.fieldContext_Forum_tagIds(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Forum_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Forum_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Forum_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Forum", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createForum_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateForum(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateForum(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateForum(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateForumInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Forum)
+	fc.Result = res
+	return ec.marshalNForum2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForum(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateForum(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Forum_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Forum_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Forum_description(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Forum_courseId(ctx, field)
+			case "postIds":
+				return ec.fieldContext_Forum_postIds(ctx, field)
+			case "tagIds":
+				return ec.fieldContext_Forum_tagIds(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Forum_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Forum_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Forum_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Forum", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateForum_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteForum(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteForum(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteForum(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Forum)
+	fc.Result = res
+	return ec.marshalNForum2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForum(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteForum(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Forum_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Forum_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Forum_description(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Forum_courseId(ctx, field)
+			case "postIds":
+				return ec.fieldContext_Forum_postIds(ctx, field)
+			case "tagIds":
+				return ec.fieldContext_Forum_tagIds(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Forum_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Forum_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Forum_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Forum", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteForum_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createForumPost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createForumPost(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateForumPost(rctx, fc.Args["input"].(model.CreateForumPostInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ForumPost)
+	fc.Result = res
+	return ec.marshalNForumPost2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumPost(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createForumPost(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ForumPost_id(ctx, field)
+			case "title":
+				return ec.fieldContext_ForumPost_title(ctx, field)
+			case "content":
+				return ec.fieldContext_ForumPost_content(ctx, field)
+			case "courseID":
+				return ec.fieldContext_ForumPost_courseID(ctx, field)
+			case "author":
+				return ec.fieldContext_ForumPost_author(ctx, field)
+			case "commentIds":
+				return ec.fieldContext_ForumPost_commentIds(ctx, field)
+			case "fileIds":
+				return ec.fieldContext_ForumPost_fileIds(ctx, field)
+			case "forumId":
+				return ec.fieldContext_ForumPost_forumId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumPost_userId(ctx, field)
+			case "tags":
+				return ec.fieldContext_ForumPost_tags(ctx, field)
+			case "upvotes":
+				return ec.fieldContext_ForumPost_upvotes(ctx, field)
+			case "downvotes":
+				return ec.fieldContext_ForumPost_downvotes(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ForumPost_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ForumPost_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_ForumPost_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ForumPost", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createForumPost_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateForumPost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateForumPost(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateForumPost(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateForumPostInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ForumPost)
+	fc.Result = res
+	return ec.marshalNForumPost2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumPost(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateForumPost(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ForumPost_id(ctx, field)
+			case "title":
+				return ec.fieldContext_ForumPost_title(ctx, field)
+			case "content":
+				return ec.fieldContext_ForumPost_content(ctx, field)
+			case "courseID":
+				return ec.fieldContext_ForumPost_courseID(ctx, field)
+			case "author":
+				return ec.fieldContext_ForumPost_author(ctx, field)
+			case "commentIds":
+				return ec.fieldContext_ForumPost_commentIds(ctx, field)
+			case "fileIds":
+				return ec.fieldContext_ForumPost_fileIds(ctx, field)
+			case "forumId":
+				return ec.fieldContext_ForumPost_forumId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumPost_userId(ctx, field)
+			case "tags":
+				return ec.fieldContext_ForumPost_tags(ctx, field)
+			case "upvotes":
+				return ec.fieldContext_ForumPost_upvotes(ctx, field)
+			case "downvotes":
+				return ec.fieldContext_ForumPost_downvotes(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ForumPost_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ForumPost_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_ForumPost_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ForumPost", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateForumPost_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteForumPost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteForumPost(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteForumPost(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ForumPost)
+	fc.Result = res
+	return ec.marshalNForumPost2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumPost(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteForumPost(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ForumPost_id(ctx, field)
+			case "title":
+				return ec.fieldContext_ForumPost_title(ctx, field)
+			case "content":
+				return ec.fieldContext_ForumPost_content(ctx, field)
+			case "courseID":
+				return ec.fieldContext_ForumPost_courseID(ctx, field)
+			case "author":
+				return ec.fieldContext_ForumPost_author(ctx, field)
+			case "commentIds":
+				return ec.fieldContext_ForumPost_commentIds(ctx, field)
+			case "fileIds":
+				return ec.fieldContext_ForumPost_fileIds(ctx, field)
+			case "forumId":
+				return ec.fieldContext_ForumPost_forumId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumPost_userId(ctx, field)
+			case "tags":
+				return ec.fieldContext_ForumPost_tags(ctx, field)
+			case "upvotes":
+				return ec.fieldContext_ForumPost_upvotes(ctx, field)
+			case "downvotes":
+				return ec.fieldContext_ForumPost_downvotes(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ForumPost_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ForumPost_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_ForumPost_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ForumPost", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteForumPost_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createForumComment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createForumComment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateForumComment(rctx, fc.Args["input"].(model.CreateForumCommentInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ForumComment)
+	fc.Result = res
+	return ec.marshalNForumComment2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumComment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createForumComment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ForumComment_id(ctx, field)
+			case "content":
+				return ec.fieldContext_ForumComment_content(ctx, field)
+			case "courseId":
+				return ec.fieldContext_ForumComment_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumComment_userId(ctx, field)
+			case "postId":
+				return ec.fieldContext_ForumComment_postId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_ForumComment_parentId(ctx, field)
+			case "fileIds":
+				return ec.fieldContext_ForumComment_fileIds(ctx, field)
+			case "upvotes":
+				return ec.fieldContext_ForumComment_upvotes(ctx, field)
+			case "downvotes":
+				return ec.fieldContext_ForumComment_downvotes(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ForumComment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ForumComment_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_ForumComment_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ForumComment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createForumComment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateForumComment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateForumComment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateForumComment(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateForumCommentInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ForumComment)
+	fc.Result = res
+	return ec.marshalNForumComment2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumComment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateForumComment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ForumComment_id(ctx, field)
+			case "content":
+				return ec.fieldContext_ForumComment_content(ctx, field)
+			case "courseId":
+				return ec.fieldContext_ForumComment_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumComment_userId(ctx, field)
+			case "postId":
+				return ec.fieldContext_ForumComment_postId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_ForumComment_parentId(ctx, field)
+			case "fileIds":
+				return ec.fieldContext_ForumComment_fileIds(ctx, field)
+			case "upvotes":
+				return ec.fieldContext_ForumComment_upvotes(ctx, field)
+			case "downvotes":
+				return ec.fieldContext_ForumComment_downvotes(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ForumComment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ForumComment_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_ForumComment_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ForumComment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateForumComment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteForumComment(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteForumComment(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteForumComment(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ForumComment)
+	fc.Result = res
+	return ec.marshalNForumComment2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumComment(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteForumComment(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_ForumComment_id(ctx, field)
+			case "content":
+				return ec.fieldContext_ForumComment_content(ctx, field)
+			case "courseId":
+				return ec.fieldContext_ForumComment_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumComment_userId(ctx, field)
+			case "postId":
+				return ec.fieldContext_ForumComment_postId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_ForumComment_parentId(ctx, field)
+			case "fileIds":
+				return ec.fieldContext_ForumComment_fileIds(ctx, field)
+			case "upvotes":
+				return ec.fieldContext_ForumComment_upvotes(ctx, field)
+			case "downvotes":
+				return ec.fieldContext_ForumComment_downvotes(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_ForumComment_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_ForumComment_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_ForumComment_deletedAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type ForumComment", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteForumComment_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_createTag(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createTag(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateTag(rctx, fc.Args["input"].(model.CreateTagInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Tag)
+	fc.Result = res
+	return ec.marshalNTag2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐTag(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createTag(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Tag_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Tag_name(ctx, field)
+			case "postIds":
+				return ec.fieldContext_Tag_postIds(ctx, field)
+			case "courseIds":
+				return ec.fieldContext_Tag_courseIds(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Tag", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createTag_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateTag(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateTag(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateTag(rctx, fc.Args["id"].(string), fc.Args["input"].(model.UpdateTagInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Tag)
+	fc.Result = res
+	return ec.marshalNTag2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐTag(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateTag(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Tag_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Tag_name(ctx, field)
+			case "postIds":
+				return ec.fieldContext_Tag_postIds(ctx, field)
+			case "courseIds":
+				return ec.fieldContext_Tag_courseIds(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Tag", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateTag_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteTag(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteTag(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteTag(rctx, fc.Args["id"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Tag)
+	fc.Result = res
+	return ec.marshalNTag2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐTag(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteTag(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Tag_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Tag_name(ctx, field)
+			case "postIds":
+				return ec.fieldContext_Tag_postIds(ctx, field)
+			case "courseIds":
+				return ec.fieldContext_Tag_courseIds(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Tag", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteTag_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Mutation_createGrade(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Mutation_createGrade(ctx, field)
 	if err != nil {
@@ -15768,6 +17271,8 @@ func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -15840,8 +17345,8 @@ func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createRefree(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createRefree(ctx, field)
+func (ec *executionContext) _Mutation_createReferee(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createReferee(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -15854,7 +17359,7 @@ func (ec *executionContext) _Mutation_createRefree(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateRefree(rctx, fc.Args["userId"].(string), fc.Args["input"].(model.NewReferee))
+		return ec.resolvers.Mutation().CreateReferee(rctx, fc.Args["userId"].(string), fc.Args["input"].(model.NewReferee))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -15868,7 +17373,7 @@ func (ec *executionContext) _Mutation_createRefree(ctx context.Context, field gr
 	return ec.marshalOReferee2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐReferee(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_createRefree(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_createReferee(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -15901,7 +17406,7 @@ func (ec *executionContext) fieldContext_Mutation_createRefree(ctx context.Conte
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createRefree_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_createReferee_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -15992,10 +17497,10 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().UpdateUser(rctx,
 			func() interface{} {
-				if fc.Args["data"] == nil {
+				if fc.Args["input"] == nil {
 					return nil
 				}
-				return fc.Args["data"].(interface{})
+				return fc.Args["input"].(interface{})
 			}())
 	})
 	if err != nil {
@@ -16080,6 +17585,8 @@ func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -16146,6 +17653,178 @@ func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_updateUser_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateProspective(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateProspective(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateProspective(rctx, fc.Args["input"].(*model.UpdateProspective))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalOUser2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateProspective(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_User_id(ctx, field)
+			case "firstName":
+				return ec.fieldContext_User_firstName(ctx, field)
+			case "lastName":
+				return ec.fieldContext_User_lastName(ctx, field)
+			case "middleName":
+				return ec.fieldContext_User_middleName(ctx, field)
+			case "fullName":
+				return ec.fieldContext_User_fullName(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
+			case "role":
+				return ec.fieldContext_User_role(ctx, field)
+			case "permissionIds":
+				return ec.fieldContext_User_permissionIds(ctx, field)
+			case "phone":
+				return ec.fieldContext_User_phone(ctx, field)
+			case "avatarUrl":
+				return ec.fieldContext_User_avatarUrl(ctx, field)
+			case "dob":
+				return ec.fieldContext_User_dob(ctx, field)
+			case "gender":
+				return ec.fieldContext_User_gender(ctx, field)
+			case "address":
+				return ec.fieldContext_User_address(ctx, field)
+			case "city":
+				return ec.fieldContext_User_city(ctx, field)
+			case "state":
+				return ec.fieldContext_User_state(ctx, field)
+			case "country":
+				return ec.fieldContext_User_country(ctx, field)
+			case "zip":
+				return ec.fieldContext_User_zip(ctx, field)
+			case "nationality":
+				return ec.fieldContext_User_nationality(ctx, field)
+			case "profession":
+				return ec.fieldContext_User_profession(ctx, field)
+			case "passwordSalt":
+				return ec.fieldContext_User_passwordSalt(ctx, field)
+			case "passwordHash":
+				return ec.fieldContext_User_passwordHash(ctx, field)
+			case "permissions":
+				return ec.fieldContext_User_permissions(ctx, field)
+			case "username":
+				return ec.fieldContext_User_username(ctx, field)
+			case "isVerified":
+				return ec.fieldContext_User_isVerified(ctx, field)
+			case "about":
+				return ec.fieldContext_User_about(ctx, field)
+			case "wallet":
+				return ec.fieldContext_User_wallet(ctx, field)
+			case "timeZone":
+				return ec.fieldContext_User_timeZone(ctx, field)
+			case "progress":
+				return ec.fieldContext_User_progress(ctx, field)
+			case "token":
+				return ec.fieldContext_User_token(ctx, field)
+			case "tokenExpiredAt":
+				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
+			case "loggedIn":
+				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
+			case "matricNumber":
+				return ec.fieldContext_User_matricNumber(ctx, field)
+			case "platform":
+				return ec.fieldContext_User_platform(ctx, field)
+			case "program":
+				return ec.fieldContext_User_program(ctx, field)
+			case "regNumber":
+				return ec.fieldContext_User_regNumber(ctx, field)
+			case "files":
+				return ec.fieldContext_User_files(ctx, field)
+			case "courses":
+				return ec.fieldContext_User_courses(ctx, field)
+			case "salvationBrief":
+				return ec.fieldContext_User_salvationBrief(ctx, field)
+			case "godsWorkings":
+				return ec.fieldContext_User_godsWorkings(ctx, field)
+			case "reason":
+				return ec.fieldContext_User_reason(ctx, field)
+			case "churchName":
+				return ec.fieldContext_User_churchName(ctx, field)
+			case "churchAddress":
+				return ec.fieldContext_User_churchAddress(ctx, field)
+			case "pastorName":
+				return ec.fieldContext_User_pastorName(ctx, field)
+			case "pastorEmail":
+				return ec.fieldContext_User_pastorEmail(ctx, field)
+			case "pastorPhone":
+				return ec.fieldContext_User_pastorPhone(ctx, field)
+			case "churchInvolved":
+				return ec.fieldContext_User_churchInvolved(ctx, field)
+			case "healthConditions":
+				return ec.fieldContext_User_healthConditions(ctx, field)
+			case "healthIssueDescription":
+				return ec.fieldContext_User_healthIssueDescription(ctx, field)
+			case "scholarship":
+				return ec.fieldContext_User_scholarship(ctx, field)
+			case "scholarshipReason":
+				return ec.fieldContext_User_scholarshipReason(ctx, field)
+			case "qualifications":
+				return ec.fieldContext_User_qualifications(ctx, field)
+			case "referees":
+				return ec.fieldContext_User_referees(ctx, field)
+			case "notifications":
+				return ec.fieldContext_User_notifications(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_User_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_User_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "confirmedAt":
+				return ec.fieldContext_User_confirmedAt(ctx, field)
+			case "confirmationMailSentAt":
+				return ec.fieldContext_User_confirmationMailSentAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateProspective_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -16250,6 +17929,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -16336,7 +18017,7 @@ func (ec *executionContext) _Mutation_deleteManyUsers(ctx context.Context, field
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteManyUsers(rctx, fc.Args["id"].([]string))
+		return ec.resolvers.Mutation().DeleteManyUsers(rctx, fc.Args["ids"].([]string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -16420,6 +18101,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteManyUsers(ctx context.Co
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -18381,6 +20064,10 @@ func (ec *executionContext) fieldContext_Query_forumPosts(ctx context.Context, f
 				return ec.fieldContext_ForumPost_commentIds(ctx, field)
 			case "fileIds":
 				return ec.fieldContext_ForumPost_fileIds(ctx, field)
+			case "forumId":
+				return ec.fieldContext_ForumPost_forumId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumPost_userId(ctx, field)
 			case "tags":
 				return ec.fieldContext_ForumPost_tags(ctx, field)
 			case "upvotes":
@@ -18461,6 +20148,10 @@ func (ec *executionContext) fieldContext_Query_forumPost(ctx context.Context, fi
 				return ec.fieldContext_ForumPost_commentIds(ctx, field)
 			case "fileIds":
 				return ec.fieldContext_ForumPost_fileIds(ctx, field)
+			case "forumId":
+				return ec.fieldContext_ForumPost_forumId(ctx, field)
+			case "userId":
+				return ec.fieldContext_ForumPost_userId(ctx, field)
 			case "tags":
 				return ec.fieldContext_ForumPost_tags(ctx, field)
 			case "upvotes":
@@ -18540,6 +20231,8 @@ func (ec *executionContext) fieldContext_Query_forumComments(ctx context.Context
 				return ec.fieldContext_ForumComment_userId(ctx, field)
 			case "postId":
 				return ec.fieldContext_ForumComment_postId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_ForumComment_parentId(ctx, field)
 			case "fileIds":
 				return ec.fieldContext_ForumComment_fileIds(ctx, field)
 			case "upvotes":
@@ -18616,6 +20309,8 @@ func (ec *executionContext) fieldContext_Query_forumComment(ctx context.Context,
 				return ec.fieldContext_ForumComment_userId(ctx, field)
 			case "postId":
 				return ec.fieldContext_ForumComment_postId(ctx, field)
+			case "parentId":
+				return ec.fieldContext_ForumComment_parentId(ctx, field)
 			case "fileIds":
 				return ec.fieldContext_ForumComment_fileIds(ctx, field)
 			case "upvotes":
@@ -20143,6 +21838,8 @@ func (ec *executionContext) fieldContext_Query_users(ctx context.Context, field 
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -20302,6 +21999,8 @@ func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field g
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -22820,6 +24519,8 @@ func (ec *executionContext) fieldContext_Reminder_user(ctx context.Context, fiel
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
 				return ec.fieldContext_User_loggedIn(ctx, field)
+			case "status":
+				return ec.fieldContext_User_status(ctx, field)
 			case "matricNumber":
 				return ec.fieldContext_User_matricNumber(ctx, field)
 			case "platform":
@@ -26553,6 +28254,47 @@ func (ec *executionContext) fieldContext_User_loggedIn(ctx context.Context, fiel
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _User_status(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_status(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.RegistrationStatus)
+	fc.Result = res
+	return ec.marshalORegistrationStatus2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_status(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type RegistrationStatus does not have child fields")
 		},
 	}
 	return fc, nil
@@ -30364,13 +32106,29 @@ func (ec *executionContext) unmarshalInputCreateForumCommentInput(ctx context.Co
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"content", "courseId", "postId", "files"}
+	fieldsInOrder := [...]string{"userId", "parentId", "content", "courseId", "postId", "files"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
+		case "userId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+			it.UserID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "parentId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("parentId"))
+			it.ParentID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "content":
 			var err error
 
@@ -30468,7 +32226,7 @@ func (ec *executionContext) unmarshalInputCreateForumPostInput(ctx context.Conte
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"title", "content", "courseId", "tags", "files"}
+	fieldsInOrder := [...]string{"title", "content", "courseId", "forumId", "userId", "tags", "files"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -30496,6 +32254,22 @@ func (ec *executionContext) unmarshalInputCreateForumPostInput(ctx context.Conte
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("courseId"))
 			it.CourseID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "forumId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("forumId"))
+			it.ForumID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userId":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+			it.UserID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -32129,6 +33903,226 @@ func (ec *executionContext) unmarshalInputUpdateNotificationInput(ctx context.Co
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context, obj interface{}) (model.UpdateProspective, error) {
+	var it model.UpdateProspective
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"firstName", "lastName", "email", "dob", "phone", "address", "city", "state", "country", "zip", "nationality", "platform", "program", "salvationBrief", "godsWorkings", "reason", "churchName", "churchAddress", "pastorName", "pastorEmail", "pastorPhone", "churchInvolved", "healthConditions", "healthIssueDescription", "status"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "firstName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("firstName"))
+			it.FirstName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "lastName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
+			it.LastName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			it.Email, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "dob":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("dob"))
+			it.Dob, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "phone":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+			it.Phone, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "address":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("address"))
+			it.Address, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "city":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("city"))
+			it.City, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "state":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("state"))
+			it.State, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "country":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("country"))
+			it.Country, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "zip":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("zip"))
+			it.Zip, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "nationality":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("nationality"))
+			it.Nationality, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "platform":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("platform"))
+			it.Platform, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "program":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("program"))
+			it.Program, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "salvationBrief":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("salvationBrief"))
+			it.SalvationBrief, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "godsWorkings":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("godsWorkings"))
+			it.GodsWorkings, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "reason":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("reason"))
+			it.Reason, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "churchName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("churchName"))
+			it.ChurchName, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "churchAddress":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("churchAddress"))
+			it.ChurchAddress, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "pastorName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pastorName"))
+			it.PastorName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "pastorEmail":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pastorEmail"))
+			it.PastorEmail, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "pastorPhone":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pastorPhone"))
+			it.PastorPhone, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "churchInvolved":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("churchInvolved"))
+			it.ChurchInvolved, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "healthConditions":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("healthConditions"))
+			it.HealthConditions, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "healthIssueDescription":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("healthIssueDescription"))
+			it.HealthIssueDescription, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "status":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
+			it.Status, err = ec.unmarshalNRegistrationStatus2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateQuestionInput(ctx context.Context, obj interface{}) (model.UpdateQuestionInput, error) {
 	var it model.UpdateQuestionInput
 	asMap := map[string]interface{}{}
@@ -33293,6 +35287,13 @@ func (ec *executionContext) _ForumComment(ctx context.Context, sel ast.Selection
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "parentId":
+
+			out.Values[i] = ec._ForumComment_parentId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "fileIds":
 
 			out.Values[i] = ec._ForumComment_fileIds(ctx, field, obj)
@@ -33392,6 +35393,20 @@ func (ec *executionContext) _ForumPost(ctx context.Context, sel ast.SelectionSet
 		case "fileIds":
 
 			out.Values[i] = ec._ForumPost_fileIds(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "forumId":
+
+			out.Values[i] = ec._ForumPost_forumId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "userId":
+
+			out.Values[i] = ec._ForumPost_userId(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -33903,6 +35918,114 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "createForum":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createForum(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateForum":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateForum(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deleteForum":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteForum(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createForumPost":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createForumPost(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateForumPost":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateForumPost(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deleteForumPost":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteForumPost(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createForumComment":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createForumComment(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateForumComment":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateForumComment(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deleteForumComment":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteForumComment(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createTag":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_createTag(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateTag":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateTag(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deleteTag":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteTag(ctx, field)
+			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "createGrade":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -34092,10 +36215,10 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 				return ec._Mutation_createUser(ctx, field)
 			})
 
-		case "createRefree":
+		case "createReferee":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createRefree(ctx, field)
+				return ec._Mutation_createReferee(ctx, field)
 			})
 
 		case "createQualification":
@@ -34108,6 +36231,12 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_updateUser(ctx, field)
+			})
+
+		case "updateProspective":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateProspective(ctx, field)
 			})
 
 		case "deleteUser":
@@ -36175,6 +38304,10 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "status":
+
+			out.Values[i] = ec._User_status(ctx, field, obj)
+
 		case "matricNumber":
 
 			out.Values[i] = ec._User_matricNumber(ctx, field, obj)
@@ -37198,6 +39331,21 @@ func (ec *executionContext) unmarshalNCreateFileInput2ᚖgithubᚗcomᚋcavelms�
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCreateForumCommentInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumCommentInput(ctx context.Context, v interface{}) (model.CreateForumCommentInput, error) {
+	res, err := ec.unmarshalInputCreateForumCommentInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateForumInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumInput(ctx context.Context, v interface{}) (model.CreateForumInput, error) {
+	res, err := ec.unmarshalInputCreateForumInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateForumPostInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumPostInput(ctx context.Context, v interface{}) (model.CreateForumPostInput, error) {
+	res, err := ec.unmarshalInputCreateForumPostInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNCreateGradeInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateGradeInput(ctx context.Context, v interface{}) (model.CreateGradeInput, error) {
 	res, err := ec.unmarshalInputCreateGradeInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -37232,6 +39380,11 @@ func (ec *executionContext) unmarshalNCreateQuestionInput2ᚕgithubᚗcomᚋcave
 
 func (ec *executionContext) unmarshalNCreateQuizInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateQuizInput(ctx context.Context, v interface{}) (model.CreateQuizInput, error) {
 	res, err := ec.unmarshalInputCreateQuizInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCreateTagInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateTagInput(ctx context.Context, v interface{}) (model.CreateTagInput, error) {
+	res, err := ec.unmarshalInputCreateTagInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -37371,6 +39524,16 @@ func (ec *executionContext) marshalNForum2ᚕgithubᚗcomᚋcavelmsᚋinternal�
 	return ret
 }
 
+func (ec *executionContext) marshalNForum2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForum(ctx context.Context, sel ast.SelectionSet, v *model.Forum) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Forum(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNForumComment2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumComment(ctx context.Context, sel ast.SelectionSet, v model.ForumComment) graphql.Marshaler {
 	return ec._ForumComment(ctx, sel, &v)
 }
@@ -37419,6 +39582,16 @@ func (ec *executionContext) marshalNForumComment2ᚕgithubᚗcomᚋcavelmsᚋint
 	return ret
 }
 
+func (ec *executionContext) marshalNForumComment2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumComment(ctx context.Context, sel ast.SelectionSet, v *model.ForumComment) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ForumComment(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNForumPost2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumPost(ctx context.Context, sel ast.SelectionSet, v model.ForumPost) graphql.Marshaler {
 	return ec._ForumPost(ctx, sel, &v)
 }
@@ -37465,6 +39638,16 @@ func (ec *executionContext) marshalNForumPost2ᚕgithubᚗcomᚋcavelmsᚋintern
 	}
 
 	return ret
+}
+
+func (ec *executionContext) marshalNForumPost2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐForumPost(ctx context.Context, sel ast.SelectionSet, v *model.ForumPost) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._ForumPost(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNGlobalSetting2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐGlobalSetting(ctx context.Context, sel ast.SelectionSet, v model.GlobalSetting) graphql.Marshaler {
@@ -38277,6 +40460,16 @@ func (ec *executionContext) marshalNReferee2ᚕgithubᚗcomᚋcavelmsᚋinternal
 	return ret
 }
 
+func (ec *executionContext) unmarshalNRegistrationStatus2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx context.Context, v interface{}) (model.RegistrationStatus, error) {
+	var res model.RegistrationStatus
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNRegistrationStatus2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx context.Context, sel ast.SelectionSet, v model.RegistrationStatus) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNRepeatInterval2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRepeatInterval(ctx context.Context, v interface{}) (model.RepeatInterval, error) {
 	var res model.RepeatInterval
 	err := res.UnmarshalGQL(v)
@@ -38541,6 +40734,20 @@ func (ec *executionContext) unmarshalNSubmissionInput2ᚖgithubᚗcomᚋcavelms�
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalNTag2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐTag(ctx context.Context, sel ast.SelectionSet, v model.Tag) graphql.Marshaler {
+	return ec._Tag(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNTag2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐTag(ctx context.Context, sel ast.SelectionSet, v *model.Tag) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Tag(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalNTarget2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐTarget(ctx context.Context, sel ast.SelectionSet, v model.Target) graphql.Marshaler {
 	return ec._Target(ctx, sel, &v)
 }
@@ -38639,6 +40846,21 @@ func (ec *executionContext) unmarshalNUpdateFileInput2ᚖgithubᚗcomᚋcavelms�
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNUpdateForumCommentInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumCommentInput(ctx context.Context, v interface{}) (model.UpdateForumCommentInput, error) {
+	res, err := ec.unmarshalInputUpdateForumCommentInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateForumInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumInput(ctx context.Context, v interface{}) (model.UpdateForumInput, error) {
+	res, err := ec.unmarshalInputUpdateForumInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateForumPostInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumPostInput(ctx context.Context, v interface{}) (model.UpdateForumPostInput, error) {
+	res, err := ec.unmarshalInputUpdateForumPostInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNUpdateGradeInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateGradeInput(ctx context.Context, v interface{}) (model.UpdateGradeInput, error) {
 	res, err := ec.unmarshalInputUpdateGradeInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -38671,6 +40893,11 @@ func (ec *executionContext) unmarshalNUpdateQuizInput2ᚖgithubᚗcomᚋcavelms�
 
 func (ec *executionContext) unmarshalNUpdateSetting2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateSetting(ctx context.Context, v interface{}) (model.UpdateSetting, error) {
 	res, err := ec.unmarshalInputUpdateSetting(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateTagInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateTagInput(ctx context.Context, v interface{}) (model.UpdateTagInput, error) {
+	res, err := ec.unmarshalInputUpdateTagInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -39303,6 +41530,22 @@ func (ec *executionContext) marshalOReferee2ᚖgithubᚗcomᚋcavelmsᚋinternal
 	return ec._Referee(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalORegistrationStatus2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx context.Context, v interface{}) (*model.RegistrationStatus, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.RegistrationStatus)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalORegistrationStatus2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx context.Context, sel ast.SelectionSet, v *model.RegistrationStatus) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
 func (ec *executionContext) marshalOReminder2ᚕᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐReminder(ctx context.Context, sel ast.SelectionSet, v []*model.Reminder) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -39497,6 +41740,14 @@ func (ec *executionContext) marshalOTime2ᚖtimeᚐTime(ctx context.Context, sel
 	}
 	res := graphql.MarshalTime(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOUpdateProspective2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateProspective(ctx context.Context, v interface{}) (*model.UpdateProspective, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputUpdateProspective(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOUpdateQuestionInput2ᚕgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateQuestionInputᚄ(ctx context.Context, v interface{}) ([]model.UpdateQuestionInput, error) {

@@ -1,0 +1,24 @@
+query GetMediaByType($type: MediaType!) {
+  mediaByType(type: $type) {
+    id
+    title
+    description
+    category
+    mediaType
+    duration
+    videoPlayerInfo {
+      currentTime
+      duration
+    }
+    file {
+      name
+      mimetype
+      encoding
+      size
+      url
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

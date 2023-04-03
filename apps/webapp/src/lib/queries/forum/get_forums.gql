@@ -1,0 +1,13 @@
+query Forums($courseId: ID) {
+  forums(courseId: $courseId) {
+    id
+    name
+    description
+    courseId
+    postIds
+    tagIds
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

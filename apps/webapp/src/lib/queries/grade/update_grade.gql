@@ -1,0 +1,14 @@
+mutation UpdateGrade($id: ID!, $input: UpdateGradeInput!) {
+  updateGrade(id: $id, input: $input) {
+    id
+    studentId
+    courseId
+    quizId
+    value
+    criteria
+    comments
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

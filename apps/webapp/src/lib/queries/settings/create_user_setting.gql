@@ -1,0 +1,14 @@
+mutation createUserSetting(
+  $userId: ID!
+  $type: SettingType!
+  $userKey: UserSettingKeys!
+  $value: String!
+) {
+  createUserSetting(userId: $userId, input: { type: $type, userKey: $userKey, value: $value }) {
+    id
+    userId
+    type
+    key
+    value
+  }
+}

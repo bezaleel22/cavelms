@@ -1,0 +1,12 @@
+subscription OnActivityUpdated {
+  activityUpdated {
+    id
+    userID
+    courseID
+    courseContentID
+    activityType
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

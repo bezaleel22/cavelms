@@ -1,0 +1,16 @@
+query Notifications($courseId: ID, $recipientId: ID, $read: Boolean) {
+  notifications(courseId: $courseId, recipientId: $recipientId, read: $read) {
+    id
+    senderId
+    recipientId
+    courseId
+    seen
+    text
+    title
+    type
+    link
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

@@ -1,0 +1,14 @@
+query Grade($id: ID!) {
+  grade(id: $id) {
+    id
+    studentId
+    courseId
+    quizId
+    value
+    criteria
+    comments
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

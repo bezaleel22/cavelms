@@ -1,0 +1,8 @@
+mutation CreateQualification($userId: ID!, $input: NewQualification!) {
+  createQualification(userId: $userId, input: $input) {
+    id
+    degree
+    institution
+    graduationYear
+  }
+}

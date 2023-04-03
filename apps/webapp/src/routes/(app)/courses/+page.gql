@@ -1,0 +1,40 @@
+query Courses($userId: ID) {
+  courses(userId: $userId) {
+    id
+    userId
+    code
+    title
+    shortDescription
+    description
+    semester
+    year
+    startDate
+    endDate
+    matricNumber
+    coverImageUrl
+    type
+    status
+    progress {
+      lecturesCompleted
+      assignmentsCompleted
+      quizzesCompleted
+      overallProgress
+    }
+    programType
+    instructorIds
+    students {
+      id
+      firstName
+      lastName
+      email
+    }
+    assignmentIds
+    quizzeIds
+    forumId
+    activityIds
+    gradeIds
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

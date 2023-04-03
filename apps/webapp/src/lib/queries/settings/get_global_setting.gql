@@ -1,0 +1,8 @@
+query getGlobalSetting($id: ID!) {
+  globalSetting(id: $id) {
+    id
+    type
+    key
+    value
+  }
+}

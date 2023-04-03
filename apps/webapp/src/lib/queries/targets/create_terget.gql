@@ -1,0 +1,27 @@
+mutation CreateTarget($input: CreateTargetInput!) {
+  createTarget(input: $input) {
+    id
+    name
+    description
+    dueDate
+    startDate
+    courseId
+    completionDate
+    isCompleted
+    targetType
+    targetValue
+    currentValue
+    targetMetric
+    reminders {
+      id
+      message
+      sendTime
+      sent
+    }
+    units
+    repeatInterval
+    repeatEndDate
+    createdAt
+    updatedAt
+  }
+}

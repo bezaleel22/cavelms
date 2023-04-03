@@ -1,0 +1,27 @@
+mutation UpdateTarget($id: ID!, $input: UpdateTargetInput!) {
+  updateTarget(id: $id, input: $input) {
+    id
+    name
+    description
+    dueDate
+    startDate
+    courseId
+    completionDate
+    isCompleted
+    targetType
+    targetValue
+    currentValue
+    targetMetric
+    reminders {
+      id
+      message
+      sendTime
+      sent
+    }
+    units
+    repeatInterval
+    repeatEndDate
+    createdAt
+    updatedAt
+  }
+}

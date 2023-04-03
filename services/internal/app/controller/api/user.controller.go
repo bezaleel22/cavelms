@@ -5,6 +5,7 @@ package controller
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/cavelms/internal/model"
 )
@@ -18,8 +19,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	return user, nil
 }
 
-// CreateRefree is the resolver for the createRefree field.
-func (r *mutationResolver) CreateRefree(ctx context.Context, userID string, input model.NewReferee) (*model.Referee, error) {
+// CreateReferee is the resolver for the createReferee field.
+func (r *mutationResolver) CreateReferee(ctx context.Context, userID string, input model.NewReferee) (*model.Referee, error) {
 	referee, err := r.Service.CreateRefree(ctx, userID, input)
 	if err != nil {
 		return nil, err
@@ -37,12 +38,17 @@ func (r *mutationResolver) CreateQualification(ctx context.Context, userID strin
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, data interface{}) (*model.User, error) {
-	user, err := r.Service.UpdateUser(ctx, data)
+func (r *mutationResolver) UpdateUser(ctx context.Context, input interface{}) (*model.User, error) {
+	user, err := r.Service.UpdateUser(ctx, input)
 	if err != nil {
 		return nil, err
 	}
 	return user, nil
+}
+
+// UpdateProspective is the resolver for the updateProspective field.
+func (r *mutationResolver) UpdateProspective(ctx context.Context, input *model.UpdateProspective) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: UpdateProspective - updateProspective"))
 }
 
 // DeleteUser is the resolver for the deleteUser field.

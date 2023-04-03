@@ -1,0 +1,14 @@
+query Grades {
+  grades {
+    id
+    studentId
+    courseId
+    quizId
+    value
+    criteria
+    comments
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

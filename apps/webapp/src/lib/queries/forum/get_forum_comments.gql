@@ -1,0 +1,15 @@
+query getForumComments($courseId: ID) {
+  forumComments(courseId: $courseId) {
+    id
+    content
+    courseId
+    userId
+    postId
+    fileIds
+    upvotes
+    downvotes
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

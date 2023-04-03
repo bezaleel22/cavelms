@@ -1,0 +1,8 @@
+query getGlobalSettings($limit: Int = 25, $offset: Int = 0) {
+  globalSettings(limit: $limit, offset: $offset) {
+    id
+    type
+    key
+    value
+  }
+}

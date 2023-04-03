@@ -1,0 +1,9 @@
+query getUserSettings($userId: ID!, $limit: Int = 25, $offset: Int = 0) {
+  userSettings(userId: $userId, limit: $limit, offset: $offset) {
+    id
+    userId
+    type
+    key
+    value
+  }
+}

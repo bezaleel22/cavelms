@@ -1,0 +1,24 @@
+mutation CreateMedia($input: CreatMediaInput!) {
+  createMedia(input: $input) {
+    id
+    title
+    description
+    category
+    mediaType
+    duration
+    videoPlayerInfo {
+      currentTime
+      duration
+    }
+    file {
+      name
+      mimetype
+      encoding
+      size
+      url
+    }
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

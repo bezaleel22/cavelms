@@ -208,7 +208,9 @@ input CreateForumCommentInput {
   content: String!
   courseId: ID!
   files: [ID!]
+  parentId: ID!
   postId: ID!
+  userId: ID!
 }
 
 input CreateForumInput {
@@ -222,8 +224,10 @@ input CreateForumPostInput {
   content: String!
   courseId: ID!
   files: [ID!]
+  forumId: ID!
   tags: [ID!]
   title: String!
+  userId: ID!
 }
 
 input CreateGradeInput {
@@ -328,6 +332,7 @@ type ForumComment {
   downvotes: Int!
   fileIds: [ID!]!
   id: ID!
+  parentId: ID!
   postId: ID!
   updatedAt: Time
   upvotes: Int!
@@ -343,11 +348,13 @@ type ForumPost {
   deletedAt: Time
   downvotes: Int!
   fileIds: [ID!]!
+  forumId: ID!
   id: ID!
   tags: [ID!]!
   title: String!
   updatedAt: Time
   upvotes: Int!
+  userId: ID!
 }
 
 type GlobalSetting {
@@ -452,25 +459,33 @@ type Mutation {
   createActivity(input: CreateActivityInput!): Activity
   createCourse(input: CreateCourseInput): Course!
   createEvaluationCriteria(input: CreateEvaluationCriteriaInput!): EvaluationCriteria!
+  createForum(input: CreateForumInput!): Forum!
+  createForumComment(input: CreateForumCommentInput!): ForumComment!
+  createForumPost(input: CreateForumPostInput!): ForumPost!
   createGlobalSetting(input: NewSetting!): GlobalSetting!
   createGrade(input: CreateGradeInput!): Grade
   createMedia(input: CreatMediaInput!): Media
   createNotification(input: CreateNotificationInput!): Notification!
   createQualification(input: NewQualification!, userId: ID!): Qualification
   createQuiz(input: CreateQuizInput!): Quiz
-  createRefree(input: NewReferee!, userId: ID!): Referee
+  createReferee(input: NewReferee!, userId: ID!): Referee
+  createTag(input: CreateTagInput!): Tag!
   createTarget(input: CreateTargetInput!): Target
   createUser(input: NewUser!): User
   createUserSetting(input: NewSetting!, userId: ID!): UserSetting!
   deleteActivity(id: ID!): Boolean!
   deleteCourse(id: ID!): Course!
   deleteEvaluationCriteria(id: ID!): EvaluationCriteria!
+  deleteForum(id: ID!): Forum!
+  deleteForumComment(id: ID!): ForumComment!
+  deleteForumPost(id: ID!): ForumPost!
   deleteGlobalSetting(id: ID!): Boolean!
   deleteGrade(id: ID!): Boolean!
-  deleteManyUsers(id: [ID!]): User
+  deleteManyUsers(ids: [ID!]): User
   deleteMedia(id: ID!): Media
   deleteNotification(id: ID!): Notification!
   deleteQuiz(id: ID!): Boolean!
+  deleteTag(id: ID!): Tag!
   deleteTarget(id: ID!): Target
   deleteUser(id: ID!): User
   deleteUserSetting(id: ID!): Boolean!
@@ -480,14 +495,19 @@ type Mutation {
   updateActivity(input: UpdateActivityInput!): Activity
   updateCourse(input: Any): Course!
   updateEvaluationCriteria(id: ID!, input: UpdateEvaluationCriteriaInput!): EvaluationCriteria!
+  updateForum(id: ID!, input: UpdateForumInput!): Forum!
+  updateForumComment(id: ID!, input: UpdateForumCommentInput!): ForumComment!
+  updateForumPost(id: ID!, input: UpdateForumPostInput!): ForumPost!
   updateGlobalSetting(id: ID!, input: UpdateSetting!): GlobalSetting!
   updateGrade(id: ID!, input: UpdateGradeInput!): Grade
   updateMedia(input: UpdateMediaInput!): Media
   updateNotification(id: ID!, input: UpdateNotificationInput!): Notification!
   updatePermission(input: PermissionInput!): Permission
+  updateProspective(input: UpdateProspective): User
   updateQuiz(id: ID!, input: UpdateQuizInput!): Quiz
+  updateTag(id: ID!, input: UpdateTagInput!): Tag!
   updateTarget(id: ID!, input: UpdateTargetInput!): Target
-  updateUser(data: Any): User
+  updateUser(input: Any): User
   updateUserSetting(id: ID!, input: UpdateSetting!): UserSetting!
 }
 
@@ -699,6 +719,13 @@ type Referee {
   id: ID!
   phone: String!
   updatedAt: Time
+}
+
+enum RegistrationStatus {
+  COMPLETED
+  CREATED
+  IN_PROGRESS
+  REJECTED
 }
 
 type Reminder {
@@ -918,6 +945,34 @@ input UpdateNotificationInput {
   read: Boolean
 }
 
+input UpdateProspective {
+  address: String
+  churchAddress: String
+  churchInvolved: String
+  churchName: String!
+  city: String
+  country: String
+  dob: String
+  email: String
+  firstName: String
+  godsWorkings: [String!]
+  healthConditions: [String]
+  healthIssueDescription: String
+  lastName: String
+  nationality: String
+  pastorEmail: String
+  pastorName: String
+  pastorPhone: String
+  phone: String
+  platform: String
+  program: String
+  reason: String!
+  salvationBrief: String!
+  state: String
+  status: RegistrationStatus!
+  zip: String
+}
+
 input UpdateQuestionInput {
   categories: [String!]!
   choices: [AnswerChoiceInput!]!
@@ -1013,6 +1068,7 @@ type User {
   scholarship: Boolean
   scholarshipReason: String!
   state: String!
+  status: RegistrationStatus
   timeZone: String!
   token: String!
   tokenExpiredAt: Int64!

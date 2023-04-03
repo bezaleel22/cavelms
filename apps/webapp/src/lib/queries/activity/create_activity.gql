@@ -1,0 +1,12 @@
+mutation CreateActivity($input: CreateActivityInput!) {
+  createActivity(input: $input) {
+    id
+    userID
+    courseID
+    courseContentID
+    activityType
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

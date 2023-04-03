@@ -1,0 +1,12 @@
+query GetActivity($id: ID!) {
+  activity(id: $id) {
+    id
+    userID
+    courseID
+    courseContentID
+    activityType
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

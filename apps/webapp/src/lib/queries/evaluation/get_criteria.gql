@@ -1,0 +1,38 @@
+query EvaluationCriteria($id: ID!) {
+  evaluationCriteria(id: $id) {
+    id
+    passingScore
+    scoreDistribution {
+      id
+      minScore
+      maxScore
+      grade
+      percentage
+    }
+    gradingScale {
+      id
+      minScore
+      maxScore
+      grade
+    }
+    weight
+    penalties {
+      id
+      name
+      description
+      percentage
+    }
+    bonuses {
+      id
+      name
+      description
+      percentage
+    }
+    resubmissionPolicy
+    isPassFail
+    quizId
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

@@ -1,8 +1,9 @@
-query GetMedia($id: ID!) {
-  media(id: $id) {
+mutation DeleteMedia($id: ID!) {
+  deleteMedia(id: $id) {
     id
     title
     description
+    category
     mediaType
     duration
     videoPlayerInfo {
@@ -11,7 +12,6 @@ query GetMedia($id: ID!) {
     }
     file {
       name
-      name
       mimetype
       encoding
       size
@@ -19,5 +19,6 @@ query GetMedia($id: ID!) {
     }
     createdAt
     updatedAt
+    deletedAt
   }
 }

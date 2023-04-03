@@ -1,0 +1,16 @@
+mutation UpdateNotification($id: ID!, $input: UpdateNotificationInput!) {
+  updateNotification(id: $id, input: $input) {
+    id
+    senderId
+    recipientId
+    courseId
+    seen
+    text
+    title
+    type
+    link
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

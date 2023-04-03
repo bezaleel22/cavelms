@@ -1,0 +1,17 @@
+query getForumPosts($courseId: ID, $tags: [ID!]!) {
+  forumPosts(courseId: $courseId, tags: $tags) {
+    id
+    title
+    content
+    courseID
+    author
+    commentIds
+    fileIds
+    tags
+    upvotes
+    downvotes
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

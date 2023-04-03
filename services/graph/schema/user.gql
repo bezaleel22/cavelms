@@ -33,6 +33,7 @@ type User {
   token: String!
   tokenExpiredAt: Int64!
   loggedIn: Boolean!
+  status: RegistrationStatus
 
   # School Data
   matricNumber: String!
@@ -69,6 +70,41 @@ type User {
   deletedAt: Time
   confirmedAt: Time
   confirmationMailSentAt: Time
+}
+
+enum RegistrationStatus {
+  CREATED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+input UpdateProspective {
+  firstName: String
+  lastName: String
+  email: String
+  dob: String
+  phone: String
+  address: String
+  city: String
+  state: String
+  country: String
+  zip: String
+  nationality: String
+  platform: String
+  program: String
+  salvationBrief: String!
+  godsWorkings: [String!]
+  reason: String!
+  churchName: String!
+  churchAddress: String
+  pastorName: String
+  pastorEmail: String
+  pastorPhone: String
+  churchInvolved: String
+  healthConditions: [String]
+  healthIssueDescription: String
+  status: RegistrationStatus!
 }
 
 type Qualification {
@@ -124,9 +160,10 @@ extend type Query {
 
 extend type Mutation {
   createUser(input: NewUser!): User
-  createRefree(userId: ID!, input: NewReferee!): Referee
+  createReferee(userId: ID!, input: NewReferee!): Referee
   createQualification(userId: ID!, input: NewQualification!): Qualification
-  updateUser(data: Any): User
+  updateUser(input: Any): User
+  updateProspective(input: UpdateProspective): User
   deleteUser(id: ID!): User
   deleteManyUsers(ids: [ID!]): User
 }

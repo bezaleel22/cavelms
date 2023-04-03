@@ -1,0 +1,8 @@
+query GetPermissionsForUser($userID: ID!) {
+  getPermissionsForUser(userID: $userID) {
+    id
+    role
+    model
+    permissions
+  }
+}

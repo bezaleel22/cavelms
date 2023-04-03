@@ -1,0 +1,14 @@
+mutation CreateGrade($input: CreateGradeInput!) {
+  createGrade(input: $input) {
+    id
+    studentId
+    courseId
+    quizId
+    value
+    criteria
+    comments
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

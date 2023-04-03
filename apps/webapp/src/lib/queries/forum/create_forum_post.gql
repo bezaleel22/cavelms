@@ -1,0 +1,17 @@
+mutation createForumPost($input: CreateForumPostInput!) {
+  createForumPost(input: $input) {
+    id
+    title
+    content
+    courseID
+    author
+    commentIds
+    fileIds
+    tags
+    upvotes
+    downvotes
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

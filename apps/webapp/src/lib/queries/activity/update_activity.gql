@@ -1,0 +1,12 @@
+mutation UpdateActivity($input: UpdateActivityInput!) {
+  updateActivity(input: $input) {
+    id
+    userID
+    courseID
+    courseContentID
+    activityType
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}
