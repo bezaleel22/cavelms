@@ -5,6 +5,8 @@
   import Documents from "./documents.svelte";
   import Forum from './forum.svelte';
   export let data: PageData;
+
+// $: console.log(data)
 </script>
 
 
@@ -75,17 +77,14 @@
       </tr>
     </thead>
     <tbody>
-      <!-- row 1 -->
       <tr>
         <th>1</th>
         <td>Introduction</td>
       </tr>
-      <!-- row 2 -->
       <tr class="active">
         <th>2</th>
         <td>Fundamentals of Apologetics</td>
       </tr>
-      <!-- row 3 -->
       <tr>
         <th>3</th>
         <td>Christian Apologetics</td>
@@ -96,7 +95,7 @@
 
 <!-- Components -->
 
-<!-- <Videos /> -->
+<Videos />
 <!-- <Documents /> -->
 <!-- <Assignments /> -->
 <!-- <Forum /> -->

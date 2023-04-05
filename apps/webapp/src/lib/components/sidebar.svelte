@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { routes } from "$lib/data/route";
+  import { routes } from "$lib/routes";
   import Brand from "./brand.svelte";
 </script>
 

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "linkedom": "^0.14.25",
+    "rx-player": "^3.30.0"
+  }
+}

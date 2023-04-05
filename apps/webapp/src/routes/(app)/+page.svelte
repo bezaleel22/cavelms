@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Graph from "$lib/comp/graph.svelte";
-  import Profile from "$lib/comp/profile.svelte";
-  import Stats from "$lib/comp/stats.svelte";
-  import UserTable from "$lib/comp/userTable.svelte";
+  import Graph from "$lib/components/graph.svelte";
+  import Profile from "$lib/components/profile.svelte";
+  import Stats from "$lib/components/stats.svelte";
+  import UserTable from "$lib/components/userTable.svelte";
   import { onMount } from "svelte";
 
   onMount(() => {});

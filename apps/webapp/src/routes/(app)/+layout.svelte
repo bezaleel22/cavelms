@@ -1,7 +1,7 @@
 <script>
-  import Footer from "$lib/comp/footer.svelte";
-  import Nav from "$lib/comp/nav.svelte";
-  import Sidebar from "$lib/comp/sidebar.svelte";
+  import Footer from "$lib/components/footer.svelte";
+  import Nav from "$lib/components/nav.svelte";
+  import Sidebar from "$lib/components/sidebar.svelte";
 </script>
 
   <main class="bg-main rounded-tr-box bg-cover rounded-b-box drawer drawer-mobile">
