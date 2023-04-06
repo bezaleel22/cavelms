@@ -20,6 +20,11 @@ const VideoPlayer = async () => {
       mediaInfo.init((info: any) => {
         let mpd = mediaInfo.getDashManifest(PROXY_URL);
         this.blob = new Blob([mpd], { type: "application/dash+xml" });
+        this.loadVideo({
+          url: URL.createObjectURL(this.blob as Blob),
+          transport: "dash",
+          manualBitrateSwitchingMode: "seamless",
+        });
         this.info = info;
         this.thumbnails = info.videoDetails.thumbnail.thumbnails;
         if (this.thumbnails) this.video.poster = this.thumbnails[1].url;

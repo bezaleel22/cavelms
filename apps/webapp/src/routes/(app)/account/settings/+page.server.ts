@@ -1,14 +1,14 @@
-import { CreateActivityStore, CreateUserStore, GetUserStore } from '$houdini';
+import { CreateActivityStore, CreateUserStore, UpdateActivityStore, UpdateUserStore, type UpdateActivityInput, type UpdateUser$input } from '$houdini';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async () => {
-  const store=  new GetUserStore()
     return {};
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
     personal:async ({request}) => {
         const data = Object.fromEntries(await request.formData())
+
         console.log(data)
         return
     },

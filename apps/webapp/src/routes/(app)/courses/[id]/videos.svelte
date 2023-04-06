@@ -3,14 +3,15 @@
 
   const initPlayer = (node: HTMLVideoElement, params: string) => {
     if (!Player) return;
-    // const player = new Player(node, params);
+    const player = new Player(node, params);
     // player?.init();
+    
   };
 </script>
 
 <div class="mx-2 mb-12 flex flex-col md:flex-row flex-wrap">
   <div class="mx-2 my-3 card w-full bg-base-100 shadow-xl md:w-72 cursor-pointer">
-    <video use:initPlayer={"https://www.youtube.com/watch?v=aqz-KE-bpKQ"}>
+    <video  use:initPlayer={"https://www.youtube.com/watch?v=aqz-KE-bpKQ"}>
       <track kind="captions" />
     </video>
     <div class="card-body">

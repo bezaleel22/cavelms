@@ -1,4 +1,5 @@
 <script>
+  import { UpdateCourseStore } from "$houdini";
   import Health from "./health.svelte";
   import Personal from "./personal.svelte";
   import Profile from "./profile.svelte";
@@ -6,12 +7,12 @@
 </script>
 
 <Profile />
-<div class="divider"></div> 
+<div class="divider" />
 
 <Personal />
-<div class="divider"></div> 
+<div class="divider" />
 
 <Spirituality />
-<div class="divider"></div> 
+<div class="divider" />
 
 <Health />
