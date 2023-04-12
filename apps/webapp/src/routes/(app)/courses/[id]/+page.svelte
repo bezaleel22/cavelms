@@ -11,8 +11,8 @@
     { label: "Overview", value: 1, component: Overview },
     { label: "Videos", value: 2, component: Videos },
     { label: "Documents", value: 3, component: Documents },
-    { label: "Assignments", value: 3, component: Assignments },
-    { label: "Forum", value: 3, component: Forum },
+    { label: "Assignments", value: 4, component: Assignments },
+    { label: "Forum", value: 5, component: Forum },
   ];
 </script>
 
@@ -35,4 +35,6 @@
   </div>
 </div>
 
-<TabPane {items} />
+  <TabPane {items} />
+
+

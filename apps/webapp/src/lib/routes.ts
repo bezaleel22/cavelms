@@ -2,12 +2,12 @@ export const routes = [
   {
     name: "Account Management",
     links: [
-      {
-        name: "Profile",
-        badge: undefined,
-        url: "/account/profile",
-        roles: [],
-      },
+      // {
+      //   name: "Profile",
+      //   badge: undefined,
+      //   url: "/account/profile",
+      //   roles: [],
+      // },
       {
         name: "Potfolio",
         badge: undefined,

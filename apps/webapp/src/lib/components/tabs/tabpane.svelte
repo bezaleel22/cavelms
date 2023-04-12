@@ -5,20 +5,26 @@
   const handleClick = (tabIndex) => () => (activeTab = tabIndex);
 </script>
 
-<div class="tabs my-8">
-  {#each items as item}
-    <a
-      href=" "
-      class="tab tab-bordered lg:mr-10 {activeTab === item.value ? 'tab-active' : ''}"
-      on:click={handleClick(item.value)}
-    >
-      {item.label}
-    </a>
-  {/each}
-</div>
+<div class="grid grid-row-2 w-full">
+  <div class="mb-4">
+    <div class="tabs float-right">
+      {#each items as item}
+        <button
+    
+          class="tab tab-bordered lg:mr-10 {activeTab === item.value ? 'tab-active' : ''}"
+          on:click={handleClick(item.value)}
+        >
+          {item.label}
+        </button>
+      {/each}
+    </div>
+  </div>
 
-{#each items as item}
-  {#if activeTab == item.value}
-    <svelte:component this={item.component} />
-  {/if}
-{/each}
+  <div class="w-full">
+    {#each items as item}
+      {#if activeTab == item.value}
+        <svelte:component this={item.component} />
+      {/if}
+    {/each}
+  </div>
+</div>
