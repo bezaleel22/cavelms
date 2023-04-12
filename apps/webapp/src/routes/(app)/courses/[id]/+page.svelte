@@ -1,18 +1,17 @@
 <script lang="ts">
+  import Tabs from "$lib/components/tabs.svelte";
   import Assignments from "./assignments.svelte";
-  import type { PageData } from "./$types";
-  import Videos from "./videos.svelte";
   import Documents from "./documents.svelte";
   import Forum from "./forum.svelte";
-  import { TabPane } from "$lib/components/tabs";
   import Overview from "./overview.svelte";
+  import Videos from "./videos.svelte";
 
   let items = [
-    { label: "Overview", value: 1, component: Overview },
-    { label: "Videos", value: 2, component: Videos },
-    { label: "Documents", value: 3, component: Documents },
-    { label: "Assignments", value: 4, component: Assignments },
-    { label: "Forum", value: 5, component: Forum },
+    { label: "Overview", component: Overview },
+    { label: "Videos", component: Videos },
+    { label: "Documents", component: Documents },
+    { label: "Assignments", component: Assignments },
+    { label: "Forum", component: Forum },
   ];
 </script>
 
@@ -35,6 +34,4 @@
   </div>
 </div>
 
-  <TabPane {items} />
-
-
+<Tabs {items} />
