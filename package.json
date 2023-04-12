@@ -2,5 +2,10 @@
   "dependencies": {
     "linkedom": "^0.14.25",
     "rx-player": "^3.30.0"
+  },
+  "devDependencies": {
+    "@iconify-json/bx": "^1.1.6",
+    "@iconify-json/mdi": "^1.1.50",
+    "unocss": "^0.51.4"
   }
 }

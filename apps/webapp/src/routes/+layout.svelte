@@ -1,5 +1,6 @@
 <script>
 	import '../app.css';
+	import 'uno.css';
 </script>
 
 <div class="app">

@@ -24,5 +24,6 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
     -webkit-text-fill-color: rgba(156 163 175);
     -webkit-box-shadow: 0 0 0px 1000px rgba(90, 7, 7, 0) inset;
+    box-shadow: 0 0 0px 1000px rgba(90, 7, 7, 0) inset;
     transition: background-color 5000s ease-in-out 0s;
 }
