@@ -4,9 +4,8 @@
   import Videos from "./videos.svelte";
   import Documents from "./documents.svelte";
   import Forum from "./forum.svelte";
-  import Tabs from "$lib/components/tabs/tabs.svelte";
+  import { TabPane } from "$lib/components/tabs";
   import Overview from "./overview.svelte";
-  export let data: PageData;
 
   let items = [
     { label: "Overview", value: 1, component: Overview },
@@ -15,7 +14,6 @@
     { label: "Assignments", value: 3, component: Assignments },
     { label: "Forum", value: 3, component: Forum },
   ];
-  
 </script>
 
 <!-- <div class="i-bx:bxs-file text-6xl text-primary"></div> -->
@@ -37,6 +35,4 @@
   </div>
 </div>
 
-<Tabs {items} />
-
-
+<TabPane {items} />

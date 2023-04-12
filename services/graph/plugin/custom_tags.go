@@ -13,6 +13,12 @@ import (
 func addGormTags(b *modelgen.ModelBuild) *modelgen.ModelBuild {
 	for _, model := range b.Models {
 		for _, field := range model.Fields {
+			if field.Name == "passwordHash" {
+				field.Tag = `json:"-"`
+			}
+			if field.Name == "passwordSalt" {
+				field.Tag = `json:"-"`
+			}
 			if field.Name == "id" {
 				field.Tag += ` bson:"_id"`
 			} else {

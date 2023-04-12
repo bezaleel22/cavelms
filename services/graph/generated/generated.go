@@ -5077,6 +5077,7 @@ extend type Mutation {
 }
 `, BuiltIn: false},
 	{Name: "../schema/schema.gql", Input: `directive @requireAuth(token: String) on FIELD_DEFINITION
+directive @goTag(key: String!, value: String) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 scalar Time
 scalar Date
@@ -5288,7 +5289,7 @@ type User {
   nationality: String!
   profession: String!
   passwordSalt: String!
-  passwordHash: String!
+  passwordHash: String! @goTag(key: "json", value: "-")
   permissions: [String]
   username: String!
   isVerified: Boolean!
@@ -5414,9 +5415,10 @@ input NewUser {
 }
 
 input VerifyInput {
-  id: ID!
+  email: String!
+  password: String
   code: String!
-  resend: Boolean!
+  resend: Boolean
 }
 
 extend type Query {
@@ -34438,18 +34440,26 @@ func (ec *executionContext) unmarshalInputVerifyInput(ctx context.Context, obj i
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "code", "resend"}
+	fieldsInOrder := [...]string{"email", "password", "code", "resend"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "id":
+		case "email":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalNID2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			it.Email, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "password":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("password"))
+			it.Password, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -34465,7 +34475,7 @@ func (ec *executionContext) unmarshalInputVerifyInput(ctx context.Context, obj i
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("resend"))
-			it.Resend, err = ec.unmarshalNBoolean2bool(ctx, v)
+			it.Resend, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}

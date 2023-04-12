@@ -16,9 +16,10 @@ import (
 )
 
 func NewController(r *gin.Engine, s service.Service) *http.Server {
+	ctr := &authCtr.Auth{Service: s}
 	r.Use(CORSMiddleware())
 
-	auth := r.Group("/auth")
+	auth := r.Group("/auth", ctr.CntextMiddleware())
 	authHandlers(auth, s)
 
 	api := r.Group("/api")

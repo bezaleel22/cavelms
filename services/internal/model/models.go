@@ -764,8 +764,8 @@ type User struct {
 	Zip                    string              `json:"zip" bson:"zip,omitempty"`
 	Nationality            string              `json:"nationality" bson:"nationality,omitempty"`
 	Profession             string              `json:"profession" bson:"profession,omitempty"`
-	PasswordSalt           string              `json:"passwordSalt" bson:"passwordSalt,omitempty"`
-	PasswordHash           string              `json:"passwordHash" bson:"passwordHash,omitempty"`
+	PasswordSalt           string              `json:"-" bson:"passwordSalt,omitempty"`
+	PasswordHash           string              `json:"-" bson:"passwordHash,omitempty"`
 	Permissions            []*string           `json:"permissions" bson:"permissions,omitempty"`
 	Username               string              `json:"username" bson:"username,omitempty"`
 	IsVerified             bool                `json:"isVerified" bson:"isVerified,omitempty"`
@@ -815,9 +815,10 @@ type UserSetting struct {
 }
 
 type VerifyInput struct {
-	ID     string `json:"id" bson:"_id"`
-	Code   string `json:"code" bson:"code,omitempty"`
-	Resend bool   `json:"resend" bson:"resend,omitempty"`
+	Email    string  `json:"email" bson:"email,omitempty"`
+	Password *string `json:"password" bson:"password,omitempty"`
+	Code     string  `json:"code" bson:"code,omitempty"`
+	Resend   *bool   `json:"resend" bson:"resend,omitempty"`
 }
 
 type VideoPlayerInfo struct {

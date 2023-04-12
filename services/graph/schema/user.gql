@@ -22,7 +22,7 @@ type User {
   nationality: String!
   profession: String!
   passwordSalt: String!
-  passwordHash: String!
+  passwordHash: String! @goTag(key: "json", value: "-")
   permissions: [String]
   username: String!
   isVerified: Boolean!
@@ -148,9 +148,10 @@ input NewUser {
 }
 
 input VerifyInput {
-  id: ID!
+  email: String!
+  password: String
   code: String!
-  resend: Boolean!
+  resend: Boolean
 }
 
 extend type Query {

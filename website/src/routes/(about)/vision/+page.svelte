@@ -66,7 +66,7 @@
               <li class="wow animated zoomIn" data-wow-duration="1s" data-wow-delay="1.3s">
                 <img
                   class="motion-effects1"
-                  src="media/elements/element21.png"
+                  src="images/media/elements/element21.png"
                   alt="Element"
                   width="175"
                   height="165"
@@ -75,7 +75,7 @@
               <li class="wow animated zoomIn" data-wow-duration="1s" data-wow-delay="1.7s">
                 <img
                   class="motion-effects3"
-                  src="media/elements/element22.png"
+                  src="images/media/elements/element22.png"
                   alt="Element"
                   width="142"
                   height="136"
@@ -88,7 +88,7 @@
                   class="wow animated fadeInRightMedium"
                   data-wow-duration="1s"
                   data-wow-delay="1.7s"
-                  src="media/elements/element20.png"
+                  src="images/media/elements/element20.png"
                   alt="Element"
                   width="391"
                   height="391"

@@ -4,12 +4,18 @@ package controller
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/cavelms/internal/model"
 	"github.com/gin-gonic/gin"
 )
+
+func (auth *Auth) CntextMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		auth.Service.SetContext(c)
+		c.Next()
+	}
+}
 
 func (auth *Auth) SignIn(c *gin.Context) {
 	newUser := &model.NewUser{}
@@ -79,13 +85,52 @@ func (auth *Auth) Refresh(c *gin.Context) {
 }
 
 func (auth *Auth) ForgetPassword(c *gin.Context) {
-	panic(fmt.Errorf("not implemented: ForgetPassword - forgetPassword"))
+	u := &model.NewUser{}
+	err := c.BindJSON(u)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	user, err := auth.Service.ForgetPassword(u)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }
 
 func (auth *Auth) ResetPassword(c *gin.Context) {
-	panic(fmt.Errorf("not implemented: ResetPassword - resetPassword"))
+	verify := &model.VerifyInput{}
+	err := c.BindJSON(verify)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	user, err := auth.Service.ResetPassword(verify)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }
 
 func (auth *Auth) ChangePassword(c *gin.Context) {
-	panic(fmt.Errorf("not implemented: ChangePassword - changePassword"))
+	u := &model.NewUser{}
+	err := c.BindJSON(u)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	user, err := auth.Service.ChangePassword(u)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
 }

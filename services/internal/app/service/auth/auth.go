@@ -20,8 +20,9 @@ type AuthService interface {
 	RefreshToken(token string) (*model.User, error)
 	VerifyEmail(verify *model.VerifyInput) (*model.User, error)
 	ForgetPassword(u *model.NewUser) (*model.User, error)
-	ResetPassword(u *model.NewUser) (*model.User, error)
+	ResetPassword(verify *model.VerifyInput) (*model.User, error)
 	ChangePassword(u *model.NewUser) (*model.User, error)
+	SetContext(ctx *gin.Context)
 }
 
 func NewService(repo *repository.Repository) AuthService {
