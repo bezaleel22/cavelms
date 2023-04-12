@@ -23,7 +23,7 @@ export const routes = [
       {
         name: "My Courses",
         badge: undefined,
-        url: "/account/courses",
+        url: "/courses",
         roles: [],
       },
     ],

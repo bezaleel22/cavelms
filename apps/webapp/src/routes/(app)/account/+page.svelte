@@ -1,7 +1,7 @@
 <script>
-  import Notification from "./settings/health.svelte";
-  import Personal from "./settings/personal.svelte";
-  import Profile from "./settings/profile.svelte";
+  import Notification from "./profile/health.svelte";
+  import Personal from "./profile/personal.svelte";
+  import Profile from "./profile/profile.svelte";
 </script>
 
 <div>
