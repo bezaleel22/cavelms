@@ -7,21 +7,21 @@
   import Videos from "./videos.svelte";
 
   let items = [
-    { label: "Overview", component: Overview },
-    { label: "Videos", component: Videos },
-    { label: "Documents", component: Documents },
-    { label: "Assignments", component: Assignments },
-    { label: "Forum", component: Forum },
+    { title: "Overview", component: Overview },
+    { title: "Videos", component: Videos },
+    { title: "Documents", component: Documents },
+    { title: "Assignments", component: Assignments },
+    { title: "Forum", component: Forum },
   ];
 </script>
 
 <!-- <div class="i-bx:bxs-file text-6xl text-primary"></div> -->
 
 <!-- hero header -->
-<div class="h-24 bg-gradient-to-r from-cyan-500 to-blue-500 md:h-48" />
+<div class="h-24 bg-gradient-to-r from-cyan-500 to-blue-500 md:h-48 mb-4" />
 
 <!-- course brief -->
-<div class="p-3 my-5 flex items-center">
+<div class="flex items-center mb-4">
   <div class="bg-current p-5 w-36 rounded-full m-5 hidden sm:block">
     <div class="i-bx:bxs-book text-8xl text-primary" />
   </div>
@@ -34,4 +34,7 @@
   </div>
 </div>
 
+<div class="mb-4">
 <Tabs {items} />
+</div>
+

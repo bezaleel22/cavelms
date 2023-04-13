@@ -1,7 +1,10 @@
 <script lang="ts">
-  export let items: any[] = [];
-  export let active = 0;
   
+  export let active = 0;
+  export let items: {
+    title: string;
+    component: ConstructorOfATypedSvelteComponent;
+  }[];
 </script>
 
 <div class="grid grid-row-2 w-full">
@@ -12,7 +15,7 @@
           class="tab tab-bordered lg:mx-8 {active === i ? 'tab-active' : ''}"
           on:click={() => (active = i)}
         >
-          {item.label}
+          {item.title}
         </button>
       {/each}
     </div>
