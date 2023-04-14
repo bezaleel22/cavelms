@@ -14,12 +14,12 @@
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div class="card-body">
         <form action="?/login" method="post" use:enhance>
-          <div class="relative  mb-4">
+          <div class="relative mb-4">
             <input
               name="email"
               type="email"
               id="email"
-              class=" input input-bordered floating-input peer focus:border-accent-focus "
+              class=" input input-bordered floating-input peer focus:border-accent-focus"
             />
             <label for="password" class=" floating-label peer-focus:text-accent-focus">
               Email
@@ -27,7 +27,7 @@
           </div>
           <div class="relative w-full max-w-xs">
             <input
-            name="password"
+              name="password"
               type="password"
               id="password"
               class=" input input-bordered floating-input peer focus:border-accent-focus"

@@ -1,6 +1,6 @@
 <script lang="ts">
   
-  export let active = 0;
+  export let active = 1;
   export let items: {
     title: string;
     component: ConstructorOfATypedSvelteComponent;

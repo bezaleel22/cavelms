@@ -10,13 +10,15 @@ const VideoPlayer = async () => {
     video: HTMLVideoElement;
     blob?: Blob;
     info: any;
-    thumbnails?: any[];
-    constructor(videoElement: HTMLVideoElement, source: string) {
+    src: string;
+    constructor(videoElement: HTMLVideoElement, src: string) {
       super({ videoElement, stopAtEnd: false });
       this.video = this.getVideoElement() as HTMLVideoElement;
-      this.video.muted = true;
+      this.src = src;
+    }
 
-      const mediaInfo = new MediaInfo(source);
+    init = () => {
+      const mediaInfo = new MediaInfo(this.src);
       mediaInfo.init((info: any) => {
         let mpd = mediaInfo.getDashManifest(PROXY_URL);
         this.blob = new Blob([mpd], { type: "application/dash+xml" });
@@ -26,23 +28,7 @@ const VideoPlayer = async () => {
           manualBitrateSwitchingMode: "seamless",
         });
         this.info = info;
-        this.thumbnails = info.videoDetails.thumbnail.thumbnails;
-        if (this.thumbnails) this.video.poster = this.thumbnails[1].url;
       });
-    }
-
-    init = () => {
-      this.loadVideo({
-        url: URL.createObjectURL(this.blob as Blob),
-        transport: "dash",
-        manualBitrateSwitchingMode: "seamless",
-      });
-    };
-
-    setThumbnail = (width: 720 | 1920 | 336 | 168 | 196 | 246) => {
-      if (!this.thumbnails) return;
-      const thumbnail = this.thumbnails.find((thumbnail) => thumbnail.width === width);
-      this.video.poster = thumbnail.url;
     };
   }
 

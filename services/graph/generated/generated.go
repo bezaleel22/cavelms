@@ -237,15 +237,17 @@ type ComplexityRoot struct {
 
 	Media struct {
 		Category        func(childComplexity int) int
+		CourseID        func(childComplexity int) int
 		CreatedAt       func(childComplexity int) int
 		DeletedAt       func(childComplexity int) int
 		Description     func(childComplexity int) int
-		Duration        func(childComplexity int) int
 		File            func(childComplexity int) int
 		ID              func(childComplexity int) int
 		MediaType       func(childComplexity int) int
+		Tags            func(childComplexity int) int
 		Title           func(childComplexity int) int
 		UpdatedAt       func(childComplexity int) int
+		UserID          func(childComplexity int) int
 		VideoPlayerInfo func(childComplexity int) int
 	}
 
@@ -332,6 +334,13 @@ type ComplexityRoot struct {
 		Model       func(childComplexity int) int
 		Permissions func(childComplexity int) int
 		Role        func(childComplexity int) int
+	}
+
+	PlayerInfo struct {
+		CurrentTime  func(childComplexity int) int
+		Duration     func(childComplexity int) int
+		PosterURL    func(childComplexity int) int
+		ThumbnailURL func(childComplexity int) int
 	}
 
 	Qualification struct {
@@ -574,11 +583,6 @@ type ComplexityRoot struct {
 		Type   func(childComplexity int) int
 		UserID func(childComplexity int) int
 		Value  func(childComplexity int) int
-	}
-
-	VideoPlayerInfo struct {
-		CurrentTime func(childComplexity int) int
-		Duration    func(childComplexity int) int
 	}
 }
 
@@ -1673,6 +1677,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Media.Category(childComplexity), true
 
+	case "Media.courseId":
+		if e.complexity.Media.CourseID == nil {
+			break
+		}
+
+		return e.complexity.Media.CourseID(childComplexity), true
+
 	case "Media.createdAt":
 		if e.complexity.Media.CreatedAt == nil {
 			break
@@ -1693,13 +1704,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Media.Description(childComplexity), true
-
-	case "Media.duration":
-		if e.complexity.Media.Duration == nil {
-			break
-		}
-
-		return e.complexity.Media.Duration(childComplexity), true
 
 	case "Media.file":
 		if e.complexity.Media.File == nil {
@@ -1722,6 +1726,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Media.MediaType(childComplexity), true
 
+	case "Media.tags":
+		if e.complexity.Media.Tags == nil {
+			break
+		}
+
+		return e.complexity.Media.Tags(childComplexity), true
+
 	case "Media.title":
 		if e.complexity.Media.Title == nil {
 			break
@@ -1735,6 +1746,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Media.UpdatedAt(childComplexity), true
+
+	case "Media.userId":
+		if e.complexity.Media.UserID == nil {
+			break
+		}
+
+		return e.complexity.Media.UserID(childComplexity), true
 
 	case "Media.videoPlayerInfo":
 		if e.complexity.Media.VideoPlayerInfo == nil {
@@ -2518,6 +2536,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Permission.Role(childComplexity), true
+
+	case "PlayerInfo.currentTime":
+		if e.complexity.PlayerInfo.CurrentTime == nil {
+			break
+		}
+
+		return e.complexity.PlayerInfo.CurrentTime(childComplexity), true
+
+	case "PlayerInfo.duration":
+		if e.complexity.PlayerInfo.Duration == nil {
+			break
+		}
+
+		return e.complexity.PlayerInfo.Duration(childComplexity), true
+
+	case "PlayerInfo.posterUrl":
+		if e.complexity.PlayerInfo.PosterURL == nil {
+			break
+		}
+
+		return e.complexity.PlayerInfo.PosterURL(childComplexity), true
+
+	case "PlayerInfo.thumbnailUrl":
+		if e.complexity.PlayerInfo.ThumbnailURL == nil {
+			break
+		}
+
+		return e.complexity.PlayerInfo.ThumbnailURL(childComplexity), true
 
 	case "Qualification.createdAt":
 		if e.complexity.Qualification.CreatedAt == nil {
@@ -4070,20 +4116,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.UserSetting.Value(childComplexity), true
 
-	case "VideoPlayerInfo.currentTime":
-		if e.complexity.VideoPlayerInfo.CurrentTime == nil {
-			break
-		}
-
-		return e.complexity.VideoPlayerInfo.CurrentTime(childComplexity), true
-
-	case "VideoPlayerInfo.duration":
-		if e.complexity.VideoPlayerInfo.Duration == nil {
-			break
-		}
-
-		return e.complexity.VideoPlayerInfo.Duration(childComplexity), true
-
 	}
 	return 0, false
 }
@@ -4115,6 +4147,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputNewSetting,
 		ec.unmarshalInputNewUser,
 		ec.unmarshalInputPermissionInput,
+		ec.unmarshalInputPlayerInfoInput,
 		ec.unmarshalInputSubmissionInput,
 		ec.unmarshalInputUpdateActivityInput,
 		ec.unmarshalInputUpdateCourseInput,
@@ -4133,7 +4166,6 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputUpdateTagInput,
 		ec.unmarshalInputUpdateTargetInput,
 		ec.unmarshalInputVerifyInput,
-		ec.unmarshalInputVideoPlayerInfoInput,
 	)
 	first := true
 
@@ -4681,26 +4713,32 @@ enum MediaType {
 
 type Media {
   id: ID!
+  courseId: ID!
+  userId: ID!
   title: String!
   description: String
   category: String!
   mediaType: MediaType!
-  duration: Int64!
-  videoPlayerInfo: VideoPlayerInfo
+  tags: [String!]!
+  videoPlayerInfo: PlayerInfo
   file: File!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
 }
 
-type VideoPlayerInfo {
-  currentTime: Int
-  duration: Int
+type PlayerInfo {
+  currentTime: Int!
+  duration: Int!
+  thumbnailUrl: String!
+  posterUrl: String
 }
 
-input VideoPlayerInfoInput {
+input PlayerInfoInput {
   currentTime: Int
-  totalTime: Int
+  duration: Int
+  thumbnailUrl: String
+  posterUrl: String
 }
 
 input UpdateMediaInput {
@@ -4710,7 +4748,7 @@ input UpdateMediaInput {
   category: String!
   mediaType: MediaType!
   duration: Int64!
-  videoPlayerInfo: VideoPlayerInfoInput
+  videoPlayerInfo: PlayerInfoInput
   file: UpdateFileInput!
 }
 
@@ -13166,6 +13204,94 @@ func (ec *executionContext) fieldContext_Media_id(ctx context.Context, field gra
 	return fc, nil
 }
 
+func (ec *executionContext) _Media_courseId(ctx context.Context, field graphql.CollectedField, obj *model.Media) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Media_courseId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CourseID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Media_courseId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Media",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Media_userId(ctx context.Context, field graphql.CollectedField, obj *model.Media) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Media_userId(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Media_userId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Media",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Media_title(ctx context.Context, field graphql.CollectedField, obj *model.Media) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Media_title(ctx, field)
 	if err != nil {
@@ -13339,8 +13465,8 @@ func (ec *executionContext) fieldContext_Media_mediaType(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Media_duration(ctx context.Context, field graphql.CollectedField, obj *model.Media) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Media_duration(ctx, field)
+func (ec *executionContext) _Media_tags(ctx context.Context, field graphql.CollectedField, obj *model.Media) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Media_tags(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -13353,7 +13479,7 @@ func (ec *executionContext) _Media_duration(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Duration, nil
+		return obj.Tags, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -13365,19 +13491,19 @@ func (ec *executionContext) _Media_duration(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int64)
+	res := resTmp.([]string)
 	fc.Result = res
-	return ec.marshalNInt642int64(ctx, field.Selections, res)
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Media_duration(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Media_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Media",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int64 does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -13406,9 +13532,9 @@ func (ec *executionContext) _Media_videoPlayerInfo(ctx context.Context, field gr
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*model.VideoPlayerInfo)
+	res := resTmp.(*model.PlayerInfo)
 	fc.Result = res
-	return ec.marshalOVideoPlayerInfo2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐVideoPlayerInfo(ctx, field.Selections, res)
+	return ec.marshalOPlayerInfo2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐPlayerInfo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Media_videoPlayerInfo(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13420,11 +13546,15 @@ func (ec *executionContext) fieldContext_Media_videoPlayerInfo(ctx context.Conte
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "currentTime":
-				return ec.fieldContext_VideoPlayerInfo_currentTime(ctx, field)
+				return ec.fieldContext_PlayerInfo_currentTime(ctx, field)
 			case "duration":
-				return ec.fieldContext_VideoPlayerInfo_duration(ctx, field)
+				return ec.fieldContext_PlayerInfo_duration(ctx, field)
+			case "thumbnailUrl":
+				return ec.fieldContext_PlayerInfo_thumbnailUrl(ctx, field)
+			case "posterUrl":
+				return ec.fieldContext_PlayerInfo_posterUrl(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type VideoPlayerInfo", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type PlayerInfo", field.Name)
 		},
 	}
 	return fc, nil
@@ -15551,6 +15681,10 @@ func (ec *executionContext) fieldContext_Mutation_createMedia(ctx context.Contex
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Media_id(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Media_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_Media_userId(ctx, field)
 			case "title":
 				return ec.fieldContext_Media_title(ctx, field)
 			case "description":
@@ -15559,8 +15693,8 @@ func (ec *executionContext) fieldContext_Mutation_createMedia(ctx context.Contex
 				return ec.fieldContext_Media_category(ctx, field)
 			case "mediaType":
 				return ec.fieldContext_Media_mediaType(ctx, field)
-			case "duration":
-				return ec.fieldContext_Media_duration(ctx, field)
+			case "tags":
+				return ec.fieldContext_Media_tags(ctx, field)
 			case "videoPlayerInfo":
 				return ec.fieldContext_Media_videoPlayerInfo(ctx, field)
 			case "file":
@@ -15627,6 +15761,10 @@ func (ec *executionContext) fieldContext_Mutation_updateMedia(ctx context.Contex
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Media_id(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Media_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_Media_userId(ctx, field)
 			case "title":
 				return ec.fieldContext_Media_title(ctx, field)
 			case "description":
@@ -15635,8 +15773,8 @@ func (ec *executionContext) fieldContext_Mutation_updateMedia(ctx context.Contex
 				return ec.fieldContext_Media_category(ctx, field)
 			case "mediaType":
 				return ec.fieldContext_Media_mediaType(ctx, field)
-			case "duration":
-				return ec.fieldContext_Media_duration(ctx, field)
+			case "tags":
+				return ec.fieldContext_Media_tags(ctx, field)
 			case "videoPlayerInfo":
 				return ec.fieldContext_Media_videoPlayerInfo(ctx, field)
 			case "file":
@@ -15703,6 +15841,10 @@ func (ec *executionContext) fieldContext_Mutation_deleteMedia(ctx context.Contex
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Media_id(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Media_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_Media_userId(ctx, field)
 			case "title":
 				return ec.fieldContext_Media_title(ctx, field)
 			case "description":
@@ -15711,8 +15853,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteMedia(ctx context.Contex
 				return ec.fieldContext_Media_category(ctx, field)
 			case "mediaType":
 				return ec.fieldContext_Media_mediaType(ctx, field)
-			case "duration":
-				return ec.fieldContext_Media_duration(ctx, field)
+			case "tags":
+				return ec.fieldContext_Media_tags(ctx, field)
 			case "videoPlayerInfo":
 				return ec.fieldContext_Media_videoPlayerInfo(ctx, field)
 			case "file":
@@ -19054,6 +19196,179 @@ func (ec *executionContext) fieldContext_Permission_permissions(ctx context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _PlayerInfo_currentTime(ctx context.Context, field graphql.CollectedField, obj *model.PlayerInfo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PlayerInfo_currentTime(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrentTime, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PlayerInfo_currentTime(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PlayerInfo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PlayerInfo_duration(ctx context.Context, field graphql.CollectedField, obj *model.PlayerInfo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PlayerInfo_duration(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Duration, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PlayerInfo_duration(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PlayerInfo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PlayerInfo_thumbnailUrl(ctx context.Context, field graphql.CollectedField, obj *model.PlayerInfo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PlayerInfo_thumbnailUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ThumbnailURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PlayerInfo_thumbnailUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PlayerInfo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _PlayerInfo_posterUrl(ctx context.Context, field graphql.CollectedField, obj *model.PlayerInfo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_PlayerInfo_posterUrl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.PosterURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_PlayerInfo_posterUrl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "PlayerInfo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Qualification_id(ctx context.Context, field graphql.CollectedField, obj *model.Qualification) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Qualification_id(ctx, field)
 	if err != nil {
@@ -20521,6 +20836,10 @@ func (ec *executionContext) fieldContext_Query_media(ctx context.Context, field 
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Media_id(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Media_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_Media_userId(ctx, field)
 			case "title":
 				return ec.fieldContext_Media_title(ctx, field)
 			case "description":
@@ -20529,8 +20848,8 @@ func (ec *executionContext) fieldContext_Query_media(ctx context.Context, field 
 				return ec.fieldContext_Media_category(ctx, field)
 			case "mediaType":
 				return ec.fieldContext_Media_mediaType(ctx, field)
-			case "duration":
-				return ec.fieldContext_Media_duration(ctx, field)
+			case "tags":
+				return ec.fieldContext_Media_tags(ctx, field)
 			case "videoPlayerInfo":
 				return ec.fieldContext_Media_videoPlayerInfo(ctx, field)
 			case "file":
@@ -20600,6 +20919,10 @@ func (ec *executionContext) fieldContext_Query_mediaByType(ctx context.Context, 
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Media_id(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Media_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_Media_userId(ctx, field)
 			case "title":
 				return ec.fieldContext_Media_title(ctx, field)
 			case "description":
@@ -20608,8 +20931,8 @@ func (ec *executionContext) fieldContext_Query_mediaByType(ctx context.Context, 
 				return ec.fieldContext_Media_category(ctx, field)
 			case "mediaType":
 				return ec.fieldContext_Media_mediaType(ctx, field)
-			case "duration":
-				return ec.fieldContext_Media_duration(ctx, field)
+			case "tags":
+				return ec.fieldContext_Media_tags(ctx, field)
 			case "videoPlayerInfo":
 				return ec.fieldContext_Media_videoPlayerInfo(ctx, field)
 			case "file":
@@ -20679,6 +21002,10 @@ func (ec *executionContext) fieldContext_Query_allMedia(ctx context.Context, fie
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Media_id(ctx, field)
+			case "courseId":
+				return ec.fieldContext_Media_courseId(ctx, field)
+			case "userId":
+				return ec.fieldContext_Media_userId(ctx, field)
 			case "title":
 				return ec.fieldContext_Media_title(ctx, field)
 			case "description":
@@ -20687,8 +21014,8 @@ func (ec *executionContext) fieldContext_Query_allMedia(ctx context.Context, fie
 				return ec.fieldContext_Media_category(ctx, field)
 			case "mediaType":
 				return ec.fieldContext_Media_mediaType(ctx, field)
-			case "duration":
-				return ec.fieldContext_Media_duration(ctx, field)
+			case "tags":
+				return ec.fieldContext_Media_tags(ctx, field)
 			case "videoPlayerInfo":
 				return ec.fieldContext_Media_videoPlayerInfo(ctx, field)
 			case "file":
@@ -29738,88 +30065,6 @@ func (ec *executionContext) fieldContext_UserSetting_value(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _VideoPlayerInfo_currentTime(ctx context.Context, field graphql.CollectedField, obj *model.VideoPlayerInfo) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_VideoPlayerInfo_currentTime(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.CurrentTime, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_VideoPlayerInfo_currentTime(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "VideoPlayerInfo",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _VideoPlayerInfo_duration(ctx context.Context, field graphql.CollectedField, obj *model.VideoPlayerInfo) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_VideoPlayerInfo_duration(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Duration, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_VideoPlayerInfo_duration(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "VideoPlayerInfo",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext___Directive_name(ctx, field)
 	if err != nil {
@@ -33109,6 +33354,58 @@ func (ec *executionContext) unmarshalInputPermissionInput(ctx context.Context, o
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputPlayerInfoInput(ctx context.Context, obj interface{}) (model.PlayerInfoInput, error) {
+	var it model.PlayerInfoInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"currentTime", "duration", "thumbnailUrl", "posterUrl"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "currentTime":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currentTime"))
+			it.CurrentTime, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "duration":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("duration"))
+			it.Duration, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "thumbnailUrl":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("thumbnailUrl"))
+			it.ThumbnailURL, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "posterUrl":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("posterUrl"))
+			it.PosterURL, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputSubmissionInput(ctx context.Context, obj interface{}) (model.SubmissionInput, error) {
 	var it model.SubmissionInput
 	asMap := map[string]interface{}{}
@@ -33859,7 +34156,7 @@ func (ec *executionContext) unmarshalInputUpdateMediaInput(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("videoPlayerInfo"))
-			it.VideoPlayerInfo, err = ec.unmarshalOVideoPlayerInfoInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐVideoPlayerInfoInput(ctx, v)
+			it.VideoPlayerInfo, err = ec.unmarshalOPlayerInfoInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐPlayerInfoInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -34476,42 +34773,6 @@ func (ec *executionContext) unmarshalInputVerifyInput(ctx context.Context, obj i
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("resend"))
 			it.Resend, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		}
-	}
-
-	return it, nil
-}
-
-func (ec *executionContext) unmarshalInputVideoPlayerInfoInput(ctx context.Context, obj interface{}) (model.VideoPlayerInfoInput, error) {
-	var it model.VideoPlayerInfoInput
-	asMap := map[string]interface{}{}
-	for k, v := range obj.(map[string]interface{}) {
-		asMap[k] = v
-	}
-
-	fieldsInOrder := [...]string{"currentTime", "totalTime"}
-	for _, k := range fieldsInOrder {
-		v, ok := asMap[k]
-		if !ok {
-			continue
-		}
-		switch k {
-		case "currentTime":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("currentTime"))
-			it.CurrentTime, err = ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "totalTime":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("totalTime"))
-			it.TotalTime, err = ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -35768,6 +36029,20 @@ func (ec *executionContext) _Media(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "courseId":
+
+			out.Values[i] = ec._Media_courseId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "userId":
+
+			out.Values[i] = ec._Media_userId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "title":
 
 			out.Values[i] = ec._Media_title(ctx, field, obj)
@@ -35793,9 +36068,9 @@ func (ec *executionContext) _Media(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "duration":
+		case "tags":
 
-			out.Values[i] = ec._Media_duration(ctx, field, obj)
+			out.Values[i] = ec._Media_tags(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -36461,6 +36736,52 @@ func (ec *executionContext) _Permission(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var playerInfoImplementors = []string{"PlayerInfo"}
+
+func (ec *executionContext) _PlayerInfo(ctx context.Context, sel ast.SelectionSet, obj *model.PlayerInfo) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, playerInfoImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PlayerInfo")
+		case "currentTime":
+
+			out.Values[i] = ec._PlayerInfo_currentTime(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "duration":
+
+			out.Values[i] = ec._PlayerInfo_duration(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "thumbnailUrl":
+
+			out.Values[i] = ec._PlayerInfo_thumbnailUrl(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "posterUrl":
+
+			out.Values[i] = ec._PlayerInfo_posterUrl(ctx, field, obj)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -38533,35 +38854,6 @@ func (ec *executionContext) _UserSetting(ctx context.Context, sel ast.SelectionS
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
-var videoPlayerInfoImplementors = []string{"VideoPlayerInfo"}
-
-func (ec *executionContext) _VideoPlayerInfo(ctx context.Context, sel ast.SelectionSet, obj *model.VideoPlayerInfo) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, videoPlayerInfoImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("VideoPlayerInfo")
-		case "currentTime":
-
-			out.Values[i] = ec._VideoPlayerInfo_currentTime(ctx, field, obj)
-
-		case "duration":
-
-			out.Values[i] = ec._VideoPlayerInfo_duration(ctx, field, obj)
-
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -41519,6 +41811,21 @@ func (ec *executionContext) marshalOPermission2ᚖgithubᚗcomᚋcavelmsᚋinter
 	return ec._Permission(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOPlayerInfo2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐPlayerInfo(ctx context.Context, sel ast.SelectionSet, v *model.PlayerInfo) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._PlayerInfo(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOPlayerInfoInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐPlayerInfoInput(ctx context.Context, v interface{}) (*model.PlayerInfoInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputPlayerInfoInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalOQualification2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐQualification(ctx context.Context, sel ast.SelectionSet, v *model.Qualification) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -41842,21 +42149,6 @@ func (ec *executionContext) marshalOUserSettingKeys2ᚖgithubᚗcomᚋcavelmsᚋ
 		return graphql.Null
 	}
 	return v
-}
-
-func (ec *executionContext) marshalOVideoPlayerInfo2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐVideoPlayerInfo(ctx context.Context, sel ast.SelectionSet, v *model.VideoPlayerInfo) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	return ec._VideoPlayerInfo(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalOVideoPlayerInfoInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐVideoPlayerInfoInput(ctx context.Context, v interface{}) (*model.VideoPlayerInfoInput, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputVideoPlayerInfoInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) marshalO__EnumValue2ᚕgithubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐEnumValueᚄ(ctx context.Context, sel ast.SelectionSet, v []introspection.EnumValue) graphql.Marshaler {

@@ -351,17 +351,19 @@ type MatchingPairInput struct {
 }
 
 type Media struct {
-	ID              string           `json:"id" bson:"_id"`
-	Title           string           `json:"title" bson:"title,omitempty"`
-	Description     *string          `json:"description" bson:"description,omitempty"`
-	Category        string           `json:"category" bson:"category,omitempty"`
-	MediaType       MediaType        `json:"mediaType" bson:"mediaType,omitempty"`
-	Duration        int64            `json:"duration" bson:"duration,omitempty"`
-	VideoPlayerInfo *VideoPlayerInfo `json:"videoPlayerInfo" bson:"videoPlayerInfo,omitempty"`
-	File            *File            `json:"file" bson:"file,omitempty"`
-	CreatedAt       *time.Time       `json:"createdAt" bson:"createdAt,omitempty"`
-	UpdatedAt       *time.Time       `json:"updatedAt" bson:"updatedAt,omitempty"`
-	DeletedAt       *time.Time       `json:"deletedAt" bson:"deletedAt,omitempty"`
+	ID              string      `json:"id" bson:"_id"`
+	CourseID        string      `json:"courseId" bson:"courseId,omitempty"`
+	UserID          string      `json:"userId" bson:"userId,omitempty"`
+	Title           string      `json:"title" bson:"title,omitempty"`
+	Description     *string     `json:"description" bson:"description,omitempty"`
+	Category        string      `json:"category" bson:"category,omitempty"`
+	MediaType       MediaType   `json:"mediaType" bson:"mediaType,omitempty"`
+	Tags            []string    `json:"tags" bson:"tags,omitempty"`
+	VideoPlayerInfo *PlayerInfo `json:"videoPlayerInfo" bson:"videoPlayerInfo,omitempty"`
+	File            *File       `json:"file" bson:"file,omitempty"`
+	CreatedAt       *time.Time  `json:"createdAt" bson:"createdAt,omitempty"`
+	UpdatedAt       *time.Time  `json:"updatedAt" bson:"updatedAt,omitempty"`
+	DeletedAt       *time.Time  `json:"deletedAt" bson:"deletedAt,omitempty"`
 }
 
 type NewCourse struct {
@@ -438,6 +440,20 @@ type PermissionInput struct {
 	Role        Role                `json:"role" bson:"role,omitempty"`
 	Model       AllowedModel        `json:"model" bson:"model,omitempty"`
 	Permissions []AllowedPermission `json:"permissions" bson:"permissions,omitempty"`
+}
+
+type PlayerInfo struct {
+	CurrentTime  int     `json:"currentTime" bson:"currentTime,omitempty"`
+	Duration     int     `json:"duration" bson:"duration,omitempty"`
+	ThumbnailURL string  `json:"thumbnailUrl" bson:"thumbnailUrl,omitempty"`
+	PosterURL    *string `json:"posterUrl" bson:"posterUrl,omitempty"`
+}
+
+type PlayerInfoInput struct {
+	CurrentTime  *int    `json:"currentTime" bson:"currentTime,omitempty"`
+	Duration     *int    `json:"duration" bson:"duration,omitempty"`
+	ThumbnailURL *string `json:"thumbnailUrl" bson:"thumbnailUrl,omitempty"`
+	PosterURL    *string `json:"posterUrl" bson:"posterUrl,omitempty"`
 }
 
 type Qualification struct {
@@ -661,14 +677,14 @@ type UpdateGradeInput struct {
 }
 
 type UpdateMediaInput struct {
-	ID              string                `json:"id" bson:"_id"`
-	Title           string                `json:"title" bson:"title,omitempty"`
-	Description     *string               `json:"description" bson:"description,omitempty"`
-	Category        string                `json:"category" bson:"category,omitempty"`
-	MediaType       MediaType             `json:"mediaType" bson:"mediaType,omitempty"`
-	Duration        int64                 `json:"duration" bson:"duration,omitempty"`
-	VideoPlayerInfo *VideoPlayerInfoInput `json:"videoPlayerInfo" bson:"videoPlayerInfo,omitempty"`
-	File            *UpdateFileInput      `json:"file" bson:"file,omitempty"`
+	ID              string           `json:"id" bson:"_id"`
+	Title           string           `json:"title" bson:"title,omitempty"`
+	Description     *string          `json:"description" bson:"description,omitempty"`
+	Category        string           `json:"category" bson:"category,omitempty"`
+	MediaType       MediaType        `json:"mediaType" bson:"mediaType,omitempty"`
+	Duration        int64            `json:"duration" bson:"duration,omitempty"`
+	VideoPlayerInfo *PlayerInfoInput `json:"videoPlayerInfo" bson:"videoPlayerInfo,omitempty"`
+	File            *UpdateFileInput `json:"file" bson:"file,omitempty"`
 }
 
 type UpdateNotificationInput struct {
@@ -819,16 +835,6 @@ type VerifyInput struct {
 	Password *string `json:"password" bson:"password,omitempty"`
 	Code     string  `json:"code" bson:"code,omitempty"`
 	Resend   *bool   `json:"resend" bson:"resend,omitempty"`
-}
-
-type VideoPlayerInfo struct {
-	CurrentTime *int `json:"currentTime" bson:"currentTime,omitempty"`
-	Duration    *int `json:"duration" bson:"duration,omitempty"`
-}
-
-type VideoPlayerInfoInput struct {
-	CurrentTime *int `json:"currentTime" bson:"currentTime,omitempty"`
-	TotalTime   *int `json:"totalTime" bson:"totalTime,omitempty"`
 }
 
 type ActivityType string

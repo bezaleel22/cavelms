@@ -21,26 +21,32 @@ enum MediaType {
 
 type Media {
   id: ID!
+  courseId: ID!
+  userId: ID!
   title: String!
   description: String
   category: String!
   mediaType: MediaType!
-  duration: Int64!
-  videoPlayerInfo: VideoPlayerInfo
+  tags: [String!]!
+  videoPlayerInfo: PlayerInfo
   file: File!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
 }
 
-type VideoPlayerInfo {
-  currentTime: Int
-  duration: Int
+type PlayerInfo {
+  currentTime: Int!
+  duration: Int!
+  thumbnailUrl: String!
+  posterUrl: String
 }
 
-input VideoPlayerInfoInput {
+input PlayerInfoInput {
   currentTime: Int
-  totalTime: Int
+  duration: Int
+  thumbnailUrl: String
+  posterUrl: String
 }
 
 input UpdateMediaInput {
@@ -50,7 +56,7 @@ input UpdateMediaInput {
   category: String!
   mediaType: MediaType!
   duration: Int64!
-  videoPlayerInfo: VideoPlayerInfoInput
+  videoPlayerInfo: PlayerInfoInput
   file: UpdateFileInput!
 }
 
