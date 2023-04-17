@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import { corsAnywherePlugin } from "./cors";
 import presetIcons from "@unocss/preset-icons";
 import UnoCSS from "unocss/vite";
+import {CorsProxy} from "./plugin/cors-proxy";
 
 export default defineConfig({
   plugins: [

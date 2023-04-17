@@ -1,24 +1,18 @@
 export const routes = [
   {
-    name: "Account Management",
+    name: "Account",
     links: [
-      // {
-      //   name: "Profile",
-      //   badge: undefined,
-      //   url: "/account/profile",
-      //   roles: [],
-      // },
       {
-        name: "Potfolio",
+        name: "Profile",
         badge: undefined,
-        url: "/account/potfolio",
+        url: "/profile",
         roles: [],
       },
     ],
   },
 
   {
-    name: "Course Management",
+    name: "Courses",
     links: [
       {
         name: "My Courses",
@@ -30,37 +24,22 @@ export const routes = [
   },
 
   {
-    name: "User Management",
+    name: "Users",
     links: [
       {
-        name: "Students",
+        name: "Users",
         badge: undefined,
-        url: "/users/students",
+        url: "/users",
       },
       {
-        name: "Faculty",
+        name: "Roles",
         badge: undefined,
-        url: "/users/faculty",
-      },
-      {
-        name: "Prospectives",
-        badge: undefined,
-        url: "/users/prospectives",
-      },
-    ],
-  },
-  {
-    name: "Settings",
-    links: [
-      {
-        name: "School Settings",
-        badge: undefined,
-        url: "/settings",
+        url: "/users/roles",
       },
       {
         name: "Permission",
         badge: undefined,
-        url: "/settings",
+        url: "/users/permission",
       },
     ],
   },

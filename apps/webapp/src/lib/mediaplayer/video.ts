@@ -17,7 +17,7 @@ const VideoPlayer = async () => {
       this.src = src;
     }
 
-    init = () => {
+    init = (callback?: (info: any) => void) => {
       const mediaInfo = new MediaInfo(this.src);
       mediaInfo.init((info: any) => {
         let mpd = mediaInfo.getDashManifest(PROXY_URL);
@@ -28,6 +28,7 @@ const VideoPlayer = async () => {
           manualBitrateSwitchingMode: "seamless",
         });
         this.info = info;
+        if (callback) callback(info);
       });
     };
   }

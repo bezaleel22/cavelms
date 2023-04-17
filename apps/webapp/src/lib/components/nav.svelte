@@ -52,12 +52,12 @@
       </button>
       <ul class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <li>
-          <a href="/account/profile" class="justify-between">
+          <a href="/profile" class="justify-between">
             Profile
             <span class="badge">New</span>
           </a>
         </li>
-        <li><a href="/account/settings">Settings</a></li>
+        <li><a href="/profile/settings">Settings</a></li>
         <li><a href="/logout">Logout</a></li>
       </ul>
     </div>

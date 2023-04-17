@@ -11,22 +11,22 @@
       <tbody>
         <!-- row 1 -->
         <tr>
-            <th><a href="#"><div class="i-bx:bxs-file text-3xl text-primary"></div></a></th>
-            <td><a href="#">Handbook of Christian Apologetics</a></td>
+            <th><a href=" "><div class="i-bx:bxs-file text-3xl text-primary"></div></a></th>
+            <td><a href=" ">Handbook of Christian Apologetics</a></td>
             <td class="hidden md:block">Word</td>
         </tr>
 
         <!-- row 3 -->
         <tr>
-            <th><a href="#"><div class="i-bx:bxs-file text-3xl text-primary"></div></a></th>
-            <td><a href="#">Biblical Approach to Apologetics</a></td>
+            <th><a href=" "><div class="i-bx:bxs-file text-3xl text-primary"></div></a></th>
+            <td><a href=" ">Biblical Approach to Apologetics</a></td>
             <td class="hidden md:block">PDF</td>
         </tr>
 
         <!-- row 3 -->
         <tr>
-            <th><a href="#"><div class="i-bx:bxs-file text-3xl text-primary"></div></a></th>
-            <td><a href="#">Explanation of Cross Religious Apologetics</a></td>
+            <th><a href=" "><div class="i-bx:bxs-file text-3xl text-primary"></div></a></th>
+            <td><a href=" ">Explanation of Cross Religious Apologetics</a></td>
             <td class="hidden md:block">Presentation</td>
         </tr>
        

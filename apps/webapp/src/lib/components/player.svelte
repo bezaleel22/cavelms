@@ -1,19 +1,25 @@
 <script lang="ts">
-  import { medias } from "$lib/data";
+  import { medias } from "$lib/store/data";
   import { Player } from "$lib/mediaplayer";
+  import { info } from "$houdini";
 
-  export let mediaId: string | null;
+  export let mediaId: number;
   export let isOpen: boolean;
 
   const initPlayer = (node: HTMLVideoElement) => {
-    let media = medias.find((media) => media.id == mediaId);
+    let media = $medias[mediaId];
     if (!Player || !media) return;
     const player = new Player(node, media.file.url);
     player.video.poster = media.playerInfo.posterUrl;
-    player?.init();
+    player?.init((info) => {
+      console.log(info);
+    });
 
     return {
-      destroy: () => player.dispose(),
+      destroy: () => {
+        $medias[mediaId].playerInfo.currentTime = Math.round(player.getPosition());
+        player.dispose();
+      },
     };
   };
 </script>
