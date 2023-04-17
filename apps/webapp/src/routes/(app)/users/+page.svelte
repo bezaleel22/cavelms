@@ -1,18 +1,8 @@
-<div class="dropdown">
-  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <!-- svelte-ignore a11y-label-has-associated-control -->
-  <label tabindex="0" class="btn m-1">Click</label>
-  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-  <div
-    tabindex="0"
-    class="dropdown-content card card-compact w-64 p-2 shadow bg-primary text-primary-content"
-  >
-    <div class="card-body">
-      <h3 class="card-title">Card title!</h3>
-      <p>you can use any element as a dropdown.</p>
-    </div>
-  </div>
-</div>
+<script>
+  import { enhance } from "$app/forms";
+  import UserFilter from "$lib/components/user_filter.svelte";
+  let checked = false;
+</script>
 
 <div class="card w-full bg-base-100 text-neutral-content">
   <div class="card-body items-center text-center">
@@ -23,22 +13,18 @@
         </div>
         <div class="btn-group btn-group-vertical lg:btn-group-horizontal">
           <div class="dropdown dropdown-bottom dropdown-end m-1">
-            <button tabindex="0" class="btn btn-primary">
+            <button class="btn btn-primary">
               <span class="i-bx:filter-alt text-lg mr-1" />
               Filter
             </button>
-            <div
-              tabindex="0"
-              class="dropdown-content card card-compact w-64 p-2 shadow-2xl bg-base-100"
-            >
-              <div class="card-body">
-                <h3 class="card-title">Card title!</h3>
-                <p>you can use any element as a dropdown.</p>
-              </div>
+            <div class="dropdown-content card card-compact w-80 p-2 shadow-2xl bg-base-100">
+              <UserFilter />
             </div>
           </div>
-
-          <button class="btn m-1"><span class="i-bx:export text-lg mr-1" />Export</button>
+          <label for="export" class="btn m-1">
+            <span class="i-bx:export text-lg mr-1" />
+            Export
+          </label>
           <button class="btn m-1"><span class="i-bx:plus text-lg mr-1" />Add User</button>
         </div>
       </div>
@@ -207,3 +193,49 @@
     </div>
   </div>
 </div>
+
+<input bind:checked type="checkbox" id="export" class="modal-toggle" />
+<label for="export" class="modal cursor-pointer">
+  <div class="modal-box w-5/12 max-w-5xl">
+    <h3 class="font-bold text-lg mb-4">Export Users</h3>
+    <form action="" use:enhance>
+      <div class="grid grid-cols-2">
+        <div class="relative mr-3">
+          <select
+            name="type"
+            id="type"
+            class=" select input-bordered floating-input peer focus:border-accent-focus"
+            placeholder=" "
+            required
+          >
+            <option value="lessons">Lessons</option>
+            <option value="practicum">Practicum</option>
+            <option value="short_Course">Short Course</option>
+          </select>
+          <label for="type" class="floating-label peer-focus:text-accent-focus">
+            Course Type
+          </label>
+        </div>
+        <div class="relative mb-3">
+          <select
+            name="type"
+            id="type"
+            class=" select input-bordered floating-input peer focus:border-accent-focus"
+            placeholder=" "
+            required
+          >
+            <option value="lessons">Lessons</option>
+            <option value="practicum">Practicum</option>
+            <option value="short_Course">Short Course</option>
+          </select>
+          <label for="type" class="floating-label peer-focus:text-accent-focus">
+            Course Type
+          </label>
+        </div>
+      </div>
+      <div class="modal-action">
+        <button for="export" class="btn">Export</button>
+      </div>
+    </form>
+  </div>
+</label>
