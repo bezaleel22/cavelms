@@ -11,6 +11,7 @@
     "devDependencies": {
         "@fontsource/fira-mono": "^4.5.10",
         "@iconify-json/bx": "^1.1.6",
+        "@iconify-json/ic": "^1.1.13",
         "@iconify-json/mdi": "^1.1.50",
         "@neoconfetti/svelte": "^1.0.0",
         "@sveltejs/adapter-auto": "^2.0.0",
