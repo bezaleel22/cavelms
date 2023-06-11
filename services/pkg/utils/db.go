@@ -33,7 +33,7 @@ func InitCollection(m interface{}, db *mongo.Database) (*mongo.Collection, map[s
 	} else {
 		name = t.Name()
 	}
-	
+
 	bm, err := bson.Marshal(m)
 	if err != nil {
 		return nil, nil, err

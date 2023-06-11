@@ -15,8 +15,7 @@ const login: Action = async ({ request, cookies }) => {
     return fail(400, { invalid: true, email, password });
   }
 
-  const user = await auth.signin({ email, password });
-
+  const user = await auth.signin({ email, password }) as AuthUser;
   if (!user) {
     return fail(400, { credentials: true });
   }
