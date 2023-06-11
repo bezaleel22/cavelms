@@ -88,7 +88,7 @@
           </div>
 
           <div class="form-control mt-2">
-            <button class="btn">Register</button>
+            <button class="btn">Signup</button>
           </div>
         </form>
         <span class="text-sm text-center mt-4">
