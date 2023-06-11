@@ -1,4 +1,4 @@
-import { auth } from "$lib/server/auth";
+import { auth, type AuthUser } from "$lib/store/authentication";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
 
@@ -15,12 +15,12 @@ const login: Action = async ({ request }) => {
     return fail(400, { invalid: true, email, password });
   }
 
-  const user = await auth.signin({ email, password });
+  const user = await auth.signin({ email, password }) as AuthUser;
   if (!user) {
     return fail(400, { credentials: true });
   }
 
-  if (!user.isAuthenticated) {
+  if (!user.loggedIn) {
     return fail(400, { credentials: true, email, password });
   }
 

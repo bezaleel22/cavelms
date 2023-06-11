@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-interface AuthUser {
+export interface AuthUser {
   id?: string;
   fullName?: string;
   email?: string;
