@@ -1,14 +1,14 @@
-import { auth } from "$lib/server/auth";
+import { auth } from "$lib/store/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (locals.user) {
+  if (locals?.auth?.loggedIn) {
     throw redirect(302, "/");
   }
 };
 
-const login: Action = async ({ request }) => {
+const login: Action = async ({ request, cookies }) => {
   const { email, password } = Object.fromEntries(await request.formData());
 
   if (typeof email !== "string" || typeof password !== "string" || !email || !password) {
@@ -16,13 +16,24 @@ const login: Action = async ({ request }) => {
   }
 
   const user = await auth.signin({ email, password });
+
   if (!user) {
     return fail(400, { credentials: true });
   }
 
-  if (!user.isAuthenticated) {
+  if (!user.loggedIn) {
     return fail(400, { credentials: true, email, password });
   }
+
+  // console.log(user);
+
+  cookies.set("token", user.refreshToken as string, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: false,
+    maxAge: user.tokenExpiredAt,
+  });
 
   throw redirect(302, "/");
 };

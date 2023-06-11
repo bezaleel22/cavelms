@@ -56,9 +56,10 @@ func (a *auth) SignIn(u *model.NewUser) (*model.User, error) {
 		return nil, err
 	}
 
-	a.setCookie(t)
+	// a.setCookie(t)
 
-	user.Token = t.AccessToken
+	user.AccessToken = t.AccessToken
+	user.RefreshToken = t.RefreshToken
 	user.LoggedIn = true
 	user.TokenExpiredAt = t.AccessExpiresAt / int64(time.Second)
 	return user, nil
@@ -73,7 +74,8 @@ func (a *auth) SignOut() error {
 		Expires:  time.Now().Add(-time.Hour),
 	})
 
-	user.Token = ""
+	user.AccessToken = ""
+	user.RefreshToken = ""
 	user.LoggedIn = false
 	err := a.DB.UpdateOne(user)
 	if err != nil {
@@ -106,7 +108,8 @@ func (a *auth) RefreshToken(token string) (*model.User, error) {
 		return nil, err
 	}
 
-	user.Token = t.AccessToken
+	user.AccessToken = t.AccessToken
+	user.RefreshToken = t.RefreshToken
 	user.TokenExpiredAt = t.AccessExpiresAt / int64(time.Second)
 	return &user, nil
 }
@@ -149,9 +152,10 @@ func (a *auth) VerifyEmail(verify *model.VerifyInput) (*model.User, error) {
 		return nil, err
 	}
 
-	a.setCookie(t)
+	// a.setCookie(t)
 
-	user.Token = t.AccessToken
+	user.AccessToken = t.AccessToken
+	user.RefreshToken = t.RefreshToken
 	user.TokenExpiredAt = t.AccessExpiresAt / int64(time.Second)
 	return user, nil
 }
@@ -233,6 +237,8 @@ func (a *auth) ChangePassword(u *model.NewUser) (*model.User, error) {
 
 func (a *auth) setCookie(t *Token) {
 	http.SetCookie(a.Writer, &http.Cookie{
+		Path:     "/",
+		Domain:   "http://localhost:8080",
 		Name:     "token",
 		Value:    t.RefreshToken,
 		HttpOnly: true,

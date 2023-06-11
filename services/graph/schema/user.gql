@@ -30,7 +30,8 @@ type User {
   wallet: Float!
   timeZone: String!
   progress: Int!
-  token: String!
+  accessToken: String!
+  refreshToken: String!
   tokenExpiredAt: Int64!
   loggedIn: Boolean!
   status: RegistrationStatus

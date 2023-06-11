@@ -789,7 +789,8 @@ type User struct {
 	Wallet                 float64             `json:"wallet" bson:"wallet,omitempty"`
 	TimeZone               string              `json:"timeZone" bson:"timeZone,omitempty"`
 	Progress               int                 `json:"progress" bson:"progress,omitempty"`
-	Token                  string              `json:"token" bson:"token,omitempty"`
+	AccessToken            string              `json:"accessToken" bson:"accessToken,omitempty"`
+	RefreshToken           string              `json:"refreshToken" bson:"refreshToken,omitempty"`
 	TokenExpiredAt         int64               `json:"tokenExpiredAt" bson:"tokenExpiredAt,omitempty"`
 	LoggedIn               bool                `json:"loggedIn" bson:"loggedIn,omitempty"`
 	Status                 *RegistrationStatus `json:"status" bson:"status,omitempty"`

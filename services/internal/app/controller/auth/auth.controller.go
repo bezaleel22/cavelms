@@ -73,12 +73,14 @@ func (auth *Auth) VerifyEmail(c *gin.Context) {
 func (auth *Auth) Refresh(c *gin.Context) {
 	token, err := c.Cookie("token")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		c.JSON(http.StatusForbidden, err)
+
 	}
 
 	user, err := auth.Service.RefreshToken(token)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, err)
+		return
 	}
 
 	c.JSON(http.StatusOK, user)

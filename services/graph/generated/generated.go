@@ -517,6 +517,7 @@ type ComplexityRoot struct {
 
 	User struct {
 		About                  func(childComplexity int) int
+		AccessToken            func(childComplexity int) int
 		Address                func(childComplexity int) int
 		AvatarURL              func(childComplexity int) int
 		ChurchAddress          func(childComplexity int) int
@@ -561,6 +562,7 @@ type ComplexityRoot struct {
 		Qualifications         func(childComplexity int) int
 		Reason                 func(childComplexity int) int
 		Referees               func(childComplexity int) int
+		RefreshToken           func(childComplexity int) int
 		RegNumber              func(childComplexity int) int
 		Role                   func(childComplexity int) int
 		SalvationBrief         func(childComplexity int) int
@@ -569,7 +571,6 @@ type ComplexityRoot struct {
 		State                  func(childComplexity int) int
 		Status                 func(childComplexity int) int
 		TimeZone               func(childComplexity int) int
-		Token                  func(childComplexity int) int
 		TokenExpiredAt         func(childComplexity int) int
 		UpdatedAt              func(childComplexity int) int
 		Username               func(childComplexity int) int
@@ -3675,6 +3676,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.About(childComplexity), true
 
+	case "User.accessToken":
+		if e.complexity.User.AccessToken == nil {
+			break
+		}
+
+		return e.complexity.User.AccessToken(childComplexity), true
+
 	case "User.address":
 		if e.complexity.User.Address == nil {
 			break
@@ -3983,6 +3991,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Referees(childComplexity), true
 
+	case "User.refreshToken":
+		if e.complexity.User.RefreshToken == nil {
+			break
+		}
+
+		return e.complexity.User.RefreshToken(childComplexity), true
+
 	case "User.regNumber":
 		if e.complexity.User.RegNumber == nil {
 			break
@@ -4038,13 +4053,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.TimeZone(childComplexity), true
-
-	case "User.token":
-		if e.complexity.User.Token == nil {
-			break
-		}
-
-		return e.complexity.User.Token(childComplexity), true
 
 	case "User.tokenExpiredAt":
 		if e.complexity.User.TokenExpiredAt == nil {
@@ -5335,7 +5343,8 @@ type User {
   wallet: Float!
   timeZone: String!
   progress: Int!
-  token: String!
+  accessToken: String!
+  refreshToken: String!
   tokenExpiredAt: Int64!
   loggedIn: Boolean!
   status: RegistrationStatus
@@ -8952,8 +8961,10 @@ func (ec *executionContext) fieldContext_Course_students(ctx context.Context, fi
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -17409,8 +17420,10 @@ func (ec *executionContext) fieldContext_Mutation_createUser(ctx context.Context
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -17723,8 +17736,10 @@ func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -17895,8 +17910,10 @@ func (ec *executionContext) fieldContext_Mutation_updateProspective(ctx context.
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -18067,8 +18084,10 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -18239,8 +18258,10 @@ func (ec *executionContext) fieldContext_Mutation_deleteManyUsers(ctx context.Co
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -22161,8 +22182,10 @@ func (ec *executionContext) fieldContext_Query_users(ctx context.Context, field 
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -22322,8 +22345,10 @@ func (ec *executionContext) fieldContext_Query_user(ctx context.Context, field g
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -24842,8 +24867,10 @@ func (ec *executionContext) fieldContext_Reminder_user(ctx context.Context, fiel
 				return ec.fieldContext_User_timeZone(ctx, field)
 			case "progress":
 				return ec.fieldContext_User_progress(ctx, field)
-			case "token":
-				return ec.fieldContext_User_token(ctx, field)
+			case "accessToken":
+				return ec.fieldContext_User_accessToken(ctx, field)
+			case "refreshToken":
+				return ec.fieldContext_User_refreshToken(ctx, field)
 			case "tokenExpiredAt":
 				return ec.fieldContext_User_tokenExpiredAt(ctx, field)
 			case "loggedIn":
@@ -28456,8 +28483,8 @@ func (ec *executionContext) fieldContext_User_progress(ctx context.Context, fiel
 	return fc, nil
 }
 
-func (ec *executionContext) _User_token(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_User_token(ctx, field)
+func (ec *executionContext) _User_accessToken(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_accessToken(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -28470,7 +28497,7 @@ func (ec *executionContext) _User_token(ctx context.Context, field graphql.Colle
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Token, nil
+		return obj.AccessToken, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -28487,7 +28514,51 @@ func (ec *executionContext) _User_token(ctx context.Context, field graphql.Colle
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_User_token(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_User_accessToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _User_refreshToken(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_refreshToken(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.RefreshToken, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_refreshToken(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "User",
 		Field:      field,
@@ -38614,9 +38685,16 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "token":
+		case "accessToken":
 
-			out.Values[i] = ec._User_token(ctx, field, obj)
+			out.Values[i] = ec._User_accessToken(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "refreshToken":
+
+			out.Values[i] = ec._User_refreshToken(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++

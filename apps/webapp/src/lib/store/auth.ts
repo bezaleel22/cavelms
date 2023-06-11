@@ -1,34 +1,27 @@
 import { writable } from "svelte/store";
 
-interface AuthUser {
-  id?: string;
-  fullName?: string;
-  email?: string;
-  role?: string;
-  username?: string;
-  isVerified?: boolean;
-  progress?: number;
-  token?: string;
-  tokenExpiredAt?: number;
-  loggedIn?: boolean;
-  isAuthenticated?: boolean;
-  isFetching?: boolean;
-}
-
 const Authentication = () => {
   const { subscribe, set, update } = writable<AuthUser>({ isFetching: false });
   let authUser: AuthUser;
-  const fetchFn = async (path: string, body?: object): Promise<Response> => {
-    const url = `http://localhost:8000/auth${path}`;
-    update((prev) => ({ ...prev, isFetching: true }));
-    const result = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(body),
-    });
+  const fetchFn = async (path: string, body?: object) => {
+    try {
+      const url = `http://localhost:8000/auth${path}`;
+      update((prev) => ({ ...prev, isFetching: true }));
+      const result = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
 
-    authUser = (await result.json()) as AuthUser;
-    update((prev) => ({ ...prev, ...authUser, isFetching: false }));
-    return result;
+      if (!result.ok) throw new Error(result.statusText);
+
+      authUser = (await result.json()) as AuthUser;
+      update((prev) => ({ ...prev, ...authUser, isFetching: false }));
+      return authUser;
+    } catch (error: any) {
+      console.log({ error: error.message });
+      return null;
+    }
   };
 
   return {
