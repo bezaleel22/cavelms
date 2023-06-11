@@ -77,7 +77,7 @@
         </form>
         <span class="text-sm text-center mt-4">
           Don't have an account?
-          <a href="/signup" class="text-primary">Register</a>
+          <a href="/signup" class="text-primary">SignUp</a>
         </span>
       </div>
     </div>
