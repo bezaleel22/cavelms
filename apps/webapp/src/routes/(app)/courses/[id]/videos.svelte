@@ -21,6 +21,7 @@
     const url = data.get("url") as string;
     const info = new MediaInfo(url);
     console.log(info);
+    
     info.init((info) => {
       const media = {
         title: info.videoDetails.title,
