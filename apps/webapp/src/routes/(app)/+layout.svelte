@@ -8,10 +8,9 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content bg-base-100" style="scroll-behavior: smooth; scroll-padding-top: 5rem;">
       <Nav />
-      <slot />
-      <!-- <div class="container-fluid mx-auto p-10 bg-base-200 rounded-xl h-full overflow-auto ">
-       
-      </div> -->
+      <div class="container-fluid mx-auto p-10 bg-base-200 rounded-xl h-full overflow-auto ">
+        <slot />
+      </div>
     </div>
     <Sidebar />
   </main>
