@@ -1,6 +1,11 @@
 <script>
   import { enhance } from "$app/forms";
   import UserFilter from "./user_filter.svelte";
+  export let data;
+  $: ({ Users } = data);
+  $: ({ users } = $Users.data);
+
+  $: console.log(users)
   let checked = false;
 </script>
 
@@ -109,7 +114,7 @@
 <label for="export" class="modal cursor-pointer">
   <label class=" modal-box w-5/12 max-w-5xl relative">
     <h3 class="font-bold text-lg mb-4">Export Users</h3>
-    <form action="" use:enhance>
+    <form action="" method="post" use:enhance>
       <div class="grid grid-cols-2">
         <div class="relative mr-3">
           <select
