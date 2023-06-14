@@ -5,9 +5,13 @@ query Users {
     email
     role
     username
+    phone
+    country
     avatarUrl
     isVerified
     progress
+    program
+    platform
     tokenExpiredAt
     loggedIn
     createdAt

@@ -5,7 +5,8 @@
   $: ({ Users } = data);
   $: ({ users } = $Users.data);
 
-  $: console.log(users)
+  // $: console.log(Users);
+  // $: console.log(users);
   let checked = false;
 </script>
 
@@ -23,7 +24,7 @@
               Filter
             </button>
             <div class="dropdown-content card card-compact w-96 p-2 shadow-2xl bg-base-100">
-              <UserFilter />
+              <UserFilter {users} />
             </div>
           </div>
           <label for="export" class="btn m-1">
@@ -44,7 +45,7 @@
                 </label>
               </th>
               <th>Name</th>
-              <th>Role</th>
+              <th>Contact</th>
               <th>Program</th>
               <th>Platform</th>
               <th>Actions</th>
@@ -52,52 +53,63 @@
           </thead>
           <tbody>
             <!-- row 1 -->
-            <tr>
-              <th>
-                <label>
-                  <input type="checkbox" class="checkbox" />
-                </label>
-              </th>
-              <td>
-                <a href="/users/jfhbdfjhjf" class="flex items-center space-x-3">
-                  <div class="avatar">
-                    <div class="mask mask-squircle w-12 h-12">
-                      <img
-                        src="https://i.pravatar.cc/150?img=1"
-                        alt="Avatar Tailwind CSS Component"
-                      />
+            {#each users as user}
+              <tr>
+                <th>
+                  <label>
+                    <input type="checkbox" class="checkbox" />
+                  </label>
+                </th>
+                <td>
+                  <a href="/users/{user.id}" class="flex items-center space-x-3">
+                    {#if !!user.avatarUrl}
+                      <div class="avatar">
+                        <div class="mask mask-squircle w-12 h-12">
+                          <img
+                            src={user.avatarUrl}
+                            alt="Avatar Tailwind CSS Component"
+                          />
+                        </div>
+                      </div>
+                    {:else}
+                      <div class="avatar placeholder">
+                        <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
+                          <span class="text-xl">K</span>
+                        </div>
+                      </div>
+                    {/if}
+
+                    <div>
+                      <div class="font-bold">{user.fullName}</div>
+                      <div class="text-sm opacity-50">{user.country}</div>
                     </div>
+                  </a>
+                </td>
+                <td>
+                  {user.email}
+                  <br />
+                  <span class="badge badge-secondary badge-outline  badge-sm">{user.phone}</span>
+                </td>
+                <td>{user.program}</td>
+                <th>{user.platform}</th>
+                <th>
+                  <div class="dropdown dropdown-end">
+                    <button class="btn btn-xs">Action</button>
+                    <ul class="dropdown-content menu p-2 shadow-2xl bg-base-100 rounded-box w-52">
+                      <li><button>Edit</button></li>
+                      <li><button>Delete</button></li>
+                    </ul>
                   </div>
-                  <div>
-                    <div class="font-bold">Hart Hagerty</div>
-                    <div class="text-sm opacity-50">United States</div>
-                  </div>
-                </a>
-              </td>
-              <td>
-                Zemlak, Daniel and Leannon
-                <br />
-                <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
-              </td>
-              <td>Purple</td>
-              <th>On-Campus</th>
-              <th>
-                <div class="dropdown dropdown-end">
-                  <button class="btn btn-xs">Action</button>
-                  <ul class="dropdown-content menu p-2 shadow-2xl bg-base-100 rounded-box w-52">
-                    <li><button>Edit</button></li>
-                    <li><button>Delete</button></li>
-                  </ul>
-                </div>
-              </th>
-            </tr>
+                </th>
+              </tr>
+            {/each}
           </tbody>
           <!-- foot -->
           <tfoot>
             <tr>
               <th />
               <th>Name</th>
-              <th>Role</th>
+              <th>Contact</th>
               <th>Program</th>
               <th>Platform</th>
               <th>Actions</th>
