@@ -11,7 +11,7 @@ export const handle = (async ({ event, resolve }) => {
   // event.locals.auth = await auth.refresh();
 
   const response = await resolve(event);
-  response.headers.set("x-custom-header", "potato");
+  // response.headers.set("x-custom-header", "potato");
 
   return response;
 }) satisfies Handle;

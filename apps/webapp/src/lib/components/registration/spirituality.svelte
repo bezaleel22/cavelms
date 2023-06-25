@@ -38,7 +38,7 @@
     </div>
     <div class="mt-5 md:col-span-2 md:mt-0">
       <!-- FORM BEGINS -->
-      <form action="?/spiritual" method="POST" use:enhance={onSubmit}>
+      <form action="?/spiritual" method="post" use:enhance={onSubmit}>
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="space-y-6 bg-base-100 px-4 py-5 sm:p-6">
             <fieldset>

@@ -10,6 +10,9 @@ const config = {
 
   kit: {
     adapter: adapter(),
+    // methodOverride: {
+    //   allowed: ['POST']
+    // },
     alias: {
       $houdini: path.resolve(".", "$houdini"),
     },

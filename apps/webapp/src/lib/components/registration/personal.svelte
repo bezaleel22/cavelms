@@ -1,8 +1,45 @@
-<script>
-
+<script lang="ts">
   import { enhance } from "$app/forms";
 
+  // // Define the types for the form data
+  // interface RegistrationFormData {
+  //   firstName: string;
+  //   lastName: string;
+  //   middleName: string;
+  //   gender: string;
+  //   dob: string;
+  //   email: string;
+  //   phone: string;
+  //   address: string;
+  //   city: string;
+  //   zip: string;
+  //   state: string;
+  //   country: string;
+  // }
+
+  // // Initialize the form data
+  // let formData: RegistrationFormData = {
+  //   firstName: "",
+  //   lastName: "",
+  //   middleName: "",
+  //   gender: "male",
+  //   dob: "",
+  //   email: "",
+  //   phone: "",
+  //   address: "",
+  //   city: "",
+  //   zip: "",
+  //   state: "",
+  //   country: "",
+  // };
+
+  // // Handle form submission
+  // function handleSubmit() {
+  //   console.log("Form data:", formData);
+  // }
 </script>
+
+
 <div class="mt-10 sm:mt-0">
   <div class="md:grid md:grid-cols-3 md:gap-6">
     <div class="md:col-span-1">
@@ -12,7 +49,7 @@
       </div>
     </div>
     <div class="mt-5 md:col-span-2 md:mt-0">
-      <form action="?/personal" method="POST" use:enhance>
+      <form action="?/personal" method="post" use:enhance>
         <div class="overflow-hidden shadow sm:rounded-md">
           <div class="bg-base-100 px-4 py-5 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
@@ -187,7 +224,7 @@
             </div>
 
             <div class="text-right mt-4">
-              <button class="btn">Save</button>
+              <button class="btn" type="submit">Save</button>
             </div>
           </div>
         </div>
