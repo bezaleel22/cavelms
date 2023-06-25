@@ -2,6 +2,7 @@ import { CreateActivityStore, CreateUserStore, UpdateActivityStore, UpdateUserSt
 import type { Actions, PageServerLoad } from './$types';
 
 export const load = (async () => {
+    console.log({loaded: true})
     return {};
 }) satisfies PageServerLoad;
 

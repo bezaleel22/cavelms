@@ -13,11 +13,11 @@
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<div class="grid grid-cols-4 gap-4 border mb-4">
+<!-- <div class="grid grid-cols-4 gap-4 border mb-4">
   <div>01</div>
-  <!-- ... -->
+
   <div>09</div>
-</div>
+</div> -->
 
 <div class="grid grid-cols-4 gap-4">
   <div class="">
