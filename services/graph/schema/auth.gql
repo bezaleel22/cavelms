@@ -1,0 +1,39 @@
+type Claims {
+  id: ID!
+  userId: String!
+  email: String!
+  Role: String!
+}
+
+type Token {
+  token: String!
+  expiresAt: Int64!
+}
+
+input AuthUser {
+  email: String!
+  password: String!
+}
+
+input NewUser {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  platform: String!
+  program: String!
+}
+
+extend type Query {
+  refresh(refreshToken: String!): User
+  signOut(refreshToken: String!): User
+}
+
+extend type Mutation {
+  signIn(input: AuthUser!): User
+  signUp(input: NewUser!): User
+  forgetPassword(email: String!): User
+  resetPassword(refreshToken: String!, password: String!): User
+  changePassword(refreshToken: String!, userId: String!): User
+  verifyEmail(refreshToken: String!): User
+}

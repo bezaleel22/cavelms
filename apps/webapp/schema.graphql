@@ -1,3 +1,5 @@
+directive @goTag(key: String!, value: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
 directive @requireAuth(token: String) on FIELD_DEFINITION
 
 type Activity {
@@ -101,11 +103,23 @@ input AnswerInput {
 
 scalar Any
 
+input AuthUser {
+  email: String!
+  password: String!
+}
+
 type Bonus {
   description: String!
   id: ID!
   name: String!
   percentage: Int!
+}
+
+type Claims {
+  Role: String!
+  email: String!
+  id: ID!
+  userId: String!
 }
 
 type Course {
@@ -407,7 +421,16 @@ type GradeScale {
 
 scalar Int64
 
-type MailInput {
+type Mail {
+  attachmentUrl: String!
+  body: String!
+  id: ID!
+  status: String!
+  subject: String!
+  to: [String!]
+}
+
+input MailInput {
   attachmentUrl: String
   content: Any
   id: ID!
@@ -430,16 +453,18 @@ input MatchingPairInput {
 
 type Media {
   category: String!
+  courseId: ID!
   createdAt: Time
   deletedAt: Time
   description: String
-  duration: Int64!
   file: File!
   id: ID!
   mediaType: MediaType!
+  tags: [String!]!
   title: String!
   updatedAt: Time
-  videoPlayerInfo: VideoPlayerInfo
+  userId: ID!
+  videoPlayerInfo: PlayerInfo
 }
 
 enum MediaType {
@@ -456,6 +481,7 @@ enum MediaType {
 }
 
 type Mutation {
+  changePassword(refreshToken: String!, userId: String!): User
   createActivity(input: CreateActivityInput!): Activity
   createCourse(input: CreateCourseInput): Course!
   createEvaluationCriteria(input: CreateEvaluationCriteriaInput!): EvaluationCriteria!
@@ -481,6 +507,7 @@ type Mutation {
   deleteForumPost(id: ID!): ForumPost!
   deleteGlobalSetting(id: ID!): Boolean!
   deleteGrade(id: ID!): Boolean!
+  deleteMail(id: ID!): Mail
   deleteManyUsers(ids: [ID!]): User
   deleteMedia(id: ID!): Media
   deleteNotification(id: ID!): Notification!
@@ -489,8 +516,13 @@ type Mutation {
   deleteTarget(id: ID!): Target
   deleteUser(id: ID!): User
   deleteUserSetting(id: ID!): Boolean!
+  forgetPassword(email: String!): User
   grantPermission(input: PermissionInput!): Permission
+  resetPassword(password: String!, refreshToken: String!): User
   revokePermission(input: PermissionInput!): Permission
+  sendMail(input: MailInput): Mail
+  signIn(input: AuthUser!): User
+  signUp(input: NewUser!): User
   submitQuiz(input: SubmissionInput!, quizId: ID!): Submission
   updateActivity(input: UpdateActivityInput!): Activity
   updateCourse(input: Any): Course!
@@ -509,6 +541,7 @@ type Mutation {
   updateTarget(id: ID!, input: UpdateTargetInput!): Target
   updateUser(input: Any): User
   updateUserSetting(id: ID!, input: UpdateSetting!): UserSetting!
+  verifyEmail(refreshToken: String!): User
 }
 
 input NewCourse {
@@ -550,6 +583,8 @@ input NewUser {
   firstName: String!
   lastName: String!
   password: String!
+  platform: String!
+  program: String!
 }
 
 type Notification {
@@ -595,6 +630,20 @@ input PermissionInput {
   role: Role!
 }
 
+type PlayerInfo {
+  currentTime: Int!
+  duration: Int!
+  posterUrl: String
+  thumbnailUrl: String!
+}
+
+input PlayerInfoInput {
+  currentTime: Int
+  duration: Int
+  posterUrl: String
+  thumbnailUrl: String
+}
+
 enum ProctoringMethod {
   AUTOMATED
   MANUAL
@@ -636,11 +685,15 @@ type Query {
   globalSettings(limit: Int = 25, offset: Int = 0): [GlobalSetting!]!
   grade(id: ID!): Grade
   grades: [Grade!]!
+  mail(id: ID!): Mail
+  mails: [Mail]
   media(id: ID!): Media
   mediaByType(type: MediaType!): [Media!]!
   notifications(courseId: ID, read: Boolean, recipientId: ID): [Notification!]!
   quiz(id: ID!): Quiz!
   quizzes: [Quiz!]!
+  refresh(refreshToken: String!): User
+  signOut(refreshToken: String!): User
   submission(id: ID!): Submission!
   submissions: [Submission!]!
   target(id: ID!): Target
@@ -853,6 +906,11 @@ enum TargetType {
 
 scalar Time
 
+type Token {
+  expiresAt: Int64!
+  token: String!
+}
+
 input UpdateActivityInput {
   activityType: ActivityType!
   courseContentID: ID
@@ -938,7 +996,7 @@ input UpdateMediaInput {
   id: ID!
   mediaType: MediaType!
   title: String!
-  videoPlayerInfo: VideoPlayerInfoInput
+  videoPlayerInfo: PlayerInfoInput
 }
 
 input UpdateNotificationInput {
@@ -1018,6 +1076,7 @@ scalar Upload
 
 type User {
   about: String!
+  accessToken: Token!
   address: String!
   avatarUrl: String!
   churchAddress: String!
@@ -1040,9 +1099,9 @@ type User {
   healthConditions: [String!]
   healthIssueDescription: String!
   id: String!
+  isAuthenticated: Boolean!
   isVerified: Boolean!
   lastName: String!
-  loggedIn: Boolean!
   matricNumber: String!
   middleName: String!
   nationality: String!
@@ -1062,18 +1121,18 @@ type User {
   qualifications: [Qualification!]!
   reason: String!
   referees: [Referee!]!
+  refreshToken: Token!
   regNumber: String!
-  role: [Role!]!
+  role: Role!
   salvationBrief: String!
   scholarship: Boolean
   scholarshipReason: String!
   state: String!
   status: RegistrationStatus
   timeZone: String!
-  token: String!
-  tokenExpiredAt: Int64!
   updatedAt: Time
   username: String!
+  verifycationToken: Token!
   wallet: Float!
   zip: String!
 }
@@ -1109,16 +1168,7 @@ enum UserSettingKeys {
 
 input VerifyInput {
   code: String!
-  id: ID!
-  resend: Boolean!
-}
-
-type VideoPlayerInfo {
-  currentTime: Int
-  duration: Int
-}
-
-input VideoPlayerInfoInput {
-  currentTime: Int
-  totalTime: Int
+  email: String!
+  password: String
+  resend: Boolean
 }

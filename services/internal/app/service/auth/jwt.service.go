@@ -3,7 +3,6 @@ package auth
 import (
 	"time"
 
-	"github.com/cavelms/config"
 	"github.com/cavelms/internal/model"
 	"github.com/cavelms/pkg/utils"
 	jwt "github.com/golang-jwt/jwt/v4"
@@ -11,92 +10,77 @@ import (
 )
 
 // jwt service
-type JWTService interface {
-	GenerateToken(u model.User, refresh bool) (*Token, error)
-	ValidateAccessToken(tokenString string) (jwt.MapClaims, error)
-	ValidateRefreshToken(tokenString string) (jwt.MapClaims, error)
-}
 
-type TokenClaims struct {
-	TokenID string       `json:"tokenId"`
-	UserID  string       `json:"userId"`
-	Email   string       `json:"email"`
-	Role    []model.Role `json:"role"`
+type Claims struct {
+	TokenID string     `json:"tokenId"`
+	UserID  string     `json:"userId"`
+	Email   string     `json:"email"`
+	Role    model.Role `json:"role"`
 	jwt.RegisteredClaims
 }
 
-type Token struct {
-	AccessToken      string `json:"accessToken"`
-	RefreshToken     string `json:"refreshToken"`
-	AccessExpiresAt  int64  `json:"accessExpiresAt"`
-	RefreshExpiresAt int64  `json:"refreshExpiresAt"`
-}
-
-type jwtService struct {
-	accessSecret     string
-	refreshSecret    string
-	accessExpiresAt  int64
-	refreshExpiresAt int64
-	issure           string
-}
-
-// auth-jwt
-func JWTAuthService() JWTService {
-	return &jwtService{
-		accessSecret:  config.GetConfig().JWTAccessSecret,
-		refreshSecret: config.GetConfig().JWTRefreshSecret,
-		issure:        config.GetConfig().JWTIssuer,
-
-		accessExpiresAt:  int64(time.Hour),             // 1 hour
-		refreshExpiresAt: int64((24 * time.Hour) * 14), // 14 days
-	}
-}
-
 // IssueAccessToken generate access tokens used for authentication
-func (j *jwtService) GenerateToken(u model.User, refresh bool) (*Token, error) {
-	token := &Token{}
+func (a *auth) generateToken(u model.User, exp time.Duration) (*model.Token, error) {
+	token := &model.Token{}
 
 	// Generate encoded token
-	claims := TokenClaims{
+	claims := Claims{
 		TokenID:          uuid.New().String(),
 		UserID:           u.ID,
 		Email:            u.Email,
 		Role:             u.Role,
-		RegisteredClaims: jwt.RegisteredClaims{Issuer: j.issure},
+		RegisteredClaims: jwt.RegisteredClaims{Issuer: a.issure},
 	}
 
-	// IssueRefreshToken generate refresh tokens used for refreshing authentication
-	if refresh {
-		claims.TokenID = uuid.New().String()
-		t := time.Now().Add(time.Duration(j.refreshExpiresAt))
-		claims.ExpiresAt = jwt.NewNumericDate(t)
-		tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		rt, err := tokenClaims.SignedString([]byte(j.refreshSecret))
-		if err != nil {
-			return nil, err
-		}
-		token.RefreshToken = rt
-	}
-
-	// IssueAccessToken generate accees token used for authentication
-	claims.TokenID = uuid.New().String()
-	t := time.Now().Add(time.Duration(j.accessExpiresAt))
+	t := time.Now().Add(exp)
 	claims.ExpiresAt = jwt.NewNumericDate(t)
 	tc := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	at, err := tc.SignedString([]byte(j.accessSecret))
+	tokenString, err := tc.SignedString([]byte(a.authSecret))
 	if err != nil {
 		return nil, err
 	}
-	token.AccessToken = at
 
-	token.AccessExpiresAt = j.accessExpiresAt
-	token.RefreshExpiresAt = j.refreshExpiresAt
+	token.Token = tokenString
+	token.ExpiresAt = int64(exp) / int64(time.Second)
+
+	err = a.RDBS.Set(claims.TokenID, u.ID, int(token.ExpiresAt))
+	if err != nil {
+		return nil, err
+	}
+
 	return token, nil
-
 }
 
-func (j *jwtService) ValidateRefreshToken(tokenString string) (jwt.MapClaims, error) {
-	hmacSecret := []byte(j.refreshSecret)
+func (a *auth) generateAuthToken(user *model.User, accessOnly bool) error {
+
+	// IssueRefreshToken generate access tokens used for authentication
+	token, err := a.generateToken(*user, (24*time.Hour)*14) // 14 days
+	if err != nil {
+		return err
+	}
+	user.RefreshToken = token
+
+	// IssueAccessToken generate access tokens used for authentication
+	token, err = a.generateToken(*user, time.Hour) // 1 hour
+	if err != nil {
+		return err
+	}
+	user.AccessToken = token
+	return nil
+}
+
+func (a *auth) generateVerificationToken(u *model.User) error {
+	token, err := a.generateToken(*u, time.Hour) // 1 hour
+	if err != nil {
+		return err
+	}
+
+	u.VerifycationToken = token
+	return nil
+}
+
+func (a *auth) verifyToken(tokenString string) (jwt.MapClaims, error) {
+	hmacSecret := []byte(a.authSecret)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return hmacSecret, nil
 	})
@@ -112,19 +96,17 @@ func (j *jwtService) ValidateRefreshToken(tokenString string) (jwt.MapClaims, er
 	return nil, utils.ErrInvalidAuthToken
 }
 
-func (j *jwtService) ValidateAccessToken(tokenString string) (jwt.MapClaims, error) {
-	hmacSecret := []byte(j.accessSecret)
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return hmacSecret, nil
-	})
-
+func (a *auth) deleteToken(tokenString string) (int64, error) {
+	claims, err := a.verifyToken(tokenString)
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		return claims, nil
+	tokenId := claims["tokenId"].(string)
+	deleted, err := a.RDBS.Del(tokenId)
+	if err != nil {
+		return 0, err
 	}
 
-	return nil, utils.ErrInvalidAuthToken
+	return deleted, err
 }

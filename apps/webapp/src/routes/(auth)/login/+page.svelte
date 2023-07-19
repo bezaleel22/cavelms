@@ -7,7 +7,7 @@
   let message: boolean;
   export let form: ActionData;
 
-  $: if (form && !form?.success) {
+  $: if (form) {
     message = form?.message;
     isAlert = true;
     console.log(form);
@@ -59,7 +59,7 @@
                 placeholder=" "
               />
               <button on:click={() => (reveal = !reveal)} type="button" class="btn btn-square">
-                <div class="{reveal ? 'i-mdi:eye-outline' : 'i-mdi:eye-off-outline'} text-2xl" />
+                <div class="{reveal ? 'i-mdi:eye-outline' : 'i-mdi:eye-off-outline'} text-xl" />
               </button>
             </div>
             <label for="password" class=" floating-label peer-focus:text-accent-focus">

@@ -1,15 +1,17 @@
-query User($id: ID!) {
-  user(id: $id) {
+mutation SignIn($input: AuthUser!) {
+  signIn(input: $input) {
     id
+    firstName
+    lastName
     fullName
     email
     role
     username
+    isVerified
+    progress
     phone
     country
     avatarUrl
-    isVerified
-    progress
     program
     platform
     accessToken {

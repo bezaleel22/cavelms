@@ -1,7 +1,12 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
   import Brand from "$lib/components/brand.svelte";
+  import type { ActionData } from "./$types";
 
+  export let form: ActionData;
+  $: if (form) {
+    console.log(form);
+  }
   let reveal = false;
 </script>
 
@@ -13,6 +18,7 @@
         Experience the Intense Atmosphere of Heaven with Adullam - Where Learning Meets Spiritual
         Impartation
       </p>
+      <p class="py-6 text-lg text-primary font-semibold">Sign Up to begin your registration!</p>
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div class="card-body">
@@ -22,26 +28,26 @@
         <form action="?/signup" method="post" use:enhance>
           <div class="relative mb-4">
             <input
-              name="fullName"
+              name="firstName"
               type="text"
-              id="fullName"
+              id="firstName"
               class=" input input-bordered floating-input peer focus:border-accent-focus"
             />
-            <label for="fullName" class=" floating-label peer-focus:text-accent-focus"
-              >Full Name</label
-            >
+            <label for="firstName" class=" floating-label peer-focus:text-accent-focus">
+              First Name
+            </label>
           </div>
-          <!-- <div class="relative mb-4">
+          <div class="relative mb-4">
             <input
               name="lastName"
               type="text"
               id="lastName"
               class=" input input-bordered floating-input peer focus:border-accent-focus"
             />
-            <label for="lastName" class=" floating-label peer-focus:text-accent-focus"
-              >Last Name</label
-            >
-          </div> -->
+            <label for="lastName" class=" floating-label peer-focus:text-accent-focus">
+              Last Name
+            </label>
+          </div>
           <div class="relative mb-4">
             <input
               name="email"
@@ -62,7 +68,7 @@
                 placeholder=" "
               />
               <button on:click={() => (reveal = !reveal)} type="button" class="btn btn-square">
-                <div class="{reveal ? 'i-mdi:eye-outline' : 'i-mdi:eye-off-outline'} text-2xl" />
+                <div class="{reveal ? 'i-mdi:eye-outline' : 'i-mdi:eye-off-outline'} text-xl" />
               </button>
             </div>
             <label for="password" class=" floating-label peer-focus:text-accent-focus">
@@ -70,7 +76,7 @@
             </label>
           </div>
 
-          <div class="relative col-span-6 sm:col-span-3">
+          <div class="relative col-span-6 sm:col-span-3 mb-4">
             <select
               name="program"
               id="program"
@@ -87,20 +93,19 @@
             </label>
           </div>
 
-          
-          <div class="relative col-span-6 sm:col-span-3">
+          <div class="relative col-span-6 sm:col-span-3 mb-10">
             <select
-              name="Platform"
-              id="Platform"
+              name="platform"
+              id="platform"
               class=" select input-bordered floating-input peer focus:border-accent-focus"
               placeholder=" "
               required
             >
               <option disabled selected>Choose a Platform</option>
               <option>Online</option>
-              <option>On-Site</option>
+              <option>On-Campus</option>
             </select>
-            <label for="Platform" class="floating-label peer-focus:text-accent-focus">
+            <label for="platform" class="floating-label peer-focus:text-accent-focus">
               Platform
             </label>
           </div>
@@ -117,6 +122,7 @@
     </div>
   </div>
 </div>
+<<<<<<< HEAD
 
 <!-- <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-row-reverse">
@@ -195,3 +201,5 @@
     </div>
   </div>
 </div> -->
+=======
+>>>>>>> 2e7e4d4d248d03120f5fa9e1b700d3a1f7d067e3

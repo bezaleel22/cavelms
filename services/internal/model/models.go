@@ -60,11 +60,23 @@ type AnswerInput struct {
 	Feedback      string              `json:"feedback" bson:"feedback,omitempty"`
 }
 
+type AuthUser struct {
+	Email    string `json:"email" bson:"email,omitempty"`
+	Password string `json:"password" bson:"password,omitempty"`
+}
+
 type Bonus struct {
 	ID          string `json:"id" bson:"_id"`
 	Name        string `json:"name" bson:"name,omitempty"`
 	Description string `json:"description" bson:"description,omitempty"`
 	Percentage  int    `json:"percentage" bson:"percentage,omitempty"`
+}
+
+type Claims struct {
+	ID     string `json:"id" bson:"_id"`
+	UserID string `json:"userId" bson:"userId,omitempty"`
+	Email  string `json:"email" bson:"email,omitempty"`
+	Role   string `json:"Role" bson:"Role,omitempty"`
 }
 
 type Course struct {
@@ -329,6 +341,15 @@ type GradeScale struct {
 	Grade    string `json:"grade" bson:"grade,omitempty"`
 }
 
+type Mail struct {
+	ID            string   `json:"id" bson:"_id"`
+	To            []string `json:"to" bson:"to,omitempty"`
+	Subject       string   `json:"subject" bson:"subject,omitempty"`
+	Body          string   `json:"body" bson:"body,omitempty"`
+	AttachmentURL string   `json:"attachmentUrl" bson:"attachmentUrl,omitempty"`
+	Status        string   `json:"status" bson:"status,omitempty"`
+}
+
 type MailInput struct {
 	ID            string      `json:"id" bson:"_id"`
 	To            []string    `json:"to" bson:"to,omitempty"`
@@ -405,6 +426,8 @@ type NewUser struct {
 	LastName  string `json:"lastName" bson:"lastName,omitempty"`
 	Email     string `json:"email" bson:"email,omitempty"`
 	Password  string `json:"password" bson:"password,omitempty"`
+	Platform  string `json:"platform" bson:"platform,omitempty"`
+	Program   string `json:"program" bson:"program,omitempty"`
 }
 
 type Notification struct {
@@ -599,6 +622,11 @@ type Target struct {
 	UpdatedAt      *time.Time     `json:"updatedAt" bson:"updatedAt,omitempty"`
 }
 
+type Token struct {
+	Token     string `json:"token" bson:"token,omitempty"`
+	ExpiresAt int64  `json:"expiresAt" bson:"expiresAt,omitempty"`
+}
+
 type UpdateActivityInput struct {
 	ID              string       `json:"id" bson:"_id"`
 	CourseContentID *string      `json:"courseContentID" bson:"courseContentID,omitempty"`
@@ -767,7 +795,7 @@ type User struct {
 	MiddleName             string              `json:"middleName" bson:"middleName,omitempty"`
 	FullName               string              `json:"fullName" bson:"fullName,omitempty"`
 	Email                  string              `json:"email" bson:"email,omitempty"`
-	Role                   []Role              `json:"role" bson:"role,omitempty"`
+	Role                   Role                `json:"role" bson:"role,omitempty"`
 	PermissionIds          []string            `json:"permissionIds" bson:"permissionIds,omitempty"`
 	Phone                  string              `json:"phone" bson:"phone,omitempty"`
 	AvatarURL              string              `json:"avatarUrl" bson:"avatarUrl,omitempty"`
@@ -789,10 +817,10 @@ type User struct {
 	Wallet                 float64             `json:"wallet" bson:"wallet,omitempty"`
 	TimeZone               string              `json:"timeZone" bson:"timeZone,omitempty"`
 	Progress               int                 `json:"progress" bson:"progress,omitempty"`
-	AccessToken            string              `json:"accessToken" bson:"accessToken,omitempty"`
-	RefreshToken           string              `json:"refreshToken" bson:"refreshToken,omitempty"`
-	TokenExpiredAt         int64               `json:"tokenExpiredAt" bson:"tokenExpiredAt,omitempty"`
-	LoggedIn               bool                `json:"loggedIn" bson:"loggedIn,omitempty"`
+	AccessToken            *Token              `json:"accessToken" bson:"accessToken,omitempty"`
+	RefreshToken           *Token              `json:"refreshToken" bson:"refreshToken,omitempty"`
+	VerifycationToken      *Token              `json:"verifycationToken" bson:"verifycationToken,omitempty"`
+	IsAuthenticated        bool                `json:"isAuthenticated" bson:"isAuthenticated,omitempty"`
 	Status                 *RegistrationStatus `json:"status" bson:"status,omitempty"`
 	MatricNumber           string              `json:"matricNumber" bson:"matricNumber,omitempty"`
 	Platform               string              `json:"platform" bson:"platform,omitempty"`
