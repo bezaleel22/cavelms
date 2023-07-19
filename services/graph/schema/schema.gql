@@ -6,12 +6,3 @@ scalar Date
 scalar Any
 scalar Int64
 scalar Upload
-
-type MailInput {
-  id: ID!
-  to: [String!]!
-  subject: String!
-  content: Any
-  attachmentUrl: String
-  template: String!
-}

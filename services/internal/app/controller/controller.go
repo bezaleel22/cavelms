@@ -9,18 +9,17 @@ import (
 	"github.com/cavelms/config"
 	"github.com/cavelms/graph/generated"
 	apiCtr "github.com/cavelms/internal/app/controller/api"
-	authCtr "github.com/cavelms/internal/app/controller/auth"
 	mailCtr "github.com/cavelms/internal/app/controller/mail"
 	"github.com/cavelms/internal/app/service"
 	"github.com/gin-gonic/gin"
 )
 
 func NewController(r *gin.Engine, s service.Service) *http.Server {
-	ctr := &authCtr.Auth{Service: s}
-	r.Use(CORSMiddleware())
+	// ctr := &authCtr.Auth{Service: s}
+	// r.Use(CORSMiddleware())
 
-	auth := r.Group("/auth", ctr.CntextMiddleware())
-	authHandlers(auth, s)
+	// auth := r.Group("/auth", ctr.CntextMiddleware())
+	// authHandlers(auth, s)
 
 	api := r.Group("/api")
 	apiHandlers(api, s)
@@ -37,17 +36,17 @@ func NewController(r *gin.Engine, s service.Service) *http.Server {
 	}
 }
 
-func authHandlers(auth *gin.RouterGroup, s service.Service) {
-	ctr := &authCtr.Auth{Service: s}
-	auth.POST("/signup", ctr.SignUp)
-	auth.POST("/signin", ctr.SignIn)
-	auth.POST("/signout", ctr.SignOut)
-	auth.POST("/refresh_token", ctr.Refresh)
-	auth.POST("/verify_email", ctr.VerifyEmail)
-	auth.POST("/ForgetPassword", ctr.ForgetPassword)
-	auth.POST("/reset_password", ctr.ResetPassword)
-	auth.POST("/change_password", ctr.ChangePassword)
-}
+// func authHandlers(auth *gin.RouterGroup, s service.Service) {
+// 	ctr := &authCtr.Auth{Service: s}
+// 	auth.POST("/signup", ctr.SignUp)
+// 	auth.POST("/signin", ctr.SignIn)
+// 	auth.POST("/signout", ctr.SignOut)
+// 	auth.POST("/refresh_token", ctr.Refresh)
+// 	auth.POST("/verify_email", ctr.VerifyEmail)
+// 	auth.POST("/ForgetPassword", ctr.ForgetPassword)
+// 	auth.POST("/reset_password", ctr.ResetPassword)
+// 	auth.POST("/change_password", ctr.ChangePassword)
+// }
 
 func apiHandlers(api *gin.RouterGroup, s service.Service) {
 	re := &apiCtr.Resolver{Service: s}

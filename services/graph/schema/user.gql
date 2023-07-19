@@ -8,7 +8,7 @@ type User {
   middleName: String!
   fullName: String!
   email: String!
-  role: [Role!]!
+  role: Role!
   permissionIds: [ID!]!
   phone: String!
   avatarUrl: String!
@@ -30,10 +30,10 @@ type User {
   wallet: Float!
   timeZone: String!
   progress: Int!
-  accessToken: String!
-  refreshToken: String!
-  tokenExpiredAt: Int64!
-  loggedIn: Boolean!
+  accessToken: Token!
+  refreshToken: Token!
+  verifycationToken: Token!
+  isAuthenticated: Boolean!
   status: RegistrationStatus
 
   # School Data
@@ -139,13 +139,6 @@ input NewReferee {
   fullName: String!
   email: String!
   phone: String!
-}
-
-input NewUser {
-  firstName: String!
-  lastName: String!
-  email: String!
-  password: String!
 }
 
 input VerifyInput {

@@ -1,19 +1,23 @@
 type Mail {
+  id: ID!
   to: [String!]
   subject: String!
   body: String!
-  attach: Boolean!
+  attachmentUrl: String!
+  status: String!
 }
 
-input NewMail {
-  to: [String!]
+input MailInput {
+  id: ID!
+  to: [String!]!
   subject: String!
-  attach: Boolean!
-  body: Any!
+  content: Any
+  attachmentUrl: String
+  template: String!
 }
 
 extend type Mutation {
-  send(tpl: String!, input: NewMail): Any
+  sendMail(input: MailInput): Mail
   deleteMail(id: ID!): Mail
 }
 

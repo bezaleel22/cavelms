@@ -5,7 +5,6 @@ query GetMediaById($id: ID!) {
     description
     category
     mediaType
-    duration
     videoPlayerInfo {
       currentTime
       duration

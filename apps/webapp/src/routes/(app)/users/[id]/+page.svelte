@@ -1,7 +1,10 @@
 <script lang="ts">
-  // export let data;
-  // $: ({ User } = data);
-  // $: ({ user } = $User.data);
+  import type { PageData } from "./$houdini";
+  import type { User$result } from "$houdini";
 
-  // $: console.log(User);
+  export let data: PageData;
+  $: ({ User } = data);
+  $: ({ user } = $User.data as User$result);
+
+  $: console.log(user);
 </script>

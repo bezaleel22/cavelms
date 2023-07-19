@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
   import UserFilter from "./user_filter.svelte";
-  export let data;
-  $: ({ Users } = data);
-  $: ({ users } = $Users.data);
+  import type { PageData } from "./$houdini";
+  import type { User$result } from "$houdini";
 
+  export let data: PageData;
+  $: ({ Users } = data);
+  $: ({ users } = $Users.data as User$result | any);
   // $: console.log(Users);
   // $: console.log(users);
   let checked = false;
@@ -65,10 +67,7 @@
                     {#if !!user.avatarUrl}
                       <div class="avatar">
                         <div class="mask mask-squircle w-12 h-12">
-                          <img
-                            src={user.avatarUrl}
-                            alt="Avatar Tailwind CSS Component"
-                          />
+                          <img src={user.avatarUrl} alt="Avatar Tailwind CSS Component" />
                         </div>
                       </div>
                     {:else}
@@ -88,7 +87,7 @@
                 <td>
                   {user.email}
                   <br />
-                  <span class="badge badge-secondary badge-outline  badge-sm">{user.phone}</span>
+                  <span class="badge badge-secondary badge-outline badge-sm">{user.phone}</span>
                 </td>
                 <td>{user.program}</td>
                 <th>{user.platform}</th>
@@ -162,7 +161,7 @@
         </div>
       </div>
       <div class="modal-action">
-        <button for="export" class="btn">Export</button>
+        <button class="btn">Export</button>
       </div>
     </form>
   </label>

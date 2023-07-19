@@ -5,7 +5,6 @@ mutation CreateMedia($input: CreatMediaInput!) {
     description
     category
     mediaType
-    duration
     videoPlayerInfo {
       currentTime
       duration

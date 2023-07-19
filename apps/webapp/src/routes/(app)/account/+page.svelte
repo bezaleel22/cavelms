@@ -1,12 +1,13 @@
+
 <script lang="ts">
   import { TabNav, TabPane } from "$lib/components/tabs";
   import Tabs from "$lib/components/tabs.svelte";
-  import Activity from "./[id]/activity.svelte";
-  import Courses from "./[id]/courses.svelte";
-  import Discussion from "./[id]/discussion.svelte";
-  import Documents from "./[id]/documents.svelte";
-  import Overview from "./[id]/overview.svelte";
-  import Registration from "./[id]/registration.svelte";
+  import Activity from "./activity.svelte";
+  import Courses from "./courses.svelte";
+  import Discussion from "./discussion.svelte";
+  import Documents from "./documents.svelte";
+  import Overview from "./overview.svelte";
+  import Registration from "./registration.svelte";
 
   let active = 0;
   let items = [

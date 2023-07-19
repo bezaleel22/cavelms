@@ -1,7 +1,11 @@
 <script lang="ts">
-  export let users: any;
+  import type { User$result } from "$houdini";
 
-  $: console.log(users);
+  export let users: User$result[] | undefined;
+
+  const searchUser = () => {
+    console.log(users);
+  };
 </script>
 
 <div class="card-body">
@@ -52,7 +56,7 @@
     </div>
     <div class="flex justify-end">
       <button class="btn mr-2">Reset</button>
-      <button class="btn">Apply</button>
+      <button on:click={searchUser} class="btn">Apply</button>
     </div>
   </div>
 </div>

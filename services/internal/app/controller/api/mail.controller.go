@@ -4,40 +4,32 @@ package controller
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
+	"context"
 	"fmt"
-	"net/http"
 
 	"github.com/cavelms/internal/model"
-	"github.com/gin-gonic/gin"
 )
 
-// Send is the resolver for the send field.
-func (m *Mail) Send(c *gin.Context) {
-	mail := &model.MailInput{}
-	err := c.BindJSON(m)
+// SendMail is the resolver for the sendMail field.
+func (r *mutationResolver) SendMail(ctx context.Context, input *model.MailInput) (*model.Mail, error) {
+	_, err := r.Service.SendMail(ctx, input)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+		return nil, err
 	}
-
-	_, err = m.Service.SendMail(c, mail)
-	if err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err)
-	}
-
-	c.JSON(http.StatusOK, mail)
+	return nil, nil
 }
 
 // DeleteMail is the resolver for the deleteMail field.
-func (m *Mail) DeleteMail(c *gin.Context) {
+func (r *mutationResolver) DeleteMail(ctx context.Context, id string) (*model.Mail, error) {
 	panic(fmt.Errorf("not implemented: DeleteMail - deleteMail"))
 }
 
 // Mail is the resolver for the mail field.
-func (m *Mail) Mail(c *gin.Context) {
+func (r *queryResolver) Mail(ctx context.Context, id string) (*model.Mail, error) {
 	panic(fmt.Errorf("not implemented: Mail - mail"))
 }
 
 // Mails is the resolver for the mails field.
-func (m *Mail) Mails(c *gin.Context) {
+func (r *queryResolver) Mails(ctx context.Context) ([]*model.Mail, error) {
 	panic(fmt.Errorf("not implemented: Mails - mails"))
 }

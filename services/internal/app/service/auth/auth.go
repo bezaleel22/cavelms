@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"github.com/cavelms/config"
 	"github.com/cavelms/internal/app/repository"
 	"github.com/cavelms/internal/model"
 	"github.com/gin-gonic/gin"
@@ -8,25 +9,28 @@ import (
 
 type auth struct {
 	*repository.Repository
+	authSecret string
+	issure     string
 	*gin.Context
 	// claims *jwt.MapClaims
 }
 
 type AuthService interface {
 	// Authentication interface
-	SignUp(u *model.NewUser) (*model.User, error)
-	SignIn(u *model.NewUser) (*model.User, error)
-	SignOut() error
+	SignUp(input model.NewUser) (*model.User, error)
+	SignIn(input model.AuthUser) (*model.User, error)
+	SignOut(token string) (*model.User, error)
 	RefreshToken(token string) (*model.User, error)
-	VerifyEmail(verify *model.VerifyInput) (*model.User, error)
-	ForgetPassword(u *model.NewUser) (*model.User, error)
-	ResetPassword(verify *model.VerifyInput) (*model.User, error)
-	ChangePassword(u *model.NewUser) (*model.User, error)
-	SetContext(ctx *gin.Context)
+	VerifyEmail(token string) (*model.User, error)
+	ForgetPassword(email string) (*model.User, error)
+	ResetPassword(token string, password string) (*model.User, error)
+	ChangePassword(userId string, password string) (*model.User, error)
 }
 
-func NewService(repo *repository.Repository) AuthService {
+func NewAuthService(repo *repository.Repository) AuthService {
 	return &auth{
 		Repository: repo,
+		authSecret: config.GetConfig().AuthSecrete,
+		issure:     config.GetConfig().JWTIssuer,
 	}
 }

@@ -1,15 +1,17 @@
+import type { RequestEvent } from "@sveltejs/kit";
 import { writable } from "svelte/store";
 
 const Authentication = () => {
   const { subscribe, set, update } = writable<AuthUser>({ isFetching: false });
   let authUser: AuthUser;
-  const fetchFn = async (path: string, body?: object) => {
+  const fetchFn = async (path: string, event: RequestEvent, body?: object) => {
     try {
       const url = `http://localhost:8000/auth${path}`;
+
       update((prev) => ({ ...prev, isFetching: true }));
-      const result = await fetch(url, {
+
+      const result = await event.fetch(url, {
         method: "POST",
-        credentials: "include",
         body: JSON.stringify(body),
       });
 
@@ -25,13 +27,20 @@ const Authentication = () => {
   };
 
   return {
-    refresh: async () => await fetchFn("/refresh_token"),
-    signin: async (body: object) => await fetchFn("/signin", body),
-    signup: async (body: object) => await fetchFn("/signup", body),
-    signout: async (body: object) => await fetchFn("/signout", body),
-    verifyEmail: async (body: object) => await fetchFn("/verify_email", body),
-    changePassword: async (body: object) => await fetchFn("/change_password", body),
-    resetPassword: async (body: object) => await fetchFn("/reset_password", body),
+    refresh: async (event: RequestEvent) => await fetchFn("/refresh_token", event),
+    signin: async (event: RequestEvent, body: object) => await fetchFn("/signin", event, body),
+    signup: async (event: RequestEvent, body: object) => await fetchFn("/signup", event, body),
+    signout: async (event: RequestEvent, body: object) => await fetchFn("/signout", event, body),
+
+    verifyEmail: async (event: RequestEvent, body: object) =>
+      await fetchFn("/verify_email", event, body),
+    
+    changePassword: async (event: RequestEvent, body: object) =>
+      await fetchFn("/change_password", event, body),
+    
+    resetPassword: async (event: RequestEvent, body: object) =>
+      await fetchFn("/reset_password", event, body),
+    
     subscribe,
     update,
   };

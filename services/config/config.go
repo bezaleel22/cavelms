@@ -14,16 +14,15 @@ const (
 
 // Config object
 type Config struct {
-	Env              string        `env:"ENV"`
-	Mongo            MongoDBConfig `json:"mongo"`
-	Redis            RedisConfig   `json:"redis"`
-	ZohoMail         ZohoMail      `json:"zohomail"`
-	JWTAccessSecret  string        `env:"JWT_ACCESS_SIGN_KEY"`
-	JWTRefreshSecret string        `env:"JWT_REFRESH_SIGN_KEY"`
-	JWTIssuer        string        `env:"JWT_ISSUER"`
-	Host             string        `env:"APP_HOST"`
-	Port             string        `env:"APP_PORT"`
-	Webroot          string        `env:"WEBROOT"`
+	Env         string        `env:"ENV"`
+	Mongo       MongoDBConfig `json:"mongo"`
+	Redis       RedisConfig   `json:"redis"`
+	ZohoMail    ZohoMail      `json:"zohomail"`
+	AuthSecrete string        `env:"AUTH_SECRET"`
+	JWTIssuer   string        `env:"JWT_ISSUER"`
+	Host        string        `env:"APP_HOST"`
+	Port        string        `env:"APP_PORT"`
+	Webroot     string        `env:"WEBROOT"`
 }
 
 // IsProd Checks if env is production
@@ -58,11 +57,10 @@ func GetConfig() Config {
 		Redis:    GetRedisConfig(),
 		ZohoMail: GetMailConfig(),
 
-		JWTAccessSecret:  os.Getenv("JWT_ACCESS_SIGN_KEY"),
-		JWTRefreshSecret: os.Getenv("JWT_REFRESH_SIGN_KEY"),
-		JWTIssuer:        os.Getenv("JWT_ISSUER"),
-		Host:             os.Getenv("APP_HOST"),
-		Port:             os.Getenv("APP_PORT"),
-		Webroot:          os.Getenv("WEBROOT"),
+		AuthSecrete: os.Getenv("AUTH_SECRET"),
+		JWTIssuer:   os.Getenv("JWT_ISSUER"),
+		Host:        os.Getenv("APP_HOST"),
+		Port:        os.Getenv("APP_PORT"),
+		Webroot:     os.Getenv("WEBROOT"),
 	}
 }

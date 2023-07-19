@@ -5,7 +5,7 @@ export const routes = [
       {
         name: "Profile",
         badge: undefined,
-        url: "/profile",
+        url: "/account",
         roles: [],
       },
     ],
