@@ -47,13 +47,14 @@ export const load: PageServerLoad = async ({ locals }) => {
   }
 };
 
-const register: Action = async ({ request }) => {
-  const data = await request.formData();
-  const {fullName, email, password } = Object.fromEntries(data);
+const signup: Action = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData)
+  // const { fullName, email, password, program, platform } = data;
 
-  if (typeof email !== "string" || typeof password !== "string" || !email || !password) {
-    return fail(400, { invalid: true, email, password });
-  }
+  // if (typeof email !== "string" || typeof password !== "string" || !email || !password) {
+  //   return fail(400, { invalid: true, email, password });
+  // }
 
   const user = await auth.signup(data);
   if (!user) {
@@ -61,10 +62,10 @@ const register: Action = async ({ request }) => {
   }
 
   if (!user.loggedIn) {
-    return fail(400, { credentials: true, email, password });
+    return fail(400, { credentials: true, data });
   }
 
   throw redirect(302, "/application");
 };
 
-export const actions: Actions = { register };
+export const actions: Actions = { signup };

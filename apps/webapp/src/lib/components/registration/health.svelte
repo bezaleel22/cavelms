@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
 // @ts-nocheck
-
+  import { browser } from "$app/environment";
   import { enhance } from "$app/forms";
 
-
+  
   let healthConditions = [];
+  let healthIssueDescription:String;
 
   const onSubmit = ({ form, data, action, cancel, submitter }) => {
       // `form` is the `<form>` element
@@ -109,7 +110,7 @@
                 </div>
                 <!-- end of item -->
                 
-                <textarea class="textarea textarea-bordered col-span-3 my-5" name="healthIssueDescription" id="briefExperience" placeholder="Other Health Issues Description"></textarea>
+                <textarea bind:value={healthIssueDescription} class="textarea textarea-bordered col-span-3 my-5" name="healthIssueDescription" id="briefExperience" placeholder="Other Health Issues Description"></textarea>
 
               </div>
 

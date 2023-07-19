@@ -87,6 +87,24 @@
             </label>
           </div>
 
+          
+          <div class="relative col-span-6 sm:col-span-3">
+            <select
+              name="Platform"
+              id="Platform"
+              class=" select input-bordered floating-input peer focus:border-accent-focus"
+              placeholder=" "
+              required
+            >
+              <option disabled selected>Choose a Platform</option>
+              <option>Online</option>
+              <option>On-Site</option>
+            </select>
+            <label for="Platform" class="floating-label peer-focus:text-accent-focus">
+              Platform
+            </label>
+          </div>
+
           <div class="form-control mt-2">
             <button class="btn">Signup</button>
           </div>

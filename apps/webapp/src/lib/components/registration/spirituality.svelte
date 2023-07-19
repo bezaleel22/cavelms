@@ -1,6 +1,15 @@
 <script lang="ts">
+  // import { enhance } from "$app/forms";
+  import { browser } from "$app/environment";
   import { enhance } from "$app/forms";
 
+  let salvationBrief:string;
+  let reason:string;
+  let pastorName:string;
+  let pastorEmail:string;
+  let pastorPhone:string;
+  let churchAddress:string;
+  let churchName:string;
   let godsWorkings: any[] = [];
   let firstTime = true;
 
@@ -187,6 +196,7 @@
                 <!-- end of item -->
 
                 <textarea
+                bind:value={salvationBrief}
                   class="textarea textarea-bordered col-span-3 my-5"
                   name="salvationBrief"
                   id="briefExperience"
@@ -194,6 +204,7 @@
                 />
 
                 <textarea
+                bind:value={reason}
                   class="textarea textarea-bordered col-span-3 my-5"
                   name="reason"
                   id="whyAdullam"
@@ -218,6 +229,7 @@
                   <div class="grid grid-cols-6 gap-6">
                     <div class="relative col-span-6 sm:col-span-3">
                       <input
+                      bind:value={pastorName}
                         name="pastorName"
                         type="text"
                         id="pastorName"
@@ -231,6 +243,7 @@
 
                     <div class="relative col-span-6 sm:col-span-3">
                       <input
+                      bind:value={pastorEmail}
                         name="pastorEmail"
                         type="text"
                         id="pastorEmail"
@@ -244,6 +257,7 @@
 
                     <div class="relative col-span-6 sm:col-span-3">
                       <input
+                      bind:value={pastorPhone}
                         name="pastorPhone"
                         type="text"
                         id="pastorPhone"
@@ -257,6 +271,7 @@
 
                     <div class="relative col-span-6 sm:col-span-3">
                       <input
+                      bind:value={churchName}
                         name="churchName"
                         type="text"
                         id="churchName"
@@ -270,6 +285,7 @@
 
                     <div class="relative col-span-6">
                       <input
+                      bind:value={churchAddress}
                         name="churchAddress"
                         type="text"
                         id="churchAddress"
