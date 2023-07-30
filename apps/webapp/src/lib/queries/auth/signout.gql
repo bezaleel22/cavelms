@@ -1,0 +1,6 @@
+mutation SignOut($refreshToken: String!) {
+  signOut(refreshToken: $refreshToken) {
+    id
+    isAuthenticated
+  }
+}

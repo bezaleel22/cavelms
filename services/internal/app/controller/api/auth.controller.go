@@ -9,6 +9,26 @@ import (
 	"github.com/cavelms/internal/model"
 )
 
+// Refresh is the resolver for the refresh field.
+func (r *mutationResolver) Refresh(ctx context.Context, refreshToken string) (*model.User, error) {
+	user, err := r.Service.RefreshToken(refreshToken)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+// SignOut is the resolver for the signOut field.
+func (r *mutationResolver) SignOut(ctx context.Context, refreshToken string) (*model.User, error) {
+	user, err := r.Service.SignOut(refreshToken)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
 // SignIn is the resolver for the signIn field.
 func (r *mutationResolver) SignIn(ctx context.Context, input model.AuthUser) (*model.User, error) {
 	user, err := r.Service.SignIn(input)
@@ -62,26 +82,6 @@ func (r *mutationResolver) ChangePassword(ctx context.Context, refreshToken stri
 // VerifyEmail is the resolver for the verifyEmail field.
 func (r *mutationResolver) VerifyEmail(ctx context.Context, refreshToken string) (*model.User, error) {
 	user, err := r.Service.VerifyEmail(refreshToken)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
-}
-
-// Refresh is the resolver for the refresh field.
-func (r *queryResolver) Refresh(ctx context.Context, refreshToken string) (*model.User, error) {
-	user, err := r.Service.RefreshToken(refreshToken)
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
-}
-
-// SignOut is the resolver for the signOut field.
-func (r *queryResolver) SignOut(ctx context.Context, refreshToken string) (*model.User, error) {
-	user, err := r.Service.SignOut(refreshToken)
 	if err != nil {
 		return nil, err
 	}

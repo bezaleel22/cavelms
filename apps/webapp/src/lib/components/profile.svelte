@@ -2,7 +2,7 @@
   import profileBg from "$lib/assets/images/profile-img.png";
 </script>
 
-<div class="card card-compact bg-base-100 shadow-sm">
+<div class="card card-compact bg-base-200 shadow-sm">
   <figure class="bg-neutral-focus">
     <img src={profileBg} alt="Profile Bacground" />
   </figure>

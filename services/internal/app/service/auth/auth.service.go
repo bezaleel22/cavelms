@@ -38,7 +38,7 @@ func (a *auth) SignUp(input model.NewUser) (*model.User, error) {
 func (a *auth) SignIn(input model.AuthUser) (*model.User, error) {
 	user := model.User{}
 	user.Email = input.Email
-	err := a.DB.FetchByEmail(user)
+	err := a.DB.FetchByEmail(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -66,18 +66,16 @@ func (a *auth) SignOut(token string) (*model.User, error) {
 	}
 
 	tokenID := claims["tokenId"].(string)
-	deleted, err := a.RDBS.Del(tokenID)
-	if err != nil {
+	deleted, err := a.deleteToken(tokenID)
+	if err != nil || deleted <= 0 {
 		return nil, errors.New("error: Token Expired")
 	}
 
-	if deleted == 1 {
-		user.ID = claims["userId"].(string)
-		user.IsAuthenticated = false
-		err = a.DB.UpdateOne(user)
-		if err != nil {
-			return nil, err
-		}
+	user.ID = claims["userId"].(string)
+	user.IsAuthenticated = false
+	err = a.DB.UpdateOne(user)
+	if err != nil {
+		return nil, err
 	}
 
 	user.ID = ""
@@ -108,6 +106,7 @@ func (a *auth) RefreshToken(token string) (*model.User, error) {
 		return nil, err
 	}
 
+	user.IsAuthenticated = true
 	return &user, nil
 }
 
@@ -139,7 +138,7 @@ func (a *auth) VerifyEmail(token string) (*model.User, error) {
 
 	return user, nil
 }
- 
+
 func (a *auth) ForgetPassword(email string) (*model.User, error) {
 	user := model.User{Email: email}
 	err := a.DB.FetchByEmail(user)

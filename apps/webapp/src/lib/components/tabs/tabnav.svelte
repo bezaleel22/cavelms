@@ -3,6 +3,7 @@
 
   export let active: number;
   export let items: {
+    id:string;
     title: string;
     component: ConstructorOfATypedSvelteComponent;
   }[];

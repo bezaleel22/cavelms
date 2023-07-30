@@ -76,7 +76,7 @@ func connectMongo() (*mongo.Database, *mongo.Client, error) {
 func RedisClient(dbn int) (*redis.Client, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", GetConfig().Redis.HOST, GetConfig().Redis.PORT),
-		Password: "my-redis", // no password set
+		Password: "", // no password set
 		DB: dbn, // database number
 	})
 

@@ -1,9 +1,11 @@
 <script lang="ts">
-  import Graph from "$lib/components/graph.svelte";
   import Profile from "$lib/components/profile.svelte";
-  import Stats from "$lib/components/stats.svelte";
-  import UserTable from "$lib/components/userTable.svelte";
+  import { TabNav, TabPane } from "$lib/components/tabs";
   import { onMount } from "svelte";
+  import Overview from "./account/overview.svelte";
+
+  let active = 0;
+  let items = [{ id: "second", title: "Overview", component: Overview }];
 
   onMount(() => {});
 </script>
@@ -13,30 +15,13 @@
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<!-- <div class="grid grid-cols-4 gap-4 border mb-4">
-  <div>01</div>
-
-  <div>09</div>
-</div> -->
-
-<div class="grid grid-cols-4 gap-4">
-  <div class="">
+<div class="grid grid-cols-4 gap-10">
+  <div class="col-span-1">
     <Profile />
   </div>
+  <div class="col-span-3">
+    <TabNav bind:active {items} />
 
-  <div class="col-span-3 ">
-    <div class="flex mb-4">
-      <Stats />
-    </div>
-    <div class="flex flex-col m-3">
-      <Graph />
-    </div>
-    <div class="flex flex-col m-3">
-      <UserTable />
-    </div>
   </div>
 </div>
-
-<!-- {#if $auth.isFetching}
-  <Dashboard />
-{/if} -->
+    <TabPane bind:active {items} />

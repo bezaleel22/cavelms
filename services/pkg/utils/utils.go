@@ -1,28 +1,24 @@
 package utils
 
 import (
-	"bytes"
-	"html/template"
 	"os"
 	"reflect"
-
-	"github.com/cavelms/pkg/mail"
 )
 
 func Contains(slice interface{}, item interface{}) bool {
-    sliceValue := reflect.ValueOf(slice)
+	sliceValue := reflect.ValueOf(slice)
 
-    if sliceValue.Kind() != reflect.Slice {
-        panic("contains() called with a non-slice type")
-    }
+	if sliceValue.Kind() != reflect.Slice {
+		panic("contains() called with a non-slice type")
+	}
 
-    for i := 0; i < sliceValue.Len(); i++ {
-        if sliceValue.Index(i).Interface() == item {
-            return true
-        }
-    }
+	for i := 0; i < sliceValue.Len(); i++ {
+		if sliceValue.Index(i).Interface() == item {
+			return true
+		}
+	}
 
-    return false
+	return false
 }
 
 func ParseHtml(f string) (string, error) {
@@ -47,18 +43,18 @@ func ParseHtml(f string) (string, error) {
 // 	log.Println(body)
 // }
 
-func ParseTemplate(tpl string, m interface{}) (string, error) {
+// func ParseTemplate(tpl string, m interface{}) (string, error) {
 
-	fs := mail.Template
-	t, err := template.ParseFS(fs, "template/"+tpl+".html")
-	if err != nil {
-		return "", err
-	}
+// 	fs := mail.Template
+// 	t, err := template.ParseFS(fs, "template/"+tpl+".html")
+// 	if err != nil {
+// 		return "", err
+// 	}
 
-	buf := new(bytes.Buffer)
-	if err = t.Execute(buf, m); err != nil {
-		return "", err
-	}
+// 	buf := new(bytes.Buffer)
+// 	if err = t.Execute(buf, m); err != nil {
+// 		return "", err
+// 	}
 
-	return buf.String(), nil
-}
+// 	return buf.String(), nil
+// }

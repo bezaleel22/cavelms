@@ -1,8 +1,24 @@
-query Refresh($refreshToken: String!) {
+mutation Refresh($refreshToken: String!) {
   refresh(refreshToken: $refreshToken) {
     id
     firstName
     lastName
+    fullName
     email
+    role
+    username
+    isVerified
+    progress
+    phone
+    country
+    avatarUrl
+    program
+    platform
+    accessToken {
+      expiresAt
+      token
+    }
+    isAuthenticated
+    createdAt
   }
 }

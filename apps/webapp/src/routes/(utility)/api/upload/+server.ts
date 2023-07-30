@@ -5,7 +5,7 @@ export const POST = async ({ request }) => {
 
   const file = data.get("file");
 
-  const f = readFileSync("");
-  writeFileSync(`static/${data.get("name")}`, file, "base64");
+  // const file = readFileSync("");
+  // writeFileSync(`static/${data.get("name")}`, file, "base64");
   return new Response(JSON.stringify({ success: true }), { status: 200 });
 };

@@ -1,9 +1,10 @@
-import { auth } from "$lib/store/auth";
+import { SignInStore } from "$houdini";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
+import { dev } from "$app/environment";
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (locals?.authUser?.loggedIn) {
+  if (locals?.authUser?.refresh?.isAuthenticated) {
     throw redirect(302, "/");
   }
 };
@@ -15,22 +16,23 @@ const login: Action = async (event) => {
     return fail(400, { invalid: true, email, password });
   }
 
-  const authUser = (await auth.signin(event, { email, password })) as AuthUser;
+  const signin = new SignInStore();
+  const response = await signin.mutate({ input: { email, password } }, { event });
+  const authUser = response.data?.signIn;
   if (!authUser) {
-    return fail(400, { credentials: true });
+    return fail(400, { response, credentials: true });
   }
 
-  if (!authUser.loggedIn) {
-    return fail(400, { credentials: true, email, password });
+  if (!authUser.isAuthenticated) {
+    return fail(400, { response, credentials: true, email, password });
   }
 
-  authUser.isAuthenticated = true;
-  event.cookies.set("token", authUser.refreshToken as string, {
+  event.cookies.set("token", authUser.refreshToken.token, {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
-    secure: false,
-    maxAge: authUser.tokenExpiredAt,
+    secure: !dev,
+    maxAge: authUser.refreshToken.expiresAt,
   });
 
   throw redirect(302, "/");
