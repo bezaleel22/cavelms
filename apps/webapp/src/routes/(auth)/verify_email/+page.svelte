@@ -13,41 +13,16 @@
 <div class="hero min-h-screen bg-base-200">
   <div class="hero-content flex-col lg:flex-row-reverse">
     <div class="text-center lg:text-left">
-      <h1 class="text-5xl font-bold">Welcome to Adullam!</h1>
-      <p class="py-6">
-        Experience the Intense Atmosphere of Heaven with Adullam - Where Learning Meets Spiritual
-        Impartation
-      </p>
-      <p class="py-6 text-lg text-primary font-semibold">Sign Up to begin your registration!</p>
+      <h1 class="text-5xl font-bold">Forget your Password!</h1>
+      <p class="py-6">Don't worry you can Reset your password below!!!!</p>
+      <!-- <p class="py-6 text-lg text-primary font-semibold">Sign Up to begin your registration!</p> -->
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
       <div class="card-body">
         <div class="font-medium self-center text-xl">
           <Brand />
         </div>
-        <form action="?/signup" method="post" use:enhance>
-          <div class="relative mb-4">
-            <input
-              name="firstName"
-              type="text"
-              id="firstName"
-              class=" input input-bordered floating-input peer focus:border-accent-focus"
-            />
-            <label for="firstName" class=" floating-label peer-focus:text-accent-focus">
-              First Name
-            </label>
-          </div>
-          <div class="relative mb-4">
-            <input
-              name="lastName"
-              type="text"
-              id="lastName"
-              class=" input input-bordered floating-input peer focus:border-accent-focus"
-            />
-            <label for="lastName" class=" floating-label peer-focus:text-accent-focus">
-              Last Name
-            </label>
-          </div>
+        <form action="?/verify_email" method="post" use:enhance>
           <div class="relative mb-4">
             <input
               name="email"
@@ -55,10 +30,13 @@
               id="email"
               class=" input input-bordered floating-input peer focus:border-accent-focus"
             />
-            <label for="email" class=" floating-label peer-focus:text-accent-focus">Email</label>
+            <label
+              for="email"
+              class=" floating-label peer-focus:text-accent-focus">Email</label
+            >
           </div>
 
-          <div class="relative w-full max-w-xs mb-4">
+          <!-- <div class="relative w-full max-w-xs mb-4">
             <div class="input-group">
               <input
                 name="password"
@@ -108,16 +86,16 @@
             <label for="platform" class="floating-label peer-focus:text-accent-focus">
               Platform
             </label>
-          </div>
+          </div> -->
 
           <div class="form-control mt-2">
-            <button class="btn">Signup</button>
+            <button class="btn">Reset Password</button>
           </div>
         </form>
-        <span class="text-sm text-center mt-4">
+        <!-- <span class="text-sm text-center mt-4">
           Already have an account
           <a href="/login" class="text-primary">Login</a>
-        </span>
+        </span> -->
       </div>
     </div>
   </div>

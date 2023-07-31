@@ -1,4 +1,4 @@
-import { SignInStore, SignUpStore, type NewUser } from "$houdini";
+import { SignInStore, SignUpStore, ResetStore, type NewUser } from "$houdini";
 import { auth } from "$lib/store/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
@@ -9,11 +9,11 @@ export const load: PageServerLoad = async ({ locals }) => {
   }
 };
 
-const signup: Action = async (event) => {
+const change_password: Action = async (event) => {
   const input = Object.fromEntries(await event.request.formData()) as NewUser;
 
-  const signup = new SignUpStore();
-  const up = await signup.mutate({ input }, { event });
+  const change = new SignUpStore();
+  const up = await change.mutate({ input }, { event });
   if (!up.data) {
     return fail(400, { ...input });
   }
@@ -40,4 +40,4 @@ const signup: Action = async (event) => {
   throw redirect(302, "/account");
 };
 
-export const actions: Actions = { signup };
+export const actions: Actions = { change_password };
