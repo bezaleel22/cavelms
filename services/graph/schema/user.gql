@@ -46,7 +46,7 @@ type User {
 
   # Spiritual Background
   salvationBrief: String!
-  godsWorkings: [String!]
+  godsWorkings: String!
   reason: String!
   churchName: String!
   churchAddress: String!
@@ -56,7 +56,7 @@ type User {
   churchInvolved: String!
 
   # Health Information
-  healthConditions: [String!]
+  healthConditions: String!
   healthIssueDescription: String!
 
   scholarship: Boolean

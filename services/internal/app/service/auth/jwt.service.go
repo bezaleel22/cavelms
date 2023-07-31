@@ -1,10 +1,13 @@
 package auth
 
 import (
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/cavelms/internal/model"
 	"github.com/cavelms/pkg/utils"
+	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
@@ -109,4 +112,16 @@ func (a *auth) deleteToken(tokenString string) (int64, error) {
 	}
 
 	return deleted, err
+}
+
+func (a *auth) AuthMidleware(c *gin.Context) {
+	PREFIX := "Bearer "
+	auth := c.GetHeader("Authorization")
+	authToken := strings.TrimPrefix(auth, PREFIX)
+	_, err := a.verifyToken(authToken)
+	if err != nil {
+		c.JSON(http.StatusForbidden, utils.ErrUnauthorized)
+	}
+
+	c.Next()
 }

@@ -1,26 +1,32 @@
-import { CreateActivityStore, CreateUserStore, UpdateActivityStore, UpdateUserStore, type UpdateActivityInput, type UpdateUser$input } from '$houdini';
-import type { Actions, PageServerLoad } from './$types';
+import { redirect } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
 
-export const load = (async () => {
-    console.log({loaded: true})
-    return {};
+export const load = (async ({ locals }) => {
+  if (!locals?.authUser?.refresh?.isAuthenticated) {
+    throw redirect(302, "/login");
+  }
+  return {
+    user: locals?.authUser,
+  };
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-    personal:async ({request}) => {
-        const data = Object.fromEntries(await request.formData())
+  register: async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-        console.log(data)
-        return
-    },
+    return { data };
+  },
 
-    spiritual:async ({request}) => {
-        console.log(Object.fromEntries(await request.formData()));
-        return
-    },
-    health:async ({request}) => {
-        console.log(Object.fromEntries(await request.formData()));
-        return
-    }
+  spiritual: async ({ request }) => {
+    const data = Object.fromEntries(await request.formData());
 
-}
+    return { data };
+  },
+
+  health: async ({ request }) => {
+    const data = Object.fromEntries(await request.formData());
+
+    return { data };
+  },
+};

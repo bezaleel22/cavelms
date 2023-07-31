@@ -1,4 +1,4 @@
-query Refresh($refreshToken: String!) {
+mutation Refresh($refreshToken: String!) {
   refresh(refreshToken: $refreshToken) {
     id
     firstName
@@ -15,10 +15,6 @@ query Refresh($refreshToken: String!) {
     program
     platform
     accessToken {
-      expiresAt
-      token
-    }
-    refreshToken {
       expiresAt
       token
     }

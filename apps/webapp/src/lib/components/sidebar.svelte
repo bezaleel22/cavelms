@@ -10,7 +10,7 @@
 
 <div class="drawer-side">
   <label for="my-drawer" class="drawer-overlay" />
-  <aside class="bg-base-100 w-64">
+  <aside class="w-64 h-screen bg-base-200 ">
     <Brand />
     <nav class="">
       <ul class="menu flex flex-col mb-4 w-full p-4 justify-center">
@@ -30,7 +30,6 @@
           </li>
           <ul class="collapse-content menu peer-checked:bg-base-300">
             {#each route.links as link}
-              <!-- {console.log({ url: link.url, pathname,expanded, i: pathname == link.url ? i : -1 }) || ""} -->
               <li
                 class:bordered={pathname == link.url}
                 use:expand={pathname == link.url ? i : null}
@@ -71,3 +70,5 @@
     </nav>
   </aside>
 </div>
+
+

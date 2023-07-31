@@ -1,10 +1,11 @@
 import { SignInStore, SignUpStore, type NewUser } from "$houdini";
+import { mail } from "$lib/mail";
 import { auth } from "$lib/store/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (locals?.authUser?.loggedIn) {
+  if (locals?.authUser?.refresh?.isAuthenticated) {
     throw redirect(302, "/");
   }
 };
@@ -13,31 +14,21 @@ const signup: Action = async (event) => {
   const input = Object.fromEntries(await event.request.formData()) as NewUser;
 
   const signup = new SignUpStore();
-  const up = await signup.mutate({ input }, { event });
-  if (!up.data) {
-    return fail(400, { ...input });
+  const resp = await signup.mutate({ input }, { event });
+  if (!resp.data) {
+    return fail(400, { ...resp });
   }
 
-  const { email, password } = input;
-  const signin = new SignInStore();
-  const response = await signin.mutate({ input: { email, password } }, { event });
-
-  if (!response.data) return fail(400, { ...response });
-  const authUser = response.data.signIn;
-
-  if (!authUser?.isAuthenticated) {
-    return fail(400, { ...response });
-  }
-
-  event.cookies.set("token", authUser.refreshToken.token, {
-    path: "/",
-    httpOnly: true,
-    sameSite: "strict",
-    secure: false,
-    maxAge: authUser.refreshToken.expiresAt,
+  const response = await mail.sendMessage({
+    to: ["beznet22@gmail.com"],
+    from: "admin@beznet.org",
+    sender: "Adullam",
+    subject: "TEST MAIL",
+    plain_body: "Hello from sveltkit application for adullam",
+    html_body: "<p>Hello from adullam<p>",
   });
 
-  throw redirect(302, "/account");
+  throw redirect(302, "/verify/notification");
 };
 
 export const actions: Actions = { signup };

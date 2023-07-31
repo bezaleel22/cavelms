@@ -24,12 +24,9 @@ input NewUser {
   program: String!
 }
 
-extend type Query {
+extend type Mutation {
   refresh(refreshToken: String!): User
   signOut(refreshToken: String!): User
-}
-
-extend type Mutation {
   signIn(input: AuthUser!): User
   signUp(input: NewUser!): User
   forgetPassword(email: String!): User

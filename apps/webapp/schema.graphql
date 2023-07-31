@@ -518,10 +518,12 @@ type Mutation {
   deleteUserSetting(id: ID!): Boolean!
   forgetPassword(email: String!): User
   grantPermission(input: PermissionInput!): Permission
+  refresh(refreshToken: String!): User
   resetPassword(password: String!, refreshToken: String!): User
   revokePermission(input: PermissionInput!): Permission
   sendMail(input: MailInput): Mail
   signIn(input: AuthUser!): User
+  signOut(refreshToken: String!): User
   signUp(input: NewUser!): User
   submitQuiz(input: SubmissionInput!, quizId: ID!): Submission
   updateActivity(input: UpdateActivityInput!): Activity
@@ -692,8 +694,6 @@ type Query {
   notifications(courseId: ID, read: Boolean, recipientId: ID): [Notification!]!
   quiz(id: ID!): Quiz!
   quizzes: [Quiz!]!
-  refresh(refreshToken: String!): User
-  signOut(refreshToken: String!): User
   submission(id: ID!): Submission!
   submissions: [Submission!]!
   target(id: ID!): Target

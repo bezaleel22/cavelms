@@ -1,39 +1,47 @@
-<script lang="ts">
+<script>
+  import { browser } from "$app/environment";
+  import { enhance } from "$app/forms";
   import {
-    Personal,
-    Health,
-    Spirituality,
-    Referees,
     Documents,
+    Health,
+    Personal,
+    Referees,
+    Spirituality,
   } from "$lib/components/registration";
+  import { storable } from "$lib/store/storable";
 </script>
 
-<div class="card w-full bg-base-100 text-neutral-content mb-4">
-  <div class="card-body shadow-lg p-6 pb-0">
+<form
+  action="?/register"
+  method="post"
+  use:enhance={({ data }) => {
+    Object.entries($storable).map(([key, value]) => data.set(key, value));
+    return ({ update }) => {
+      update();
+    };
+  }}
+>
+  <div class="p-5">
     <Personal />
   </div>
-</div>
-
-<div class="card w-full bg-base-100 text-neutral-content mb-4">
-  <div class="card-body shadow-lg p-6 pb-0">
+  <div class="divider" />
+  <div class="p-5">
     <Spirituality />
   </div>
-</div>
-
-<div class="card w-full bg-base-100 text-neutral-content mb-4">
-  <div class="card-body shadow-lg p-6 pb-0">
+  <div class="divider" />
+  <div class="p-5">
     <Health />
   </div>
-</div>
 
-<div class="card w-full bg-base-100 text-neutral-content mb-4">
-  <div class="card-body shadow-lg p-6 pb-0">
+  <!-- <div class="p-5">
     <Referees />
   </div>
-</div>
 
-<div class="card w-full bg-base-100 text-neutral-content mb-4">
-  <div class="card-body shadow-lg p-6 pb-0">
+  <div class="p-5">
     <Documents />
+  </div> -->
+
+  <div class="text-right p-5">
+    <button class="btn btn-primary">Submit</button>
   </div>
-</div>
+</form>

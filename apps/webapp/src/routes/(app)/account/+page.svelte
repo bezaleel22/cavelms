@@ -1,27 +1,17 @@
-
 <script lang="ts">
+  import { browser } from "$app/environment";
+  import { enhance } from "$app/forms";
   import { TabNav, TabPane } from "$lib/components/tabs";
-  import Tabs from "$lib/components/tabs.svelte";
-  import Activity from "./activity.svelte";
-  import Courses from "./courses.svelte";
-  import Discussion from "./discussion.svelte";
-  import Documents from "./documents.svelte";
-  import Overview from "./overview.svelte";
   import Registration from "./registration.svelte";
 
   let active = 0;
-  let items = [
-    // { title: "Overview", component: Overview },
-    // { title: "Documents", component: Documents },
-    // { title: "Courses", component: Courses },
-    // { title: "Activity", component: Activity },
-    // { title: "Discussions", component: Discussion },
-    // { title: "Settings", component: Discussion },
-    { title: "Registration", component: Registration },
-  ];
+  let items = [{ id: "Settings", title: "Registration", component: Registration }];
+
+  export let form: FormData;
+  $: if (browser) console.log(form);
 </script>
 
-<div class="card w-full bg-base-100 text-neutral-content mb-5">
+<div class="card w-full bg-base-200 text-neutral-content mb-5">
   <div class="card-body shadow-lg p-6 pb-1">
     <div class="grid grid-cols-12 mb-4">
       <div class="avatar col-span-2">
@@ -72,7 +62,10 @@
       </div>
       <div class="flex flex-col col-span-3 m-4">
         <div class="btn-group justify-end mb-4">
-          <button class="btn btn-active btn-sm">Follow</button>
+          <form action="?/personal" method="post" use:enhance>
+            <button class="btn btn-active btn-sm">Follow</button>
+          </form>
+
           <button class="btn btn-sm">Button</button>
           <button class="btn btn-sm">Button</button>
         </div>

@@ -25,6 +25,7 @@ type AuthService interface {
 	ForgetPassword(email string) (*model.User, error)
 	ResetPassword(token string, password string) (*model.User, error)
 	ChangePassword(userId string, password string) (*model.User, error)
+	AuthMidleware(c *gin.Context)
 }
 
 func NewAuthService(repo *repository.Repository) AuthService {

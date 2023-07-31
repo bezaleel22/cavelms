@@ -341,24 +341,6 @@ type GradeScale struct {
 	Grade    string `json:"grade" bson:"grade,omitempty"`
 }
 
-type Mail struct {
-	ID            string   `json:"id" bson:"_id"`
-	To            []string `json:"to" bson:"to,omitempty"`
-	Subject       string   `json:"subject" bson:"subject,omitempty"`
-	Body          string   `json:"body" bson:"body,omitempty"`
-	AttachmentURL string   `json:"attachmentUrl" bson:"attachmentUrl,omitempty"`
-	Status        string   `json:"status" bson:"status,omitempty"`
-}
-
-type MailInput struct {
-	ID            string      `json:"id" bson:"_id"`
-	To            []string    `json:"to" bson:"to,omitempty"`
-	Subject       string      `json:"subject" bson:"subject,omitempty"`
-	Content       interface{} `json:"content" bson:"content,omitempty"`
-	AttachmentURL *string     `json:"attachmentUrl" bson:"attachmentUrl,omitempty"`
-	Template      string      `json:"template" bson:"template,omitempty"`
-}
-
 type MatchingPair struct {
 	ID       string    `json:"id" bson:"_id"`
 	Question *Question `json:"question" bson:"question,omitempty"`
@@ -829,7 +811,7 @@ type User struct {
 	Files                  []string            `json:"files" bson:"files,omitempty"`
 	Courses                []string            `json:"courses" bson:"courses,omitempty"`
 	SalvationBrief         string              `json:"salvationBrief" bson:"salvationBrief,omitempty"`
-	GodsWorkings           []string            `json:"godsWorkings" bson:"godsWorkings,omitempty"`
+	GodsWorkings           string              `json:"godsWorkings" bson:"godsWorkings,omitempty"`
 	Reason                 string              `json:"reason" bson:"reason,omitempty"`
 	ChurchName             string              `json:"churchName" bson:"churchName,omitempty"`
 	ChurchAddress          string              `json:"churchAddress" bson:"churchAddress,omitempty"`
@@ -837,7 +819,7 @@ type User struct {
 	PastorEmail            string              `json:"pastorEmail" bson:"pastorEmail,omitempty"`
 	PastorPhone            string              `json:"pastorPhone" bson:"pastorPhone,omitempty"`
 	ChurchInvolved         string              `json:"churchInvolved" bson:"churchInvolved,omitempty"`
-	HealthConditions       []string            `json:"healthConditions" bson:"healthConditions,omitempty"`
+	HealthConditions       string              `json:"healthConditions" bson:"healthConditions,omitempty"`
 	HealthIssueDescription string              `json:"healthIssueDescription" bson:"healthIssueDescription,omitempty"`
 	Scholarship            *bool               `json:"scholarship" bson:"scholarship,omitempty"`
 	ScholarshipReason      string              `json:"scholarshipReason" bson:"scholarshipReason,omitempty"`

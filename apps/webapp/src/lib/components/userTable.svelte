@@ -1,10 +1,10 @@
-<div class="card w-full bg-base-100 shadow-xl">
+<div class="card w-full bg-base-200 shadow-xl">
   <div class="card-body">
     <h2 class="card-title mb-4">Prospective Students</h2>
     <div class="overflow-x-auto w-full">
       <table class="table w-full">
         <!-- head -->
-        <thead>
+        <thead class="bg-base-300">
           <tr>
             <th>
               <label>

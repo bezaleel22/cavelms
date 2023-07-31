@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/cavelms/internal/app"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,8 +18,9 @@ func main() {
 	fg := flag.String("s", "monolith", "service gql, chat or stream")
 	flag.Parse()
 	s := gin.Default()
-	s.Use(gin.Recovery()) 
-	s.Use(gin.Logger()) 
+	s.Use(gin.Recovery())
+	s.Use(gin.Logger())
+	s.Use(cors.Default())
 
 	a := app.New(s)
 	switch *fg {
