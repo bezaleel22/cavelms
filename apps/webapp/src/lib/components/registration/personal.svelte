@@ -1,5 +1,6 @@
 <script>
   import { storable } from "$lib/store/storable";
+  $storable.gender = $storable.gender ?? "male";
 </script>
 
 <div class="mt-10 sm:mt-0">
@@ -13,7 +14,7 @@
       </div>
     </div>
     <div class="mt-5 md:col-span-2 md:mt-0">
-      <div class="card w-full bg-base-100 text-neutral-content mb-4">
+      <div class="card w-full bg-base-200 text-neutral-content mb-4">
         <div class="card-body shadow-lg p-6 pb-0">
           <div class="overflow-hidden shadow sm:rounded-md">
             <div class="px-4 py-5 sm:p-6">
@@ -63,7 +64,7 @@
                   </label>
                 </div>
 
-                <div class="relative col-span-6 sm:col-span-3">
+                <!-- <div class="relative col-span-6 sm:col-span-3">
                   <select
                     bind:value={$storable.gender}
                     name="gender"
@@ -78,7 +79,42 @@
                   <label for="gender" class="floating-label peer-focus:text-accent-focus">
                     Gender
                   </label>
-                </div>
+                </div> -->
+
+                <fieldset class="relative col-span-6 sm:col-span-6">
+                  <legend class="">Gender</legend>
+                  <div class="mt-4 space-y-3 grid grid-rows-3">
+                    <div class="flex items-center">
+                      <div class="flex h-6 items-center">
+                        <input
+                          bind:group={$storable.gender}
+                          type="radio"
+                          name="gender"
+                          value="male"
+                          checked
+                          class="checkbox"
+                        />
+                      </div>
+                      <div class="ml-3 text-sm leading-6">
+                        <p class="text-gray-300">Male</p>
+                      </div>
+                    </div>
+                    <div class="flex items-center">
+                      <div class="flex h-6 items-center">
+                        <input
+                          bind:group={$storable.gender}
+                          type="radio"
+                          name="gender"
+                          value="female"
+                          class="checkbox"
+                        />
+                      </div>
+                      <div class="ml-3 text-sm leading-6">
+                        <p class="text-gray-300">Female</p>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
 
                 <div class="relative col-span-6 sm:col-span-3">
                   <input

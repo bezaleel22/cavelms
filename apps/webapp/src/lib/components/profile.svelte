@@ -3,9 +3,7 @@
 </script>
 
 <div class="card card-compact bg-base-200 shadow-sm">
-  <figure class="bg-neutral-focus">
-    <img src={profileBg} alt="Profile Bacground" />
-  </figure>
+
   <div class="card-body place-items-center items-center">
     <div class="avatar placeholder">
       <div class="bg-neutral-focus text-neutral-content rounded-full w-24">

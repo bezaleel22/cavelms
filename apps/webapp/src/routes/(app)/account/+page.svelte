@@ -1,7 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { enhance } from "$app/forms";
-  import { TabNav, TabPane } from "$lib/components/tabs";
+  import { TabNav, TabPane } from "$lib/components/Tabs";
   import Registration from "./registration.svelte";
 
   let active = 0;

@@ -4,7 +4,7 @@ import type { Action, Actions, PageServerLoad } from "./$types";
 import { dev } from "$app/environment";
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (locals?.authUser?.refresh?.isAuthenticated) {
+  if (locals?.authUser?.auth?.isAuthenticated) {
     throw redirect(302, "/");
   }
 };

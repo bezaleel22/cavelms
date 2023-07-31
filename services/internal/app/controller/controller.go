@@ -30,7 +30,7 @@ func apiHandlers(api *gin.RouterGroup, s service.Service) {
 	re := &apiCtr.Resolver{Service: s}
 	gqlcfg := generated.Config{Resolvers: re}
 
-	api.GET("/", playgroundHanler())
+	api.GET("/",s.AuthMidleware, playgroundHanler())
 	api.POST("/query", queryHanler(gqlcfg))
 }
 

@@ -1,5 +1,5 @@
-mutation Refresh($refreshToken: String!) {
-  refresh(refreshToken: $refreshToken) {
+mutation Auth($refreshToken: String!) {
+  auth(refreshToken: $refreshToken) {
     id
     firstName
     lastName

@@ -1,0 +1,30 @@
+mutation Registration($input: UpdateProspective) {
+  updateProspective(input: $input) {
+    firstName
+    lastName
+    middleName
+    email
+    dob
+    phone
+    address
+    city
+    state
+    country
+    zip
+    nationality
+    platform
+    program
+    salvationBrief
+    godsWorkings
+    reason
+    churchName
+    churchAddress
+    pastorName
+    pastorEmail
+    pastorPhone
+    churchInvolved
+    healthConditions
+    healthIssueDescription
+    status
+  }
+}

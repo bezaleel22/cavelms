@@ -7,12 +7,13 @@
     Personal,
     Referees,
     Spirituality,
-  } from "$lib/components/registration";
+  } from "$lib/components/Registration";
+  import { user } from "$lib/store/auth";
   import { storable } from "$lib/store/storable";
 </script>
 
 <form
-  action="?/register"
+  action="?/register&id={$user.auth.id}"
   method="post"
   use:enhance={({ data }) => {
     Object.entries($storable).map(([key, value]) => data.set(key, value));

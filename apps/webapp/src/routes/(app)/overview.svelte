@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Graph from "$lib/components/graph.svelte";
-  import UserTable from "$lib/components/userTable.svelte";
-  import Stats from "$lib/components/stats.svelte";
+  import Graph from "$lib/components/Graph.svelte";
+  import UserTable from "$lib/components/UserTable.svelte";
+  import Stats from "$lib/components/Stats.svelte";
 </script>
 
 <div class="">

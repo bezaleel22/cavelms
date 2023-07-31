@@ -421,24 +421,6 @@ type GradeScale {
 
 scalar Int64
 
-type Mail {
-  attachmentUrl: String!
-  body: String!
-  id: ID!
-  status: String!
-  subject: String!
-  to: [String!]
-}
-
-input MailInput {
-  attachmentUrl: String
-  content: Any
-  id: ID!
-  subject: String!
-  template: String!
-  to: [String!]!
-}
-
 type MatchingPair {
   id: ID!
   left: String!
@@ -481,6 +463,7 @@ enum MediaType {
 }
 
 type Mutation {
+  auth(refreshToken: String!): User
   changePassword(refreshToken: String!, userId: String!): User
   createActivity(input: CreateActivityInput!): Activity
   createCourse(input: CreateCourseInput): Course!
@@ -507,7 +490,6 @@ type Mutation {
   deleteForumPost(id: ID!): ForumPost!
   deleteGlobalSetting(id: ID!): Boolean!
   deleteGrade(id: ID!): Boolean!
-  deleteMail(id: ID!): Mail
   deleteManyUsers(ids: [ID!]): User
   deleteMedia(id: ID!): Media
   deleteNotification(id: ID!): Notification!
@@ -518,10 +500,8 @@ type Mutation {
   deleteUserSetting(id: ID!): Boolean!
   forgetPassword(email: String!): User
   grantPermission(input: PermissionInput!): Permission
-  refresh(refreshToken: String!): User
   resetPassword(password: String!, refreshToken: String!): User
   revokePermission(input: PermissionInput!): Permission
-  sendMail(input: MailInput): Mail
   signIn(input: AuthUser!): User
   signOut(refreshToken: String!): User
   signUp(input: NewUser!): User
@@ -687,8 +667,6 @@ type Query {
   globalSettings(limit: Int = 25, offset: Int = 0): [GlobalSetting!]!
   grade(id: ID!): Grade
   grades: [Grade!]!
-  mail(id: ID!): Mail
-  mails: [Mail]
   media(id: ID!): Media
   mediaByType(type: MediaType!): [Media!]!
   notifications(courseId: ID, read: Boolean, recipientId: ID): [Notification!]!
@@ -1095,8 +1073,8 @@ type User {
   firstName: String!
   fullName: String!
   gender: String!
-  godsWorkings: [String!]
-  healthConditions: [String!]
+  godsWorkings: String!
+  healthConditions: String!
   healthIssueDescription: String!
   id: String!
   isAuthenticated: Boolean!

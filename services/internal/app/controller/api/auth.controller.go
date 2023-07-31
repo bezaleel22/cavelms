@@ -9,8 +9,8 @@ import (
 	"github.com/cavelms/internal/model"
 )
 
-// Refresh is the resolver for the refresh field.
-func (r *mutationResolver) Refresh(ctx context.Context, refreshToken string) (*model.User, error) {
+// Auth is the resolver for the auth field.
+func (r *mutationResolver) Auth(ctx context.Context, refreshToken string) (*model.User, error) {
 	user, err := r.Service.RefreshToken(refreshToken)
 	if err != nil {
 		return nil, err

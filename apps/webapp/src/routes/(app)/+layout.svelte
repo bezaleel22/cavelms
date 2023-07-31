@@ -1,19 +1,18 @@
 <script>
-  import Footer from "$lib/components/footer.svelte";
-  import Nav from "$lib/components/nav.svelte";
-  import Sidebar from "$lib/components/sidebar.svelte";
+  import Nav from "$lib/components/Nav.svelte";
+  import Sidebar from "$lib/components/Sidebar.svelte";
 </script>
 
-<main class="rounded-tr-box rounded-b-box drawer lg:drawer-open drawer-mobile fixed">
+<main class="rounded-tr-box rounded-b-box drawer lg:drawer-open drawer-mobile ">
   <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-  <div class="drawer-content bg-base-100">
+  <div class="drawer-content bg-base-200">
     <Nav />
-    <div class=" pt-0">
+    <div class="pr-10 pt-0">
       <div class="rounded-3xl">
         <div class="p-5 lg:p-5 bg-partern lg:rounded-3xl">
           <slot />
         </div>
-        <footer class="footer p-4 bg-base-100 text-base-content">
+        <footer class="footer p-4 bg-base-200 text-base-content">
           <div>
             <p>Copyright © 2023 - All right reserved by Beznet. All rights reservedLtd</p>
           </div>

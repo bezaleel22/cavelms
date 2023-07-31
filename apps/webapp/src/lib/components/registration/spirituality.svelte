@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="mt-5 md:col-span-2 md:mt-0">
-      <div class="card w-full bg-base-100 text-neutral-content mb-4">
+      <div class="card w-full bg-base-200 text-neutral-content mb-4">
         <div class="card-body shadow-lg p-6 pb-0">
           <div class="overflow-hidden shadow sm:rounded-md">
             <div class="space-y-6 px-4 py-5 sm:p-6">
@@ -21,7 +21,7 @@
                 <div class="text-sm font-semibold leading-6" aria-hidden="true">
                   Your Christian Experience(s)
                 </div>
-                <div class="mt-4 space-y-4 grid grid-cols-3 grid-rows-3">
+                <div class="mt-4 space-y-3 grid grid-cols-3">
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
@@ -173,102 +173,83 @@
                     placeholder="Why do you want to attend Adullam?"
                   />
                 </div>
-
-                <!-- end of item -->
               </fieldset>
-              <!-- end of grid fieldset -->
 
               <fieldset>
-                <legend class="contents text-sm font-semibold leading-6"
-                  >Ministry/Church Details</legend
-                >
+                <legend class="contents text-sm font-semibold leading-6">
+                  Ministry/Church Details
+                </legend>
                 <p class="text-sm text-gray-500">
                   Let's get in touch with where you are coming from.
                 </p>
 
-                <div class="overflow-hidden shadow sm:rounded-md">
-                  <div class="bg-base-100 px-4 py-5 sm:p-6">
-                    <div class="grid grid-cols-6 gap-6">
-                      <div class="relative col-span-6 sm:col-span-3">
-                        <input
-                          name="pastorName"
-                          type="text"
-                          id="pastorName"
-                          class=" input input-bordered floating-input peer focus:border-accent-focus"
-                          placeholder=" "
-                        />
-                        <label for="pastorName" class="floating-label peer-focus:text-accent-focus">
-                          Pastor Name
-                        </label>
-                      </div>
+                <div class="grid grid-cols-6 gap-6">
+                  <div class="relative col-span-6 sm:col-span-3">
+                    <input
+                      name="pastorName"
+                      type="text"
+                      id="pastorName"
+                      class=" input input-bordered floating-input peer focus:border-accent-focus"
+                      placeholder=" "
+                    />
+                    <label for="pastorName" class="floating-label peer-focus:text-accent-focus">
+                      Pastor Name
+                    </label>
+                  </div>
 
-                      <div class="relative col-span-6 sm:col-span-3">
-                        <input
-                          name="pastorEmail"
-                          type="text"
-                          id="pastorEmail"
-                          class=" input input-bordered floating-input peer focus:border-accent-focus"
-                          placeholder=" "
-                        />
-                        <label
-                          for="pastorEmail"
-                          class="floating-label peer-focus:text-accent-focus"
-                        >
-                          Pastor's Email
-                        </label>
-                      </div>
+                  <div class="relative col-span-6 sm:col-span-3">
+                    <input
+                      name="pastorEmail"
+                      type="text"
+                      id="pastorEmail"
+                      class=" input input-bordered floating-input peer focus:border-accent-focus"
+                      placeholder=" "
+                    />
+                    <label for="pastorEmail" class="floating-label peer-focus:text-accent-focus">
+                      Pastor's Email
+                    </label>
+                  </div>
 
-                      <div class="relative col-span-6 sm:col-span-3">
-                        <input
-                          name="pastorPhone"
-                          type="text"
-                          id="pastorPhone"
-                          class=" input input-bordered floating-input peer focus:border-accent-focus"
-                          placeholder=" "
-                        />
-                        <label
-                          for="pastorPhone"
-                          class="floating-label peer-focus:text-accent-focus"
-                        >
-                          Pastor's Phone Number
-                        </label>
-                      </div>
+                  <div class="relative col-span-6 sm:col-span-3">
+                    <input
+                      name="pastorPhone"
+                      type="text"
+                      id="pastorPhone"
+                      class=" input input-bordered floating-input peer focus:border-accent-focus"
+                      placeholder=" "
+                    />
+                    <label for="pastorPhone" class="floating-label peer-focus:text-accent-focus">
+                      Pastor's Phone Number
+                    </label>
+                  </div>
 
-                      <div class="relative col-span-6 sm:col-span-3">
-                        <input
-                          name="churchName"
-                          type="text"
-                          id="churchName"
-                          class=" input input-bordered floating-input peer focus:border-accent-focus"
-                          placeholder=" "
-                        />
-                        <label for="churchName" class="floating-label peer-focus:text-accent-focus">
-                          Name of Ministry
-                        </label>
-                      </div>
+                  <div class="relative col-span-6 sm:col-span-3">
+                    <input
+                      name="churchName"
+                      type="text"
+                      id="churchName"
+                      class=" input input-bordered floating-input peer focus:border-accent-focus"
+                      placeholder=" "
+                    />
+                    <label for="churchName" class="floating-label peer-focus:text-accent-focus">
+                      Name of Ministry
+                    </label>
+                  </div>
 
-                      <div class="relative col-span-6">
-                        <input
-                          name="churchAddress"
-                          type="text"
-                          id="churchAddress"
-                          class=" input input-bordered floating-input peer focus:border-accent-focus"
-                          placeholder=" "
-                        />
-                        <label
-                          for="churchAddress"
-                          class="floating-label peer-focus:text-accent-focus"
-                        >
-                          Ministry Address
-                        </label>
-                      </div>
-                    </div>
+                  <div class="relative col-span-6">
+                    <input
+                      name="churchAddress"
+                      type="text"
+                      id="churchAddress"
+                      class=" input input-bordered floating-input peer focus:border-accent-focus"
+                      placeholder=" "
+                    />
+                    <label for="churchAddress" class="floating-label peer-focus:text-accent-focus">
+                      Ministry Address
+                    </label>
                   </div>
                 </div>
               </fieldset>
-              <!-- <div class="text-right">
-              <button class="btn">{!firstTime ? "submit" : "save"}</button>
-            </div> -->
             </div>
           </div>
         </div>

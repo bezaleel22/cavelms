@@ -4,7 +4,7 @@
 </script>
 
 <nav
-  class="navbar bg-base-100 px-5
+  class="navbar bg-base-200 px-5
   sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100
   text-base-content shadow-sm"
 >
@@ -14,7 +14,7 @@
     </label>
   </div>
   <div class="flex-1">
-    <div class="form-control">
+    <div class="form-control hidden md:block">
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
     <a
@@ -23,25 +23,25 @@
       aria-label="Homepage"
       class="flex-0 btn btn-ghost px-2 md:hidden"
     >
-      <div class="font-title text-primary inline-flex text-lg transition-all duration-200">
+      <div class="font-title text-primary inline-flex text-2xl transition-all duration-200">
         <span class="capitalize">Adu</span>
         <span class="text-base-content uppercase">LLAM</span>
       </div>
     </a>
   </div>
   <div class="flex-none gap-2 lg:block">
-    <div class="dropdown dropdown-end">
-      {#if $user?.refresh?.avatarUrl}
+    <div class="dropdown dropdown-end m-6">
+      {#if $user?.auth?.avatarUrl}
         <button tabindex="0" class="btn btn-circle avatar">
-          <div class="w-10 rounded-full">
-            <img src={`/${$user?.refresh?.avatarUrl}`} alt="Avatar Tailwind CSS Component" />
+          <div class="w-8 rounded-full">
+            <img src={`/${$user?.auth?.avatarUrl}`} alt="Avatar Tailwind CSS Component" />
           </div>
         </button>
       {:else}
         <button tabindex="0" class="btn btn-circle avatar placeholder">
-          <div class="w-10 rounded-full">
+          <div class="w-8 rounded-full">
             <span class="uppercase">
-              {`${$user?.refresh?.firstName?.charAt(0)}${$user?.refresh?.lastName?.charAt(0)}`}
+              {`${$user?.auth?.firstName?.charAt(0)}${$user?.auth?.lastName?.charAt(0)}`}
             </span>
           </div>
         </button>
@@ -49,7 +49,7 @@
       <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
       <ul
         tabindex="0"
-        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
       >
         <li>
           <a href=" " class="justify-between">

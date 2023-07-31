@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"net/http"
-	"strings"
 	"time"
 
 	"github.com/cavelms/internal/model"
@@ -11,8 +9,6 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
-
-// jwt service
 
 type Claims struct {
 	TokenID string     `json:"tokenId"`
@@ -115,13 +111,13 @@ func (a *auth) deleteToken(tokenString string) (int64, error) {
 }
 
 func (a *auth) AuthMidleware(c *gin.Context) {
-	PREFIX := "Bearer "
-	auth := c.GetHeader("Authorization")
-	authToken := strings.TrimPrefix(auth, PREFIX)
-	_, err := a.verifyToken(authToken)
-	if err != nil {
-		c.JSON(http.StatusForbidden, utils.ErrUnauthorized)
-	}
+	// PREFIX := "Bearer "
+	// auth := c.GetHeader("Authorization")
+	// authToken := strings.TrimPrefix(auth, PREFIX)
+	// _, err := a.verifyToken(authToken)
+	// if err != nil {
+	// 	c.JSON(http.StatusForbidden, utils.ErrUnauthorized)
+	// }
 
 	c.Next()
 }

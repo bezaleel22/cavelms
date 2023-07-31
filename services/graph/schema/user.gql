@@ -83,6 +83,7 @@ enum RegistrationStatus {
 input UpdateProspective {
   firstName: String
   lastName: String
+  middleName: String
   email: String
   dob: String
   phone: String
@@ -94,18 +95,18 @@ input UpdateProspective {
   nationality: String
   platform: String
   program: String
-  salvationBrief: String!
-  godsWorkings: [String!]
-  reason: String!
-  churchName: String!
+  salvationBrief: String
+  godsWorkings: String
+  reason: String
+  churchName: String
   churchAddress: String
   pastorName: String
   pastorEmail: String
   pastorPhone: String
   churchInvolved: String
-  healthConditions: [String]
+  healthConditions: String
   healthIssueDescription: String
-  status: RegistrationStatus!
+  status: RegistrationStatus
 }
 
 type Qualification {

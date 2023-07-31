@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import Player from "$lib/components/player.svelte";
-  import VideoCard from "$lib/components/video_card.svelte";
+  import Player from "$lib/components/Player.svelte";
+  import VideoCard from "$lib/components/VideoCard.svelte";
   import { medias } from "$lib/store/data";
   import { MediaInfo } from "$lib/mediaplayer";
 

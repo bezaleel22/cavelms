@@ -1,15 +1,15 @@
 <script>
-	import '../app.css';
-	import 'uno.css';
+  import "@carbon/charts-svelte/styles.css";
+  import "../app.css";
+  import "uno.css";
 </script>
 
 <div class="app">
+  <main>
+    <slot />
+  </main>
 
-	<main>
-		<slot />
-	</main>
-
-	<!-- <footer>
+  <!-- <footer>
 		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
 	</footer> -->
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import Brand from "$lib/components/brand.svelte";
+  import Brand from "$lib/components/Brand.svelte";
   import type { ActionData } from "./$types";
   let reveal = false;
   let isAlert = false;

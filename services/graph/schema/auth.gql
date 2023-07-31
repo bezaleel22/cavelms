@@ -25,7 +25,7 @@ input NewUser {
 }
 
 extend type Mutation {
-  refresh(refreshToken: String!): User
+  auth(refreshToken: String!): User
   signOut(refreshToken: String!): User
   signIn(input: AuthUser!): User
   signUp(input: NewUser!): User

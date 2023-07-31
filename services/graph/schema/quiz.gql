@@ -30,7 +30,6 @@ type Quiz {
   deletedAt: Time!
 }
 
-
 enum QuizType {
   EXAM
   ASSIGNMENT

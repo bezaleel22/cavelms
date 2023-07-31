@@ -5,7 +5,6 @@ package controller
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/cavelms/internal/model"
 )
@@ -48,7 +47,11 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input interface{}) (*
 
 // UpdateProspective is the resolver for the updateProspective field.
 func (r *mutationResolver) UpdateProspective(ctx context.Context, input *model.UpdateProspective) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: UpdateProspective - updateProspective"))
+	user, err := r.Service.UpdateUser(ctx, *input)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
 // DeleteUser is the resolver for the deleteUser field.

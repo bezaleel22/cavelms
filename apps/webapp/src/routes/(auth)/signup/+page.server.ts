@@ -1,11 +1,10 @@
 import { SignInStore, SignUpStore, type NewUser } from "$houdini";
 import { mail } from "$lib/mail";
-import { auth } from "$lib/store/auth";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
-  if (locals?.authUser?.refresh?.isAuthenticated) {
+  if (locals.authUser?.auth?.isAuthenticated) {
     throw redirect(302, "/");
   }
 };

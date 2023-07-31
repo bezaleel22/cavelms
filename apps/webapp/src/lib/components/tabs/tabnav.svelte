@@ -3,18 +3,17 @@
 
   export let active: number;
   export let items: {
-    id:string;
+    id: string;
     title: string;
     component: ConstructorOfATypedSvelteComponent;
   }[];
-
-  //   $: setContext("active", active);
 </script>
 
 <div class="tabs">
   {#each items as item, i}
     <button
-      class="tab tab-bordered lg:mr-6 {active === i ? 'tab-active' : ''}"
+      class:tab-active={active === i}
+      class="tab tab-bordered mr-6"
       on:click={() => (active = i)}
     >
       {item.title}

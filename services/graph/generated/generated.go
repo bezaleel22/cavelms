@@ -250,6 +250,7 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
+		Auth                     func(childComplexity int, refreshToken string) int
 		ChangePassword           func(childComplexity int, refreshToken string, userID string) int
 		CreateActivity           func(childComplexity int, input model.CreateActivityInput) int
 		CreateCourse             func(childComplexity int, input *model.CreateCourseInput) int
@@ -286,7 +287,6 @@ type ComplexityRoot struct {
 		DeleteUserSetting        func(childComplexity int, id string) int
 		ForgetPassword           func(childComplexity int, email string) int
 		GrantPermission          func(childComplexity int, input model.PermissionInput) int
-		Refresh                  func(childComplexity int, refreshToken string) int
 		ResetPassword            func(childComplexity int, refreshToken string, password string) int
 		RevokePermission         func(childComplexity int, input model.PermissionInput) int
 		SignIn                   func(childComplexity int, input model.AuthUser) int
@@ -605,7 +605,7 @@ type MutationResolver interface {
 	CreateActivity(ctx context.Context, input model.CreateActivityInput) (*model.Activity, error)
 	UpdateActivity(ctx context.Context, input model.UpdateActivityInput) (*model.Activity, error)
 	DeleteActivity(ctx context.Context, id string) (bool, error)
-	Refresh(ctx context.Context, refreshToken string) (*model.User, error)
+	Auth(ctx context.Context, refreshToken string) (*model.User, error)
 	SignOut(ctx context.Context, refreshToken string) (*model.User, error)
 	SignIn(ctx context.Context, input model.AuthUser) (*model.User, error)
 	SignUp(ctx context.Context, input model.NewUser) (*model.User, error)
@@ -1767,6 +1767,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Media.VideoPlayerInfo(childComplexity), true
 
+	case "Mutation.auth":
+		if e.complexity.Mutation.Auth == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_auth_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.Auth(childComplexity, args["refreshToken"].(string)), true
+
 	case "Mutation.changePassword":
 		if e.complexity.Mutation.ChangePassword == nil {
 			break
@@ -2198,18 +2210,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.GrantPermission(childComplexity, args["input"].(model.PermissionInput)), true
-
-	case "Mutation.refresh":
-		if e.complexity.Mutation.Refresh == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_refresh_args(context.TODO(), rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.Refresh(childComplexity, args["refreshToken"].(string)), true
 
 	case "Mutation.resetPassword":
 		if e.complexity.Mutation.ResetPassword == nil {
@@ -4456,7 +4456,7 @@ input NewUser {
 }
 
 extend type Mutation {
-  refresh(refreshToken: String!): User
+  auth(refreshToken: String!): User
   signOut(refreshToken: String!): User
   signIn(input: AuthUser!): User
   signUp(input: NewUser!): User
@@ -5642,6 +5642,21 @@ func (ec *executionContext) dir_requireAuth_args(ctx context.Context, rawArgs ma
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_auth_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["refreshToken"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refreshToken"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["refreshToken"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_changePassword_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -6215,21 +6230,6 @@ func (ec *executionContext) field_Mutation_grantPermission_args(ctx context.Cont
 		}
 	}
 	args["input"] = arg0
-	return args, nil
-}
-
-func (ec *executionContext) field_Mutation_refresh_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["refreshToken"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("refreshToken"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["refreshToken"] = arg0
 	return args, nil
 }
 
@@ -14387,8 +14387,8 @@ func (ec *executionContext) fieldContext_Mutation_deleteActivity(ctx context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_refresh(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_refresh(ctx, field)
+func (ec *executionContext) _Mutation_auth(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_auth(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -14401,7 +14401,7 @@ func (ec *executionContext) _Mutation_refresh(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Refresh(rctx, fc.Args["refreshToken"].(string))
+		return ec.resolvers.Mutation().Auth(rctx, fc.Args["refreshToken"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -14415,7 +14415,7 @@ func (ec *executionContext) _Mutation_refresh(ctx context.Context, field graphql
 	return ec.marshalOUser2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_refresh(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_auth(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -14554,7 +14554,7 @@ func (ec *executionContext) fieldContext_Mutation_refresh(ctx context.Context, f
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_refresh_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_auth_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -37988,10 +37988,10 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "refresh":
+		case "auth":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_refresh(ctx, field)
+				return ec._Mutation_auth(ctx, field)
 			})
 
 		case "signOut":
