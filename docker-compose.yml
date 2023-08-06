@@ -2,7 +2,8 @@
 version: '3.1'
 
 volumes:
-  redis_cache:
+  postgres_data:
+  redis_data:
 
 services:
   mongodb:
@@ -25,14 +26,54 @@ services:
       - '6078:6379'
     # command: redis-server --save 20 1 --loglevel warning --requirepass $$REDIS_PWD
     volumes:
-      - redis_cache:/data
+      - redis_data:/data
     
-  # mongo-express:
-  #   image: mongo-express
-  #   restart: always
-  #   ports:
-  #     - 8081:8081
-  #   environment:
-  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
-  #     ME_CONFIG_MONGODB_ADMINPASSWORD: password
-  #     ME_CONFIG_MONGODB_URL: mongodb://root:password@mongodb:27017/
+  postgresdb:
+    container_name: postgresdb
+    build:
+        context: .
+        dockerfile: ./docker/Dockerfile
+    ports:
+      - 5406:5432
+    command:
+      - postgres
+      - -c
+      - wal_level=logical
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+    healthcheck:
+      test: ["CMD-SHELL", "PGUSER=cavelms", "pg_isready"]
+      interval: 1s
+      timeout: 10s
+      retries: 5
+    environment:
+      POSTGRES_USER: cavelms
+      POSTGRES_PASSWORD: 1414{bruno}
+      POSTGRES_DB: cavelms
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+
+  rest:
+    container_name: pg_postgrest
+    image: postgrest/postgrest:v10.0.0
+    restart: unless-stopped
+    ports:
+      - 3001:3000
+    environment:
+      PGRST_DB_URI: postgres://cavelms:1414{bruno}@postgresdb:5432/cavelms
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: anon
+    depends_on:
+      - postgresdb
+
+
+  graphiql:
+    container_name: pg_graphiql
+    image: nginx
+    volumes:
+      - ./docker:/usr/share/nginx/html
+    ports:
+      - 4000:80
+    depends_on:
+      - rest

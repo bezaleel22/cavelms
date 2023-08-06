@@ -117,10 +117,10 @@ type CourseProgress struct {
 
 type CreatMediaInput struct {
 	UserID      string           `json:"userId" bson:"userId,omitempty"`
-	CourseID    string           `json:"courseID" bson:"courseID,omitempty"`
+	CourseID    *string          `json:"courseID" bson:"courseID,omitempty"`
 	Title       string           `json:"title" bson:"title,omitempty"`
 	Description *string          `json:"description" bson:"description,omitempty"`
-	Category    string           `json:"category" bson:"category,omitempty"`
+	Category    Category         `json:"category" bson:"category,omitempty"`
 	MediaType   MediaType        `json:"mediaType" bson:"mediaType,omitempty"`
 	File        *CreateFileInput `json:"file" bson:"file,omitempty"`
 }
@@ -261,14 +261,6 @@ type EvaluationCriteria struct {
 	DeletedAt          *time.Time          `json:"deletedAt" bson:"deletedAt,omitempty"`
 }
 
-type File struct {
-	Name     string `json:"name" bson:"name,omitempty"`
-	Mimetype string `json:"mimetype" bson:"mimetype,omitempty"`
-	Encoding string `json:"encoding" bson:"encoding,omitempty"`
-	Size     int    `json:"size" bson:"size,omitempty"`
-	URL      string `json:"url" bson:"url,omitempty"`
-}
-
 type Forum struct {
 	ID          string     `json:"id" bson:"_id"`
 	Name        string     `json:"name" bson:"name,omitempty"`
@@ -359,14 +351,22 @@ type Media struct {
 	UserID          string      `json:"userId" bson:"userId,omitempty"`
 	Title           string      `json:"title" bson:"title,omitempty"`
 	Description     *string     `json:"description" bson:"description,omitempty"`
-	Category        string      `json:"category" bson:"category,omitempty"`
+	Category        Category    `json:"category" bson:"category,omitempty"`
 	MediaType       MediaType   `json:"mediaType" bson:"mediaType,omitempty"`
 	Tags            []string    `json:"tags" bson:"tags,omitempty"`
 	VideoPlayerInfo *PlayerInfo `json:"videoPlayerInfo" bson:"videoPlayerInfo,omitempty"`
-	File            *File       `json:"file" bson:"file,omitempty"`
+	File            *MediaFile  `json:"file" bson:"file,omitempty"`
 	CreatedAt       *time.Time  `json:"createdAt" bson:"createdAt,omitempty"`
 	UpdatedAt       *time.Time  `json:"updatedAt" bson:"updatedAt,omitempty"`
 	DeletedAt       *time.Time  `json:"deletedAt" bson:"deletedAt,omitempty"`
+}
+
+type MediaFile struct {
+	Name     string  `json:"name" bson:"name,omitempty"`
+	Mimetype string  `json:"mimetype" bson:"mimetype,omitempty"`
+	Encoding *string `json:"encoding" bson:"encoding,omitempty"`
+	Size     int     `json:"size" bson:"size,omitempty"`
+	URL      string  `json:"url" bson:"url,omitempty"`
 }
 
 type NewCourse struct {
@@ -390,7 +390,6 @@ type NewQualification struct {
 }
 
 type NewReferee struct {
-	UserID   string `json:"userId" bson:"userId,omitempty"`
 	FullName string `json:"fullName" bson:"fullName,omitempty"`
 	Email    string `json:"email" bson:"email,omitempty"`
 	Phone    string `json:"phone" bson:"phone,omitempty"`
@@ -690,7 +689,7 @@ type UpdateMediaInput struct {
 	ID              string           `json:"id" bson:"_id"`
 	Title           string           `json:"title" bson:"title,omitempty"`
 	Description     *string          `json:"description" bson:"description,omitempty"`
-	Category        string           `json:"category" bson:"category,omitempty"`
+	Category        Category         `json:"category" bson:"category,omitempty"`
 	MediaType       MediaType        `json:"mediaType" bson:"mediaType,omitempty"`
 	Duration        int64            `json:"duration" bson:"duration,omitempty"`
 	VideoPlayerInfo *PlayerInfoInput `json:"videoPlayerInfo" bson:"videoPlayerInfo,omitempty"`
@@ -702,31 +701,32 @@ type UpdateNotificationInput struct {
 }
 
 type UpdateProspective struct {
-	FirstName              *string            `json:"firstName" bson:"firstName,omitempty"`
-	LastName               *string            `json:"lastName" bson:"lastName,omitempty"`
-	Email                  *string            `json:"email" bson:"email,omitempty"`
-	Dob                    *string            `json:"dob" bson:"dob,omitempty"`
-	Phone                  *string            `json:"phone" bson:"phone,omitempty"`
-	Address                *string            `json:"address" bson:"address,omitempty"`
-	City                   *string            `json:"city" bson:"city,omitempty"`
-	State                  *string            `json:"state" bson:"state,omitempty"`
-	Country                *string            `json:"country" bson:"country,omitempty"`
-	Zip                    *string            `json:"zip" bson:"zip,omitempty"`
-	Nationality            *string            `json:"nationality" bson:"nationality,omitempty"`
-	Platform               *string            `json:"platform" bson:"platform,omitempty"`
-	Program                *string            `json:"program" bson:"program,omitempty"`
-	SalvationBrief         string             `json:"salvationBrief" bson:"salvationBrief,omitempty"`
-	GodsWorkings           []string           `json:"godsWorkings" bson:"godsWorkings,omitempty"`
-	Reason                 string             `json:"reason" bson:"reason,omitempty"`
-	ChurchName             string             `json:"churchName" bson:"churchName,omitempty"`
-	ChurchAddress          *string            `json:"churchAddress" bson:"churchAddress,omitempty"`
-	PastorName             *string            `json:"pastorName" bson:"pastorName,omitempty"`
-	PastorEmail            *string            `json:"pastorEmail" bson:"pastorEmail,omitempty"`
-	PastorPhone            *string            `json:"pastorPhone" bson:"pastorPhone,omitempty"`
-	ChurchInvolved         *string            `json:"churchInvolved" bson:"churchInvolved,omitempty"`
-	HealthConditions       []*string          `json:"healthConditions" bson:"healthConditions,omitempty"`
-	HealthIssueDescription *string            `json:"healthIssueDescription" bson:"healthIssueDescription,omitempty"`
-	Status                 RegistrationStatus `json:"status" bson:"status,omitempty"`
+	FirstName              *string             `json:"firstName" bson:"firstName,omitempty"`
+	LastName               *string             `json:"lastName" bson:"lastName,omitempty"`
+	MiddleName             *string             `json:"middleName" bson:"middleName,omitempty"`
+	Email                  *string             `json:"email" bson:"email,omitempty"`
+	Dob                    *string             `json:"dob" bson:"dob,omitempty"`
+	Phone                  *string             `json:"phone" bson:"phone,omitempty"`
+	Address                *string             `json:"address" bson:"address,omitempty"`
+	City                   *string             `json:"city" bson:"city,omitempty"`
+	State                  *string             `json:"state" bson:"state,omitempty"`
+	Country                *string             `json:"country" bson:"country,omitempty"`
+	Zip                    *string             `json:"zip" bson:"zip,omitempty"`
+	Nationality            *string             `json:"nationality" bson:"nationality,omitempty"`
+	Platform               *string             `json:"platform" bson:"platform,omitempty"`
+	Program                *string             `json:"program" bson:"program,omitempty"`
+	SalvationBrief         *string             `json:"salvationBrief" bson:"salvationBrief,omitempty"`
+	GodsWorkings           *string             `json:"godsWorkings" bson:"godsWorkings,omitempty"`
+	Reason                 *string             `json:"reason" bson:"reason,omitempty"`
+	ChurchName             *string             `json:"churchName" bson:"churchName,omitempty"`
+	ChurchAddress          *string             `json:"churchAddress" bson:"churchAddress,omitempty"`
+	PastorName             *string             `json:"pastorName" bson:"pastorName,omitempty"`
+	PastorEmail            *string             `json:"pastorEmail" bson:"pastorEmail,omitempty"`
+	PastorPhone            *string             `json:"pastorPhone" bson:"pastorPhone,omitempty"`
+	ChurchInvolved         *string             `json:"churchInvolved" bson:"churchInvolved,omitempty"`
+	HealthConditions       *string             `json:"healthConditions" bson:"healthConditions,omitempty"`
+	HealthIssueDescription *string             `json:"healthIssueDescription" bson:"healthIssueDescription,omitempty"`
+	Status                 *RegistrationStatus `json:"status" bson:"status,omitempty"`
 }
 
 type UpdateQuestionInput struct {
@@ -1034,6 +1034,51 @@ func (e *AllowedPermission) UnmarshalGQL(v interface{}) error {
 }
 
 func (e AllowedPermission) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type Category string
+
+const (
+	CategoryRegister Category = "REGISTER"
+	CategoryDrive    Category = "DRIVE"
+	CategoryCourse   Category = "COURSE"
+	CategoryOthers   Category = "OTHERS"
+)
+
+var AllCategory = []Category{
+	CategoryRegister,
+	CategoryDrive,
+	CategoryCourse,
+	CategoryOthers,
+}
+
+func (e Category) IsValid() bool {
+	switch e {
+	case CategoryRegister, CategoryDrive, CategoryCourse, CategoryOthers:
+		return true
+	}
+	return false
+}
+
+func (e Category) String() string {
+	return string(e)
+}
+
+func (e *Category) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Category(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Category", str)
+	}
+	return nil
+}
+
+func (e Category) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

@@ -37,8 +37,8 @@ func (r *mutationResolver) CreateQualification(ctx context.Context, userID strin
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (r *mutationResolver) UpdateUser(ctx context.Context, input interface{}) (*model.User, error) {
-	user, err := r.Service.UpdateUser(ctx, input)
+func (r *mutationResolver) UpdateUser(ctx context.Context, userID string, input interface{}) (*model.User, error) {
+	user, err := r.Service.UpdateUser(ctx, userID, input)
 	if err != nil {
 		return nil, err
 	}
@@ -46,8 +46,8 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input interface{}) (*
 }
 
 // UpdateProspective is the resolver for the updateProspective field.
-func (r *mutationResolver) UpdateProspective(ctx context.Context, input *model.UpdateProspective) (*model.User, error) {
-	user, err := r.Service.UpdateUser(ctx, *input)
+func (r *mutationResolver) UpdateProspective(ctx context.Context, userID string, input *model.UpdateProspective) (*model.User, error) {
+	user, err := r.Service.UpdateUser(ctx, userID, *input)
 	if err != nil {
 		return nil, err
 	}

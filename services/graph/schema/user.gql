@@ -136,7 +136,6 @@ type Referee {
 }
 
 input NewReferee {
-  userId: ID!
   fullName: String!
   email: String!
   phone: String!
@@ -158,8 +157,8 @@ extend type Mutation {
   createUser(input: NewUser!): User
   createReferee(userId: ID!, input: NewReferee!): Referee
   createQualification(userId: ID!, input: NewQualification!): Qualification
-  updateUser(input: Any): User
-  updateProspective(input: UpdateProspective): User
+  updateUser(userId: ID!, input: Any): User
+  updateProspective(userId: ID!, input: UpdateProspective): User
   deleteUser(id: ID!): User
   deleteManyUsers(ids: [ID!]): User
 }

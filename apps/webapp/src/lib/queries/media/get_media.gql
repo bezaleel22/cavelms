@@ -1,4 +1,4 @@
-query GetMediaById($id: ID!) {
+query GetMedia($id: ID!) {
   media(id: $id) {
     id
     title

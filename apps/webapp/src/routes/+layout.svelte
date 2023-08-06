@@ -1,5 +1,4 @@
 <script>
-  import "@carbon/charts-svelte/styles.css";
   import "../app.css";
   import "uno.css";
 </script>

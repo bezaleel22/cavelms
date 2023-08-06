@@ -1,5 +1,5 @@
-mutation Registration($input: UpdateProspective) {
-  updateProspective(input: $input) {
+mutation Registration($userId: ID!, $input: UpdateProspective) {
+  updateProspective(userId: $userId, input: $input) {
     firstName
     lastName
     middleName

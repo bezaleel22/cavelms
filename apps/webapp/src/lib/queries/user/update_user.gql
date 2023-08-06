@@ -1,5 +1,5 @@
-mutation UpdateUser($input: Any) {
-  updateUser(input: $input) {
+mutation UpdateUser($userId: ID!, $input: Any) {
+  updateUser(userId: $userId, input: $input) {
     id
     firstName
     lastName

@@ -1,4 +1,4 @@
-mutation CreateQualification($userId: ID!, $input: NewQualification!) {
+mutation Qualification($userId: ID!, $input: NewQualification!) {
   createQualification(userId: $userId, input: $input) {
     id
     degree

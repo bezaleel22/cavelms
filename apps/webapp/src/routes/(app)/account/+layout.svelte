@@ -1,14 +1,29 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { enhance } from "$app/forms";
+  import { page } from "$app/stores";
   import { TabNav, TabPane } from "$lib/components/Tabs";
-  import Registration from "./registration.svelte";
 
-  let active = 0;
-  let items = [{ id: "Settings", title: "Registration", component: Registration }];
+  let titles = [
+    "overview",
+    "profile",
+    "courses",
+    "activity",
+    "documents",
+    "registration",
+    "settings",
+  ];
+
+  let active = titles.indexOf($page.url.pathname.split("/").pop() as string);
 
   export let form: FormData;
   $: if (browser) console.log(form);
+
+  const runMaizzle = async () => {
+    const resp = await fetch("/api/maizzle");
+    const data = await resp.text();
+    console.log(data);
+  };
 </script>
 
 <div class="card w-full bg-base-200 text-neutral-content mb-5">
@@ -67,7 +82,7 @@
           </form>
 
           <button class="btn btn-sm">Button</button>
-          <button class="btn btn-sm">Button</button>
+          <button on:click={runMaizzle} class="btn btn-sm">Maizzle</button>
         </div>
 
         <div class="flex flex-col my-10">
@@ -80,9 +95,13 @@
       </div>
     </div>
     <div class="">
-      <TabNav bind:active {items} />
+      <TabNav bind:active {titles} />
     </div>
   </div>
 </div>
 
-<TabPane bind:active {items} />
+<TabPane let:active>
+  <div class="p-6">
+    <slot />
+  </div>
+</TabPane>

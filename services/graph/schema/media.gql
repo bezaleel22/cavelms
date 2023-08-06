@@ -1,7 +1,7 @@
-type File {
+type MediaFile {
   name: String!
   mimetype: String!
-  encoding: String!
+  encoding: String
   size: Int!
   url: String!
 }
@@ -19,17 +19,24 @@ enum MediaType {
   OTHERS
 }
 
+enum Category {
+  REGISTER
+  DRIVE
+  COURSE
+  OTHERS
+}
+
 type Media {
   id: ID!
   courseId: ID!
   userId: ID!
   title: String!
   description: String
-  category: String!
+  category: Category!
   mediaType: MediaType!
   tags: [String!]!
   videoPlayerInfo: PlayerInfo
-  file: File!
+  file: MediaFile!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
@@ -53,21 +60,21 @@ input UpdateMediaInput {
   id: ID!
   title: String!
   description: String
-  category: String!
+  category: Category!
   mediaType: MediaType!
   duration: Int64!
   videoPlayerInfo: PlayerInfoInput
-  file: UpdateFileInput!
+  file: UpdateFileInput
 }
 
 input CreatMediaInput {
   userId: ID!
-  courseID: ID!
+  courseID: ID
   title: String!
   description: String
-  category: String!
+  category: Category!
   mediaType: MediaType!
-  file: CreateFileInput!
+  file: CreateFileInput
 }
 
 input CreateFileInput {

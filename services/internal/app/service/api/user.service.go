@@ -31,7 +31,7 @@ func (api *API) CreateUser(ctx context.Context, input model.NewUser) (*model.Use
 }
 
 // UpdateUser is the resolver for the updateUser field.
-func (api *API) UpdateUser(ctx context.Context, data interface{}) (*model.User, error) {
+func (api *API) UpdateUser(ctx context.Context, userId string, data interface{}) (*model.User, error) {
 	user := model.User{}
 
 	ub, err := json.Marshal(data)
@@ -44,7 +44,8 @@ func (api *API) UpdateUser(ctx context.Context, data interface{}) (*model.User, 
 		return nil, err
 	}
 
-	err = api.DB.UpdateOne(user)
+	user.ID = userId
+	err = api.DB.UpdateOne(&user)
 	if err != nil {
 		return nil, err
 	}
@@ -137,7 +138,7 @@ func (api *API) CreateRefree(ctx context.Context, userID string, input model.New
 	}
 
 	user.Referees = append(user.Referees, referee)
-	err = api.DB.Create(user)
+	err = api.DB.UpdateOne(user)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +163,7 @@ func (api *API) CreateQualification(ctx context.Context, userID string, input mo
 	}
 
 	user.Qualifications = append(user.Qualifications, qualification)
-	err = api.DB.Create(&user)
+	err = api.DB.UpdateOne(user)
 	if err != nil {
 		return nil, err
 	}

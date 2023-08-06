@@ -115,6 +115,13 @@ type Bonus {
   percentage: Int!
 }
 
+enum Category {
+  COURSE
+  DRIVE
+  OTHERS
+  REGISTER
+}
+
 type Claims {
   Role: String!
   email: String!
@@ -171,10 +178,10 @@ enum CourseType {
 }
 
 input CreatMediaInput {
-  category: String!
-  courseID: ID!
+  category: Category!
+  courseID: ID
   description: String
-  file: CreateFileInput!
+  file: CreateFileInput
   mediaType: MediaType!
   title: String!
   userId: ID!
@@ -318,14 +325,6 @@ type EvaluationCriteria {
   weight: Int!
 }
 
-type File {
-  encoding: String!
-  mimetype: String!
-  name: String!
-  size: Int!
-  url: String!
-}
-
 type Forum {
   courseId: ID!
   createdAt: Time
@@ -434,12 +433,12 @@ input MatchingPairInput {
 }
 
 type Media {
-  category: String!
+  category: Category!
   courseId: ID!
   createdAt: Time
   deletedAt: Time
   description: String
-  file: File!
+  file: MediaFile!
   id: ID!
   mediaType: MediaType!
   tags: [String!]!
@@ -447,6 +446,14 @@ type Media {
   updatedAt: Time
   userId: ID!
   videoPlayerInfo: PlayerInfo
+}
+
+type MediaFile {
+  encoding: String
+  mimetype: String!
+  name: String!
+  size: Int!
+  url: String!
 }
 
 enum MediaType {
@@ -517,11 +524,11 @@ type Mutation {
   updateMedia(input: UpdateMediaInput!): Media
   updateNotification(id: ID!, input: UpdateNotificationInput!): Notification!
   updatePermission(input: PermissionInput!): Permission
-  updateProspective(input: UpdateProspective): User
+  updateProspective(input: UpdateProspective, userId: ID!): User
   updateQuiz(id: ID!, input: UpdateQuizInput!): Quiz
   updateTag(id: ID!, input: UpdateTagInput!): Tag!
   updateTarget(id: ID!, input: UpdateTargetInput!): Target
-  updateUser(input: Any): User
+  updateUser(input: Any, userId: ID!): User
   updateUserSetting(id: ID!, input: UpdateSetting!): UserSetting!
   verifyEmail(refreshToken: String!): User
 }
@@ -550,7 +557,6 @@ input NewReferee {
   email: String!
   fullName: String!
   phone: String!
-  userId: ID!
 }
 
 input NewSetting {
@@ -967,10 +973,10 @@ input UpdateGradeInput {
 }
 
 input UpdateMediaInput {
-  category: String!
+  category: Category!
   description: String
   duration: Int64!
-  file: UpdateFileInput!
+  file: UpdateFileInput
   id: ID!
   mediaType: MediaType!
   title: String!
@@ -985,16 +991,17 @@ input UpdateProspective {
   address: String
   churchAddress: String
   churchInvolved: String
-  churchName: String!
+  churchName: String
   city: String
   country: String
   dob: String
   email: String
   firstName: String
-  godsWorkings: [String!]
-  healthConditions: [String]
+  godsWorkings: String
+  healthConditions: String
   healthIssueDescription: String
   lastName: String
+  middleName: String
   nationality: String
   pastorEmail: String
   pastorName: String
@@ -1002,10 +1009,10 @@ input UpdateProspective {
   phone: String
   platform: String
   program: String
-  reason: String!
-  salvationBrief: String!
+  reason: String
+  salvationBrief: String
   state: String
-  status: RegistrationStatus!
+  status: RegistrationStatus
   zip: String
 }
 

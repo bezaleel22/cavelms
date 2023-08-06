@@ -1,4 +1,4 @@
-mutation CreateReferee($userId: ID!, $input: NewReferee!) {
+mutation Referee($userId: ID!, $input: NewReferee!) {
   createReferee(userId: $userId, input: $input) {
     id
     fullName

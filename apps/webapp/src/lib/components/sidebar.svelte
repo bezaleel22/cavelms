@@ -21,24 +21,24 @@
       <Brand />
     </div>
 
-    <nav class="">
-      <div class="flex flex-col items-center mb-5">
-        <div class="avatar online placeholder">
-          <div class="bg-neutral-focus text-neutral-content rounded-full w-24">
-            <span class="uppercase text-3xl">
-              {`${$user?.auth?.firstName?.charAt(0)}${$user?.auth?.lastName?.charAt(0)}`}
-            </span>
-          </div>
-        </div>
-        <div class="flex flex-col items-center">
-          <p class="text-lg font-semibold">
-            {`${$user?.auth?.firstName} ${$user?.auth?.lastName}`}
-          </p>
-          <p class="text-sm opacity-30">Prospetive</p>
+    <div class="flex flex-col gap-3 items-center mb-5">
+      <div class="avatar online placeholder">
+        <div class="bg-neutral-focus text-neutral-content rounded-full w-24">
+          <span class="uppercase text-3xl">
+            {`${$user?.auth?.firstName?.charAt(0)}${$user?.auth?.lastName?.charAt(0)}`}
+          </span>
         </div>
       </div>
+      <div class="flex flex-col items-center">
+        <p class="text-lg font-semibold">
+          {`${$user?.auth?.firstName} ${$user?.auth?.lastName}`}
+        </p>
+        <p class="text-sm opacity-30">Prospetive</p>
+      </div>
+    </div>
 
-      <ul class="menu bg-base-200 w-64">
+    <nav class="overflow-auto">
+      <ul class="menu bg-base-200 overflow-auto">
         <li class="uppercase bg-base-300 rounded-md mb-10 mx-6">
           <a class:active={pathname == "/"} href="/">
             <span class="i-bx:home text-lg" />
@@ -48,7 +48,7 @@
         {#each routes as route, i}
           <li>
             <details open>
-              <summary>{route.name}</summary>
+              <summary class="opacity-30">{route.name}</summary>
               <ul>
                 {#each route.links as link}
                   <li use:expand={pathname == link.url ? i : null}>

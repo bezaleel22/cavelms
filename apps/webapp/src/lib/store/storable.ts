@@ -19,3 +19,7 @@ export class Storable {
 }
 
 export const storable = new Storable("storable");
+export const ref1 = new Storable("ref1");
+export const ref2 = new Storable("ref2");
+export const document = new Storable("document");
+export const qualification = new Storable("qualification");

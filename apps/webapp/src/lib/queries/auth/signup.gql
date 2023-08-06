@@ -3,6 +3,11 @@ mutation SignUp($input: NewUser!) {
     id
     firstName
     lastName
+    fullName
     email
+    verifycationToken {
+      expiresAt
+      token
+    }
   }
 }

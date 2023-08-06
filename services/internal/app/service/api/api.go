@@ -37,7 +37,7 @@ type APIService interface {
 
 	// userService interface
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	UpdateUser(ctx context.Context, data interface{}) (*model.User, error)
+	UpdateUser(ctx context.Context, userId string, data interface{}) (*model.User, error)
 	DeleteUser(ctx context.Context, ids string) (*model.User, error)
 	DeleteManyUsers(ctx context.Context, ids []string) (*model.User, error)
 	GetUsers(ctx context.Context) ([]*model.User, error)

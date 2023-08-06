@@ -146,14 +146,6 @@ type ComplexityRoot struct {
 		Weight             func(childComplexity int) int
 	}
 
-	File struct {
-		Encoding func(childComplexity int) int
-		Mimetype func(childComplexity int) int
-		Name     func(childComplexity int) int
-		Size     func(childComplexity int) int
-		URL      func(childComplexity int) int
-	}
-
 	Forum struct {
 		CourseID    func(childComplexity int) int
 		CreatedAt   func(childComplexity int) int
@@ -249,6 +241,14 @@ type ComplexityRoot struct {
 		VideoPlayerInfo func(childComplexity int) int
 	}
 
+	MediaFile struct {
+		Encoding func(childComplexity int) int
+		Mimetype func(childComplexity int) int
+		Name     func(childComplexity int) int
+		Size     func(childComplexity int) int
+		URL      func(childComplexity int) int
+	}
+
 	Mutation struct {
 		Auth                     func(childComplexity int, refreshToken string) int
 		ChangePassword           func(childComplexity int, refreshToken string, userID string) int
@@ -304,11 +304,11 @@ type ComplexityRoot struct {
 		UpdateMedia              func(childComplexity int, input model.UpdateMediaInput) int
 		UpdateNotification       func(childComplexity int, id string, input model.UpdateNotificationInput) int
 		UpdatePermission         func(childComplexity int, input model.PermissionInput) int
-		UpdateProspective        func(childComplexity int, input *model.UpdateProspective) int
+		UpdateProspective        func(childComplexity int, userID string, input *model.UpdateProspective) int
 		UpdateQuiz               func(childComplexity int, id string, input model.UpdateQuizInput) int
 		UpdateTag                func(childComplexity int, id string, input model.UpdateTagInput) int
 		UpdateTarget             func(childComplexity int, id string, input model.UpdateTargetInput) int
-		UpdateUser               func(childComplexity int, input interface{}) int
+		UpdateUser               func(childComplexity int, userID string, input interface{}) int
 		UpdateUserSetting        func(childComplexity int, id string, input model.UpdateSetting) int
 		VerifyEmail              func(childComplexity int, refreshToken string) int
 	}
@@ -656,8 +656,8 @@ type MutationResolver interface {
 	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
 	CreateReferee(ctx context.Context, userID string, input model.NewReferee) (*model.Referee, error)
 	CreateQualification(ctx context.Context, userID string, input model.NewQualification) (*model.Qualification, error)
-	UpdateUser(ctx context.Context, input interface{}) (*model.User, error)
-	UpdateProspective(ctx context.Context, input *model.UpdateProspective) (*model.User, error)
+	UpdateUser(ctx context.Context, userID string, input interface{}) (*model.User, error)
+	UpdateProspective(ctx context.Context, userID string, input *model.UpdateProspective) (*model.User, error)
 	DeleteUser(ctx context.Context, id string) (*model.User, error)
 	DeleteManyUsers(ctx context.Context, ids []string) (*model.User, error)
 }
@@ -1235,41 +1235,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.EvaluationCriteria.Weight(childComplexity), true
 
-	case "File.encoding":
-		if e.complexity.File.Encoding == nil {
-			break
-		}
-
-		return e.complexity.File.Encoding(childComplexity), true
-
-	case "File.mimetype":
-		if e.complexity.File.Mimetype == nil {
-			break
-		}
-
-		return e.complexity.File.Mimetype(childComplexity), true
-
-	case "File.name":
-		if e.complexity.File.Name == nil {
-			break
-		}
-
-		return e.complexity.File.Name(childComplexity), true
-
-	case "File.size":
-		if e.complexity.File.Size == nil {
-			break
-		}
-
-		return e.complexity.File.Size(childComplexity), true
-
-	case "File.url":
-		if e.complexity.File.URL == nil {
-			break
-		}
-
-		return e.complexity.File.URL(childComplexity), true
-
 	case "Forum.courseId":
 		if e.complexity.Forum.CourseID == nil {
 			break
@@ -1766,6 +1731,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Media.VideoPlayerInfo(childComplexity), true
+
+	case "MediaFile.encoding":
+		if e.complexity.MediaFile.Encoding == nil {
+			break
+		}
+
+		return e.complexity.MediaFile.Encoding(childComplexity), true
+
+	case "MediaFile.mimetype":
+		if e.complexity.MediaFile.Mimetype == nil {
+			break
+		}
+
+		return e.complexity.MediaFile.Mimetype(childComplexity), true
+
+	case "MediaFile.name":
+		if e.complexity.MediaFile.Name == nil {
+			break
+		}
+
+		return e.complexity.MediaFile.Name(childComplexity), true
+
+	case "MediaFile.size":
+		if e.complexity.MediaFile.Size == nil {
+			break
+		}
+
+		return e.complexity.MediaFile.Size(childComplexity), true
+
+	case "MediaFile.url":
+		if e.complexity.MediaFile.URL == nil {
+			break
+		}
+
+		return e.complexity.MediaFile.URL(childComplexity), true
 
 	case "Mutation.auth":
 		if e.complexity.Mutation.Auth == nil {
@@ -2425,7 +2425,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateProspective(childComplexity, args["input"].(*model.UpdateProspective)), true
+		return e.complexity.Mutation.UpdateProspective(childComplexity, args["userId"].(string), args["input"].(*model.UpdateProspective)), true
 
 	case "Mutation.updateQuiz":
 		if e.complexity.Mutation.UpdateQuiz == nil {
@@ -2473,7 +2473,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(interface{})), true
+		return e.complexity.Mutation.UpdateUser(childComplexity, args["userId"].(string), args["input"].(interface{})), true
 
 	case "Mutation.updateUserSetting":
 		if e.complexity.Mutation.UpdateUserSetting == nil {
@@ -4851,10 +4851,10 @@ extend type Query {
   grade(id: ID!): Grade
 }
 `, BuiltIn: false},
-	{Name: "../schema/media.gql", Input: `type File {
+	{Name: "../schema/media.gql", Input: `type MediaFile {
   name: String!
   mimetype: String!
-  encoding: String!
+  encoding: String
   size: Int!
   url: String!
 }
@@ -4872,17 +4872,24 @@ enum MediaType {
   OTHERS
 }
 
+enum Category {
+  REGISTER
+  DRIVE
+  COURSE
+  OTHERS
+}
+
 type Media {
   id: ID!
   courseId: ID!
   userId: ID!
   title: String!
   description: String
-  category: String!
+  category: Category!
   mediaType: MediaType!
   tags: [String!]!
   videoPlayerInfo: PlayerInfo
-  file: File!
+  file: MediaFile!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
@@ -4906,21 +4913,21 @@ input UpdateMediaInput {
   id: ID!
   title: String!
   description: String
-  category: String!
+  category: Category!
   mediaType: MediaType!
   duration: Int64!
   videoPlayerInfo: PlayerInfoInput
-  file: UpdateFileInput!
+  file: UpdateFileInput
 }
 
 input CreatMediaInput {
   userId: ID!
-  courseID: ID!
+  courseID: ID
   title: String!
   description: String
-  category: String!
+  category: Category!
   mediaType: MediaType!
-  file: CreateFileInput!
+  file: CreateFileInput
 }
 
 input CreateFileInput {
@@ -5099,7 +5106,6 @@ extend type Mutation {
   updatedAt: Time!
   deletedAt: Time!
 }
-
 
 enum QuizType {
   EXAM
@@ -5540,6 +5546,7 @@ enum RegistrationStatus {
 input UpdateProspective {
   firstName: String
   lastName: String
+  middleName: String
   email: String
   dob: String
   phone: String
@@ -5551,18 +5558,18 @@ input UpdateProspective {
   nationality: String
   platform: String
   program: String
-  salvationBrief: String!
-  godsWorkings: [String!]
-  reason: String!
-  churchName: String!
+  salvationBrief: String
+  godsWorkings: String
+  reason: String
+  churchName: String
   churchAddress: String
   pastorName: String
   pastorEmail: String
   pastorPhone: String
   churchInvolved: String
-  healthConditions: [String]
+  healthConditions: String
   healthIssueDescription: String
-  status: RegistrationStatus!
+  status: RegistrationStatus
 }
 
 type Qualification {
@@ -5592,7 +5599,6 @@ type Referee {
 }
 
 input NewReferee {
-  userId: ID!
   fullName: String!
   email: String!
   phone: String!
@@ -5614,8 +5620,8 @@ extend type Mutation {
   createUser(input: NewUser!): User
   createReferee(userId: ID!, input: NewReferee!): Referee
   createQualification(userId: ID!, input: NewQualification!): Qualification
-  updateUser(input: Any): User
-  updateProspective(input: UpdateProspective): User
+  updateUser(userId: ID!, input: Any): User
+  updateProspective(userId: ID!, input: UpdateProspective): User
   deleteUser(id: ID!): User
   deleteManyUsers(ids: [ID!]): User
 }
@@ -6572,15 +6578,24 @@ func (ec *executionContext) field_Mutation_updatePermission_args(ctx context.Con
 func (ec *executionContext) field_Mutation_updateProspective_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *model.UpdateProspective
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalOUpdateProspective2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateProspective(ctx, tmp)
+	var arg0 string
+	if tmp, ok := rawArgs["userId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["input"] = arg0
+	args["userId"] = arg0
+	var arg1 *model.UpdateProspective
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalOUpdateProspective2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateProspective(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
 	return args, nil
 }
 
@@ -6683,15 +6698,24 @@ func (ec *executionContext) field_Mutation_updateUserSetting_args(ctx context.Co
 func (ec *executionContext) field_Mutation_updateUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 interface{}
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalOAny2interface(ctx, tmp)
+	var arg0 string
+	if tmp, ok := rawArgs["userId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["input"] = arg0
+	args["userId"] = arg0
+	var arg1 interface{}
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg1, err = ec.unmarshalOAny2interface(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg1
 	return args, nil
 }
 
@@ -10607,226 +10631,6 @@ func (ec *executionContext) fieldContext_EvaluationCriteria_deletedAt(ctx contex
 	return fc, nil
 }
 
-func (ec *executionContext) _File_name(ctx context.Context, field graphql.CollectedField, obj *model.File) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_File_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Name, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_File_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "File",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _File_mimetype(ctx context.Context, field graphql.CollectedField, obj *model.File) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_File_mimetype(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Mimetype, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_File_mimetype(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "File",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _File_encoding(ctx context.Context, field graphql.CollectedField, obj *model.File) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_File_encoding(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Encoding, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_File_encoding(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "File",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _File_size(ctx context.Context, field graphql.CollectedField, obj *model.File) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_File_size(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.Size, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(int)
-	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_File_size(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "File",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _File_url(ctx context.Context, field graphql.CollectedField, obj *model.File) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_File_url(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.URL, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_File_url(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "File",
-		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
 func (ec *executionContext) _Forum_id(ctx context.Context, field graphql.CollectedField, obj *model.Forum) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Forum_id(ctx, field)
 	if err != nil {
@@ -13607,9 +13411,9 @@ func (ec *executionContext) _Media_category(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(model.Category)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalNCategory2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCategory(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Media_category(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13619,7 +13423,7 @@ func (ec *executionContext) fieldContext_Media_category(ctx context.Context, fie
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type Category does not have child fields")
 		},
 	}
 	return fc, nil
@@ -13790,9 +13594,9 @@ func (ec *executionContext) _Media_file(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.File)
+	res := resTmp.(*model.MediaFile)
 	fc.Result = res
-	return ec.marshalNFile2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐFile(ctx, field.Selections, res)
+	return ec.marshalNMediaFile2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐMediaFile(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Media_file(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13804,17 +13608,17 @@ func (ec *executionContext) fieldContext_Media_file(ctx context.Context, field g
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "name":
-				return ec.fieldContext_File_name(ctx, field)
+				return ec.fieldContext_MediaFile_name(ctx, field)
 			case "mimetype":
-				return ec.fieldContext_File_mimetype(ctx, field)
+				return ec.fieldContext_MediaFile_mimetype(ctx, field)
 			case "encoding":
-				return ec.fieldContext_File_encoding(ctx, field)
+				return ec.fieldContext_MediaFile_encoding(ctx, field)
 			case "size":
-				return ec.fieldContext_File_size(ctx, field)
+				return ec.fieldContext_MediaFile_size(ctx, field)
 			case "url":
-				return ec.fieldContext_File_url(ctx, field)
+				return ec.fieldContext_MediaFile_url(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type File", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type MediaFile", field.Name)
 		},
 	}
 	return fc, nil
@@ -13938,6 +13742,223 @@ func (ec *executionContext) fieldContext_Media_deletedAt(ctx context.Context, fi
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MediaFile_name(ctx context.Context, field graphql.CollectedField, obj *model.MediaFile) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MediaFile_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MediaFile_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MediaFile",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MediaFile_mimetype(ctx context.Context, field graphql.CollectedField, obj *model.MediaFile) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MediaFile_mimetype(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Mimetype, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MediaFile_mimetype(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MediaFile",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MediaFile_encoding(ctx context.Context, field graphql.CollectedField, obj *model.MediaFile) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MediaFile_encoding(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Encoding, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MediaFile_encoding(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MediaFile",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MediaFile_size(ctx context.Context, field graphql.CollectedField, obj *model.MediaFile) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MediaFile_size(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Size, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MediaFile_size(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MediaFile",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _MediaFile_url(ctx context.Context, field graphql.CollectedField, obj *model.MediaFile) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_MediaFile_url(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.URL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_MediaFile_url(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "MediaFile",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -19237,7 +19258,7 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateUser(rctx,
+		return ec.resolvers.Mutation().UpdateUser(rctx, fc.Args["userId"].(string),
 			func() interface{} {
 				if fc.Args["input"] == nil {
 					return nil
@@ -19417,7 +19438,7 @@ func (ec *executionContext) _Mutation_updateProspective(ctx context.Context, fie
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateProspective(rctx, fc.Args["input"].(*model.UpdateProspective))
+		return ec.resolvers.Mutation().UpdateProspective(rctx, fc.Args["userId"].(string), fc.Args["input"].(*model.UpdateProspective))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -33812,7 +33833,7 @@ func (ec *executionContext) unmarshalInputCreatMediaInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("courseID"))
-			it.CourseID, err = ec.unmarshalNID2string(ctx, v)
+			it.CourseID, err = ec.unmarshalOID2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33836,7 +33857,7 @@ func (ec *executionContext) unmarshalInputCreatMediaInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
-			it.Category, err = ec.unmarshalNString2string(ctx, v)
+			it.Category, err = ec.unmarshalNCategory2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCategory(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -33852,7 +33873,7 @@ func (ec *executionContext) unmarshalInputCreatMediaInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("file"))
-			it.File, err = ec.unmarshalNCreateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateFileInput(ctx, v)
+			it.File, err = ec.unmarshalOCreateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateFileInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -34965,21 +34986,13 @@ func (ec *executionContext) unmarshalInputNewReferee(ctx context.Context, obj in
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"userId", "fullName", "email", "phone"}
+	fieldsInOrder := [...]string{"fullName", "email", "phone"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
 			continue
 		}
 		switch k {
-		case "userId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			it.UserID, err = ec.unmarshalNID2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
 		case "fullName":
 			var err error
 
@@ -35952,7 +35965,7 @@ func (ec *executionContext) unmarshalInputUpdateMediaInput(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("category"))
-			it.Category, err = ec.unmarshalNString2string(ctx, v)
+			it.Category, err = ec.unmarshalNCategory2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCategory(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -35984,7 +35997,7 @@ func (ec *executionContext) unmarshalInputUpdateMediaInput(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("file"))
-			it.File, err = ec.unmarshalNUpdateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateFileInput(ctx, v)
+			it.File, err = ec.unmarshalOUpdateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateFileInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36029,7 +36042,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"firstName", "lastName", "email", "dob", "phone", "address", "city", "state", "country", "zip", "nationality", "platform", "program", "salvationBrief", "godsWorkings", "reason", "churchName", "churchAddress", "pastorName", "pastorEmail", "pastorPhone", "churchInvolved", "healthConditions", "healthIssueDescription", "status"}
+	fieldsInOrder := [...]string{"firstName", "lastName", "middleName", "email", "dob", "phone", "address", "city", "state", "country", "zip", "nationality", "platform", "program", "salvationBrief", "godsWorkings", "reason", "churchName", "churchAddress", "pastorName", "pastorEmail", "pastorPhone", "churchInvolved", "healthConditions", "healthIssueDescription", "status"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -36049,6 +36062,14 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lastName"))
 			it.LastName, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "middleName":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("middleName"))
+			it.MiddleName, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36144,7 +36165,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("salvationBrief"))
-			it.SalvationBrief, err = ec.unmarshalNString2string(ctx, v)
+			it.SalvationBrief, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36152,7 +36173,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("godsWorkings"))
-			it.GodsWorkings, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			it.GodsWorkings, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36160,7 +36181,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("reason"))
-			it.Reason, err = ec.unmarshalNString2string(ctx, v)
+			it.Reason, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36168,7 +36189,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("churchName"))
-			it.ChurchName, err = ec.unmarshalNString2string(ctx, v)
+			it.ChurchName, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36216,7 +36237,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("healthConditions"))
-			it.HealthConditions, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			it.HealthConditions, err = ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -36232,7 +36253,7 @@ func (ec *executionContext) unmarshalInputUpdateProspective(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("status"))
-			it.Status, err = ec.unmarshalNRegistrationStatus2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx, v)
+			it.Status, err = ec.unmarshalORegistrationStatus2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -37254,62 +37275,6 @@ func (ec *executionContext) _EvaluationCriteria(ctx context.Context, sel ast.Sel
 	return out
 }
 
-var fileImplementors = []string{"File"}
-
-func (ec *executionContext) _File(ctx context.Context, sel ast.SelectionSet, obj *model.File) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, fileImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("File")
-		case "name":
-
-			out.Values[i] = ec._File_name(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "mimetype":
-
-			out.Values[i] = ec._File_mimetype(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "encoding":
-
-			out.Values[i] = ec._File_encoding(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "size":
-
-			out.Values[i] = ec._File_size(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "url":
-
-			out.Values[i] = ec._File_url(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var forumImplementors = []string{"Forum"}
 
 func (ec *executionContext) _Forum(ctx context.Context, sel ast.SelectionSet, obj *model.Forum) graphql.Marshaler {
@@ -37910,6 +37875,59 @@ func (ec *executionContext) _Media(ctx context.Context, sel ast.SelectionSet, ob
 
 			out.Values[i] = ec._Media_deletedAt(ctx, field, obj)
 
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var mediaFileImplementors = []string{"MediaFile"}
+
+func (ec *executionContext) _MediaFile(ctx context.Context, sel ast.SelectionSet, obj *model.MediaFile) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, mediaFileImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MediaFile")
+		case "name":
+
+			out.Values[i] = ec._MediaFile_name(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "mimetype":
+
+			out.Values[i] = ec._MediaFile_mimetype(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "encoding":
+
+			out.Values[i] = ec._MediaFile_encoding(ctx, field, obj)
+
+		case "size":
+
+			out.Values[i] = ec._MediaFile_size(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "url":
+
+			out.Values[i] = ec._MediaFile_url(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -41438,6 +41456,16 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
+func (ec *executionContext) unmarshalNCategory2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCategory(ctx context.Context, v interface{}) (model.Category, error) {
+	var res model.Category
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCategory2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCategory(ctx context.Context, sel ast.SelectionSet, v model.Category) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) marshalNCourse2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCourse(ctx context.Context, sel ast.SelectionSet, v model.Course) graphql.Marshaler {
 	return ec._Course(ctx, sel, &v)
 }
@@ -41539,11 +41567,6 @@ func (ec *executionContext) unmarshalNCreateActivityInput2githubᚗcomᚋcavelms
 func (ec *executionContext) unmarshalNCreateEvaluationCriteriaInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateEvaluationCriteriaInput(ctx context.Context, v interface{}) (model.CreateEvaluationCriteriaInput, error) {
 	res, err := ec.unmarshalInputCreateEvaluationCriteriaInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNCreateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateFileInput(ctx context.Context, v interface{}) (*model.CreateFileInput, error) {
-	res, err := ec.unmarshalInputCreateFileInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNCreateForumCommentInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateForumCommentInput(ctx context.Context, v interface{}) (model.CreateForumCommentInput, error) {
@@ -41664,16 +41687,6 @@ func (ec *executionContext) marshalNEvaluationCriteria2ᚖgithubᚗcomᚋcavelms
 		return graphql.Null
 	}
 	return ec._EvaluationCriteria(ctx, sel, v)
-}
-
-func (ec *executionContext) marshalNFile2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐFile(ctx context.Context, sel ast.SelectionSet, v *model.File) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._File(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
@@ -42224,6 +42237,16 @@ func (ec *executionContext) marshalNMedia2ᚕgithubᚗcomᚋcavelmsᚋinternal�
 	return ret
 }
 
+func (ec *executionContext) marshalNMediaFile2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐMediaFile(ctx context.Context, sel ast.SelectionSet, v *model.MediaFile) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._MediaFile(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNMediaType2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐMediaType(ctx context.Context, v interface{}) (model.MediaType, error) {
 	var res model.MediaType
 	err := res.UnmarshalGQL(v)
@@ -42675,16 +42698,6 @@ func (ec *executionContext) marshalNReferee2ᚕgithubᚗcomᚋcavelmsᚋinternal
 	return ret
 }
 
-func (ec *executionContext) unmarshalNRegistrationStatus2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx context.Context, v interface{}) (model.RegistrationStatus, error) {
-	var res model.RegistrationStatus
-	err := res.UnmarshalGQL(v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNRegistrationStatus2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRegistrationStatus(ctx context.Context, sel ast.SelectionSet, v model.RegistrationStatus) graphql.Marshaler {
-	return v
-}
-
 func (ec *executionContext) unmarshalNRepeatInterval2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐRepeatInterval(ctx context.Context, v interface{}) (model.RepeatInterval, error) {
 	var res model.RepeatInterval
 	err := res.UnmarshalGQL(v)
@@ -43003,11 +43016,6 @@ func (ec *executionContext) unmarshalNUpdateActivityInput2githubᚗcomᚋcavelms
 func (ec *executionContext) unmarshalNUpdateEvaluationCriteriaInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateEvaluationCriteriaInput(ctx context.Context, v interface{}) (model.UpdateEvaluationCriteriaInput, error) {
 	res, err := ec.unmarshalInputUpdateEvaluationCriteriaInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) unmarshalNUpdateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateFileInput(ctx context.Context, v interface{}) (*model.UpdateFileInput, error) {
-	res, err := ec.unmarshalInputUpdateFileInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNUpdateForumCommentInput2githubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateForumCommentInput(ctx context.Context, v interface{}) (model.UpdateForumCommentInput, error) {
@@ -43506,6 +43514,14 @@ func (ec *executionContext) unmarshalOCreateCourseInput2ᚖgithubᚗcomᚋcavelm
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalOCreateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐCreateFileInput(ctx context.Context, v interface{}) (*model.CreateFileInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputCreateFileInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalOEvaluationCriteria2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐEvaluationCriteria(ctx context.Context, sel ast.SelectionSet, v *model.EvaluationCriteria) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -43919,6 +43935,14 @@ func (ec *executionContext) marshalOTime2ᚖtimeᚐTime(ctx context.Context, sel
 	}
 	res := graphql.MarshalTime(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOUpdateFileInput2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateFileInput(ctx context.Context, v interface{}) (*model.UpdateFileInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputUpdateFileInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOUpdateProspective2ᚖgithubᚗcomᚋcavelmsᚋinternalᚋmodelᚐUpdateProspective(ctx context.Context, v interface{}) (*model.UpdateProspective, error) {

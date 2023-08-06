@@ -1,24 +1,44 @@
-version: '3.8'
-
-networks:
-  proxy_net:
-    name: nginx-proxy-manager_default
-  db_net:
-    name: databases_db_net
-
 services:
-
-  cavelms:
+  # uncomment this section and comment out the mysql section to use postgres instead of mysql
+  postgres:
+    container_name: postgres
     restart: unless-stopped
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-      target: server
-    entrypoint: ./cavelms -s api
+    image: postgres:15
+    hostname: postgres
+    volumes: 
+      - semaphore-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: semaphore
+      POSTGRES_PASSWORD: 1414{bruno}
+      POSTGRES_DB: semaphore
+
+  semaphore:
+    container_name: ansible-semaphore
+    image: semaphoreui/semaphore:v2.8.90
+    user: "${UID}:${GID}"
     ports:
-      - 8080
-    env_file:
-      - ./.prod.env
-    networks:
-      - proxy_net
-      - db_net
+      - 3000:3000
+    environment:
+      - SEMAPHORE_DB_USER=semaphore
+      - SEMAPHORE_DB_PASS=1414{bruno}  # change!
+      - SEMAPHORE_DB_HOST=postgres
+      - SEMAPHORE_DB_PORT=5432
+      - SEMAPHORE_DB_DIALECT=postgres
+      - SEMAPHORE_DB=semaphore
+      - SEMAPHORE_PLAYBOOK_PATH=/tmp/semaphore/
+      - SEMAPHORE_ADMIN_PASSWORD=#1414bruno#  # change!
+      - SEMAPHORE_ADMIN_NAME=admin
+      - SEMAPHORE_ADMIN_EMAIL=beznet22@gmail.com
+      - SEMAPHORE_ADMIN=admin
+      - SEMAPHORE_ACCESS_KEY_ENCRYPTION=WYm5jq9+YrAOD/7TTmKpUFX3n13DDwXqRxh4+YatTFY= # add to your access key encryption !
+      - ANSIBLE_HOST_KEY_CHECKING=false  # (optional) change to true if you want to enable host key checking
+    volumes:
+      - ./inventory/:/inventory:ro
+      - ./authorized-keys/:/authorized-keys:ro
+      - ./config/:/etc/semaphore:rw
+      - ./semaphore-postgres:/var/lib/postgres
+    restart: unless-stopped
+    depends_on:
+      - postgres # for postgres, change to: postgres
+volumes:
+  semaphore-postgres: # to use postgres, switch to: semaphore-postgres

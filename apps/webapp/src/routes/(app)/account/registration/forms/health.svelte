@@ -9,8 +9,9 @@
       <div class="px-4 sm:px-0">
         <h3 class="text-base font-semibold leading-6">Health</h3>
         <p class="mt-1 text-sm">
-          Details about your health status. Check any of the following experiences below that apply
-          to you
+          Please provide your health status and any specific health needs in the form below. Check
+          the experiences that apply to you and describe any other health issues in the provided
+          textarea. Your well-being is important to us.
         </p>
       </div>
     </div>
@@ -114,6 +115,7 @@
                 </div>
 
                 <textarea
+                  bind:value={$storable.healthIssueDescription}
                   class="textarea textarea-bordered w-full mt-5"
                   name="healthIssueDescription"
                   id="healthIssueDescription"

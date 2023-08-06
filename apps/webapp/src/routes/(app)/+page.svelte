@@ -1,10 +1,6 @@
 <script lang="ts">
   import CourseCard from "$lib/components/CourseCard.svelte";
   import DonutChart from "$lib/components/DonutChart.svelte";
-  import Overview from "./account/overview.svelte";
-
-  let active = 0;
-  let items = [{ id: "second", title: "Overview", component: Overview }];
 </script>
 
 <svelte:head>
@@ -27,10 +23,10 @@
     <button class="btn btn-active">Add User</button>
     <button class="btn btn-primary">Add Course</button>
   </div>
-</div> 
+</div>
 
 <div class="grid grid-cols-3 gap-10">
-  <div class="col-span-2">
+  <div class="col-span-1">
     <div class="card card-normal w-full bg-base-200 shadow-xl">
       <div class="card-body">
         <DonutChart />
@@ -38,6 +34,9 @@
     </div>
   </div>
 
+  <div class="col-span-1">
+    <CourseCard />
+  </div>
   <div class="col-span-1">
     <CourseCard />
   </div>

@@ -9,7 +9,8 @@
       <div class="px-4 sm:px-0">
         <h3 class="text-base font-semibold leading-6">Personal Information</h3>
         <p class="mt-1 text-sm">
-          Your Contact and personal information are very important and should be accurate.
+          Please provide your accurate contact and personal information in the form below. Your
+          details are important and will be used for communication and identification purposes.
         </p>
       </div>
     </div>
@@ -57,30 +58,11 @@
                     id="middleName"
                     class=" input input-bordered floating-input peer focus:border-accent-focus"
                     placeholder=" "
-                    required
                   />
                   <label for="middleName" class="floating-label peer-focus:text-accent-focus">
                     Middle Name
                   </label>
                 </div>
-
-                <!-- <div class="relative col-span-6 sm:col-span-3">
-                  <select
-                    bind:value={$storable.gender}
-                    name="gender"
-                    id="gender"
-                    class=" select input-bordered floating-input peer focus:border-accent-focus"
-                    placeholder=" "
-                    required
-                  >
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                  </select>
-                  <label for="gender" class="floating-label peer-focus:text-accent-focus">
-                    Gender
-                  </label>
-                </div> -->
-
                 <fieldset class="relative col-span-6 sm:col-span-6">
                   <legend class="">Gender</legend>
                   <div class="mt-4 space-y-3 grid grid-rows-3">
@@ -116,6 +98,17 @@
                   </div>
                 </fieldset>
 
+                <div class="relative col-span-6 sm:col-span-6">
+                  <label for="" class="label">
+                    <span class="label-text">Upload Passport Photo</span>
+                  </label>
+                  <input
+                    name="photo"
+                    type="file"
+                    class="file-input file-input-bordered w-full"
+                  />
+                </div>
+
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
                     bind:value={$storable.dob}
@@ -133,6 +126,7 @@
 
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
+                    readonly
                     bind:value={$storable.email}
                     name="email"
                     type="email"

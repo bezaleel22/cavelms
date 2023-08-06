@@ -1,4 +1,4 @@
-mutation CreateMedia($input: CreatMediaInput!) {
+mutation Media($input: CreatMediaInput!) {
   createMedia(input: $input) {
     id
     title

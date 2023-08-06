@@ -1,26 +1,53 @@
-<script lang="ts">
-  import { DonutChart, type DonutChartOptions } from "@carbon/charts-svelte";
+<script>
+  import { onMount } from "svelte";
+  import Chart from "chart.js/auto";
 
-  const options = {
-    title: "Donut",
-    resizable: true,
-    theme: "g100",
-    donut: {
-      center: {
-        label: "Browsers",
+  let portfolio = null;
+  const data = {
+    labels: ["Expenses", "Savings", "Investments"],
+    datasets: [
+      {
+        label: "My First Dataset",
+        data: [300, 50, 100],
+        backgroundColor: ["#7000e1", "#fc8800", "#00b0e8"],
+        hoverOffset: 4,
+        borderWidth: 0,
+      },
+    ],
+  };
+  const config = {
+    type: "doughnut",
+    data: data,
+    options: {
+      responsive: true,
+      cutout: "80%",
+      spacing: 2,
+      animation: { animateScale: true },
+      plugins: {
+        legend: {
+          position: "right",
+          display: true,
+          labels: {
+            usePointStyle: true,
+            padding: 20,
+            font: {
+              size: 14,
+            },
+          },
+        },
+        title: {
+          display: false,
+          text: "My Personal Portfolio",
+        },
       },
     },
-    height: "330px",
   };
-
-  const data = [
-    { group: "2V2N 9KYPM version 1", value: 20000 },
-    { group: "L22I P66EP L22I P66EP L22I P66EP", value: 65000 },
-    { group: "JQAI 2M4L1", value: 75000 },
-    { group: "J9DZ F37AP", value: 1200 },
-    { group: "YEL48 Q6XK YEL48", value: 10000 },
-    { group: "Misc", value: 25000 },
-  ];
+  onMount(() => {
+    const ctx = portfolio.getContext("2d");
+    let myChart = new Chart(ctx, config);
+  });
 </script>
 
-<DonutChart {data} {options} />
+<div class="chart-container" style="position: relative; height:50vh">
+  <canvas bind:this={portfolio} />
+</div>

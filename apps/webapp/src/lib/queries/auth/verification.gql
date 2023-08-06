@@ -1,0 +1,14 @@
+mutation Verification($refreshToken: String!) {
+  verifyEmail(refreshToken: $refreshToken) {
+    id
+    firstName
+    lastName
+    fullName
+    email
+    isVerified
+    verifycationToken {
+      expiresAt
+      token
+    }
+  }
+}

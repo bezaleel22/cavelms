@@ -7,7 +7,7 @@ import (
 )
 
 func (api *API) CreateMedia(ctx context.Context, input model.CreatMediaInput) (*model.Media, error) {
-	file := &model.File{
+	file := &model.MediaFile{
 		Name:     input.File.Name,
 		Mimetype: input.File.MimeType,
 		Size:     input.File.Size,
@@ -15,6 +15,7 @@ func (api *API) CreateMedia(ctx context.Context, input model.CreatMediaInput) (*
 	}
 
 	media := model.Media{
+		UserID:      input.UserID,
 		Title:       input.Title,
 		Description: input.Description,
 		Category:    input.Category,
@@ -31,7 +32,7 @@ func (api *API) CreateMedia(ctx context.Context, input model.CreatMediaInput) (*
 }
 
 func (api *API) UpdateMedia(ctx context.Context, input model.UpdateMediaInput) (*model.Media, error) {
-	file := &model.File{
+	file := &model.MediaFile{
 		Name:     input.File.Name,
 		Mimetype: input.File.Mimetype,
 		Size:     input.File.Size,

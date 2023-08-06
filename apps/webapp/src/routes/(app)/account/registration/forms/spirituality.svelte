@@ -8,7 +8,11 @@
     <div class="md:col-span-1">
       <div class="px-4 sm:px-0">
         <h3 class="text-base font-semibold leading-6">Spirituality</h3>
-        <p class="mt-1 text-sm">A Brief about your walk with God and Spiritual Experiences</p>
+        <p class="mt-1 text-sm">
+          Share your spiritual experiences using the form below. Describe your salvation experience
+          and reasons for attending Adullam briefly. We're eager to learn about your spiritual
+          journey!
+        </p>
       </div>
     </div>
     <div class="mt-5 md:col-span-2 md:mt-0">
@@ -153,20 +157,24 @@
                         class="checkbox"
                       />
                     </div>
-                    <div class="ml-3 text-sm leading-6">
+                    <div class="ml-3 text-sm leading-6 p-3">
                       <p class="text-gray-300">I am a founder/pioneer of a Ministry</p>
                     </div>
                   </div>
                   <!-- end of item -->
 
                   <textarea
+                    bind:value={$storable.salvationBrief}
+                    required
                     class="textarea textarea-bordered col-span-3 my-5"
                     name="salvationBrief"
-                    id="briefExperience"
+                    id="salvationBrief"
                     placeholder="A Brief account of your Salvation Experience"
                   />
 
                   <textarea
+                    bind:value={$storable.reason}
+                    required
                     class="textarea textarea-bordered col-span-3 my-5"
                     name="reason"
                     id="whyAdullam"
@@ -179,13 +187,14 @@
                 <legend class="contents text-sm font-semibold leading-6">
                   Ministry/Church Details
                 </legend>
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-gray-500 pb-5">
                   Let's get in touch with where you are coming from.
                 </p>
 
                 <div class="grid grid-cols-6 gap-6">
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
+                      bind:value={$storable.pastorName}
                       name="pastorName"
                       type="text"
                       id="pastorName"
@@ -199,6 +208,7 @@
 
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
+                      bind:value={$storable.pastorEmail}
                       name="pastorEmail"
                       type="text"
                       id="pastorEmail"
@@ -212,6 +222,7 @@
 
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
+                      bind:value={$storable.pastorPhone}
                       name="pastorPhone"
                       type="text"
                       id="pastorPhone"
@@ -225,6 +236,7 @@
 
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
+                      bind:value={$storable.churchName}
                       name="churchName"
                       type="text"
                       id="churchName"
@@ -238,6 +250,7 @@
 
                   <div class="relative col-span-6">
                     <input
+                      bind:value={$storable.churchAddress}
                       name="churchAddress"
                       type="text"
                       id="churchAddress"
