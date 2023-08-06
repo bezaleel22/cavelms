@@ -19,7 +19,7 @@ const signup: Action = async (event) => {
     return fail(400, { ...resp });
   }
   const { signUp } = resp.data;
-  console.log({ token: signUp?.verifycationToken.token });
+
   const html = await renderTemplate("http://localhost:8080/email/signup.html", {
     fullname: `${signUp?.firstName} ${signUp?.lastName}`,
     link: `http://localhost:8080/?token=${signUp?.verifycationToken.token}`,
@@ -34,7 +34,10 @@ const signup: Action = async (event) => {
     html_body: html,
   });
 
+  console.log({ response, msg: response.data.messages });
+
   throw redirect(302, `/verify?email=${signUp?.email}&token=${signUp?.verifycationToken.token}`);
 };
 
 export const actions: Actions = { signup };
+

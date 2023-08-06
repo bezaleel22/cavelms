@@ -1,0 +1,831 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model BaseModel {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  SUPER_ADMIN
+  SUPPORT
+  ALUMNI
+  PARTNER
+  GUEST
+}
+
+enum AllowedModel {
+  COURSE
+  ACTIVITY
+  COURSE_CONTENT
+  FILE
+  FORUM
+  FORUM_POST
+  FORUM_COMMENT
+  GRADE
+  QUIZ
+  QUESTION
+  SUBMISSION
+  ANSWER_CHOICE
+  MATCHING_PAIR
+  NOTIFICATION
+  TARGET
+  USER
+}
+
+enum AllowedPermission {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  UPDATE_PERMISSIONS
+  GRANT_PERMISSIONS
+  REVOKE_PERMISSIONS
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  PDF
+  WORD_DOC
+  TEXT
+  PPT
+  SPREADSHEET
+  ARCHIVE
+  OTHERS
+}
+
+enum SettingType {
+  BOOLEAN
+  STRING
+  NUMBER
+  DATE
+  TIME
+}
+
+enum UserSettingKeys {
+  EMAIL_NOTIFICATIONS_ENABLED
+  DEFAULT_TIMEZONE
+  DEFAULT_LANGUAGE
+  DARK_MODE_ENABLED
+  SHOW_UNFINISHED_COURSES
+  SHOW_COMPLETED_COURSES
+  AUTO_ENROLLMENT_ENABLED
+  SHOW_COURSE_PROGRESS
+  DEFAULT_FONT_SIZE
+  ENABLE_TTS
+  SHOW_ENROLLED_COURSES_COUNT
+  SHOW_INSTRUCTOR_AVAILABILITY
+  SHOW_RELATED_COURSES
+  SHOW_COURSE_RATINGS
+  SHOW_COURSE_REVIEWS
+  ALLOW_PUSH_NOTIFICATIONS
+  ENABLE_OFFLINE_MODE
+  SHOW_COURSE_ACTIVITY_FEED
+}
+
+enum GlobalSettingKeys {
+  ENROLLMENT_OPEN
+  MAX_ENROLLMENT
+  DEFAULT_TIMEZONE
+  DEFAULT_LANGUAGE
+  SHOW_INSTRUCTOR_INFO
+  ALLOW_STUDENT_MESSAGES
+  COURSE_PASSING_GRADE
+  SHOW_POPULAR_COURSES
+  SHOW_RECOMMENDED_COURSES
+  DEFAULT_COURSE_TEMPLATE
+  SHOW_ALL_COURSES
+  ALLOW_COURSE_DISCOVERY
+  ENABLE_BADGES
+  SHOW_COURSE_TAGS
+  ALLOW_COURSE_COMMENTS
+  ENABLE_SSO_LOGIN
+  SHOW_ANNOUNCEMENTS
+  SHOW_COURSE_SCHEDULE
+}
+
+enum ActivityType {
+  COURSE_VIEW
+  COURSE_ENROLLED
+  COURSE_COMPLETED
+  COURSE_PROGRESS
+  FORUM_POST_CREATED
+  FORUM_POST_UPDATED
+  FORUM_COMMENT_CREATED
+  FORUM_COMMENT_UPDATED
+  GRADE_RECEIVED
+  QUIZ_TAKEN
+  QUIZ_GRADE_RECEIVED
+  ASSIGNMENT_SUBMITTED
+  ASSIGNMENT_GRADE_RECEIVED
+  RESOURCE_ACCESSED
+  MEDIA_INTERACTION
+  PAGE_VIEW
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  SHORT_ANSWER
+  ESSAY
+  MATCHING
+  NUMERIC
+}
+
+enum QuizType {
+  EXAM
+  ASSIGNMENT
+}
+
+enum ProctoringMethod {
+  NONE
+  MANUAL
+  AUTOMATED
+}
+
+enum TargetType {
+  TARGET
+  MINIMUM
+  MAXIMUM
+}
+
+enum RepeatInterval {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+enum RegistrationStatus {
+  CREATED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum NotificationType {
+  SYSTEM
+  USER_GENERATED
+}
+
+model User {
+  id                     String             @id @default(cuid())
+  externalId             Int                @unique @default(autoincrement())
+  firstName              String?            @db.VarChar(50)
+  lastName               String?            @db.VarChar(50)
+  fullName               String?            @db.VarChar(255)
+  email                  String             @unique @db.VarChar(100)
+  role                   Role?              @default(STUDENT)
+  permissionIds          String[]
+  phone                  String?
+  avatarUrl              String?
+  dob                    String?
+  gender                 String?
+  address                String?
+  city                   String?
+  state                  String?
+  country                String?
+  zip                    String?
+  nationality            String?
+  profession             String?
+  passwordSalt           String?
+  passwordHash           String?            @map(name: "passwordHash")
+  permissions            String[]
+  username               String?
+  isVerified             Boolean            @default(false)
+  about                  String?
+  wallet                 Float?
+  timeZone               String?
+  progress               Int?
+  tokens                 Token[]
+  isAuthenticated        Boolean?
+  regStatus              RegistrationStatus @default(CREATED)
+  matricNumber           String?
+  platform               String?
+  program                String?
+  regNumber              String?
+  files                  String[]
+  courses                String[]
+  salvationBrief         String?
+  godsWorkings           String?
+  reason                 String?
+  churchName             String?
+  churchAddress          String?
+  pastorName             String?
+  pastorEmail            String?
+  pastorPhone            String?
+  churchInvolved         String?
+  healthConditions       String?
+  healthIssueDescription String?
+  scholarship            Boolean?
+  scholarshipReason      String?
+
+  // Define relationships
+  qualifications Qualification[]
+  referees       Referee[]
+  notifications  Notification[]
+  // ...
+
+  // Extend BaseModel for common fields like createdAt, updatedAt, deletedAt
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  deletedAt              DateTime?
+  confirmedAt            DateTime?
+  confirmationMailSentAt DateTime?
+  Claims                 Claims[]
+  Activity               Activity[]
+  Course                 Course[]
+  Enrollment             Enrollment[]
+  Media                  Media[]
+  ForumPost              ForumPost[]
+  ForumComment           ForumComment[]
+  Reminder               Reminder[]
+  Payment                Payment[]
+  Invoice                Invoice[]
+}
+
+model Qualification {
+  id             String    @id @default(cuid())
+  degree         String
+  institution    String
+  graduationYear String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+  User           User?     @relation(fields: [userId], references: [id])
+  userId         String?
+}
+
+model Referee {
+  id        String    @id @default(cuid())
+  fullName  String
+  email     String
+  phone     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  User      User?     @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model Token {
+  id           String @id @default(cuid())
+  accessToken  String
+  refreshToken String
+
+  // Define a many-to-one relation to the User model
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Claims {
+  id     String @id @default(cuid())
+  userId String
+  email  String
+  role   String
+
+  // Define relation to User model
+  user User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  senderId    String
+  recipientId String
+  courseId    String
+  seen        Boolean
+  text        String
+  title       String
+  type        NotificationType
+  link        String
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+  User        User?            @relation(fields: [userId], references: [id])
+  userId      String?
+}
+
+model Activity {
+  id              String       @id @default(cuid())
+  userID          String
+  courseID        String
+  courseContentID String?
+  activityType    ActivityType
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  deletedAt       DateTime?
+
+  // Define relationships
+  user   User   @relation(fields: [userID], references: [id])
+  course Course @relation(fields: [courseID], references: [id])
+}
+
+model Course {
+  id                   String       @id @default(cuid())
+  userId               String
+  code                 String
+  title                String
+  shortDescription     String
+  description          String?
+  semester             String
+  year                 String
+  startDate            DateTime?
+  endDate              DateTime?
+  matriculationEndDate DateTime?
+  enrollmentEndDate    DateTime?
+  maxStudents          Int?
+  language             String?
+  thumbnailUrl         String?
+  coverUrl             String?
+  categories           String[]
+  tags                 String[]
+  instructors          String[]
+  assistants           String[]
+  enrollments          Enrollment[]
+  forums               Forum[]
+  quizzes              Quiz[]
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  deletedAt            DateTime?
+
+  // Define relationships
+  user       User         @relation(fields: [userId], references: [id])
+  // ...
+  Activity   Activity[]
+  Media      Media[]
+  Assignment Assignment[]
+  Payment    Payment[]
+}
+
+model Enrollment {
+  id             String   @id @default(cuid())
+  userId         String
+  courseId       String
+  role           Role
+  enrollmentDate DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Define relationships
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+}
+
+model GlobalSetting {
+  id    String            @id @default(cuid())
+  type  SettingType
+  key   GlobalSettingKeys
+  value String
+}
+
+model UserSetting {
+  id     String          @id @default(cuid())
+  userId String
+  type   SettingType
+  key    UserSettingKeys
+  value  String
+}
+
+model MediaFile {
+  id       String  @id @default(cuid())
+  name     String
+  mimetype String
+  encoding String?
+  size     Int
+  url      String
+  Media    Media[]
+}
+
+model Media {
+  id              String      @id @default(cuid())
+  courseId        String
+  userId          String
+  title           String
+  description     String?
+  category        String
+  mediaType       MediaType
+  tags            String[]
+  videoPlayerId   String
+  videoPlayerInfo PlayerInfo? @relation(fields: [videoPlayerId], references: [id])
+  mediaFileId     String
+  mediaFile       MediaFile   @relation(fields: [mediaFileId], references: [id])
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
+
+  // Define relationships
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
+}
+
+model PlayerInfo {
+  id           String  @id @default(cuid())
+  currentTime  Int
+  duration     Int
+  thumbnailUrl String
+  posterUrl    String?
+  Media        Media[]
+}
+
+model Forum {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  courseId    String
+  postIds     String[]
+  tagIds      String[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  // Define relationships
+  course Course @relation(fields: [courseId], references: [id])
+  // ...
+}
+
+model ForumPost {
+  id         String    @id @default(cuid())
+  title      String
+  content    String
+  courseID   String
+  author     String
+  commentIds String[]
+  fileIds    String[]
+  forumId    String
+  userId     String
+  tags       String[]
+  upvotes    Int
+  downvotes  Int
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  // Define relationships
+  user User @relation(fields: [userId], references: [id])
+  // ...
+}
+
+model ForumComment {
+  id        String    @id @default(cuid())
+  content   String
+  courseId  String
+  userId    String
+  postId    String
+  parentId  String
+  fileIds   String[]
+  upvotes   Int
+  downvotes Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Define relationships
+  user User @relation(fields: [userId], references: [id])
+  // ...
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String
+  postIds   String[]
+  courseIds String[]
+}
+
+model Grade {
+  id        String    @id @default(cuid())
+  studentId String
+  courseId  String
+  quizId    String
+  value     Int
+  criteria  String
+  comments  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model CourseProgress {
+  id                   String    @id @default(cuid())
+  lecturesCompleted    Int
+  assignmentsCompleted Int
+  quizzesCompleted     Int
+  overallProgress      Int
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  deletedAt            DateTime?
+}
+
+model Assignment {
+  id        String    @id @default(cuid())
+  // Define fields related to Assignment model if necessary
+  // ...
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  // Define relation to Course model
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId String
+}
+
+model Quiz {
+  id                 String           @id @default(cuid())
+  name               String
+  description        String
+  quizType           QuizType
+  duration           Int
+  passingScore       Int
+  proctoringMethod   ProctoringMethod
+  questions          Question[]
+  resultsReleaseDate DateTime?
+  certificate        Boolean
+  startTime          DateTime
+  endTime            DateTime
+  startDate          DateTime
+  dueDate            String
+  timeLimit          Int
+  shuffleQuestions   Boolean
+  randomizeQuestions Boolean?
+  randomizeAnswers   Boolean
+  categories         String[]
+  courseId           String
+  questionIds        String[]
+  gradeIds           String[]
+  submissionIds      String[]
+  isLocked           Boolean
+  waitTime           Int
+  weight             Int
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  deletedAt          DateTime?
+  Course             Course           @relation(fields: [courseId], references: [id])
+}
+
+model Question {
+  id            String         @id @default(cuid())
+  type          QuestionType
+  text          String
+  choices       AnswerChoice[]
+  correctAnswer String
+  feedback      String
+  hints         String[]
+  randomize     Boolean
+  pointValue    Int
+  categories    String[]
+  matchingPairs MatchingPair[]
+  Quiz          Quiz?          @relation(fields: [quizId], references: [id])
+  quizId        String?
+}
+
+model AnswerChoice {
+  id         String    @id @default(cuid())
+  text       String
+  isCorrect  Boolean
+  feedback   String
+  weight     Int
+  Question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+  Answer     Answer?   @relation(fields: [answerId], references: [id])
+  answerId   String?
+}
+
+model Submission {
+  id          String   @id @default(cuid())
+  quizID      String
+  userID      String
+  startTime   DateTime
+  endTime     DateTime
+  answers     Answer[]
+  points      Int
+  grade       Float
+  weight      Int
+  feedback    String[]
+  startedAt   DateTime
+  completedAt DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Answer {
+  id            String         @id @default(cuid())
+  questionId    String
+  choices       AnswerChoice[]
+  value         String
+  isCorrect     Boolean
+  weight        Int
+  pointsAwarded Int
+  feedback      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Submission    Submission?    @relation(fields: [submissionId], references: [id])
+  submissionId  String?
+}
+
+model MatchingPair {
+  id         String   @id @default(cuid())
+  question   Question @relation(fields: [questionId], references: [id])
+  left       String
+  right      String
+  questionId String
+}
+
+model Target {
+  id             String          @id @default(cuid())
+  name           String
+  description    String?
+  dueDate        DateTime?
+  startDate      DateTime?
+  courseId       String
+  completionDate DateTime?
+  isCompleted    Boolean         @default(false)
+  targetType     TargetType
+  targetValue    Int?
+  currentValue   Int?
+  targetMetric   String
+  units          String?
+  repeatInterval RepeatInterval?
+  repeatEndDate  DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
+
+  // Define relationships
+
+  reminders Reminder[]
+  // ...
+}
+
+model Reminder {
+  id        String   @id @default(cuid())
+  targetId  String
+  user      User     @relation(fields: [userId], references: [id])
+  message   String
+  sendTime  DateTime
+  sent      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Define relationships
+  target Target @relation(fields: [targetId], references: [id])
+  // ...
+  userId String
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  amount        Float
+  currency      Currency
+  status        PaymentStatus
+  method        PaymentMethod
+  type          PaymentType
+  transactionId String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+
+  // Define relationships
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  course      Course?       @relation(fields: [courseId], references: [id])
+  courseId    String?
+  Transaction Transaction[]
+}
+
+model Invoice {
+  id        String        @id @default(cuid())
+  number    String
+  issueDate DateTime
+  dueDate   DateTime
+  status    InvoiceStatus
+  amount    Float
+  currency  Currency
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  deletedAt DateTime?
+
+  // Define relationships
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id        String            @id @default(cuid())
+  paymentId String
+  invoiceId String?
+  status    TransactionStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  deletedAt DateTime?
+
+  // Define relationships
+  payment Payment  @relation(fields: [paymentId], references: [id])
+  invoice Invoice? @relation(fields: [invoiceId], references: [id])
+}
+
+enum PaymentStatus {
+  CREATED
+  PENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  PAYPAL
+  OTHER
+}
+
+enum InvoiceStatus {
+  CREATED
+  ISSUED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum TransactionStatus {
+  CREATED
+  PENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum PaymentType {
+  COURSE_ENROLLMENT
+  COURSE_FEE
+  MEMBERSHIP_FEE
+  SUBSCRIPTION_FEE
+  REGISTRATION_FEE
+  SERVICE_FEE
+  DONATION
+  OTHER
+}
+
+enum Currency {
+  USD // United States Dollar
+  EUR // Euro
+  GBP // British Pound Sterling
+  JPY // Japanese Yen
+  AUD // Australian Dollar
+  CAD // Canadian Dollar
+  CHF // Swiss Franc
+  CNY // Chinese Yuan
+  INR // Indian Rupee
+  SGD // Singapore Dollar
+  AED // United Arab Emirates Dirham
+  BRL // Brazilian Real
+  ZAR // South African Rand
+  MXN // Mexican Peso
+  SEK // Swedish Krona
+  NOK // Norwegian Krone
+  DKK // Danish Krone
+  PHP // Philippine Peso
+  HKD // Hong Kong Dollar
+  NZD // New Zealand Dollar
+  THB // Thai Baht
+  MYR // Malaysian Ringgit
+  KRW // South Korean Won
+  IDR // Indonesian Rupiah
+  SAR // Saudi Arabian Riyal
+  RUB // Russian Ruble
+  NGN // Nigerian Naira
+  EGP // Egyptian Pound
+  ZMW // Zambian Kwacha
+  KES // Kenyan Shilling
+  GHS // Ghanaian Cedi
+  DZD // Algerian Dinar
+  MAD // Moroccan Dirham
+  XOF // West African CFA Franc
+  XAF // Central African CFA Franc
+  ETB // Ethiopian Birr
+  TZS // Tanzanian Shilling
+  UGX // Ugandan Shilling
+  MZN // Mozambican Metical
+  KWD // Kuwaiti Dinar
+  TND // Tunisian Dinar
+}
