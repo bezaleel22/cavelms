@@ -1,18 +1,16 @@
 query Users {
-  users {
-    id
-    fullName
-    email
-    role
-    username
-    phone
-    country
-    avatarUrl
-    isVerified
-    progress
-    program
-    platform
-    isAuthenticated
-    createdAt
+  usersCollection(first: 2, after: null) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        id
+      }
+    }
   }
 }

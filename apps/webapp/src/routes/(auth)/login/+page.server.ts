@@ -1,11 +1,15 @@
-import { SignInStore } from "$houdini";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
 import { dev } from "$app/environment";
 
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { API_USER, AUTH_SECRET } from "$env/static/private";
+
 export const load: PageServerLoad = async ({ locals }) => {
-  if (locals?.authUser?.auth?.isAuthenticated) {
-    throw redirect(302, "/");
+  console.log({user:locals?.authUser})
+  if (locals?.authUser) {
+    throw redirect(302, "/account/registration");
   }
 };
 
@@ -16,26 +20,27 @@ const login: Action = async (event) => {
     return fail(400, { invalid: true, email, password });
   }
 
-  const signin = new SignInStore();
-  const response = await signin.mutate({ input: { email, password } }, { event });
-  const authUser = response.data?.signIn;
-  if (!authUser) {
-    return fail(400, { response, credentials: true });
+  const user = await db.user.findUnique({ where: { email }});
+  if (!user) {
+    return fail(400, { credentials: false, email, password });
   }
 
-  if (!authUser.isAuthenticated) {
-    return fail(400, { response, credentials: true, email, password });
-  }
+  const match = await bcrypt.compare(password, user?.passwordHash as string);
+  if (!match) return fail(400, { invalid: true, password });
 
-  event.cookies.set("token", authUser.refreshToken.token, {
+  const expiresIn = 24 * 60 * 60 * 14; // 14 days
+  const jwtUser = { userId: user?.id, email, role: API_USER };
+  const token = jwt.sign(jwtUser, AUTH_SECRET, { expiresIn });
+
+  event.cookies.set("token", token, {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
     secure: !dev,
-    maxAge: authUser.refreshToken.expiresAt,
+    maxAge: expiresIn,
   });
 
-  throw redirect(302, "/");
+  throw redirect(302, "/account/registration");
 };
 
 export const actions: Actions = { login };

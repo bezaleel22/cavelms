@@ -1,0 +1,51 @@
+# Grade Type
+type Grade {
+  id: String!
+  studentId: String!
+  courseId: String!
+  quizId: String!
+  value: Int!
+  criteria: String!
+  comments: String!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  student: User!
+  course: Course!
+  quiz: Quiz!
+}
+
+# Query and Mutation
+type Query {
+  # Grade Queries
+  getGrade(id: String!): Grade
+  getAllGrades: [Grade!]!
+}
+
+type Mutation {
+  # Grade Mutations
+  createGrade(data: CreateGradeInput!): Grade!
+  updateGrade(id: String!, data: UpdateGradeInput!): Grade!
+  deleteGrade(id: String!): Grade!
+}
+
+# Input Types
+input CreateGradeInput {
+  studentId: String!
+  courseId: String!
+  quizId: String!
+  value: Int!
+  criteria: String!
+  comments: String!
+  # Define other input fields...
+}
+
+input UpdateGradeInput {
+  studentId: String
+  courseId: String
+  quizId: String
+  value: Int
+  criteria: String
+  comments: String
+  # Define other input fields...
+}

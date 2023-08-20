@@ -1,0 +1,61 @@
+# ForumPost Type
+type ForumPost {
+  id: String!
+  title: String!
+  content: String!
+  courseId: String!
+  author: String!
+  commentIds: [String!]!
+  fileIds: [String!]!
+  forumId: String!
+  userId: String!
+  tags: [String!]!
+  upvotes: Int!
+  downvotes: Int!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+  forum: Forum!
+}
+
+# Query and Mutation
+type Query {
+  # ForumPost Queries
+  getForumPost(id: String!): ForumPost
+  getAllForumPosts: [ForumPost!]!
+}
+
+type Mutation {
+  # ForumPost Mutations
+  createForumPost(data: CreateForumPostInput!): ForumPost!
+  updateForumPost(id: String!, data: UpdateForumPostInput!): ForumPost!
+  deleteForumPost(id: String!): ForumPost!
+}
+
+# Input Types
+input CreateForumPostInput {
+  title: String!
+  content: String!
+  courseId: String!
+  author: String!
+  commentIds: [String!]
+  fileIds: [String!]
+  forumId: String!
+  userId: String!
+  tags: [String!]
+  # Define other input fields...
+}
+
+input UpdateForumPostInput {
+  title: String
+  content: String
+  courseId: String
+  author: String
+  commentIds: [String!]
+  fileIds: [String!]
+  forumId: String
+  userId: String
+  tags: [String!]
+  # Define other input fields...
+}

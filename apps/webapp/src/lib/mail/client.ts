@@ -1,4 +1,5 @@
 import { env } from "$env/dynamic/private";
+import { renderTemplate } from "./renderer";
 
 interface MailOption {
   host: string;
@@ -9,7 +10,7 @@ interface Message {
   to: string[];
   cc?: string[];
   bcc?: string[];
-  from: string;
+  from?: string;
   subject: string;
   tag?: string;
   sender?: string;
@@ -25,6 +26,11 @@ interface RawMessage {
   rcpt_to: string[];
   data: string;
   bounce: boolean;
+}
+
+interface Template {
+  path: string;
+  data: any;
 }
 
 export class MailClient {
@@ -50,6 +56,8 @@ export class MailClient {
   };
 
   sendMessage = async (message: Message) => {
+    message.sender = "Jide at Adullam";
+    message.from = "Adullam Team <admin@adullam.ng>";
     message.attachments = this.attachments;
     return this.#makeRequest(`${this.host}/api/v1/send/message`, message);
   };

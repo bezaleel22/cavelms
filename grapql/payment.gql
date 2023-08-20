@@ -1,0 +1,40 @@
+# Payment Type
+type Payment {
+  id: String!
+  userId: String!
+  amount: Float!
+  paymentDate: String!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+}
+
+# Query and Mutation
+type Query {
+  # Payment Queries
+  getPayment(id: String!): Payment
+  getAllPayments: [Payment!]!
+}
+
+type Mutation {
+  # Payment Mutations
+  createPayment(data: CreatePaymentInput!): Payment!
+  updatePayment(id: String!, data: UpdatePaymentInput!): Payment!
+  deletePayment(id: String!): Payment!
+}
+
+# Input Types
+input CreatePaymentInput {
+  userId: String!
+  amount: Float!
+  paymentDate: String!
+  # Define other input fields...
+}
+
+input UpdatePaymentInput {
+  userId: String
+  amount: Float
+  paymentDate: String
+  # Define other input fields...
+}

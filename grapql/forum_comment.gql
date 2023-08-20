@@ -1,0 +1,52 @@
+# ForumComment Type
+type ForumComment {
+  id: String!
+  content: String!
+  courseId: String!
+  userId: String!
+  postId: String!
+  parentId: String
+  fileIds: [String!]!
+  upvotes: Int!
+  downvotes: Int!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+  post: ForumPost!
+}
+
+# Query and Mutation
+type Query {
+  # ForumComment Queries
+  getForumComment(id: String!): ForumComment
+  getAllForumComments: [ForumComment!]!
+}
+
+type Mutation {
+  # ForumComment Mutations
+  createForumComment(data: CreateForumCommentInput!): ForumComment!
+  updateForumComment(id: String!, data: UpdateForumCommentInput!): ForumComment!
+  deleteForumComment(id: String!): ForumComment!
+}
+
+# Input Types
+input CreateForumCommentInput {
+  content: String!
+  courseId: String!
+  userId: String!
+  postId: String!
+  parentId: String
+  fileIds: [String!]
+  # Define other input fields...
+}
+
+input UpdateForumCommentInput {
+  content: String
+  courseId: String
+  userId: String
+  postId: String
+  parentId: String
+  fileIds: [String!]
+  # Define other input fields...
+}

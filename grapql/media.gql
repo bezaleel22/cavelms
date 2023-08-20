@@ -1,0 +1,59 @@
+# Media Type
+type Media {
+  id: String!
+  courseId: String
+  userId: String
+  title: String!
+  description: String
+  category: String!
+  mediaType: MediaType!
+  tags: [String!]!
+  videoPlayerId: String
+  videoPlayerInfo: PlayerInfo
+  mediaFileId: String
+  mediaFile: MediaFile!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+  course: Course
+}
+
+# Query and Mutation
+type Query {
+  # Media Queries
+  getMedia(id: String!): Media
+  getAllMedia: [Media!]!
+}
+
+type Mutation {
+  # Media Mutations
+  createMedia(data: CreateMediaInput!): Media!
+  updateMedia(id: String!, data: UpdateMediaInput!): Media!
+  deleteMedia(id: String!): Media!
+}
+
+# Input Types
+input CreateMediaInput {
+  courseId: String
+  userId: String
+  title: String!
+  description: String
+  category: String!
+  mediaType: MediaType!
+  tags: [String!]!
+  videoPlayerId: String
+  mediaFileId: String
+  # Define other input fields...
+}
+
+input UpdateMediaInput {
+  title: String
+  description: String
+  category: String
+  mediaType: MediaType
+  tags: [String!]
+  videoPlayerId: String
+  mediaFileId: String
+  # Define other input fields...
+}

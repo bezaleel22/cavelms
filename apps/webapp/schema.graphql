@@ -1,18 +1,3 @@
-directive @goTag(key: String!, value: String) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
-
-directive @requireAuth(token: String) on FIELD_DEFINITION
-
-type Activity {
-  activityType: ActivityType!
-  courseContentID: ID
-  courseID: ID!
-  createdAt: Time
-  deletedAt: Time
-  id: ID!
-  updatedAt: Time
-  userID: ID!
-}
-
 enum ActivityType {
   ASSIGNMENT_GRADE_RECEIVED
   ASSIGNMENT_SUBMITTED
@@ -32,428 +17,476 @@ enum ActivityType {
   RESOURCE_ACCESSED
 }
 
+"""
+Boolean expression comparing fields on type "ActivityType"
+"""
+input ActivityTypeFilter {
+  eq: ActivityType
+  in: [ActivityType!]
+  is: FilterIs
+  neq: ActivityType
+}
+
 enum AllowedModel {
   ACTIVITY
+  ALL
   ANSWER_CHOICE
+  ASSIGNMENT
+  CLAIMS
   COURSE
   COURSE_CONTENT
   FILE
   FORUM
   FORUM_COMMENT
   FORUM_POST
+  FORUM_TAG
+  GLOBAL_SETTING
   GRADE
+  INVOICE
   MATCHING_PAIR
+  MEDIA
+  MEDIA_FILE
   NOTIFICATION
+  PAYMENT
+  PLAYER_INFO
+  QUALIFICATION
   QUESTION
   QUIZ
+  REFEREE
+  REMINDER
   SUBMISSION
+  TAG
   TARGET
+  TOKEN
+  TRANSACTION
   USER
+  USER_SETTING
+}
+
+"""
+Boolean expression comparing fields on type "AllowedModel"
+"""
+input AllowedModelFilter {
+  eq: AllowedModel
+  in: [AllowedModel!]
+  is: FilterIs
+  neq: AllowedModel
 }
 
 enum AllowedPermission {
+  ALL
   CREATE
   DELETE
-  GRANT_PERMISSIONS
   READ
-  REVOKE_PERMISSIONS
   UPDATE
-  UPDATE_PERMISSIONS
 }
 
-type Answer {
-  choices: [AnswerChoice!]!
-  createdAt: Time!
-  feedback: String!
-  id: ID!
-  isCorrect: Boolean!
-  pointsAwarded: Int!
-  questionId: ID!
-  updatedAt: Time!
-  value: String!
-  weight: Int!
+"""
+Boolean expression comparing fields on type "AllowedPermission"
+"""
+input AllowedPermissionFilter {
+  eq: AllowedPermission
+  in: [AllowedPermission!]
+  is: FilterIs
+  neq: AllowedPermission
 }
 
-type AnswerChoice {
-  feedback: String!
-  id: ID!
-  isCorrect: Boolean!
-  text: String!
-  weight: Int!
+enum AuthMethodType {
+  API_KEYS
+  EMAIL
+  GOOGLE
 }
 
-input AnswerChoiceInput {
-  feedback: String!
-  id: ID!
-  isCorrect: Boolean!
-  text: String!
-  weight: Int!
+"""
+Boolean expression comparing fields on type "AuthMethodType"
+"""
+input AuthMethodTypeFilter {
+  eq: AuthMethodType
+  in: [AuthMethodType!]
+  is: FilterIs
+  neq: AuthMethodType
 }
 
-input AnswerInput {
-  choices: [AnswerChoiceInput!]!
-  feedback: String!
-  isCorrect: Boolean!
-  pointsAwarded: Int!
-  questionId: ID!
-  submission: SubmissionInput!
-  value: String!
-  weight: Int!
+type BaseModel implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  updatedAt: Datetime!
 }
 
-scalar Any
-
-input AuthUser {
-  email: String!
-  password: String!
+type BaseModelConnection {
+  edges: [BaseModelEdge!]!
+  pageInfo: PageInfo!
 }
 
-type Bonus {
-  description: String!
-  id: ID!
-  name: String!
-  percentage: Int!
+type BaseModelDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [BaseModel!]!
 }
 
-enum Category {
-  COURSE
-  DRIVE
-  OTHERS
-  REGISTER
+type BaseModelEdge {
+  cursor: String!
+  node: BaseModel!
 }
 
-type Claims {
-  Role: String!
-  email: String!
-  id: ID!
-  userId: String!
+input BaseModelFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [BaseModelFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: BaseModelFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [BaseModelFilter!]
+  updatedAt: DatetimeFilter
 }
 
-type Course {
-  activityIds: [ID!]!
-  assignmentIds: [ID!]!
-  code: String!
-  coverImageUrl: String
-  createdAt: Time
-  deletedAt: Time
-  description: String
-  endDate: Time
-  forumId: ID!
-  gradeIds: [ID!]!
-  id: ID!
-  instructorIds: [ID!]!
-  matricNumber: String!
-  programType: ProgramType!
-  progress: CourseProgress!
-  quizzeIds: [ID!]!
-  semester: String!
-  shortDescription: String!
-  startDate: Time
-  status: CourseStatus!
-  students: [User!]!
-  title: String!
-  type: CourseType!
-  updatedAt: Time
-  userId: String!
-  year: String!
+input BaseModelInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
 }
 
-type CourseProgress {
-  assignmentsCompleted: Int!
-  lecturesCompleted: Int!
-  overallProgress: Int!
-  quizzesCompleted: Int!
+type BaseModelInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [BaseModel!]!
 }
 
-enum CourseStatus {
-  COMPLETED
-  DELAYED
-  IN_PROGRESS
+input BaseModelOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  updatedAt: OrderByDirection
 }
 
-enum CourseType {
-  LESSONS
-  PRACTICUM
-  SHORT_COURSE
+input BaseModelUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
 }
 
-input CreatMediaInput {
-  category: Category!
-  courseID: ID
-  description: String
-  file: CreateFileInput
-  mediaType: MediaType!
-  title: String!
-  userId: ID!
+type BaseModelUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [BaseModel!]!
 }
 
-input CreateActivityInput {
-  activityType: ActivityType!
-  courseContentID: ID
-  courseID: ID!
-  userID: ID!
+"""A high precision floating point value represented as a string"""
+scalar BigFloat
+
+"""
+Boolean expression comparing fields on type "BigFloat"
+"""
+input BigFloatFilter {
+  eq: BigFloat
+  gt: BigFloat
+  gte: BigFloat
+  in: [BigFloat!]
+  is: FilterIs
+  lt: BigFloat
+  lte: BigFloat
+  neq: BigFloat
 }
 
-input CreateCourseInput {
-  code: String!
-  coverImageUrl: String
-  description: String
-  endDate: Time
-  instructorIds: [ID!]!
-  programType: ProgramType!
-  semester: String!
-  shortDescription: String!
-  startDate: Time
-  status: CourseStatus!
-  title: String!
-  type: CourseType!
-  userId: ID!
+"""An arbitrary size integer represented as a string"""
+scalar BigInt
+
+"""
+Boolean expression comparing fields on type "BigInt"
+"""
+input BigIntFilter {
+  eq: BigInt
+  gt: BigInt
+  gte: BigInt
+  in: [BigInt!]
+  is: FilterIs
+  lt: BigInt
+  lte: BigInt
+  neq: BigInt
 }
 
-input CreateEvaluationCriteriaInput {
-  isPassFail: Boolean!
-  passingScore: Int!
-  quizId: ID!
-  resubmissionPolicy: ResubmissionPolicy
-  weight: Int!
+"""
+Boolean expression comparing fields on type "Boolean"
+"""
+input BooleanFilter {
+  eq: Boolean
+  is: FilterIs
 }
 
-input CreateFileInput {
-  mimeType: String!
-  name: String!
-  size: Int!
-  url: String!
-}
+"""
+An opaque string using for tracking a position in results during pagination
+"""
+scalar Cursor
 
-input CreateForumCommentInput {
-  content: String!
-  courseId: ID!
-  files: [ID!]
-  parentId: ID!
-  postId: ID!
-  userId: ID!
-}
-
-input CreateForumInput {
-  courseId: ID!
-  description: String
-  name: String!
-  tags: [ID!]
-}
-
-input CreateForumPostInput {
-  content: String!
-  courseId: ID!
-  files: [ID!]
-  forumId: ID!
-  tags: [ID!]
-  title: String!
-  userId: ID!
-}
-
-input CreateGradeInput {
-  comments: String!
-  courseId: ID!
-  criteria: String!
-  quizId: ID!
-  studentId: ID!
-  value: Int!
-}
-
-input CreateNotificationInput {
-  courseId: ID!
-  link: String
-  recipientId: ID!
-  senderId: ID!
-  text: String!
-  title: String!
-  type: NotificationType!
-}
-
-input CreateQuestionInput {
-  categories: [String!]!
-  choices: [AnswerChoiceInput!]!
-  correctAnswer: String!
-  feedback: String!
-  hints: [String!]!
-  matchingPairs: [MatchingPairInput!]!
-  pointValue: Int!
-  randomize: Boolean!
-  text: String!
-  type: QuestionType!
-}
-
-input CreateQuizInput {
-  categories: [String!]
-  name: String!
-  questions: [CreateQuestionInput!]!
-  shuffleQuestions: Boolean!
-  timeLimit: Int!
-}
-
-input CreateTagInput {
-  name: String!
-}
-
-input CreateTargetInput {
-  courseId: ID!
-  description: String
-  endDate: Time
-  name: String!
-  startDate: Time
-  targetMetric: String!
-  targetType: TargetType
-  targetValue: Int!
-  units: String
-}
-
+"""A date wihout time information"""
 scalar Date
 
-type EvaluationCriteria {
-  bonuses: [Bonus!]!
-  createdAt: Time
-  deletedAt: Time
-  gradingScale: [GradeScale!]!
-  id: ID!
-  isPassFail: Boolean!
-  passingScore: Int!
-  penalties: [Penalty!]!
-  quizId: ID!
-  resubmissionPolicy: ResubmissionPolicy!
-  scoreDistribution: [ScoreDistribution!]!
-  updatedAt: Time
-  weight: Int!
+"""
+Boolean expression comparing fields on type "Date"
+"""
+input DateFilter {
+  eq: Date
+  gt: Date
+  gte: Date
+  in: [Date!]
+  is: FilterIs
+  lt: Date
+  lte: Date
+  neq: Date
 }
 
-type Forum {
-  courseId: ID!
-  createdAt: Time
-  deletedAt: Time
-  description: String
-  id: ID!
-  name: String!
-  postIds: [ID!]!
-  tagIds: [ID!]!
-  updatedAt: Time
+"""A date and time"""
+scalar Datetime
+
+"""
+Boolean expression comparing fields on type "Datetime"
+"""
+input DatetimeFilter {
+  eq: Datetime
+  gt: Datetime
+  gte: Datetime
+  in: [Datetime!]
+  is: FilterIs
+  lt: Datetime
+  lte: Datetime
+  neq: Datetime
 }
 
-type ForumComment {
-  content: String!
-  courseId: ID!
-  createdAt: Time
-  deletedAt: Time
-  downvotes: Int!
-  fileIds: [ID!]!
-  id: ID!
-  parentId: ID!
-  postId: ID!
-  updatedAt: Time
-  upvotes: Int!
-  userId: ID!
+enum EnrollmentStatus {
+  ACCEPTED
+  COMPLETED
+  CREATED
+  IN_PROGRESS
+  REJECTED
 }
 
-type ForumPost {
-  author: ID!
-  commentIds: [ID!]!
-  content: String!
-  courseID: ID!
-  createdAt: Time
-  deletedAt: Time
-  downvotes: Int!
-  fileIds: [ID!]!
-  forumId: ID!
-  id: ID!
-  tags: [ID!]!
-  title: String!
-  updatedAt: Time
-  upvotes: Int!
-  userId: ID!
+"""
+Boolean expression comparing fields on type "EnrollmentStatus"
+"""
+input EnrollmentStatusFilter {
+  eq: EnrollmentStatus
+  in: [EnrollmentStatus!]
+  is: FilterIs
+  neq: EnrollmentStatus
 }
 
-type GlobalSetting {
-  id: ID!
-  key: GlobalSettingKeys!
-  type: SettingType!
-  value: String!
+enum FilterIs {
+  NOT_NULL
+  NULL
 }
 
-enum GlobalSettingKeys {
-  ALLOW_COURSE_COMMENTS
-  ALLOW_COURSE_DISCOVERY
-  ALLOW_STUDENT_MESSAGES
-  COURSE_PASSING_GRADE
-  DEFAULT_COURSE_TEMPLATE
-  DEFAULT_LANGUAGE
-  DEFAULT_TIMEZONE
-  ENABLE_BADGES
-  ENABLE_SSO_LOGIN
-  ENROLLMENT_OPEN
-  MAX_ENROLLMENT
-  SHOW_ALL_COURSES
-  SHOW_ANNOUNCEMENTS
-  SHOW_COURSE_SCHEDULE
-  SHOW_COURSE_TAGS
-  SHOW_INSTRUCTOR_INFO
-  SHOW_POPULAR_COURSES
-  SHOW_RECOMMENDED_COURSES
+"""
+Boolean expression comparing fields on type "Float"
+"""
+input FloatFilter {
+  eq: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  is: FilterIs
+  lt: Float
+  lte: Float
+  neq: Float
 }
 
-type Grade {
-  comments: String!
-  courseId: ID!
-  createdAt: Time
-  criteria: String!
-  deletedAt: Time
-  id: ID!
-  quizId: ID!
-  studentId: ID!
-  updatedAt: Time
-  value: Int!
+enum Gender {
+  FEMALE
+  MALE
 }
 
-type GradeScale {
-  grade: String!
-  id: ID!
-  maxScore: Int!
-  minScore: Int!
+"""
+Boolean expression comparing fields on type "Gender"
+"""
+input GenderFilter {
+  eq: Gender
+  in: [Gender!]
+  is: FilterIs
+  neq: Gender
 }
 
-scalar Int64
-
-type MatchingPair {
-  id: ID!
-  left: String!
-  question: Question!
-  right: String!
+"""
+Boolean expression comparing fields on type "ID"
+"""
+input IDFilter {
+  eq: ID
 }
 
-input MatchingPairInput {
-  left: String!
-  right: String!
+"""
+Boolean expression comparing fields on type "Int"
+"""
+input IntFilter {
+  eq: Int
+  gt: Int
+  gte: Int
+  in: [Int!]
+  is: FilterIs
+  lt: Int
+  lte: Int
+  neq: Int
 }
 
-type Media {
-  category: Category!
-  courseId: ID!
-  createdAt: Time
-  deletedAt: Time
-  description: String
-  file: MediaFile!
-  id: ID!
-  mediaType: MediaType!
-  tags: [String!]!
-  title: String!
-  updatedAt: Time
-  userId: ID!
-  videoPlayerInfo: PlayerInfo
+enum InvoiceStatus {
+  CANCELLED
+  CREATED
+  ISSUED
+  OVERDUE
+  PAID
 }
 
-type MediaFile {
+"""
+Boolean expression comparing fields on type "InvoiceStatus"
+"""
+input InvoiceStatusFilter {
+  eq: InvoiceStatus
+  in: [InvoiceStatus!]
+  is: FilterIs
+  neq: InvoiceStatus
+}
+
+"""A Javascript Object Notation value serialized as a string"""
+scalar JSON
+
+type MediaFile implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
   encoding: String
+  enrollment: enrollments
+  enrollmentId: String
+  id: String!
   mimetype: String!
+  multimedia: multimedias
+  multimediaId: String
   name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
   size: Int!
+  updatedAt: Datetime!
   url: String!
+}
+
+type MediaFileConnection {
+  edges: [MediaFileEdge!]!
+  pageInfo: PageInfo!
+}
+
+type MediaFileDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [MediaFile!]!
+}
+
+type MediaFileEdge {
+  cursor: String!
+  node: MediaFile!
+}
+
+input MediaFileFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [MediaFileFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  encoding: StringFilter
+  enrollmentId: StringFilter
+  id: StringFilter
+  mimetype: StringFilter
+  multimediaId: StringFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: MediaFileFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [MediaFileFilter!]
+  size: IntFilter
+  updatedAt: DatetimeFilter
+  url: StringFilter
+}
+
+input MediaFileInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  encoding: String
+  enrollmentId: String
+  id: String
+  mimetype: String
+  multimediaId: String
+  name: String
+  size: Int
+  updatedAt: Datetime
+  url: String
+}
+
+type MediaFileInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [MediaFile!]!
+}
+
+input MediaFileOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  encoding: OrderByDirection
+  enrollmentId: OrderByDirection
+  id: OrderByDirection
+  mimetype: OrderByDirection
+  multimediaId: OrderByDirection
+  name: OrderByDirection
+  size: OrderByDirection
+  updatedAt: OrderByDirection
+  url: OrderByDirection
+}
+
+input MediaFileUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  encoding: String
+  enrollmentId: String
+  id: String
+  mimetype: String
+  multimediaId: String
+  name: String
+  size: Int
+  updatedAt: Datetime
+  url: String
+}
+
+type MediaFileUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [MediaFile!]!
 }
 
 enum MediaType {
@@ -469,167 +502,1193 @@ enum MediaType {
   WORD_DOC
 }
 
+"""
+Boolean expression comparing fields on type "MediaType"
+"""
+input MediaTypeFilter {
+  eq: MediaType
+  in: [MediaType!]
+  is: FilterIs
+  neq: MediaType
+}
+
+enum MetricCategory {
+  ASSIGNMENT_SUBMISSION
+  COURSE_ENROLLMENT
+  FORUM_COMMENTS
+  FORUM_POSTS
+  GLOBAL_SETTING
+  INVOICE
+  MEDIA_INTERACTION
+  PAYMENT
+  QUIZ_COMPLETION
+  REMINDER
+  TRANSACTION
+  USER_ACTIVITY
+  USER_SETTING
+}
+
+"""
+Boolean expression comparing fields on type "MetricCategory"
+"""
+input MetricCategoryFilter {
+  eq: MetricCategory
+  in: [MetricCategory!]
+  is: FilterIs
+  neq: MetricCategory
+}
+
+enum MetricType {
+  BOOLEAN
+  COUNT
+  DURATION
+  MONEY
+  NUMBER
+  PERCENTAGE
+  RATING
+  TIME
+}
+
+"""
+Boolean expression comparing fields on type "MetricType"
+"""
+input MetricTypeFilter {
+  eq: MetricType
+  in: [MetricType!]
+  is: FilterIs
+  neq: MetricType
+}
+
+"""The root type for creating and mutating data"""
 type Mutation {
-  auth(refreshToken: String!): User
-  changePassword(refreshToken: String!, userId: String!): User
-  createActivity(input: CreateActivityInput!): Activity
-  createCourse(input: CreateCourseInput): Course!
-  createEvaluationCriteria(input: CreateEvaluationCriteriaInput!): EvaluationCriteria!
-  createForum(input: CreateForumInput!): Forum!
-  createForumComment(input: CreateForumCommentInput!): ForumComment!
-  createForumPost(input: CreateForumPostInput!): ForumPost!
-  createGlobalSetting(input: NewSetting!): GlobalSetting!
-  createGrade(input: CreateGradeInput!): Grade
-  createMedia(input: CreatMediaInput!): Media
-  createNotification(input: CreateNotificationInput!): Notification!
-  createQualification(input: NewQualification!, userId: ID!): Qualification
-  createQuiz(input: CreateQuizInput!): Quiz
-  createReferee(input: NewReferee!, userId: ID!): Referee
-  createTag(input: CreateTagInput!): Tag!
-  createTarget(input: CreateTargetInput!): Target
-  createUser(input: NewUser!): User
-  createUserSetting(input: NewSetting!, userId: ID!): UserSetting!
-  deleteActivity(id: ID!): Boolean!
-  deleteCourse(id: ID!): Course!
-  deleteEvaluationCriteria(id: ID!): EvaluationCriteria!
-  deleteForum(id: ID!): Forum!
-  deleteForumComment(id: ID!): ForumComment!
-  deleteForumPost(id: ID!): ForumPost!
-  deleteGlobalSetting(id: ID!): Boolean!
-  deleteGrade(id: ID!): Boolean!
-  deleteManyUsers(ids: [ID!]): User
-  deleteMedia(id: ID!): Media
-  deleteNotification(id: ID!): Notification!
-  deleteQuiz(id: ID!): Boolean!
-  deleteTag(id: ID!): Tag!
-  deleteTarget(id: ID!): Target
-  deleteUser(id: ID!): User
-  deleteUserSetting(id: ID!): Boolean!
-  forgetPassword(email: String!): User
-  grantPermission(input: PermissionInput!): Permission
-  resetPassword(password: String!, refreshToken: String!): User
-  revokePermission(input: PermissionInput!): Permission
-  signIn(input: AuthUser!): User
-  signOut(refreshToken: String!): User
-  signUp(input: NewUser!): User
-  submitQuiz(input: SubmissionInput!, quizId: ID!): Submission
-  updateActivity(input: UpdateActivityInput!): Activity
-  updateCourse(input: Any): Course!
-  updateEvaluationCriteria(id: ID!, input: UpdateEvaluationCriteriaInput!): EvaluationCriteria!
-  updateForum(id: ID!, input: UpdateForumInput!): Forum!
-  updateForumComment(id: ID!, input: UpdateForumCommentInput!): ForumComment!
-  updateForumPost(id: ID!, input: UpdateForumPostInput!): ForumPost!
-  updateGlobalSetting(id: ID!, input: UpdateSetting!): GlobalSetting!
-  updateGrade(id: ID!, input: UpdateGradeInput!): Grade
-  updateMedia(input: UpdateMediaInput!): Media
-  updateNotification(id: ID!, input: UpdateNotificationInput!): Notification!
-  updatePermission(input: PermissionInput!): Permission
-  updateProspective(input: UpdateProspective, userId: ID!): User
-  updateQuiz(id: ID!, input: UpdateQuizInput!): Quiz
-  updateTag(id: ID!, input: UpdateTagInput!): Tag!
-  updateTarget(id: ID!, input: UpdateTargetInput!): Target
-  updateUser(input: Any, userId: ID!): User
-  updateUserSetting(id: ID!, input: UpdateSetting!): UserSetting!
-  verifyEmail(refreshToken: String!): User
+  """Deletes zero or more records from the `BaseModel` collection"""
+  deleteFromBaseModelCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: BaseModelFilter
+  ): BaseModelDeleteResponse!
+
+  """Deletes zero or more records from the `MediaFile` collection"""
+  deleteFromMediaFileCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: MediaFileFilter
+  ): MediaFileDeleteResponse!
+
+  """Deletes zero or more records from the `_prisma_migrations` collection"""
+  deleteFrom_prisma_migrationsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: _prisma_migrationsFilter
+  ): _prisma_migrationsDeleteResponse!
+
+  """Deletes zero or more records from the `activities` collection"""
+  deleteFromactivitiesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: activitiesFilter
+  ): activitiesDeleteResponse!
+
+  """Deletes zero or more records from the `answer_choices` collection"""
+  deleteFromanswer_choicesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: answer_choicesFilter
+  ): answer_choicesDeleteResponse!
+
+  """Deletes zero or more records from the `answers` collection"""
+  deleteFromanswersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: answersFilter
+  ): answersDeleteResponse!
+
+  """Deletes zero or more records from the `assignments` collection"""
+  deleteFromassignmentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: assignmentsFilter
+  ): assignmentsDeleteResponse!
+
+  """Deletes zero or more records from the `auth_methods` collection"""
+  deleteFromauth_methodsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: auth_methodsFilter
+  ): auth_methodsDeleteResponse!
+
+  """Deletes zero or more records from the `courses` collection"""
+  deleteFromcoursesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: coursesFilter
+  ): coursesDeleteResponse!
+
+  """Deletes zero or more records from the `enrollments` collection"""
+  deleteFromenrollmentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: enrollmentsFilter
+  ): enrollmentsDeleteResponse!
+
+  """Deletes zero or more records from the `forum_comments` collection"""
+  deleteFromforum_commentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: forum_commentsFilter
+  ): forum_commentsDeleteResponse!
+
+  """Deletes zero or more records from the `forum_posts` collection"""
+  deleteFromforum_postsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: forum_postsFilter
+  ): forum_postsDeleteResponse!
+
+  """Deletes zero or more records from the `forums` collection"""
+  deleteFromforumsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: forumsFilter
+  ): forumsDeleteResponse!
+
+  """Deletes zero or more records from the `grades` collection"""
+  deleteFromgradesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: gradesFilter
+  ): gradesDeleteResponse!
+
+  """Deletes zero or more records from the `invoices` collection"""
+  deleteFrominvoicesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: invoicesFilter
+  ): invoicesDeleteResponse!
+
+  """Deletes zero or more records from the `matching_pairs` collection"""
+  deleteFrommatching_pairsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: matching_pairsFilter
+  ): matching_pairsDeleteResponse!
+
+  """Deletes zero or more records from the `metrics` collection"""
+  deleteFrommetricsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: metricsFilter
+  ): metricsDeleteResponse!
+
+  """Deletes zero or more records from the `multimedias` collection"""
+  deleteFrommultimediasCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: multimediasFilter
+  ): multimediasDeleteResponse!
+
+  """Deletes zero or more records from the `notifications` collection"""
+  deleteFromnotificationsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: notificationsFilter
+  ): notificationsDeleteResponse!
+
+  """Deletes zero or more records from the `payments` collection"""
+  deleteFrompaymentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: paymentsFilter
+  ): paymentsDeleteResponse!
+
+  """Deletes zero or more records from the `permissions` collection"""
+  deleteFrompermissionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: permissionsFilter
+  ): permissionsDeleteResponse!
+
+  """Deletes zero or more records from the `players` collection"""
+  deleteFromplayersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: playersFilter
+  ): playersDeleteResponse!
+
+  """Deletes zero or more records from the `qualifications` collection"""
+  deleteFromqualificationsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: qualificationsFilter
+  ): qualificationsDeleteResponse!
+
+  """Deletes zero or more records from the `questions` collection"""
+  deleteFromquestionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: questionsFilter
+  ): questionsDeleteResponse!
+
+  """Deletes zero or more records from the `quizzes` collection"""
+  deleteFromquizzesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: quizzesFilter
+  ): quizzesDeleteResponse!
+
+  """Deletes zero or more records from the `reminders` collection"""
+  deleteFromremindersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: remindersFilter
+  ): remindersDeleteResponse!
+
+  """Deletes zero or more records from the `roles` collection"""
+  deleteFromrolesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: rolesFilter
+  ): rolesDeleteResponse!
+
+  """Deletes zero or more records from the `settings` collection"""
+  deleteFromsettingsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: settingsFilter
+  ): settingsDeleteResponse!
+
+  """Deletes zero or more records from the `submissions` collection"""
+  deleteFromsubmissionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: submissionsFilter
+  ): submissionsDeleteResponse!
+
+  """Deletes zero or more records from the `tags` collection"""
+  deleteFromtagsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: tagsFilter
+  ): tagsDeleteResponse!
+
+  """Deletes zero or more records from the `targets` collection"""
+  deleteFromtargetsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: targetsFilter
+  ): targetsDeleteResponse!
+
+  """Deletes zero or more records from the `tokens` collection"""
+  deleteFromtokensCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: tokensFilter
+  ): tokensDeleteResponse!
+
+  """Deletes zero or more records from the `transactions` collection"""
+  deleteFromtransactionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: transactionsFilter
+  ): transactionsDeleteResponse!
+
+  """Deletes zero or more records from the `users` collection"""
+  deleteFromusersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: usersFilter
+  ): usersDeleteResponse!
+
+  """Adds one or more `BaseModel` records to the collection"""
+  insertIntoBaseModelCollection(objects: [BaseModelInsertInput!]!): BaseModelInsertResponse
+
+  """Adds one or more `MediaFile` records to the collection"""
+  insertIntoMediaFileCollection(objects: [MediaFileInsertInput!]!): MediaFileInsertResponse
+
+  """Adds one or more `_prisma_migrations` records to the collection"""
+  insertInto_prisma_migrationsCollection(objects: [_prisma_migrationsInsertInput!]!): _prisma_migrationsInsertResponse
+
+  """Adds one or more `activities` records to the collection"""
+  insertIntoactivitiesCollection(objects: [activitiesInsertInput!]!): activitiesInsertResponse
+
+  """Adds one or more `answer_choices` records to the collection"""
+  insertIntoanswer_choicesCollection(objects: [answer_choicesInsertInput!]!): answer_choicesInsertResponse
+
+  """Adds one or more `answers` records to the collection"""
+  insertIntoanswersCollection(objects: [answersInsertInput!]!): answersInsertResponse
+
+  """Adds one or more `assignments` records to the collection"""
+  insertIntoassignmentsCollection(objects: [assignmentsInsertInput!]!): assignmentsInsertResponse
+
+  """Adds one or more `auth_methods` records to the collection"""
+  insertIntoauth_methodsCollection(objects: [auth_methodsInsertInput!]!): auth_methodsInsertResponse
+
+  """Adds one or more `courses` records to the collection"""
+  insertIntocoursesCollection(objects: [coursesInsertInput!]!): coursesInsertResponse
+
+  """Adds one or more `enrollments` records to the collection"""
+  insertIntoenrollmentsCollection(objects: [enrollmentsInsertInput!]!): enrollmentsInsertResponse
+
+  """Adds one or more `forum_comments` records to the collection"""
+  insertIntoforum_commentsCollection(objects: [forum_commentsInsertInput!]!): forum_commentsInsertResponse
+
+  """Adds one or more `forum_posts` records to the collection"""
+  insertIntoforum_postsCollection(objects: [forum_postsInsertInput!]!): forum_postsInsertResponse
+
+  """Adds one or more `forums` records to the collection"""
+  insertIntoforumsCollection(objects: [forumsInsertInput!]!): forumsInsertResponse
+
+  """Adds one or more `grades` records to the collection"""
+  insertIntogradesCollection(objects: [gradesInsertInput!]!): gradesInsertResponse
+
+  """Adds one or more `invoices` records to the collection"""
+  insertIntoinvoicesCollection(objects: [invoicesInsertInput!]!): invoicesInsertResponse
+
+  """Adds one or more `matching_pairs` records to the collection"""
+  insertIntomatching_pairsCollection(objects: [matching_pairsInsertInput!]!): matching_pairsInsertResponse
+
+  """Adds one or more `metrics` records to the collection"""
+  insertIntometricsCollection(objects: [metricsInsertInput!]!): metricsInsertResponse
+
+  """Adds one or more `multimedias` records to the collection"""
+  insertIntomultimediasCollection(objects: [multimediasInsertInput!]!): multimediasInsertResponse
+
+  """Adds one or more `notifications` records to the collection"""
+  insertIntonotificationsCollection(objects: [notificationsInsertInput!]!): notificationsInsertResponse
+
+  """Adds one or more `payments` records to the collection"""
+  insertIntopaymentsCollection(objects: [paymentsInsertInput!]!): paymentsInsertResponse
+
+  """Adds one or more `permissions` records to the collection"""
+  insertIntopermissionsCollection(objects: [permissionsInsertInput!]!): permissionsInsertResponse
+
+  """Adds one or more `players` records to the collection"""
+  insertIntoplayersCollection(objects: [playersInsertInput!]!): playersInsertResponse
+
+  """Adds one or more `qualifications` records to the collection"""
+  insertIntoqualificationsCollection(objects: [qualificationsInsertInput!]!): qualificationsInsertResponse
+
+  """Adds one or more `questions` records to the collection"""
+  insertIntoquestionsCollection(objects: [questionsInsertInput!]!): questionsInsertResponse
+
+  """Adds one or more `quizzes` records to the collection"""
+  insertIntoquizzesCollection(objects: [quizzesInsertInput!]!): quizzesInsertResponse
+
+  """Adds one or more `reminders` records to the collection"""
+  insertIntoremindersCollection(objects: [remindersInsertInput!]!): remindersInsertResponse
+
+  """Adds one or more `roles` records to the collection"""
+  insertIntorolesCollection(objects: [rolesInsertInput!]!): rolesInsertResponse
+
+  """Adds one or more `settings` records to the collection"""
+  insertIntosettingsCollection(objects: [settingsInsertInput!]!): settingsInsertResponse
+
+  """Adds one or more `submissions` records to the collection"""
+  insertIntosubmissionsCollection(objects: [submissionsInsertInput!]!): submissionsInsertResponse
+
+  """Adds one or more `tags` records to the collection"""
+  insertIntotagsCollection(objects: [tagsInsertInput!]!): tagsInsertResponse
+
+  """Adds one or more `targets` records to the collection"""
+  insertIntotargetsCollection(objects: [targetsInsertInput!]!): targetsInsertResponse
+
+  """Adds one or more `tokens` records to the collection"""
+  insertIntotokensCollection(objects: [tokensInsertInput!]!): tokensInsertResponse
+
+  """Adds one or more `transactions` records to the collection"""
+  insertIntotransactionsCollection(objects: [transactionsInsertInput!]!): transactionsInsertResponse
+
+  """Adds one or more `users` records to the collection"""
+  insertIntousersCollection(objects: [usersInsertInput!]!): usersInsertResponse
+
+  """Updates zero or more records in the `BaseModel` collection"""
+  updateBaseModelCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: BaseModelFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: BaseModelUpdateInput!
+  ): BaseModelUpdateResponse!
+
+  """Updates zero or more records in the `MediaFile` collection"""
+  updateMediaFileCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: MediaFileFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: MediaFileUpdateInput!
+  ): MediaFileUpdateResponse!
+
+  """Updates zero or more records in the `_prisma_migrations` collection"""
+  update_prisma_migrationsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: _prisma_migrationsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: _prisma_migrationsUpdateInput!
+  ): _prisma_migrationsUpdateResponse!
+
+  """Updates zero or more records in the `activities` collection"""
+  updateactivitiesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: activitiesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: activitiesUpdateInput!
+  ): activitiesUpdateResponse!
+
+  """Updates zero or more records in the `answer_choices` collection"""
+  updateanswer_choicesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: answer_choicesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: answer_choicesUpdateInput!
+  ): answer_choicesUpdateResponse!
+
+  """Updates zero or more records in the `answers` collection"""
+  updateanswersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: answersFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: answersUpdateInput!
+  ): answersUpdateResponse!
+
+  """Updates zero or more records in the `assignments` collection"""
+  updateassignmentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: assignmentsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: assignmentsUpdateInput!
+  ): assignmentsUpdateResponse!
+
+  """Updates zero or more records in the `auth_methods` collection"""
+  updateauth_methodsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: auth_methodsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: auth_methodsUpdateInput!
+  ): auth_methodsUpdateResponse!
+
+  """Updates zero or more records in the `courses` collection"""
+  updatecoursesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: coursesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: coursesUpdateInput!
+  ): coursesUpdateResponse!
+
+  """Updates zero or more records in the `enrollments` collection"""
+  updateenrollmentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: enrollmentsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: enrollmentsUpdateInput!
+  ): enrollmentsUpdateResponse!
+
+  """Updates zero or more records in the `forum_comments` collection"""
+  updateforum_commentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: forum_commentsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: forum_commentsUpdateInput!
+  ): forum_commentsUpdateResponse!
+
+  """Updates zero or more records in the `forum_posts` collection"""
+  updateforum_postsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: forum_postsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: forum_postsUpdateInput!
+  ): forum_postsUpdateResponse!
+
+  """Updates zero or more records in the `forums` collection"""
+  updateforumsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: forumsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: forumsUpdateInput!
+  ): forumsUpdateResponse!
+
+  """Updates zero or more records in the `grades` collection"""
+  updategradesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: gradesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: gradesUpdateInput!
+  ): gradesUpdateResponse!
+
+  """Updates zero or more records in the `invoices` collection"""
+  updateinvoicesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: invoicesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: invoicesUpdateInput!
+  ): invoicesUpdateResponse!
+
+  """Updates zero or more records in the `matching_pairs` collection"""
+  updatematching_pairsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: matching_pairsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: matching_pairsUpdateInput!
+  ): matching_pairsUpdateResponse!
+
+  """Updates zero or more records in the `metrics` collection"""
+  updatemetricsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: metricsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: metricsUpdateInput!
+  ): metricsUpdateResponse!
+
+  """Updates zero or more records in the `multimedias` collection"""
+  updatemultimediasCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: multimediasFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: multimediasUpdateInput!
+  ): multimediasUpdateResponse!
+
+  """Updates zero or more records in the `notifications` collection"""
+  updatenotificationsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: notificationsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: notificationsUpdateInput!
+  ): notificationsUpdateResponse!
+
+  """Updates zero or more records in the `payments` collection"""
+  updatepaymentsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: paymentsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: paymentsUpdateInput!
+  ): paymentsUpdateResponse!
+
+  """Updates zero or more records in the `permissions` collection"""
+  updatepermissionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: permissionsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: permissionsUpdateInput!
+  ): permissionsUpdateResponse!
+
+  """Updates zero or more records in the `players` collection"""
+  updateplayersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: playersFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: playersUpdateInput!
+  ): playersUpdateResponse!
+
+  """Updates zero or more records in the `qualifications` collection"""
+  updatequalificationsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: qualificationsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: qualificationsUpdateInput!
+  ): qualificationsUpdateResponse!
+
+  """Updates zero or more records in the `questions` collection"""
+  updatequestionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: questionsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: questionsUpdateInput!
+  ): questionsUpdateResponse!
+
+  """Updates zero or more records in the `quizzes` collection"""
+  updatequizzesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: quizzesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: quizzesUpdateInput!
+  ): quizzesUpdateResponse!
+
+  """Updates zero or more records in the `reminders` collection"""
+  updateremindersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: remindersFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: remindersUpdateInput!
+  ): remindersUpdateResponse!
+
+  """Updates zero or more records in the `roles` collection"""
+  updaterolesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: rolesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: rolesUpdateInput!
+  ): rolesUpdateResponse!
+
+  """Updates zero or more records in the `settings` collection"""
+  updatesettingsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: settingsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: settingsUpdateInput!
+  ): settingsUpdateResponse!
+
+  """Updates zero or more records in the `submissions` collection"""
+  updatesubmissionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: submissionsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: submissionsUpdateInput!
+  ): submissionsUpdateResponse!
+
+  """Updates zero or more records in the `tags` collection"""
+  updatetagsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: tagsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: tagsUpdateInput!
+  ): tagsUpdateResponse!
+
+  """Updates zero or more records in the `targets` collection"""
+  updatetargetsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: targetsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: targetsUpdateInput!
+  ): targetsUpdateResponse!
+
+  """Updates zero or more records in the `tokens` collection"""
+  updatetokensCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: tokensFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: tokensUpdateInput!
+  ): tokensUpdateResponse!
+
+  """Updates zero or more records in the `transactions` collection"""
+  updatetransactionsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: transactionsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: transactionsUpdateInput!
+  ): transactionsUpdateResponse!
+
+  """Updates zero or more records in the `users` collection"""
+  updateusersCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: usersFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: usersUpdateInput!
+  ): usersUpdateResponse!
 }
 
-input NewCourse {
-  code: String!
-  coverImg: String!
-  id: ID!
-  longDescription: String!
-  program: String!
-  semester: String!
-  shortDescription: String!
-  title: String!
-  tutors: [ID!]
-  type: String!
-  userId: ID!
-}
-
-input NewQualification {
-  degree: String!
-  graduationYear: String!
-  institution: String!
-}
-
-input NewReferee {
-  email: String!
-  fullName: String!
-  phone: String!
-}
-
-input NewSetting {
-  globalKey: GlobalSettingKeys
-  type: SettingType!
-  userKey: UserSettingKeys
-  value: String!
-}
-
-input NewUser {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
-  platform: String!
-  program: String!
-}
-
-type Notification {
-  courseId: ID!
-  createdAt: Time!
-  deletedAt: Time!
-  id: ID!
-  link: String
-  recipientId: ID!
-  seen: Boolean!
-  senderId: ID!
-  text: String!
-  title: String!
-  type: NotificationType!
-  updatedAt: Time!
+interface Node {
+  """Retrieves a record by `ID`"""
+  nodeId: ID!
 }
 
 enum NotificationType {
-  ANNOUNCEMENT
-  COURSE_UPDATE
-  FORUM_UPDATE
-  GRADE_UPDATE
-  MESSAGE
+  SYSTEM
+  USER_GENERATED
 }
 
-type Penalty {
-  description: String!
-  id: ID!
-  name: String!
-  percentage: Int!
+"""
+Boolean expression comparing fields on type "NotificationType"
+"""
+input NotificationTypeFilter {
+  eq: NotificationType
+  in: [NotificationType!]
+  is: FilterIs
+  neq: NotificationType
 }
 
-type Permission {
-  id: ID!
-  model: AllowedModel!
-  permissions: [AllowedPermission!]!
-  role: Role!
+"""Any type not handled by the type system"""
+scalar Opaque
+
+"""
+Boolean expression comparing fields on type "Opaque"
+"""
+input OpaqueFilter {
+  eq: Opaque
+  is: FilterIs
 }
 
-input PermissionInput {
-  model: AllowedModel!
-  permissions: [AllowedPermission!]!
-  role: Role!
+"""Defines a per-field sorting order"""
+enum OrderByDirection {
+  """Ascending order, nulls first"""
+  AscNullsFirst
+
+  """Ascending order, nulls last"""
+  AscNullsLast
+
+  """Descending order, nulls first"""
+  DescNullsFirst
+
+  """Descending order, nulls last"""
+  DescNullsLast
 }
 
-type PlayerInfo {
-  currentTime: Int!
-  duration: Int!
-  posterUrl: String
-  thumbnailUrl: String!
+type PageInfo {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
 }
 
-input PlayerInfoInput {
-  currentTime: Int
-  duration: Int
-  posterUrl: String
-  thumbnailUrl: String
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  OTHER
+  PAYPAL
+}
+
+"""
+Boolean expression comparing fields on type "PaymentMethod"
+"""
+input PaymentMethodFilter {
+  eq: PaymentMethod
+  in: [PaymentMethod!]
+  is: FilterIs
+  neq: PaymentMethod
+}
+
+enum PaymentStatus {
+  CANCELLED
+  COMPLETED
+  CREATED
+  FAILED
+  PENDING
+}
+
+"""
+Boolean expression comparing fields on type "PaymentStatus"
+"""
+input PaymentStatusFilter {
+  eq: PaymentStatus
+  in: [PaymentStatus!]
+  is: FilterIs
+  neq: PaymentStatus
+}
+
+enum PaymentType {
+  COURSE_ENROLLMENT
+  COURSE_FEE
+  DONATION
+  MEMBERSHIP_FEE
+  OTHER
+  REGISTRATION_FEE
+  SERVICE_FEE
+  SUBSCRIPTION_FEE
+}
+
+"""
+Boolean expression comparing fields on type "PaymentType"
+"""
+input PaymentTypeFilter {
+  eq: PaymentType
+  in: [PaymentType!]
+  is: FilterIs
+  neq: PaymentType
 }
 
 enum ProctoringMethod {
@@ -638,109 +1697,756 @@ enum ProctoringMethod {
   NONE
 }
 
-enum ProgramType {
-  DIPLOMA
-  PGDT
+"""
+Boolean expression comparing fields on type "ProctoringMethod"
+"""
+input ProctoringMethodFilter {
+  eq: ProctoringMethod
+  in: [ProctoringMethod!]
+  is: FilterIs
+  neq: ProctoringMethod
 }
 
-type Qualification {
-  createdAt: Time
-  degree: String!
-  deletedAt: Time
-  graduationYear: String!
-  id: ID!
-  institution: String!
-  updatedAt: Time
-}
-
+"""The root type for querying data"""
 type Query {
-  activities(courseID: ID): [Activity!]!
-  activity(id: ID!): Activity
-  allMedia: [Media!]!
-  course(id: ID!): Course!
-  courses(userId: ID): [Course!]!
-  evaluationCriteria(id: ID!): EvaluationCriteria
-  evaluationCriterias: [EvaluationCriteria!]!
-  forum(id: ID!): Forum
-  forumComment(id: ID!): ForumComment
-  forumComments(courseId: ID): [ForumComment!]!
-  forumPost(id: ID!): ForumPost
-  forumPosts(courseId: ID, tags: [ID!]!): [ForumPost!]!
-  forums(courseId: ID): [Forum!]!
-  getPermissionsForModel(model: AllowedModel!): [Permission!]!
-  getPermissionsForUser(userID: ID!): [Permission!]!
-  globalSetting(id: ID!): GlobalSetting!
-  globalSettings(limit: Int = 25, offset: Int = 0): [GlobalSetting!]!
-  grade(id: ID!): Grade
-  grades: [Grade!]!
-  media(id: ID!): Media
-  mediaByType(type: MediaType!): [Media!]!
-  notifications(courseId: ID, read: Boolean, recipientId: ID): [Notification!]!
-  quiz(id: ID!): Quiz!
-  quizzes: [Quiz!]!
-  submission(id: ID!): Submission!
-  submissions: [Submission!]!
-  target(id: ID!): Target
-  targets(courseId: ID): [Target!]!
-  user(id: ID!): User
-  userSetting(id: ID!): UserSetting!
-  userSettings(limit: Int = 25, offset: Int = 0, userId: ID!): [UserSetting!]!
-  users: [User]
-}
+  """A pagable collection of type `_prisma_migrations`"""
+  _prisma_migrationsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
 
-type Question {
-  categories: [String!]!
-  choices: [AnswerChoice!]!
-  correctAnswer: String!
-  feedback: String!
-  hints: [String!]!
-  id: ID!
-  matchingPairs: [MatchingPair!]!
-  pointValue: Int!
-  randomize: Boolean!
-  text: String!
-  type: QuestionType!
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: _prisma_migrationsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [_prisma_migrationsOrderBy!]
+  ): _prisma_migrationsConnection
+
+  """A pagable collection of type `activities`"""
+  activitiesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: activitiesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [activitiesOrderBy!]
+  ): activitiesConnection
+
+  """A pagable collection of type `answer_choices`"""
+  answer_choicesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: answer_choicesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [answer_choicesOrderBy!]
+  ): answer_choicesConnection
+
+  """A pagable collection of type `answers`"""
+  answersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: answersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [answersOrderBy!]
+  ): answersConnection
+
+  """A pagable collection of type `assignments`"""
+  assignmentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: assignmentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [assignmentsOrderBy!]
+  ): assignmentsConnection
+
+  """A pagable collection of type `auth_methods`"""
+  auth_methodsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: auth_methodsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [auth_methodsOrderBy!]
+  ): auth_methodsConnection
+
+  """A pagable collection of type `BaseModel`"""
+  baseModelCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: BaseModelFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [BaseModelOrderBy!]
+  ): BaseModelConnection
+
+  """A pagable collection of type `courses`"""
+  coursesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: coursesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [coursesOrderBy!]
+  ): coursesConnection
+
+  """A pagable collection of type `enrollments`"""
+  enrollmentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: enrollmentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [enrollmentsOrderBy!]
+  ): enrollmentsConnection
+
+  """A pagable collection of type `forum_comments`"""
+  forum_commentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: forum_commentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [forum_commentsOrderBy!]
+  ): forum_commentsConnection
+
+  """A pagable collection of type `forum_posts`"""
+  forum_postsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: forum_postsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [forum_postsOrderBy!]
+  ): forum_postsConnection
+
+  """A pagable collection of type `forums`"""
+  forumsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: forumsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [forumsOrderBy!]
+  ): forumsConnection
+
+  """A pagable collection of type `grades`"""
+  gradesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: gradesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [gradesOrderBy!]
+  ): gradesConnection
+
+  """A pagable collection of type `invoices`"""
+  invoicesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: invoicesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [invoicesOrderBy!]
+  ): invoicesConnection
+
+  """A pagable collection of type `matching_pairs`"""
+  matching_pairsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: matching_pairsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [matching_pairsOrderBy!]
+  ): matching_pairsConnection
+
+  """A pagable collection of type `MediaFile`"""
+  mediaFileCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: MediaFileFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [MediaFileOrderBy!]
+  ): MediaFileConnection
+
+  """A pagable collection of type `metrics`"""
+  metricsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: metricsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [metricsOrderBy!]
+  ): metricsConnection
+
+  """A pagable collection of type `multimedias`"""
+  multimediasCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: multimediasFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [multimediasOrderBy!]
+  ): multimediasConnection
+
+  """Retrieve a record by its `ID`"""
+  node(
+    """The record's `ID`"""
+    nodeId: ID!
+  ): Node
+
+  """A pagable collection of type `notifications`"""
+  notificationsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: notificationsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [notificationsOrderBy!]
+  ): notificationsConnection
+
+  """A pagable collection of type `payments`"""
+  paymentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: paymentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [paymentsOrderBy!]
+  ): paymentsConnection
+
+  """A pagable collection of type `permissions`"""
+  permissionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: permissionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [permissionsOrderBy!]
+  ): permissionsConnection
+
+  """A pagable collection of type `players`"""
+  playersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: playersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [playersOrderBy!]
+  ): playersConnection
+
+  """A pagable collection of type `qualifications`"""
+  qualificationsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: qualificationsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [qualificationsOrderBy!]
+  ): qualificationsConnection
+
+  """A pagable collection of type `questions`"""
+  questionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: questionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [questionsOrderBy!]
+  ): questionsConnection
+
+  """A pagable collection of type `quizzes`"""
+  quizzesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: quizzesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [quizzesOrderBy!]
+  ): quizzesConnection
+
+  """A pagable collection of type `reminders`"""
+  remindersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: remindersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [remindersOrderBy!]
+  ): remindersConnection
+
+  """A pagable collection of type `roles`"""
+  rolesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: rolesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [rolesOrderBy!]
+  ): rolesConnection
+
+  """A pagable collection of type `settings`"""
+  settingsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: settingsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [settingsOrderBy!]
+  ): settingsConnection
+
+  """A pagable collection of type `submissions`"""
+  submissionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: submissionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [submissionsOrderBy!]
+  ): submissionsConnection
+
+  """A pagable collection of type `tags`"""
+  tagsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: tagsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [tagsOrderBy!]
+  ): tagsConnection
+
+  """A pagable collection of type `targets`"""
+  targetsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: targetsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [targetsOrderBy!]
+  ): targetsConnection
+
+  """A pagable collection of type `tokens`"""
+  tokensCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: tokensFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [tokensOrderBy!]
+  ): tokensConnection
+
+  """A pagable collection of type `transactions`"""
+  transactionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: transactionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [transactionsOrderBy!]
+  ): transactionsConnection
+
+  """A pagable collection of type `users`"""
+  usersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: usersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [usersOrderBy!]
+  ): usersConnection
 }
 
 enum QuestionType {
   ESSAY
   MATCHING
   MULTIPLE_CHOICE
-  MULTIPLE_CORRECT
+  NUMERIC
   SHORT_ANSWER
   TRUE_FALSE
 }
 
-type Quiz {
-  categories: [String!]
-  certificate: Boolean!
-  courseId: ID!
-  createdAt: Time!
-  deletedAt: Time!
-  description: String!
-  dueDate: String!
-  duration: Int!
-  endTime: Time!
-  gradeIds: [ID!]!
-  id: ID!
-  isLocked: Boolean!
-  name: String!
-  passingScore: Int!
-  proctoringMethod: ProctoringMethod!
-  questionIds: [ID!]!
-  questions: [Question!]!
-  quizType: QuizType!
-  randomizeAnswers: Boolean
-  randomizeQuestions: Boolean
-  resultsReleaseDate: Time
-  shuffleQuestions: Boolean!
-  startDate: Time!
-  startTime: Time!
-  submissionIds: [ID]
-  timeLimit: Int!
-  updatedAt: Time!
-  waitTime: Int!
-  weight: Int!
+"""
+Boolean expression comparing fields on type "QuestionType"
+"""
+input QuestionTypeFilter {
+  eq: QuestionType
+  in: [QuestionType!]
+  is: FilterIs
+  neq: QuestionType
 }
 
 enum QuizType {
@@ -748,32 +2454,14 @@ enum QuizType {
   EXAM
 }
 
-type Referee {
-  createdAt: Time
-  deletedAt: Time
-  email: String!
-  fullName: String!
-  id: ID!
-  phone: String!
-  updatedAt: Time
-}
-
-enum RegistrationStatus {
-  COMPLETED
-  CREATED
-  IN_PROGRESS
-  REJECTED
-}
-
-type Reminder {
-  createdAt: Time!
-  id: ID!
-  message: String!
-  sendTime: Time!
-  sent: Boolean!
-  target: Target!
-  updatedAt: Time!
-  user: User!
+"""
+Boolean expression comparing fields on type "QuizType"
+"""
+input QuizTypeFilter {
+  eq: QuizType
+  in: [QuizType!]
+  is: FilterIs
+  neq: QuizType
 }
 
 enum RepeatInterval {
@@ -783,103 +2471,120 @@ enum RepeatInterval {
   YEAR
 }
 
-enum ResubmissionPolicy {
-  ALLOWED
-  LIMIT_NUMBER
-  LIMIT_TIME
-  NOT_ALLOWED
+"""
+Boolean expression comparing fields on type "RepeatInterval"
+"""
+input RepeatIntervalFilter {
+  eq: RepeatInterval
+  in: [RepeatInterval!]
+  is: FilterIs
+  neq: RepeatInterval
 }
 
-enum Role {
-  ADMIN
+enum RoleType {
+  ADMINISTRATOR
   ALUMNI
+  FACULTY
   GUEST
   PARTNER
+  PROSPECTIVE
+  REFEREE
   STUDENT
-  SUPER_ADMIN
+  SUPERUSER
   SUPPORT
-  TEACHER
 }
 
-type ScoreDistribution {
-  grade: String!
-  id: ID!
-  maxScore: Int!
-  minScore: Int!
-  percentage: Int!
+"""
+Boolean expression comparing fields on type "RoleType"
+"""
+input RoleTypeFilter {
+  eq: RoleType
+  in: [RoleType!]
+  is: FilterIs
+  neq: RoleType
+}
+
+enum SettingKeys {
+  ALLOW_COURSE_COMMENTS
+  ALLOW_COURSE_DISCOVERY
+  ALLOW_PUSH_NOTIFICATIONS
+  ALLOW_STUDENT_MESSAGES
+  AUTO_ENROLLMENT_ENABLED
+  COURSE_PASSING_GRADE
+  DARK_MODE_ENABLED
+  DEFAULT_COURSE_TEMPLATE
+  DEFAULT_FONT_SIZE
+  DEFAULT_LANGUAGE
+  DEFAULT_TIMEZONE
+  EMAIL_NOTIFICATIONS_ENABLED
+  ENABLE_BADGES
+  ENABLE_OFFLINE_MODE
+  ENABLE_SSO_LOGIN
+  ENABLE_TTS
+  ENROLLMENT_OPEN
+  MAX_ENROLLMENT
+  SHOW_ALL_COURSES
+  SHOW_ANNOUNCEMENTS
+  SHOW_COMPLETED_COURSES
+  SHOW_COURSE_ACTIVITY_FEED
+  SHOW_COURSE_PROGRESS
+  SHOW_COURSE_RATINGS
+  SHOW_COURSE_REVIEWS
+  SHOW_COURSE_SCHEDULE
+  SHOW_COURSE_TAGS
+  SHOW_ENROLLED_COURSES_COUNT
+  SHOW_INSTRUCTOR_AVAILABILITY
+  SHOW_INSTRUCTOR_INFO
+  SHOW_POPULAR_COURSES
+  SHOW_RECOMMENDED_COURSES
+  SHOW_RELATED_COURSES
+  SHOW_UNFINISHED_COURSES
+}
+
+"""
+Boolean expression comparing fields on type "SettingKeys"
+"""
+input SettingKeysFilter {
+  eq: SettingKeys
+  in: [SettingKeys!]
+  is: FilterIs
+  neq: SettingKeys
 }
 
 enum SettingType {
-  BOOLEAN
-  DATE
-  NUMBER
-  STRING
-  TIME
+  ACCOUNT
+  COURSE
+  GLOBAL
+  MULTIMEDIA
 }
 
-type Submission {
-  answers: [Answer!]!
-  completedAt: Time!
-  createdAt: Time!
-  endTime: Time!
-  feedback: [String!]
-  grade: Float!
-  id: ID!
-  points: Int!
-  quizID: ID!
-  startTime: Time!
-  startedAt: Time!
-  updatedAt: Time!
-  userID: String!
-  weight: Int!
+"""
+Boolean expression comparing fields on type "SettingType"
+"""
+input SettingTypeFilter {
+  eq: SettingType
+  in: [SettingType!]
+  is: FilterIs
+  neq: SettingType
 }
 
-input SubmissionInput {
-  answers: [AnswerInput!]!
-  endTime: Time!
-  feedback: [String!]!
-  grade: Float!
-  points: Int!
-  quiz: UpdateQuizInput!
-  startTime: Time!
-  startedAt: Time!
-  userID: String!
-  weight: Int!
-}
-
-type Subscription {
-  activityAdded: Activity
-  activityDeleted: ID
-  activityUpdated: Activity
-  notificationAdded: Notification!
-}
-
-type Tag {
-  courseIds: [ID!]!
-  id: ID!
-  name: String!
-  postIds: [ID!]!
-}
-
-type Target {
-  completionDate: Time
-  courseId: ID!
-  createdAt: Time
-  currentValue: Int
-  description: String
-  dueDate: Time
-  id: ID!
-  isCompleted: Boolean!
-  name: String!
-  reminders: [Reminder]
-  repeatEndDate: Time
-  repeatInterval: RepeatInterval!
-  startDate: Time
-  targetMetric: String!
-  targetType: TargetType!
-  targetValue: Int
-  units: String!
-  updatedAt: Time
+"""
+Boolean expression comparing fields on type "String"
+"""
+input StringFilter {
+  eq: String
+  gt: String
+  gte: String
+  ilike: String
+  in: [String!]
+  iregex: String
+  is: FilterIs
+  like: String
+  lt: String
+  lte: String
+  neq: String
+  regex: String
+  startsWith: String
 }
 
 enum TargetType {
@@ -888,272 +2593,4590 @@ enum TargetType {
   TARGET
 }
 
+"""
+Boolean expression comparing fields on type "TargetType"
+"""
+input TargetTypeFilter {
+  eq: TargetType
+  in: [TargetType!]
+  is: FilterIs
+  neq: TargetType
+}
+
+"""A time without date information"""
 scalar Time
 
-type Token {
-  expiresAt: Int64!
-  token: String!
+"""
+Boolean expression comparing fields on type "Time"
+"""
+input TimeFilter {
+  eq: Time
+  gt: Time
+  gte: Time
+  in: [Time!]
+  is: FilterIs
+  lt: Time
+  lte: Time
+  neq: Time
 }
 
-input UpdateActivityInput {
+enum TransactionStatus {
+  CANCELLED
+  COMPLETED
+  CREATED
+  FAILED
+  PENDING
+}
+
+"""
+Boolean expression comparing fields on type "TransactionStatus"
+"""
+input TransactionStatusFilter {
+  eq: TransactionStatus
+  in: [TransactionStatus!]
+  is: FilterIs
+  neq: TransactionStatus
+}
+
+"""A universally unique identifier"""
+scalar UUID
+
+"""
+Boolean expression comparing fields on type "UUID"
+"""
+input UUIDFilter {
+  eq: UUID
+  in: [UUID!]
+  is: FilterIs
+  neq: UUID
+}
+
+type _prisma_migrations implements Node {
+  applied_steps_count: Int!
+  checksum: String!
+  finished_at: Datetime
+  id: String!
+  logs: String
+  migration_name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  rolled_back_at: Datetime
+  started_at: Datetime!
+}
+
+type _prisma_migrationsConnection {
+  edges: [_prisma_migrationsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type _prisma_migrationsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [_prisma_migrations!]!
+}
+
+type _prisma_migrationsEdge {
+  cursor: String!
+  node: _prisma_migrations!
+}
+
+input _prisma_migrationsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [_prisma_migrationsFilter!]
+  applied_steps_count: IntFilter
+  checksum: StringFilter
+  finished_at: DatetimeFilter
+  id: StringFilter
+  logs: StringFilter
+  migration_name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: _prisma_migrationsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [_prisma_migrationsFilter!]
+  rolled_back_at: DatetimeFilter
+  started_at: DatetimeFilter
+}
+
+input _prisma_migrationsInsertInput {
+  applied_steps_count: Int
+  checksum: String
+  finished_at: Datetime
+  id: String
+  logs: String
+  migration_name: String
+  rolled_back_at: Datetime
+  started_at: Datetime
+}
+
+type _prisma_migrationsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [_prisma_migrations!]!
+}
+
+input _prisma_migrationsOrderBy {
+  applied_steps_count: OrderByDirection
+  checksum: OrderByDirection
+  finished_at: OrderByDirection
+  id: OrderByDirection
+  logs: OrderByDirection
+  migration_name: OrderByDirection
+  rolled_back_at: OrderByDirection
+  started_at: OrderByDirection
+}
+
+input _prisma_migrationsUpdateInput {
+  applied_steps_count: Int
+  checksum: String
+  finished_at: Datetime
+  id: String
+  logs: String
+  migration_name: String
+  rolled_back_at: Datetime
+  started_at: Datetime
+}
+
+type _prisma_migrationsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [_prisma_migrations!]!
+}
+
+type activities implements Node {
   activityType: ActivityType!
-  courseContentID: ID
-  id: ID!
+  courseContentID: String
+  courseID: String!
+  courses: courses!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  updatedAt: Datetime!
+  userID: String!
+  users: users!
 }
 
-input UpdateCourseInput {
-  activityIds: [ID!]
-  assignmentIds: [ID!]
-  code: String!
-  courseContentIds: [ID!]
-  coverImageUrl: String
-  description: String
-  endDate: Time
-  forumId: ID
-  gradeIds: [ID!]
-  id: ID!
-  instructorIds: [ID!]!
-  matricNumber: String!
-  programType: ProgramType!
-  quizIds: [ID!]
-  semester: String!
-  shortDescription: String!
-  startDate: Time
-  status: CourseStatus!
-  studentIds: [ID!]
-  title: String!
-  type: CourseType!
+type activitiesConnection {
+  edges: [activitiesEdge!]!
+  pageInfo: PageInfo!
 }
 
-input UpdateEvaluationCriteriaInput {
-  isPassFail: Boolean
-  passingScore: Int
-  quizId: ID
-  resubmissionPolicy: ResubmissionPolicy
+type activitiesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [activities!]!
+}
+
+type activitiesEdge {
+  cursor: String!
+  node: activities!
+}
+
+input activitiesFilter {
+  activityType: ActivityTypeFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [activitiesFilter!]
+  courseContentID: StringFilter
+  courseID: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: activitiesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [activitiesFilter!]
+  updatedAt: DatetimeFilter
+  userID: StringFilter
+}
+
+input activitiesInsertInput {
+  activityType: ActivityType
+  courseContentID: String
+  courseID: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
+  userID: String
+}
+
+type activitiesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [activities!]!
+}
+
+input activitiesOrderBy {
+  activityType: OrderByDirection
+  courseContentID: OrderByDirection
+  courseID: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  updatedAt: OrderByDirection
+  userID: OrderByDirection
+}
+
+input activitiesUpdateInput {
+  activityType: ActivityType
+  courseContentID: String
+  courseID: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
+  userID: String
+}
+
+type activitiesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [activities!]!
+}
+
+type answer_choices implements Node {
+  answer: answers
+  answerId: String
+  createdAt: Datetime!
+  deletedAt: Datetime
+  feedback: String!
+  id: String!
+  isCorrect: Boolean!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  question: questions
+  questionId: String
+  text: String!
+  updatedAt: Datetime!
+  weight: Int!
+}
+
+type answer_choicesConnection {
+  edges: [answer_choicesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type answer_choicesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [answer_choices!]!
+}
+
+type answer_choicesEdge {
+  cursor: String!
+  node: answer_choices!
+}
+
+input answer_choicesFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [answer_choicesFilter!]
+  answerId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  feedback: StringFilter
+  id: StringFilter
+  isCorrect: BooleanFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: answer_choicesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [answer_choicesFilter!]
+  questionId: StringFilter
+  text: StringFilter
+  updatedAt: DatetimeFilter
+  weight: IntFilter
+}
+
+input answer_choicesInsertInput {
+  answerId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  feedback: String
+  id: String
+  isCorrect: Boolean
+  questionId: String
+  text: String
+  updatedAt: Datetime
   weight: Int
 }
 
-input UpdateFileInput {
-  createdAt: Time
-  deletedAt: Time
-  encoding: String!
-  mimetype: String!
-  name: String!
-  size: Int!
-  updatedAt: Time
-  url: String!
+type answer_choicesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [answer_choices!]!
 }
 
-input UpdateForumCommentInput {
-  content: String
-  files: [ID!]
+input answer_choicesOrderBy {
+  answerId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  feedback: OrderByDirection
+  id: OrderByDirection
+  isCorrect: OrderByDirection
+  questionId: OrderByDirection
+  text: OrderByDirection
+  updatedAt: OrderByDirection
+  weight: OrderByDirection
 }
 
-input UpdateForumInput {
+input answer_choicesUpdateInput {
+  answerId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  feedback: String
+  id: String
+  isCorrect: Boolean
+  questionId: String
+  text: String
+  updatedAt: Datetime
+  weight: Int
+}
+
+type answer_choicesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [answer_choices!]!
+}
+
+type answers implements Node {
+  answer_choicesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: answer_choicesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [answer_choicesOrderBy!]
+  ): answer_choicesConnection
+  createdAt: Datetime!
+  deletedAt: Datetime
+  feedback: String!
+  id: String!
+  isCorrect: Boolean!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  pointsAwarded: Int!
+  questionId: String!
+  submission: submissions
+  submissionId: String
+  updatedAt: Datetime!
+  value: String!
+  weight: Int!
+}
+
+type answersConnection {
+  edges: [answersEdge!]!
+  pageInfo: PageInfo!
+}
+
+type answersDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [answers!]!
+}
+
+type answersEdge {
+  cursor: String!
+  node: answers!
+}
+
+input answersFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [answersFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  feedback: StringFilter
+  id: StringFilter
+  isCorrect: BooleanFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: answersFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [answersFilter!]
+  pointsAwarded: IntFilter
+  questionId: StringFilter
+  submissionId: StringFilter
+  updatedAt: DatetimeFilter
+  value: StringFilter
+  weight: IntFilter
+}
+
+input answersInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  feedback: String
+  id: String
+  isCorrect: Boolean
+  pointsAwarded: Int
+  questionId: String
+  submissionId: String
+  updatedAt: Datetime
+  value: String
+  weight: Int
+}
+
+type answersInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [answers!]!
+}
+
+input answersOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  feedback: OrderByDirection
+  id: OrderByDirection
+  isCorrect: OrderByDirection
+  pointsAwarded: OrderByDirection
+  questionId: OrderByDirection
+  submissionId: OrderByDirection
+  updatedAt: OrderByDirection
+  value: OrderByDirection
+  weight: OrderByDirection
+}
+
+input answersUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  feedback: String
+  id: String
+  isCorrect: Boolean
+  pointsAwarded: Int
+  questionId: String
+  submissionId: String
+  updatedAt: Datetime
+  value: String
+  weight: Int
+}
+
+type answersUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [answers!]!
+}
+
+type assignments implements Node {
+  course: courses!
+  courseId: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  updatedAt: Datetime!
+}
+
+type assignmentsConnection {
+  edges: [assignmentsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type assignmentsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [assignments!]!
+}
+
+type assignmentsEdge {
+  cursor: String!
+  node: assignments!
+}
+
+input assignmentsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [assignmentsFilter!]
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: assignmentsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [assignmentsFilter!]
+  updatedAt: DatetimeFilter
+}
+
+input assignmentsInsertInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
+}
+
+type assignmentsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [assignments!]!
+}
+
+input assignmentsOrderBy {
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input assignmentsUpdateInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
+}
+
+type assignmentsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [assignments!]!
+}
+
+type auth_methods implements Node {
+  createdAt: Datetime!
+  credential: String!
+  id: String!
+  method: AuthMethodType!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type auth_methodsConnection {
+  edges: [auth_methodsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type auth_methodsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [auth_methods!]!
+}
+
+type auth_methodsEdge {
+  cursor: String!
+  node: auth_methods!
+}
+
+input auth_methodsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [auth_methodsFilter!]
+  createdAt: DatetimeFilter
+  credential: StringFilter
+  id: StringFilter
+  method: AuthMethodTypeFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: auth_methodsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [auth_methodsFilter!]
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input auth_methodsInsertInput {
+  createdAt: Datetime
+  credential: String
+  id: String
+  method: AuthMethodType
+  updatedAt: Datetime
+  userId: String
+}
+
+type auth_methodsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [auth_methods!]!
+}
+
+input auth_methodsOrderBy {
+  createdAt: OrderByDirection
+  credential: OrderByDirection
+  id: OrderByDirection
+  method: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input auth_methodsUpdateInput {
+  createdAt: Datetime
+  credential: String
+  id: String
+  method: AuthMethodType
+  updatedAt: Datetime
+  userId: String
+}
+
+type auth_methodsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [auth_methods!]!
+}
+
+type courses implements Node {
+  activitiesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: activitiesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [activitiesOrderBy!]
+  ): activitiesConnection
+  assignmentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: assignmentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [assignmentsOrderBy!]
+  ): assignmentsConnection
+  assistants: [String]
+  categories: [String]
+  code: String!
+  coverUrl: String
+  createdAt: Datetime!
+  deletedAt: Datetime
   description: String
-  name: String
-  tags: [ID!]
-}
+  endDate: Datetime
+  enrollmentEndDate: Datetime
+  forumsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
 
-input UpdateForumPostInput {
-  content: String
-  files: [ID!]
-  tags: [ID!]
-  title: String
-}
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
 
-input UpdateGradeInput {
-  comments: String!
-  courseId: ID!
-  criteria: String!
-  id: ID!
-  quizId: ID!
-  studentId: ID!
-  value: Int!
-}
+    """Filters to apply to the results set when querying from the collection"""
+    filter: forumsFilter
 
-input UpdateMediaInput {
-  category: Category!
-  description: String
-  duration: Int64!
-  file: UpdateFileInput
-  id: ID!
-  mediaType: MediaType!
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [forumsOrderBy!]
+  ): forumsConnection
+  id: String!
+  instructors: [String]
+  language: String
+  matriculationEndDate: Datetime
+  maxStudents: Int
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  paymentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: paymentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [paymentsOrderBy!]
+  ): paymentsConnection
+  quizzesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: quizzesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [quizzesOrderBy!]
+  ): quizzesConnection
+  semester: String!
+  shortDescription: String!
+  startDate: Datetime
+  tags: [String]
+  thumbnailUrl: String
   title: String!
-  videoPlayerInfo: PlayerInfoInput
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+  year: String!
 }
 
-input UpdateNotificationInput {
-  read: Boolean
+type coursesConnection {
+  edges: [coursesEdge!]!
+  pageInfo: PageInfo!
 }
 
-input UpdateProspective {
-  address: String
+type coursesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [courses!]!
+}
+
+type coursesEdge {
+  cursor: String!
+  node: courses!
+}
+
+input coursesFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [coursesFilter!]
+  code: StringFilter
+  coverUrl: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  description: StringFilter
+  endDate: DatetimeFilter
+  enrollmentEndDate: DatetimeFilter
+  id: StringFilter
+  language: StringFilter
+  matriculationEndDate: DatetimeFilter
+  maxStudents: IntFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: coursesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [coursesFilter!]
+  semester: StringFilter
+  shortDescription: StringFilter
+  startDate: DatetimeFilter
+  thumbnailUrl: StringFilter
+  title: StringFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+  year: StringFilter
+}
+
+input coursesInsertInput {
+  assistants: [String]
+  categories: [String]
+  code: String
+  coverUrl: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  endDate: Datetime
+  enrollmentEndDate: Datetime
+  id: String
+  instructors: [String]
+  language: String
+  matriculationEndDate: Datetime
+  maxStudents: Int
+  semester: String
+  shortDescription: String
+  startDate: Datetime
+  tags: [String]
+  thumbnailUrl: String
+  title: String
+  updatedAt: Datetime
+  userId: String
+  year: String
+}
+
+type coursesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [courses!]!
+}
+
+input coursesOrderBy {
+  code: OrderByDirection
+  coverUrl: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  description: OrderByDirection
+  endDate: OrderByDirection
+  enrollmentEndDate: OrderByDirection
+  id: OrderByDirection
+  language: OrderByDirection
+  matriculationEndDate: OrderByDirection
+  maxStudents: OrderByDirection
+  semester: OrderByDirection
+  shortDescription: OrderByDirection
+  startDate: OrderByDirection
+  thumbnailUrl: OrderByDirection
+  title: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+  year: OrderByDirection
+}
+
+input coursesUpdateInput {
+  assistants: [String]
+  categories: [String]
+  code: String
+  coverUrl: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  endDate: Datetime
+  enrollmentEndDate: Datetime
+  id: String
+  instructors: [String]
+  language: String
+  matriculationEndDate: Datetime
+  maxStudents: Int
+  semester: String
+  shortDescription: String
+  startDate: Datetime
+  tags: [String]
+  thumbnailUrl: String
+  title: String
+  updatedAt: Datetime
+  userId: String
+  year: String
+}
+
+type coursesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [courses!]!
+}
+
+type enrollments implements Node {
   churchAddress: String
   churchInvolved: String
   churchName: String
-  city: String
-  country: String
-  dob: String
-  email: String
-  firstName: String
-  godsWorkings: String
-  healthConditions: String
+  createdAt: Datetime!
+  deletedAt: Datetime
+  godsWorkings: [String]
+  healthConditions: [String]
   healthIssueDescription: String
-  lastName: String
-  middleName: String
-  nationality: String
+  id: String!
+  mediaFileCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: MediaFileFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [MediaFileOrderBy!]
+  ): MediaFileConnection
+  mediaFileId: String
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
   pastorEmail: String
   pastorName: String
   pastorPhone: String
-  phone: String
+  platform: String
+  program: String
+  qualificationsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: qualificationsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [qualificationsOrderBy!]
+  ): qualificationsConnection
+  reason: String
+  regNumber: String
+  salvationBrief: String
+  scholarship: Boolean
+  scholarshipReason: String
+  status: EnrollmentStatus!
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type enrollmentsConnection {
+  edges: [enrollmentsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type enrollmentsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [enrollments!]!
+}
+
+type enrollmentsEdge {
+  cursor: String!
+  node: enrollments!
+}
+
+input enrollmentsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [enrollmentsFilter!]
+  churchAddress: StringFilter
+  churchInvolved: StringFilter
+  churchName: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  healthIssueDescription: StringFilter
+  id: StringFilter
+  mediaFileId: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: enrollmentsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [enrollmentsFilter!]
+  pastorEmail: StringFilter
+  pastorName: StringFilter
+  pastorPhone: StringFilter
+  platform: StringFilter
+  program: StringFilter
+  reason: StringFilter
+  regNumber: StringFilter
+  salvationBrief: StringFilter
+  scholarship: BooleanFilter
+  scholarshipReason: StringFilter
+  status: EnrollmentStatusFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input enrollmentsInsertInput {
+  churchAddress: String
+  churchInvolved: String
+  churchName: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  godsWorkings: [String]
+  healthConditions: [String]
+  healthIssueDescription: String
+  id: String
+  mediaFileId: String
+  pastorEmail: String
+  pastorName: String
+  pastorPhone: String
   platform: String
   program: String
   reason: String
+  regNumber: String
   salvationBrief: String
-  state: String
-  status: RegistrationStatus
-  zip: String
+  scholarship: Boolean
+  scholarshipReason: String
+  status: EnrollmentStatus
+  updatedAt: Datetime
+  userId: String
 }
 
-input UpdateQuestionInput {
-  categories: [String!]!
-  choices: [AnswerChoiceInput!]!
+type enrollmentsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [enrollments!]!
+}
+
+input enrollmentsOrderBy {
+  churchAddress: OrderByDirection
+  churchInvolved: OrderByDirection
+  churchName: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  healthIssueDescription: OrderByDirection
+  id: OrderByDirection
+  mediaFileId: OrderByDirection
+  pastorEmail: OrderByDirection
+  pastorName: OrderByDirection
+  pastorPhone: OrderByDirection
+  platform: OrderByDirection
+  program: OrderByDirection
+  reason: OrderByDirection
+  regNumber: OrderByDirection
+  salvationBrief: OrderByDirection
+  scholarship: OrderByDirection
+  scholarshipReason: OrderByDirection
+  status: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input enrollmentsUpdateInput {
+  churchAddress: String
+  churchInvolved: String
+  churchName: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  godsWorkings: [String]
+  healthConditions: [String]
+  healthIssueDescription: String
+  id: String
+  mediaFileId: String
+  pastorEmail: String
+  pastorName: String
+  pastorPhone: String
+  platform: String
+  program: String
+  reason: String
+  regNumber: String
+  salvationBrief: String
+  scholarship: Boolean
+  scholarshipReason: String
+  status: EnrollmentStatus
+  updatedAt: Datetime
+  userId: String
+}
+
+type enrollmentsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [enrollments!]!
+}
+
+type forum_comments implements Node {
+  content: String!
+  courseId: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  downvotes: Int!
+  fileIds: [String]
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  parentId: String!
+  postId: String!
+  updatedAt: Datetime!
+  upvotes: Int!
+  user: users!
+  userId: String!
+}
+
+type forum_commentsConnection {
+  edges: [forum_commentsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type forum_commentsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forum_comments!]!
+}
+
+type forum_commentsEdge {
+  cursor: String!
+  node: forum_comments!
+}
+
+input forum_commentsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [forum_commentsFilter!]
+  content: StringFilter
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  downvotes: IntFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: forum_commentsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [forum_commentsFilter!]
+  parentId: StringFilter
+  postId: StringFilter
+  updatedAt: DatetimeFilter
+  upvotes: IntFilter
+  userId: StringFilter
+}
+
+input forum_commentsInsertInput {
+  content: String
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  downvotes: Int
+  fileIds: [String]
+  id: String
+  parentId: String
+  postId: String
+  updatedAt: Datetime
+  upvotes: Int
+  userId: String
+}
+
+type forum_commentsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forum_comments!]!
+}
+
+input forum_commentsOrderBy {
+  content: OrderByDirection
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  downvotes: OrderByDirection
+  id: OrderByDirection
+  parentId: OrderByDirection
+  postId: OrderByDirection
+  updatedAt: OrderByDirection
+  upvotes: OrderByDirection
+  userId: OrderByDirection
+}
+
+input forum_commentsUpdateInput {
+  content: String
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  downvotes: Int
+  fileIds: [String]
+  id: String
+  parentId: String
+  postId: String
+  updatedAt: Datetime
+  upvotes: Int
+  userId: String
+}
+
+type forum_commentsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forum_comments!]!
+}
+
+type forum_posts implements Node {
+  author: String!
+  commentIds: [String]
+  content: String!
+  courseID: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  downvotes: Int!
+  fileIds: [String]
+  forumId: String!
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  tags: [String]
+  title: String!
+  updatedAt: Datetime!
+  upvotes: Int!
+  user: users!
+  userId: String!
+}
+
+type forum_postsConnection {
+  edges: [forum_postsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type forum_postsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forum_posts!]!
+}
+
+type forum_postsEdge {
+  cursor: String!
+  node: forum_posts!
+}
+
+input forum_postsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [forum_postsFilter!]
+  author: StringFilter
+  content: StringFilter
+  courseID: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  downvotes: IntFilter
+  forumId: StringFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: forum_postsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [forum_postsFilter!]
+  title: StringFilter
+  updatedAt: DatetimeFilter
+  upvotes: IntFilter
+  userId: StringFilter
+}
+
+input forum_postsInsertInput {
+  author: String
+  commentIds: [String]
+  content: String
+  courseID: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  downvotes: Int
+  fileIds: [String]
+  forumId: String
+  id: String
+  tags: [String]
+  title: String
+  updatedAt: Datetime
+  upvotes: Int
+  userId: String
+}
+
+type forum_postsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forum_posts!]!
+}
+
+input forum_postsOrderBy {
+  author: OrderByDirection
+  content: OrderByDirection
+  courseID: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  downvotes: OrderByDirection
+  forumId: OrderByDirection
+  id: OrderByDirection
+  title: OrderByDirection
+  updatedAt: OrderByDirection
+  upvotes: OrderByDirection
+  userId: OrderByDirection
+}
+
+input forum_postsUpdateInput {
+  author: String
+  commentIds: [String]
+  content: String
+  courseID: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  downvotes: Int
+  fileIds: [String]
+  forumId: String
+  id: String
+  tags: [String]
+  title: String
+  updatedAt: Datetime
+  upvotes: Int
+  userId: String
+}
+
+type forum_postsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forum_posts!]!
+}
+
+type forums implements Node {
+  course: courses!
+  courseId: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  description: String
+  id: String!
+  name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  postIds: [String]
+  tagIds: [String]
+  updatedAt: Datetime!
+}
+
+type forumsConnection {
+  edges: [forumsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type forumsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forums!]!
+}
+
+type forumsEdge {
+  cursor: String!
+  node: forums!
+}
+
+input forumsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [forumsFilter!]
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  description: StringFilter
+  id: StringFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: forumsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [forumsFilter!]
+  updatedAt: DatetimeFilter
+}
+
+input forumsInsertInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  id: String
+  name: String
+  postIds: [String]
+  tagIds: [String]
+  updatedAt: Datetime
+}
+
+type forumsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forums!]!
+}
+
+input forumsOrderBy {
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  description: OrderByDirection
+  id: OrderByDirection
+  name: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input forumsUpdateInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  id: String
+  name: String
+  postIds: [String]
+  tagIds: [String]
+  updatedAt: Datetime
+}
+
+type forumsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [forums!]!
+}
+
+type grades implements Node {
+  comments: String!
+  courseId: String!
+  createdAt: Datetime!
+  criteria: String!
+  deletedAt: Datetime
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  quizId: String!
+  studentId: String!
+  updatedAt: Datetime!
+  value: Int!
+}
+
+type gradesConnection {
+  edges: [gradesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type gradesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [grades!]!
+}
+
+type gradesEdge {
+  cursor: String!
+  node: grades!
+}
+
+input gradesFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [gradesFilter!]
+  comments: StringFilter
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  criteria: StringFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: gradesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [gradesFilter!]
+  quizId: StringFilter
+  studentId: StringFilter
+  updatedAt: DatetimeFilter
+  value: IntFilter
+}
+
+input gradesInsertInput {
+  comments: String
+  courseId: String
+  createdAt: Datetime
+  criteria: String
+  deletedAt: Datetime
+  id: String
+  quizId: String
+  studentId: String
+  updatedAt: Datetime
+  value: Int
+}
+
+type gradesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [grades!]!
+}
+
+input gradesOrderBy {
+  comments: OrderByDirection
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  criteria: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  quizId: OrderByDirection
+  studentId: OrderByDirection
+  updatedAt: OrderByDirection
+  value: OrderByDirection
+}
+
+input gradesUpdateInput {
+  comments: String
+  courseId: String
+  createdAt: Datetime
+  criteria: String
+  deletedAt: Datetime
+  id: String
+  quizId: String
+  studentId: String
+  updatedAt: Datetime
+  value: Int
+}
+
+type gradesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [grades!]!
+}
+
+type invoices implements Node {
+  amount: Float!
+  createdAt: Datetime!
+  currency: String!
+  deletedAt: Datetime
+  dueDate: Datetime!
+  id: String!
+  issueDate: Datetime!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  number: String!
+  status: InvoiceStatus!
+  transactionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: transactionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [transactionsOrderBy!]
+  ): transactionsConnection
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type invoicesConnection {
+  edges: [invoicesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type invoicesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [invoices!]!
+}
+
+type invoicesEdge {
+  cursor: String!
+  node: invoices!
+}
+
+input invoicesFilter {
+  amount: FloatFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [invoicesFilter!]
+  createdAt: DatetimeFilter
+  currency: StringFilter
+  deletedAt: DatetimeFilter
+  dueDate: DatetimeFilter
+  id: StringFilter
+  issueDate: DatetimeFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: invoicesFilter
+  number: StringFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [invoicesFilter!]
+  status: InvoiceStatusFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input invoicesInsertInput {
+  amount: Float
+  createdAt: Datetime
+  currency: String
+  deletedAt: Datetime
+  dueDate: Datetime
+  id: String
+  issueDate: Datetime
+  number: String
+  status: InvoiceStatus
+  updatedAt: Datetime
+  userId: String
+}
+
+type invoicesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [invoices!]!
+}
+
+input invoicesOrderBy {
+  amount: OrderByDirection
+  createdAt: OrderByDirection
+  currency: OrderByDirection
+  deletedAt: OrderByDirection
+  dueDate: OrderByDirection
+  id: OrderByDirection
+  issueDate: OrderByDirection
+  number: OrderByDirection
+  status: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input invoicesUpdateInput {
+  amount: Float
+  createdAt: Datetime
+  currency: String
+  deletedAt: Datetime
+  dueDate: Datetime
+  id: String
+  issueDate: Datetime
+  number: String
+  status: InvoiceStatus
+  updatedAt: Datetime
+  userId: String
+}
+
+type invoicesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [invoices!]!
+}
+
+type matching_pairs implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  left: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  question: questions!
+  questionId: String!
+  right: String!
+  updatedAt: Datetime!
+}
+
+type matching_pairsConnection {
+  edges: [matching_pairsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type matching_pairsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [matching_pairs!]!
+}
+
+type matching_pairsEdge {
+  cursor: String!
+  node: matching_pairs!
+}
+
+input matching_pairsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [matching_pairsFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  left: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: matching_pairsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [matching_pairsFilter!]
+  questionId: StringFilter
+  right: StringFilter
+  updatedAt: DatetimeFilter
+}
+
+input matching_pairsInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  left: String
+  questionId: String
+  right: String
+  updatedAt: Datetime
+}
+
+type matching_pairsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [matching_pairs!]!
+}
+
+input matching_pairsOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  left: OrderByDirection
+  questionId: OrderByDirection
+  right: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input matching_pairsUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  left: String
+  questionId: String
+  right: String
+  updatedAt: Datetime
+}
+
+type matching_pairsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [matching_pairs!]!
+}
+
+type metrics implements Node {
+  category: MetricCategory!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  metricType: MetricType!
+  name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  timestamp: Datetime!
+  updatedAt: Datetime!
+  value: Float!
+}
+
+type metricsConnection {
+  edges: [metricsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type metricsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [metrics!]!
+}
+
+type metricsEdge {
+  cursor: String!
+  node: metrics!
+}
+
+input metricsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [metricsFilter!]
+  category: MetricCategoryFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  metricType: MetricTypeFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: metricsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [metricsFilter!]
+  timestamp: DatetimeFilter
+  updatedAt: DatetimeFilter
+  value: FloatFilter
+}
+
+input metricsInsertInput {
+  category: MetricCategory
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  metricType: MetricType
+  name: String
+  timestamp: Datetime
+  updatedAt: Datetime
+  value: Float
+}
+
+type metricsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [metrics!]!
+}
+
+input metricsOrderBy {
+  category: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  metricType: OrderByDirection
+  name: OrderByDirection
+  timestamp: OrderByDirection
+  updatedAt: OrderByDirection
+  value: OrderByDirection
+}
+
+input metricsUpdateInput {
+  category: MetricCategory
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  metricType: MetricType
+  name: String
+  timestamp: Datetime
+  updatedAt: Datetime
+  value: Float
+}
+
+type metricsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [metrics!]!
+}
+
+type multimedias implements Node {
+  category: String!
+  courseId: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  description: String
+  enrollmentId: String
+  id: String!
+  mediaFileCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: MediaFileFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [MediaFileOrderBy!]
+  ): MediaFileConnection
+  mediaType: MediaType!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  player: players!
+  playerId: String!
+  tags: [String]
+  title: String!
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type multimediasConnection {
+  edges: [multimediasEdge!]!
+  pageInfo: PageInfo!
+}
+
+type multimediasDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [multimedias!]!
+}
+
+type multimediasEdge {
+  cursor: String!
+  node: multimedias!
+}
+
+input multimediasFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [multimediasFilter!]
+  category: StringFilter
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  description: StringFilter
+  enrollmentId: StringFilter
+  id: StringFilter
+  mediaType: MediaTypeFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: multimediasFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [multimediasFilter!]
+  playerId: StringFilter
+  title: StringFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input multimediasInsertInput {
+  category: String
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  enrollmentId: String
+  id: String
+  mediaType: MediaType
+  playerId: String
+  tags: [String]
+  title: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type multimediasInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [multimedias!]!
+}
+
+input multimediasOrderBy {
+  category: OrderByDirection
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  description: OrderByDirection
+  enrollmentId: OrderByDirection
+  id: OrderByDirection
+  mediaType: OrderByDirection
+  playerId: OrderByDirection
+  title: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input multimediasUpdateInput {
+  category: String
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  enrollmentId: String
+  id: String
+  mediaType: MediaType
+  playerId: String
+  tags: [String]
+  title: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type multimediasUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [multimedias!]!
+}
+
+type notifications implements Node {
+  courseId: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  link: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  recipientId: String!
+  seen: Boolean!
+  senderId: String!
+  text: String!
+  title: String!
+  type: NotificationType!
+  updatedAt: Datetime!
+  user: users
+  userId: String
+}
+
+type notificationsConnection {
+  edges: [notificationsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type notificationsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [notifications!]!
+}
+
+type notificationsEdge {
+  cursor: String!
+  node: notifications!
+}
+
+input notificationsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [notificationsFilter!]
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  link: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: notificationsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [notificationsFilter!]
+  recipientId: StringFilter
+  seen: BooleanFilter
+  senderId: StringFilter
+  text: StringFilter
+  title: StringFilter
+  type: NotificationTypeFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input notificationsInsertInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  link: String
+  recipientId: String
+  seen: Boolean
+  senderId: String
+  text: String
+  title: String
+  type: NotificationType
+  updatedAt: Datetime
+  userId: String
+}
+
+type notificationsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [notifications!]!
+}
+
+input notificationsOrderBy {
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  link: OrderByDirection
+  recipientId: OrderByDirection
+  seen: OrderByDirection
+  senderId: OrderByDirection
+  text: OrderByDirection
+  title: OrderByDirection
+  type: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input notificationsUpdateInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  link: String
+  recipientId: String
+  seen: Boolean
+  senderId: String
+  text: String
+  title: String
+  type: NotificationType
+  updatedAt: Datetime
+  userId: String
+}
+
+type notificationsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [notifications!]!
+}
+
+type payments implements Node {
+  amount: Float!
+  course: courses
+  courseId: String
+  createdAt: Datetime!
+  currency: String!
+  deletedAt: Datetime
+  id: String!
+  method: PaymentMethod!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  status: PaymentStatus!
+  transactionId: String!
+  transactionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: transactionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [transactionsOrderBy!]
+  ): transactionsConnection
+  type: PaymentType!
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type paymentsConnection {
+  edges: [paymentsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type paymentsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [payments!]!
+}
+
+type paymentsEdge {
+  cursor: String!
+  node: payments!
+}
+
+input paymentsFilter {
+  amount: FloatFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [paymentsFilter!]
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  currency: StringFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  method: PaymentMethodFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: paymentsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [paymentsFilter!]
+  status: PaymentStatusFilter
+  transactionId: StringFilter
+  type: PaymentTypeFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input paymentsInsertInput {
+  amount: Float
+  courseId: String
+  createdAt: Datetime
+  currency: String
+  deletedAt: Datetime
+  id: String
+  method: PaymentMethod
+  status: PaymentStatus
+  transactionId: String
+  type: PaymentType
+  updatedAt: Datetime
+  userId: String
+}
+
+type paymentsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [payments!]!
+}
+
+input paymentsOrderBy {
+  amount: OrderByDirection
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  currency: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  method: OrderByDirection
+  status: OrderByDirection
+  transactionId: OrderByDirection
+  type: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input paymentsUpdateInput {
+  amount: Float
+  courseId: String
+  createdAt: Datetime
+  currency: String
+  deletedAt: Datetime
+  id: String
+  method: PaymentMethod
+  status: PaymentStatus
+  transactionId: String
+  type: PaymentType
+  updatedAt: Datetime
+  userId: String
+}
+
+type paymentsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [payments!]!
+}
+
+type permissions implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  modelType: AllowedModel
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  permissions: [AllowedPermission]
+  role: roles!
+  roleId: String!
+  updatedAt: Datetime!
+}
+
+type permissionsConnection {
+  edges: [permissionsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type permissionsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [permissions!]!
+}
+
+type permissionsEdge {
+  cursor: String!
+  node: permissions!
+}
+
+input permissionsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [permissionsFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  modelType: AllowedModelFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: permissionsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [permissionsFilter!]
+  roleId: StringFilter
+  updatedAt: DatetimeFilter
+}
+
+input permissionsInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  modelType: AllowedModel
+  permissions: [AllowedPermission]
+  roleId: String
+  updatedAt: Datetime
+}
+
+type permissionsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [permissions!]!
+}
+
+input permissionsOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  modelType: OrderByDirection
+  roleId: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input permissionsUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  modelType: AllowedModel
+  permissions: [AllowedPermission]
+  roleId: String
+  updatedAt: Datetime
+}
+
+type permissionsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [permissions!]!
+}
+
+type players implements Node {
+  createdAt: Datetime!
+  currentTime: Int!
+  deletedAt: Datetime
+  duration: Int!
+  id: String!
+  multimediasCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: multimediasFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [multimediasOrderBy!]
+  ): multimediasConnection
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  posterUrl: String
+  thumbnailUrl: String!
+  updatedAt: Datetime!
+}
+
+type playersConnection {
+  edges: [playersEdge!]!
+  pageInfo: PageInfo!
+}
+
+type playersDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [players!]!
+}
+
+type playersEdge {
+  cursor: String!
+  node: players!
+}
+
+input playersFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [playersFilter!]
+  createdAt: DatetimeFilter
+  currentTime: IntFilter
+  deletedAt: DatetimeFilter
+  duration: IntFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: playersFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [playersFilter!]
+  posterUrl: StringFilter
+  thumbnailUrl: StringFilter
+  updatedAt: DatetimeFilter
+}
+
+input playersInsertInput {
+  createdAt: Datetime
+  currentTime: Int
+  deletedAt: Datetime
+  duration: Int
+  id: String
+  posterUrl: String
+  thumbnailUrl: String
+  updatedAt: Datetime
+}
+
+type playersInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [players!]!
+}
+
+input playersOrderBy {
+  createdAt: OrderByDirection
+  currentTime: OrderByDirection
+  deletedAt: OrderByDirection
+  duration: OrderByDirection
+  id: OrderByDirection
+  posterUrl: OrderByDirection
+  thumbnailUrl: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input playersUpdateInput {
+  createdAt: Datetime
+  currentTime: Int
+  deletedAt: Datetime
+  duration: Int
+  id: String
+  posterUrl: String
+  thumbnailUrl: String
+  updatedAt: Datetime
+}
+
+type playersUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [players!]!
+}
+
+type qualifications implements Node {
+  createdAt: Datetime!
+  degree: String!
+  deletedAt: Datetime
+  enrollment: enrollments
+  enrollmentId: String
+  graduationYear: String!
+  id: String!
+  institution: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  updatedAt: Datetime!
+  userId: String
+}
+
+type qualificationsConnection {
+  edges: [qualificationsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type qualificationsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [qualifications!]!
+}
+
+type qualificationsEdge {
+  cursor: String!
+  node: qualifications!
+}
+
+input qualificationsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [qualificationsFilter!]
+  createdAt: DatetimeFilter
+  degree: StringFilter
+  deletedAt: DatetimeFilter
+  enrollmentId: StringFilter
+  graduationYear: StringFilter
+  id: StringFilter
+  institution: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: qualificationsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [qualificationsFilter!]
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input qualificationsInsertInput {
+  createdAt: Datetime
+  degree: String
+  deletedAt: Datetime
+  enrollmentId: String
+  graduationYear: String
+  id: String
+  institution: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type qualificationsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [qualifications!]!
+}
+
+input qualificationsOrderBy {
+  createdAt: OrderByDirection
+  degree: OrderByDirection
+  deletedAt: OrderByDirection
+  enrollmentId: OrderByDirection
+  graduationYear: OrderByDirection
+  id: OrderByDirection
+  institution: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input qualificationsUpdateInput {
+  createdAt: Datetime
+  degree: String
+  deletedAt: Datetime
+  enrollmentId: String
+  graduationYear: String
+  id: String
+  institution: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type qualificationsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [qualifications!]!
+}
+
+type questions implements Node {
+  answer_choicesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: answer_choicesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [answer_choicesOrderBy!]
+  ): answer_choicesConnection
+  categories: [String]
   correctAnswer: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
   feedback: String!
-  hints: [String!]!
-  id: ID!
-  matchingPairs: [MatchingPairInput!]!
+  hints: [String]
+  id: String!
+  matching_pairsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: matching_pairsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [matching_pairsOrderBy!]
+  ): matching_pairsConnection
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
   pointValue: Int!
+  quiz: quizzes
+  quizId: String
   randomize: Boolean!
   text: String!
   type: QuestionType!
+  updatedAt: Datetime!
 }
 
-input UpdateQuizInput {
-  categories: [String!]
-  id: ID!
-  name: String!
-  questions: [UpdateQuestionInput!]
-  shuffleQuestions: Boolean!
-  timeLimit: Int!
+type questionsConnection {
+  edges: [questionsEdge!]!
+  pageInfo: PageInfo!
 }
 
-input UpdateSetting {
-  value: String
+type questionsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [questions!]!
 }
 
-input UpdateTagInput {
-  name: String
+type questionsEdge {
+  cursor: String!
+  node: questions!
 }
 
-input UpdateTargetInput {
-  courseId: ID
-  description: String
-  endDate: Time
-  name: String
-  startDate: Time
-  targetValue: Int
-  units: String
+input questionsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [questionsFilter!]
+  correctAnswer: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  feedback: StringFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: questionsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [questionsFilter!]
+  pointValue: IntFilter
+  quizId: StringFilter
+  randomize: BooleanFilter
+  text: StringFilter
+  type: QuestionTypeFilter
+  updatedAt: DatetimeFilter
 }
 
-scalar Upload
+input questionsInsertInput {
+  categories: [String]
+  correctAnswer: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  feedback: String
+  hints: [String]
+  id: String
+  pointValue: Int
+  quizId: String
+  randomize: Boolean
+  text: String
+  type: QuestionType
+  updatedAt: Datetime
+}
 
-type User {
-  about: String!
-  accessToken: Token!
-  address: String!
-  avatarUrl: String!
-  churchAddress: String!
-  churchInvolved: String!
-  churchName: String!
-  city: String!
-  confirmationMailSentAt: Time
-  confirmedAt: Time
-  country: String!
-  courses: [ID!]
-  createdAt: Time
-  deletedAt: Time
-  dob: String!
-  email: String!
-  files: [ID!]
-  firstName: String!
-  fullName: String!
-  gender: String!
-  godsWorkings: String!
-  healthConditions: String!
-  healthIssueDescription: String!
+type questionsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [questions!]!
+}
+
+input questionsOrderBy {
+  correctAnswer: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  feedback: OrderByDirection
+  id: OrderByDirection
+  pointValue: OrderByDirection
+  quizId: OrderByDirection
+  randomize: OrderByDirection
+  text: OrderByDirection
+  type: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input questionsUpdateInput {
+  categories: [String]
+  correctAnswer: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  feedback: String
+  hints: [String]
+  id: String
+  pointValue: Int
+  quizId: String
+  randomize: Boolean
+  text: String
+  type: QuestionType
+  updatedAt: Datetime
+}
+
+type questionsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [questions!]!
+}
+
+type quizzes implements Node {
+  categories: [String]
+  certificate: Boolean!
+  course: courses!
+  courseId: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  description: String!
+  dueDate: String!
+  duration: Int!
+  endTime: Datetime!
+  gradeIds: [String]
   id: String!
-  isAuthenticated: Boolean!
-  isVerified: Boolean!
-  lastName: String!
-  matricNumber: String!
-  middleName: String!
-  nationality: String!
-  notifications: [Notification!]!
-  passwordHash: String!
-  passwordSalt: String!
-  pastorEmail: String!
-  pastorName: String!
-  pastorPhone: String!
-  permissionIds: [ID!]!
-  permissions: [String]
-  phone: String!
-  platform: String!
-  profession: String!
-  program: String!
-  progress: Int!
-  qualifications: [Qualification!]!
-  reason: String!
-  referees: [Referee!]!
-  refreshToken: Token!
-  regNumber: String!
-  role: Role!
-  salvationBrief: String!
-  scholarship: Boolean
-  scholarshipReason: String!
-  state: String!
-  status: RegistrationStatus
-  timeZone: String!
-  updatedAt: Time
-  username: String!
-  verifycationToken: Token!
-  wallet: Float!
-  zip: String!
+  isLocked: Boolean!
+  name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  passingScore: Int!
+  proctoringMethod: ProctoringMethod!
+  questionIds: [String]
+  questionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: questionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [questionsOrderBy!]
+  ): questionsConnection
+  quizType: QuizType!
+  randomizeAnswers: Boolean!
+  randomizeQuestions: Boolean
+  resultsReleaseDate: Datetime
+  shuffleQuestions: Boolean!
+  startDate: Datetime!
+  startTime: Datetime!
+  submissionIds: [String]
+  timeLimit: Int!
+  updatedAt: Datetime!
+  waitTime: Int!
+  weight: Int!
 }
 
-type UserSetting {
-  id: ID!
-  key: UserSettingKeys!
+type quizzesConnection {
+  edges: [quizzesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type quizzesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [quizzes!]!
+}
+
+type quizzesEdge {
+  cursor: String!
+  node: quizzes!
+}
+
+input quizzesFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [quizzesFilter!]
+  certificate: BooleanFilter
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  description: StringFilter
+  dueDate: StringFilter
+  duration: IntFilter
+  endTime: DatetimeFilter
+  id: StringFilter
+  isLocked: BooleanFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: quizzesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [quizzesFilter!]
+  passingScore: IntFilter
+  proctoringMethod: ProctoringMethodFilter
+  quizType: QuizTypeFilter
+  randomizeAnswers: BooleanFilter
+  randomizeQuestions: BooleanFilter
+  resultsReleaseDate: DatetimeFilter
+  shuffleQuestions: BooleanFilter
+  startDate: DatetimeFilter
+  startTime: DatetimeFilter
+  timeLimit: IntFilter
+  updatedAt: DatetimeFilter
+  waitTime: IntFilter
+  weight: IntFilter
+}
+
+input quizzesInsertInput {
+  categories: [String]
+  certificate: Boolean
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  dueDate: String
+  duration: Int
+  endTime: Datetime
+  gradeIds: [String]
+  id: String
+  isLocked: Boolean
+  name: String
+  passingScore: Int
+  proctoringMethod: ProctoringMethod
+  questionIds: [String]
+  quizType: QuizType
+  randomizeAnswers: Boolean
+  randomizeQuestions: Boolean
+  resultsReleaseDate: Datetime
+  shuffleQuestions: Boolean
+  startDate: Datetime
+  startTime: Datetime
+  submissionIds: [String]
+  timeLimit: Int
+  updatedAt: Datetime
+  waitTime: Int
+  weight: Int
+}
+
+type quizzesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [quizzes!]!
+}
+
+input quizzesOrderBy {
+  certificate: OrderByDirection
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  description: OrderByDirection
+  dueDate: OrderByDirection
+  duration: OrderByDirection
+  endTime: OrderByDirection
+  id: OrderByDirection
+  isLocked: OrderByDirection
+  name: OrderByDirection
+  passingScore: OrderByDirection
+  proctoringMethod: OrderByDirection
+  quizType: OrderByDirection
+  randomizeAnswers: OrderByDirection
+  randomizeQuestions: OrderByDirection
+  resultsReleaseDate: OrderByDirection
+  shuffleQuestions: OrderByDirection
+  startDate: OrderByDirection
+  startTime: OrderByDirection
+  timeLimit: OrderByDirection
+  updatedAt: OrderByDirection
+  waitTime: OrderByDirection
+  weight: OrderByDirection
+}
+
+input quizzesUpdateInput {
+  categories: [String]
+  certificate: Boolean
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  description: String
+  dueDate: String
+  duration: Int
+  endTime: Datetime
+  gradeIds: [String]
+  id: String
+  isLocked: Boolean
+  name: String
+  passingScore: Int
+  proctoringMethod: ProctoringMethod
+  questionIds: [String]
+  quizType: QuizType
+  randomizeAnswers: Boolean
+  randomizeQuestions: Boolean
+  resultsReleaseDate: Datetime
+  shuffleQuestions: Boolean
+  startDate: Datetime
+  startTime: Datetime
+  submissionIds: [String]
+  timeLimit: Int
+  updatedAt: Datetime
+  waitTime: Int
+  weight: Int
+}
+
+type quizzesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [quizzes!]!
+}
+
+type reminders implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  message: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  sendTime: Datetime!
+  sent: Boolean!
+  target: targets!
+  targetId: String!
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type remindersConnection {
+  edges: [remindersEdge!]!
+  pageInfo: PageInfo!
+}
+
+type remindersDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [reminders!]!
+}
+
+type remindersEdge {
+  cursor: String!
+  node: reminders!
+}
+
+input remindersFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [remindersFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  message: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: remindersFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [remindersFilter!]
+  sendTime: DatetimeFilter
+  sent: BooleanFilter
+  targetId: StringFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input remindersInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  message: String
+  sendTime: Datetime
+  sent: Boolean
+  targetId: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type remindersInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [reminders!]!
+}
+
+input remindersOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  message: OrderByDirection
+  sendTime: OrderByDirection
+  sent: OrderByDirection
+  targetId: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input remindersUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  message: String
+  sendTime: Datetime
+  sent: Boolean
+  targetId: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type remindersUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [reminders!]!
+}
+
+type roles implements Node {
+  allowedModels: [AllowedModel]
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  permissionsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: permissionsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [permissionsOrderBy!]
+  ): permissionsConnection
+  roleType: RoleType
+  updatedAt: Datetime!
+  usersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: usersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [usersOrderBy!]
+  ): usersConnection
+}
+
+type rolesConnection {
+  edges: [rolesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type rolesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [roles!]!
+}
+
+type rolesEdge {
+  cursor: String!
+  node: roles!
+}
+
+input rolesFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [rolesFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: rolesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [rolesFilter!]
+  roleType: RoleTypeFilter
+  updatedAt: DatetimeFilter
+}
+
+input rolesInsertInput {
+  allowedModels: [AllowedModel]
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  name: String
+  roleType: RoleType
+  updatedAt: Datetime
+}
+
+type rolesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [roles!]!
+}
+
+input rolesOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  name: OrderByDirection
+  roleType: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input rolesUpdateInput {
+  allowedModels: [AllowedModel]
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  name: String
+  roleType: RoleType
+  updatedAt: Datetime
+}
+
+type rolesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [roles!]!
+}
+
+type settings implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  key: SettingKeys!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
   type: SettingType!
-  userId: ID!
+  updatedAt: Datetime!
   value: String!
 }
 
-enum UserSettingKeys {
-  ALLOW_PUSH_NOTIFICATIONS
-  AUTO_ENROLLMENT_ENABLED
-  DARK_MODE_ENABLED
-  DEFAULT_FONT_SIZE
-  DEFAULT_LANGUAGE
-  DEFAULT_TIMEZONE
-  EMAIL_NOTIFICATIONS_ENABLED
-  ENABLE_OFFLINE_MODE
-  ENABLE_TTS
-  SHOW_COMPLETED_COURSES
-  SHOW_COURSE_ACTIVITY_FEED
-  SHOW_COURSE_PROGRESS
-  SHOW_COURSE_RATINGS
-  SHOW_COURSE_REVIEWS
-  SHOW_ENROLLED_COURSES_COUNT
-  SHOW_INSTRUCTOR_AVAILABILITY
-  SHOW_RELATED_COURSES
-  SHOW_UNFINISHED_COURSES
+type settingsConnection {
+  edges: [settingsEdge!]!
+  pageInfo: PageInfo!
 }
 
-input VerifyInput {
-  code: String!
+type settingsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [settings!]!
+}
+
+type settingsEdge {
+  cursor: String!
+  node: settings!
+}
+
+input settingsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [settingsFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  key: SettingKeysFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: settingsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [settingsFilter!]
+  type: SettingTypeFilter
+  updatedAt: DatetimeFilter
+  value: StringFilter
+}
+
+input settingsInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  key: SettingKeys
+  type: SettingType
+  updatedAt: Datetime
+  value: String
+}
+
+type settingsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [settings!]!
+}
+
+input settingsOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  key: OrderByDirection
+  type: OrderByDirection
+  updatedAt: OrderByDirection
+  value: OrderByDirection
+}
+
+input settingsUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  key: SettingKeys
+  type: SettingType
+  updatedAt: Datetime
+  value: String
+}
+
+type settingsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [settings!]!
+}
+
+type submissions implements Node {
+  answersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: answersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [answersOrderBy!]
+  ): answersConnection
+  completedAt: Datetime!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  endTime: Datetime!
+  feedback: [String]
+  grade: Float!
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  points: Int!
+  quizID: String!
+  startTime: Datetime!
+  startedAt: Datetime!
+  updatedAt: Datetime!
+  userID: String!
+  weight: Int!
+}
+
+type submissionsConnection {
+  edges: [submissionsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type submissionsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [submissions!]!
+}
+
+type submissionsEdge {
+  cursor: String!
+  node: submissions!
+}
+
+input submissionsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [submissionsFilter!]
+  completedAt: DatetimeFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  endTime: DatetimeFilter
+  grade: FloatFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: submissionsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [submissionsFilter!]
+  points: IntFilter
+  quizID: StringFilter
+  startTime: DatetimeFilter
+  startedAt: DatetimeFilter
+  updatedAt: DatetimeFilter
+  userID: StringFilter
+  weight: IntFilter
+}
+
+input submissionsInsertInput {
+  completedAt: Datetime
+  createdAt: Datetime
+  deletedAt: Datetime
+  endTime: Datetime
+  feedback: [String]
+  grade: Float
+  id: String
+  points: Int
+  quizID: String
+  startTime: Datetime
+  startedAt: Datetime
+  updatedAt: Datetime
+  userID: String
+  weight: Int
+}
+
+type submissionsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [submissions!]!
+}
+
+input submissionsOrderBy {
+  completedAt: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  endTime: OrderByDirection
+  grade: OrderByDirection
+  id: OrderByDirection
+  points: OrderByDirection
+  quizID: OrderByDirection
+  startTime: OrderByDirection
+  startedAt: OrderByDirection
+  updatedAt: OrderByDirection
+  userID: OrderByDirection
+  weight: OrderByDirection
+}
+
+input submissionsUpdateInput {
+  completedAt: Datetime
+  createdAt: Datetime
+  deletedAt: Datetime
+  endTime: Datetime
+  feedback: [String]
+  grade: Float
+  id: String
+  points: Int
+  quizID: String
+  startTime: Datetime
+  startedAt: Datetime
+  updatedAt: Datetime
+  userID: String
+  weight: Int
+}
+
+type submissionsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [submissions!]!
+}
+
+type tags implements Node {
+  courseIds: [String]
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  postIds: [String]
+  updatedAt: Datetime!
+}
+
+type tagsConnection {
+  edges: [tagsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type tagsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [tags!]!
+}
+
+type tagsEdge {
+  cursor: String!
+  node: tags!
+}
+
+input tagsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [tagsFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: tagsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [tagsFilter!]
+  updatedAt: DatetimeFilter
+}
+
+input tagsInsertInput {
+  courseIds: [String]
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  name: String
+  postIds: [String]
+  updatedAt: Datetime
+}
+
+type tagsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [tags!]!
+}
+
+input tagsOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  name: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input tagsUpdateInput {
+  courseIds: [String]
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  name: String
+  postIds: [String]
+  updatedAt: Datetime
+}
+
+type tagsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [tags!]!
+}
+
+type targets implements Node {
+  completionDate: Datetime
+  courseId: String!
+  createdAt: Datetime!
+  currentValue: Int
+  deletedAt: Datetime
+  description: String
+  dueDate: Datetime
+  id: String!
+  isCompleted: Boolean!
+  name: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  remindersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: remindersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [remindersOrderBy!]
+  ): remindersConnection
+  repeatEndDate: Datetime
+  repeatInterval: RepeatInterval
+  startDate: Datetime
+  targetMetric: String!
+  targetType: TargetType!
+  targetValue: Int
+  units: String
+  updatedAt: Datetime!
+}
+
+type targetsConnection {
+  edges: [targetsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type targetsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [targets!]!
+}
+
+type targetsEdge {
+  cursor: String!
+  node: targets!
+}
+
+input targetsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [targetsFilter!]
+  completionDate: DatetimeFilter
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  currentValue: IntFilter
+  deletedAt: DatetimeFilter
+  description: StringFilter
+  dueDate: DatetimeFilter
+  id: StringFilter
+  isCompleted: BooleanFilter
+  name: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: targetsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [targetsFilter!]
+  repeatEndDate: DatetimeFilter
+  repeatInterval: RepeatIntervalFilter
+  startDate: DatetimeFilter
+  targetMetric: StringFilter
+  targetType: TargetTypeFilter
+  targetValue: IntFilter
+  units: StringFilter
+  updatedAt: DatetimeFilter
+}
+
+input targetsInsertInput {
+  completionDate: Datetime
+  courseId: String
+  createdAt: Datetime
+  currentValue: Int
+  deletedAt: Datetime
+  description: String
+  dueDate: Datetime
+  id: String
+  isCompleted: Boolean
+  name: String
+  repeatEndDate: Datetime
+  repeatInterval: RepeatInterval
+  startDate: Datetime
+  targetMetric: String
+  targetType: TargetType
+  targetValue: Int
+  units: String
+  updatedAt: Datetime
+}
+
+type targetsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [targets!]!
+}
+
+input targetsOrderBy {
+  completionDate: OrderByDirection
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  currentValue: OrderByDirection
+  deletedAt: OrderByDirection
+  description: OrderByDirection
+  dueDate: OrderByDirection
+  id: OrderByDirection
+  isCompleted: OrderByDirection
+  name: OrderByDirection
+  repeatEndDate: OrderByDirection
+  repeatInterval: OrderByDirection
+  startDate: OrderByDirection
+  targetMetric: OrderByDirection
+  targetType: OrderByDirection
+  targetValue: OrderByDirection
+  units: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input targetsUpdateInput {
+  completionDate: Datetime
+  courseId: String
+  createdAt: Datetime
+  currentValue: Int
+  deletedAt: Datetime
+  description: String
+  dueDate: Datetime
+  id: String
+  isCompleted: Boolean
+  name: String
+  repeatEndDate: Datetime
+  repeatInterval: RepeatInterval
+  startDate: Datetime
+  targetMetric: String
+  targetType: TargetType
+  targetValue: Int
+  units: String
+  updatedAt: Datetime
+}
+
+type targetsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [targets!]!
+}
+
+type tokens implements Node {
+  accessToken: String!
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  refreshToken: String!
+  updatedAt: Datetime!
+  user: users!
+  userId: String!
+}
+
+type tokensConnection {
+  edges: [tokensEdge!]!
+  pageInfo: PageInfo!
+}
+
+type tokensDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [tokens!]!
+}
+
+type tokensEdge {
+  cursor: String!
+  node: tokens!
+}
+
+input tokensFilter {
+  accessToken: StringFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [tokensFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: tokensFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [tokensFilter!]
+  refreshToken: StringFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input tokensInsertInput {
+  accessToken: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  refreshToken: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type tokensInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [tokens!]!
+}
+
+input tokensOrderBy {
+  accessToken: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  refreshToken: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input tokensUpdateInput {
+  accessToken: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  refreshToken: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type tokensUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [tokens!]!
+}
+
+type transactions implements Node {
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+  invoice: invoices
+  invoiceId: String
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  payment: payments!
+  paymentId: String!
+  status: TransactionStatus!
+  updatedAt: Datetime!
+}
+
+type transactionsConnection {
+  edges: [transactionsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type transactionsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [transactions!]!
+}
+
+type transactionsEdge {
+  cursor: String!
+  node: transactions!
+}
+
+input transactionsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [transactionsFilter!]
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  invoiceId: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: transactionsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [transactionsFilter!]
+  paymentId: StringFilter
+  status: TransactionStatusFilter
+  updatedAt: DatetimeFilter
+}
+
+input transactionsInsertInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  invoiceId: String
+  paymentId: String
+  status: TransactionStatus
+  updatedAt: Datetime
+}
+
+type transactionsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [transactions!]!
+}
+
+input transactionsOrderBy {
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  invoiceId: OrderByDirection
+  paymentId: OrderByDirection
+  status: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input transactionsUpdateInput {
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  invoiceId: String
+  paymentId: String
+  status: TransactionStatus
+  updatedAt: Datetime
+}
+
+type transactionsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [transactions!]!
+}
+
+type users implements Node {
+  about: String
+  accessToken: String
+  activitiesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: activitiesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [activitiesOrderBy!]
+  ): activitiesConnection
+  address: String
+  auth_methodsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: auth_methodsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [auth_methodsOrderBy!]
+  ): auth_methodsConnection
+  avatarUrl: String
+  city: String
+  confirmationMailSentAt: Datetime
+  confirmedAt: Datetime
+  country: String
+  coursesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: coursesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [coursesOrderBy!]
+  ): coursesConnection
+  createdAt: Datetime
+  deletedAt: Datetime
+  disbled: Boolean
+  dob: String
   email: String!
-  password: String
-  resend: Boolean
+  enrollments: enrollments
+  externalId: Int
+  firstName: String!
+  forum_commentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: forum_commentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [forum_commentsOrderBy!]
+  ): forum_commentsConnection
+  forum_postsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: forum_postsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [forum_postsOrderBy!]
+  ): forum_postsConnection
+  fullName: String
+  gender: Gender
+  id: String!
+  invoicesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: invoicesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [invoicesOrderBy!]
+  ): invoicesConnection
+  isVerified: Boolean!
+  lastName: String!
+  matricNumber: String
+  multimediasCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: multimediasFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [multimediasOrderBy!]
+  ): multimediasConnection
+  nationality: String
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  notificationsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: notificationsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [notificationsOrderBy!]
+  ): notificationsConnection
+  passwordHash: String
+  paymentsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: paymentsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [paymentsOrderBy!]
+  ): paymentsConnection
+  phone: String
+  profession: String
+  remindersCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: remindersFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [remindersOrderBy!]
+  ): remindersConnection
+  role: roles!
+  roleId: String!
+  state: String
+  studentId: String
+  timeZone: String
+  tokensCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: tokensFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [tokensOrderBy!]
+  ): tokensConnection
+  updatedAt: Datetime
+  username: String
+  wallet: Float
+  zip: String
+}
+
+type usersConnection {
+  edges: [usersEdge!]!
+  pageInfo: PageInfo!
+}
+
+type usersDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [users!]!
+}
+
+type usersEdge {
+  cursor: String!
+  node: users!
+}
+
+input usersFilter {
+  about: StringFilter
+  accessToken: StringFilter
+  address: StringFilter
+
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [usersFilter!]
+  avatarUrl: StringFilter
+  city: StringFilter
+  confirmationMailSentAt: DatetimeFilter
+  confirmedAt: DatetimeFilter
+  country: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  disbled: BooleanFilter
+  dob: StringFilter
+  email: StringFilter
+  externalId: IntFilter
+  firstName: StringFilter
+  fullName: StringFilter
+  gender: GenderFilter
+  id: StringFilter
+  isVerified: BooleanFilter
+  lastName: StringFilter
+  matricNumber: StringFilter
+  nationality: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: usersFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [usersFilter!]
+  passwordHash: StringFilter
+  phone: StringFilter
+  profession: StringFilter
+  roleId: StringFilter
+  state: StringFilter
+  studentId: StringFilter
+  timeZone: StringFilter
+  updatedAt: DatetimeFilter
+  username: StringFilter
+  wallet: FloatFilter
+  zip: StringFilter
+}
+
+input usersInsertInput {
+  about: String
+  accessToken: String
+  address: String
+  avatarUrl: String
+  city: String
+  confirmationMailSentAt: Datetime
+  confirmedAt: Datetime
+  country: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  disbled: Boolean
+  dob: String
+  email: String
+  firstName: String
+  fullName: String
+  gender: Gender
+  id: String
+  isVerified: Boolean
+  lastName: String
+  matricNumber: String
+  nationality: String
+  passwordHash: String
+  phone: String
+  profession: String
+  roleId: String
+  state: String
+  studentId: String
+  timeZone: String
+  updatedAt: Datetime
+  username: String
+  wallet: Float
+  zip: String
+}
+
+type usersInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [users!]!
+}
+
+input usersOrderBy {
+  about: OrderByDirection
+  accessToken: OrderByDirection
+  address: OrderByDirection
+  avatarUrl: OrderByDirection
+  city: OrderByDirection
+  confirmationMailSentAt: OrderByDirection
+  confirmedAt: OrderByDirection
+  country: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  disbled: OrderByDirection
+  dob: OrderByDirection
+  email: OrderByDirection
+  externalId: OrderByDirection
+  firstName: OrderByDirection
+  fullName: OrderByDirection
+  gender: OrderByDirection
+  id: OrderByDirection
+  isVerified: OrderByDirection
+  lastName: OrderByDirection
+  matricNumber: OrderByDirection
+  nationality: OrderByDirection
+  passwordHash: OrderByDirection
+  phone: OrderByDirection
+  profession: OrderByDirection
+  roleId: OrderByDirection
+  state: OrderByDirection
+  studentId: OrderByDirection
+  timeZone: OrderByDirection
+  updatedAt: OrderByDirection
+  username: OrderByDirection
+  wallet: OrderByDirection
+  zip: OrderByDirection
+}
+
+input usersUpdateInput {
+  about: String
+  accessToken: String
+  address: String
+  avatarUrl: String
+  city: String
+  confirmationMailSentAt: Datetime
+  confirmedAt: Datetime
+  country: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  disbled: Boolean
+  dob: String
+  email: String
+  firstName: String
+  fullName: String
+  gender: Gender
+  id: String
+  isVerified: Boolean
+  lastName: String
+  matricNumber: String
+  nationality: String
+  passwordHash: String
+  phone: String
+  profession: String
+  roleId: String
+  state: String
+  studentId: String
+  timeZone: String
+  updatedAt: Datetime
+  username: String
+  wallet: Float
+  zip: String
+}
+
+type usersUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [users!]!
 }

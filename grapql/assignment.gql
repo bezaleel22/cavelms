@@ -1,0 +1,33 @@
+# Assignment Type
+type Assignment {
+  id: String!
+  # Define fields related to Assignment model if necessary
+  # ...
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  course: Course!
+}
+
+# Query and Mutation
+type Query {
+  # Assignment Queries
+  getAssignment(id: String!): Assignment
+  getAllAssignments: [Assignment!]!
+}
+
+type Mutation {
+  # Assignment Mutations
+  createAssignment(data: CreateAssignmentInput!): Assignment!
+  updateAssignment(id: String!, data: UpdateAssignmentInput!): Assignment!
+  deleteAssignment(id: String!): Assignment!
+}
+
+# Input Types
+input CreateAssignmentInput {
+  # Define the fields required to create an assignment...
+}
+
+input UpdateAssignmentInput {
+  # Define the fields that can be updated...
+}

@@ -1,6 +1,6 @@
 <script>
-  import { storable } from "$lib/store/storable";
-  $storable.healthConditions = $storable.healthConditions ?? [];
+  import { health } from "$lib/store/storable";
+  $health.healthConditions = $health.healthConditions ?? [];
 </script>
 
 <div class="mt-10 sm:mt-0">
@@ -26,7 +26,7 @@
                   <div class="flex items-center">
                     <div class="flex items-center">
                       <input
-                        bind:group={$storable.healthConditions}
+                        bind:group={$health.healthConditions}
                         type="checkbox"
                         name="healthConditions"
                         value="I have a disability"
@@ -41,7 +41,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.healthConditions}
+                        bind:group={$health.healthConditions}
                         type="checkbox"
                         name="healthConditions"
                         value="I’m on regular medication"
@@ -56,7 +56,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.healthConditions}
+                        bind:group={$health.healthConditions}
                         type="checkbox"
                         name="healthConditions"
                         value="I have a Nervous/Mental illness"
@@ -71,7 +71,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.healthConditions}
+                        bind:group={$health.healthConditions}
                         type="checkbox"
                         name="healthConditions"
                         value="I require a special diet"
@@ -86,7 +86,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.healthConditions}
+                        bind:group={$health.healthConditions}
                         type="checkbox"
                         name="healthConditions"
                         value="I am diabetic"
@@ -101,7 +101,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.healthConditions}
+                        bind:group={$health.healthConditions}
                         type="checkbox"
                         name="healthConditions"
                         value="I have a learning disability"
@@ -115,7 +115,7 @@
                 </div>
 
                 <textarea
-                  bind:value={$storable.healthIssueDescription}
+                  bind:value={$health.healthIssueDescription}
                   class="textarea textarea-bordered w-full mt-5"
                   name="healthIssueDescription"
                   id="healthIssueDescription"

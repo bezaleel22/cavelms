@@ -36,7 +36,7 @@ export const getFirstName = (str: string): string => {
  * @param {string} [ifNone] optional default value if there is not last name, defaults to "<None>"
  * @returns {string}
  */
-export const getLastName = (str: string, ifNone: string): string => {
+export const getLastName = (str: string, ifNone?: string): string => {
   var arr = str.split(" ");
   if (arr.length === 1) {
     return ifNone || "<None>";
@@ -68,4 +68,12 @@ export const parseName = (input: string) => {
   }
 
   return result;
+};
+
+export const splitName = (name = "") => {
+  const [firstName, ...lastName] = name.split(" ").filter(Boolean);
+  return {
+    firstName: firstName,
+    lastName: lastName.join(" "),
+  };
 };

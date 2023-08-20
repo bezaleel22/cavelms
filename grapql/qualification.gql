@@ -1,0 +1,37 @@
+# Referee Type
+type Referee {
+  id: String!
+  fullName: String!
+  email: String!
+  phone: String!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User
+}
+
+# Query and Mutation
+type Query {
+  # Referee Queries
+  getReferee(id: String!): Referee
+  getAllReferees: [Referee!]!
+}
+
+type Mutation {
+  # Referee Mutations
+  createReferee(data: CreateRefereeInput!): Referee!
+  updateReferee(id: String!, data: UpdateRefereeInput!): Referee!
+  deleteReferee(id: String!): Referee!
+}
+
+# Input Types
+input CreateRefereeInput {
+  fullName: String!
+  email: String!
+  phone: String!
+  # Define other input fields...
+}
+
+input UpdateRefereeInput {
+  # Define the fields that can be updated...
+}

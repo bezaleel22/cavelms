@@ -1,0 +1,67 @@
+# Submission Type
+type Submission {
+  id: String!
+  quizID: String!
+  userID: String!
+  startTime: String!
+  endTime: String!
+  answers: [Answer!]!
+  points: Int!
+  grade: Float!
+  weight: Int!
+  feedback: [String!]!
+  startedAt: String!
+  completedAt: String!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+}
+
+# Query and Mutation
+type Query {
+  # Submission Queries
+  getSubmission(id: String!): Submission
+  getAllSubmissions: [Submission!]!
+}
+
+type Mutation {
+  # Submission Mutations
+  createSubmission(data: CreateSubmissionInput!): Submission!
+  updateSubmission(id: String!, data: UpdateSubmissionInput!): Submission!
+  deleteSubmission(id: String!): Submission!
+}
+
+# Input Types
+input CreateSubmissionInput {
+  quizID: String!
+  userID: String!
+  startTime: String!
+  endTime: String!
+  answers: [AnswerInput!]!
+  points: Int!
+  grade: Float!
+  weight: Int!
+  feedback: [String!]!
+  startedAt: String!
+  completedAt: String!
+  # Define other input fields...
+}
+
+input UpdateSubmissionInput {
+  quizID: String
+  userID: String
+  startTime: String
+  endTime: String
+  answers: [AnswerInput]
+  points: Int
+  grade: Float
+  weight: Int
+  feedback: [String]
+  startedAt: String
+  completedAt: String
+  # Define other input fields...
+}
+
+input AnswerInput {
+  # Define the fields required to create/update an answer...
+}

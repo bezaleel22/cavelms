@@ -1,0 +1,110 @@
+# User Type
+type User {
+  id: String!
+  externalId: Int!
+  firstName: String
+  lastName: String
+  fullName: String
+  email: String!
+  role: Role
+  permissionIds: [String!]!
+  phone: String
+  avatarUrl: String
+  dob: String
+  gender: String
+  address: String
+  city: String
+  state: String
+  country: String
+  zip: String
+  nationality: String
+  profession: String
+  passwordSalt: String
+  passwordHash: String
+  permissions: [String!]!
+  username: String
+  isVerified: Boolean
+  about: String
+  wallet: Float
+  timeZone: String
+  progress: Int
+  tokens: [Token!]!
+  isAuthenticated: Boolean
+  regStatus: RegistrationStatus
+  matricNumber: String
+  platform: String
+  program: String
+  regNumber: String
+  files: [String!]!
+  courses: [String!]!
+  salvationBrief: String
+  godsWorkings: String
+  reason: String
+  churchName: String
+  churchAddress: String
+  pastorName: String
+  pastorEmail: String
+  pastorPhone: String
+  churchInvolved: String
+  healthConditions: String
+  healthIssueDescription: String
+  scholarship: Boolean
+  scholarshipReason: String
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  confirmedAt: String
+  confirmationMailSentAt: String
+  qualifications: [Qualification!]!
+  referees: [Referee!]!
+  notifications: [Notification!]!
+}
+
+# Query and Mutation
+type Query {
+  # User Queries
+  getUser(id: String!): User
+  getAllUsers: [User!]!
+}
+
+type Mutation {
+  # User Mutations
+  createUser(data: CreateUserInput!): User!
+  updateUser(id: String!, data: UpdateUserInput!): User!
+  deleteUser(id: String!): User!
+}
+
+# Input Types
+input CreateUserInput {
+  externalId: Int!
+  email: String!
+  # Define other input fields...
+}
+
+input UpdateUserInput {
+  # Define the fields that can be updated...
+}
+
+input CreateRefereeInput {
+  fullName: String!
+  email: String!
+  phone: String!
+  # Define other input fields...
+}
+
+input UpdateRefereeInput {
+  # Define the fields that can be updated...
+}
+
+input CreateQualificationInput {
+  degree: String!
+  institution: String!
+  graduationYear: String!
+  # Define other input fields...
+}
+
+input UpdateQualificationInput {
+  # Define the fields that can be updated...
+}
+
+input CreateNotificationInput {

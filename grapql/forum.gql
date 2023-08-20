@@ -1,0 +1,46 @@
+# Forum Type
+type Forum {
+  id: String!
+  name: String!
+  description: String
+  courseId: String
+  postIds: [String!]!
+  tagIds: [String!]!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  course: Course
+}
+
+# Query and Mutation
+type Query {
+  # Forum Queries
+  getForum(id: String!): Forum
+  getAllForums: [Forum!]!
+}
+
+type Mutation {
+  # Forum Mutations
+  createForum(data: CreateForumInput!): Forum!
+  updateForum(id: String!, data: UpdateForumInput!): Forum!
+  deleteForum(id: String!): Forum!
+}
+
+# Input Types
+input CreateForumInput {
+  name: String!
+  description: String
+  courseId: String
+  postIds: [String!]
+  tagIds: [String!]
+  # Define other input fields...
+}
+
+input UpdateForumInput {
+  name: String
+  description: String
+  courseId: String
+  postIds: [String!]
+  tagIds: [String!]
+  # Define other input fields...
+}

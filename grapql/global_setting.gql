@@ -1,0 +1,36 @@
+# GlobalSetting Type
+type GlobalSetting {
+  id: String!
+  settingName: String!
+  settingValue: String!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+}
+
+# Query and Mutation
+type Query {
+  # GlobalSetting Queries
+  getGlobalSetting(id: String!): GlobalSetting
+  getAllGlobalSettings: [GlobalSetting!]!
+}
+
+type Mutation {
+  # GlobalSetting Mutations
+  createGlobalSetting(data: CreateGlobalSettingInput!): GlobalSetting!
+  updateGlobalSetting(id: String!, data: UpdateGlobalSettingInput!): GlobalSetting!
+  deleteGlobalSetting(id: String!): GlobalSetting!
+}
+
+# Input Types
+input CreateGlobalSettingInput {
+  settingName: String!
+  settingValue: String!
+  # Define other input fields...
+}
+
+input UpdateGlobalSettingInput {
+  settingName: String
+  settingValue: String
+  # Define other input fields...
+}

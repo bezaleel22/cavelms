@@ -1,0 +1,36 @@
+# Tag Type
+type Tag {
+  id: String!
+  name: String!
+  postIds: [String!]!
+  courseIds: [String!]!
+}
+
+# Query and Mutation
+type Query {
+  # Tag Queries
+  getTag(id: String!): Tag
+  getAllTags: [Tag!]!
+}
+
+type Mutation {
+  # Tag Mutations
+  createTag(data: CreateTagInput!): Tag!
+  updateTag(id: String!, data: UpdateTagInput!): Tag!
+  deleteTag(id: String!): Tag!
+}
+
+# Input Types
+input CreateTagInput {
+  name: String!
+  postIds: [String!]
+  courseIds: [String!]
+  # Define other input fields...
+}
+
+input UpdateTagInput {
+  name: String
+  postIds: [String!]
+  courseIds: [String!]
+  # Define other input fields...
+}

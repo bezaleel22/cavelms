@@ -1,26 +1,16 @@
-query User($id: ID!) {
-  user(id: $id) {
-    id
-    fullName
-    email
-    role
-    username
-    phone
-    country
-    avatarUrl
-    isVerified
-    progress
-    program
-    platform
-    accessToken {
-      expiresAt
-      token
+query User($id: String!) {
+  usersCollection(filter: { id: { eq: $id } }) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
     }
-    refreshToken {
-      expiresAt
-      token
+    edges {
+      cursor
+      node {
+        id
+      }
     }
-    isAuthenticated
-    createdAt
   }
 }

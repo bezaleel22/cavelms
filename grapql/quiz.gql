@@ -1,0 +1,98 @@
+# Quiz Type
+type Quiz {
+  id: String!
+  name: String!
+  description: String!
+  quizType: QuizType!
+  duration: Int!
+  passingScore: Int!
+  proctoringMethod: ProctoringMethod!
+  questions: [Question!]!
+  resultsReleaseDate: String
+  certificate: Boolean!
+  startTime: String!
+  endTime: String!
+  startDate: String!
+  dueDate: String!
+  timeLimit: Int!
+  shuffleQuestions: Boolean!
+  randomizeQuestions: Boolean
+  randomizeAnswers: Boolean!
+  categories: [String!]!
+  courseId: String!
+  questionIds: [String!]!
+  gradeIds: [String!]!
+  submissionIds: [String!]!
+  isLocked: Boolean!
+  waitTime: Int!
+  weight: Int!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  course: Course!
+}
+
+# Query and Mutation
+type Query {
+  # Quiz Queries
+  getQuiz(id: String!): Quiz
+  getAllQuizzes: [Quiz!]!
+}
+
+type Mutation {
+  # Quiz Mutations
+  createQuiz(data: CreateQuizInput!): Quiz!
+  updateQuiz(id: String!, data: UpdateQuizInput!): Quiz!
+  deleteQuiz(id: String!): Quiz!
+}
+
+# Input Types
+input CreateQuizInput {
+  name: String!
+  description: String!
+  quizType: QuizType!
+  duration: Int!
+  passingScore: Int!
+  proctoringMethod: ProctoringMethod!
+  questions: [QuestionInput!]!
+  resultsReleaseDate: String
+  certificate: Boolean!
+  startTime: String!
+  endTime: String!
+  startDate: String!
+  dueDate: String!
+  timeLimit: Int!
+  shuffleQuestions: Boolean!
+  randomizeQuestions: Boolean
+  randomizeAnswers: Boolean!
+  categories: [String!]!
+  courseId: String!
+  # Define other input fields...
+}
+
+input UpdateQuizInput {
+  name: String
+  description: String
+  quizType: QuizType
+  duration: Int
+  passingScore: Int
+  proctoringMethod: ProctoringMethod
+  questions: [QuestionInput]
+  resultsReleaseDate: String
+  certificate: Boolean
+  startTime: String
+  endTime: String
+  startDate: String
+  dueDate: String
+  timeLimit: Int
+  shuffleQuestions: Boolean
+  randomizeQuestions: Boolean
+  randomizeAnswers: Boolean
+  categories: [String]
+  courseId: String
+  # Define other input fields...
+}
+
+input QuestionInput {
+  # Define the fields required to create/update a question...
+}

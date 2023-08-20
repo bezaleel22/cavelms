@@ -2,11 +2,14 @@
     "name": "webapp",
     "version": "0.0.1",
     "scripts": {
-        "start": "vite dev --port 8080 --open",
+        "start": "vite dev --host --port 8080 --open",
         "build": "vite build",
         "preview": "vite preview",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+    },
+    "prisma": {
+        "seed": "node prisma/seed.js"
     },
     "devDependencies": {
         "@fontsource/fira-mono": "^4.5.10",
@@ -16,8 +19,11 @@
         "@neoconfetti/svelte": "^1.0.0",
         "@sveltejs/adapter-auto": "^2.0.0",
         "@sveltejs/kit": "^1.5.0",
+        "@types/bcrypt": "^5.0.0",
         "@types/cookie": "^0.5.1",
+        "@types/html-to-text": "^9.0.1",
         "@types/http-proxy": "^1.17.10",
+        "@types/jsonwebtoken": "^9.0.2",
         "@types/proxy-from-env": "^1.0.1",
         "autoprefixer": "^10.4.14",
         "daisyui": "^3.5.0",
@@ -37,11 +43,17 @@
     "dependencies": {
         "@maizzle/framework": "^4.4.7",
         "@prisma/client": "^5.1.1",
+        "bcrypt": "^5.1.0",
         "chart.js": "^4.3.3",
         "cors-anywhere": "^0.4.4",
+        "hashids": "^2.3.0",
+        "html-to-text": "^9.0.5",
         "http-proxy": "^1.18.1",
+        "jsonwebtoken": "^9.0.1",
         "linkedom": "^0.14.25",
         "proxy-from-env": "^1.1.0",
-        "rx-player": "^3.30.0"
+        "redis": "^4.6.7",
+        "rx-player": "^3.30.0",
+        "uuid": "^9.0.0"
     }
 }

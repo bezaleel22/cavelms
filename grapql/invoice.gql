@@ -1,0 +1,46 @@
+# Invoice Type
+type Invoice {
+  id: String!
+  userId: String!
+  amount: Float!
+  issueDate: String!
+  dueDate: String!
+  isPaid: Boolean!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+}
+
+# Query and Mutation
+type Query {
+  # Invoice Queries
+  getInvoice(id: String!): Invoice
+  getAllInvoices: [Invoice!]!
+}
+
+type Mutation {
+  # Invoice Mutations
+  createInvoice(data: CreateInvoiceInput!): Invoice!
+  updateInvoice(id: String!, data: UpdateInvoiceInput!): Invoice!
+  deleteInvoice(id: String!): Invoice!
+}
+
+# Input Types
+input CreateInvoiceInput {
+  userId: String!
+  amount: Float!
+  issueDate: String!
+  dueDate: String!
+  isPaid: Boolean!
+  # Define other input fields...
+}
+
+input UpdateInvoiceInput {
+  userId: String
+  amount: Float
+  issueDate: String
+  dueDate: String
+  isPaid: Boolean
+  # Define other input fields...
+}

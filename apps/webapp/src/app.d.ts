@@ -1,17 +1,20 @@
 // See https://kit.svelte.dev/docs/types#app
-import type { PrismaClient } from "@prisma/client";
-import type { Auth$result } from "$houdini";
+import type { PrismaClient, Role, User } from "@prisma/client";
+import { getRoutes, appRoutes } from "$lib/store/routes";
 
 // for information about these interfaces
 declare global {
   namespace App {
     // interface Error {}
     interface Locals {
-      authUser: Auth$result | null;
+      authUser: (User & { role: Role | null }) | null;
+      routes: any;
     }
     // interface PageData {}
     // interface Platform {}
   }
   var db: PrismaClient;
+
+  type KeyValue = { [k: string]: string };
 }
 export {};

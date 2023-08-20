@@ -1,0 +1,35 @@
+# Token Type
+type Token {
+  id: String!
+  accessToken: String!
+  refreshToken: String!
+  user: User!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+}
+
+# Query and Mutation
+type Query {
+  # Token Queries
+  getToken(id: String!): Token
+  getAllTokens: [Token!]!
+}
+
+type Mutation {
+  # Token Mutations
+  createToken(data: CreateTokenInput!): Token!
+  updateToken(id: String!, data: UpdateTokenInput!): Token!
+  deleteToken(id: String!): Token!
+}
+
+# Input Types
+input CreateTokenInput {
+  accessToken: String!
+  refreshToken: String!
+  # Define other input fields...
+}
+
+input UpdateTokenInput {
+  # Define the fields that can be updated...
+}

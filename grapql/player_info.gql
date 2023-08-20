@@ -1,0 +1,40 @@
+# PlayerInfo Type
+type PlayerInfo {
+  id: String!
+  currentTime: Int!
+  duration: Int!
+  thumbnailUrl: String!
+  posterUrl: String
+  Media: [Media!]!
+}
+
+# Query and Mutation
+type Query {
+  # PlayerInfo Queries
+  getPlayerInfo(id: String!): PlayerInfo
+  getAllPlayerInfo: [PlayerInfo!]!
+}
+
+type Mutation {
+  # PlayerInfo Mutations
+  createPlayerInfo(data: CreatePlayerInfoInput!): PlayerInfo!
+  updatePlayerInfo(id: String!, data: UpdatePlayerInfoInput!): PlayerInfo!
+  deletePlayerInfo(id: String!): PlayerInfo!
+}
+
+# Input Types
+input CreatePlayerInfoInput {
+  currentTime: Int!
+  duration: Int!
+  thumbnailUrl: String!
+  posterUrl: String
+  # Define other input fields...
+}
+
+input UpdatePlayerInfoInput {
+  currentTime: Int
+  duration: Int
+  thumbnailUrl: String
+  posterUrl: String
+  # Define other input fields...
+}

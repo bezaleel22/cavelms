@@ -6,7 +6,7 @@ export class Storable {
   subscribe: (this: void, run: Subscriber<{}>, invalidate?: any | undefined) => Unsubscriber;
   update: (this: void, updater: Updater<{}>) => void;
 
-  constructor(name: string, initData: any={}) {
+  constructor(name: string, initData: any = {}) {
     if (browser) initData = JSON.parse(localStorage[name] ?? "{}") || initData;
     const { set, subscribe, update } = writable<any>(initData);
 
@@ -18,7 +18,9 @@ export class Storable {
   }
 }
 
-export const storable = new Storable("storable");
+export const personal = new Storable("personal");
+export const health = new Storable("health");
+export const spirit = new Storable("spirit");
 export const ref1 = new Storable("ref1");
 export const ref2 = new Storable("ref2");
 export const document = new Storable("document");

@@ -6,47 +6,47 @@
 
 <div class="grid grid-cols-3 gap-10">
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/programs/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>

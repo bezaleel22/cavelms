@@ -1,0 +1,46 @@
+# Target Type
+type Target {
+  id: String!
+  name: String!
+  description: String
+  dueDate: String
+  startDate: String
+  courseId: String!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  course: Course!
+}
+
+# Query and Mutation
+type Query {
+  # Target Queries
+  getTarget(id: String!): Target
+  getAllTargets: [Target!]!
+}
+
+type Mutation {
+  # Target Mutations
+  createTarget(data: CreateTargetInput!): Target!
+  updateTarget(id: String!, data: UpdateTargetInput!): Target!
+  deleteTarget(id: String!): Target!
+}
+
+# Input Types
+input CreateTargetInput {
+  name: String!
+  description: String
+  dueDate: String
+  startDate: String
+  courseId: String!
+  # Define other input fields...
+}
+
+input UpdateTargetInput {
+  name: String
+  description: String
+  dueDate: String
+  startDate: String
+  courseId: String
+  # Define other input fields...
+}

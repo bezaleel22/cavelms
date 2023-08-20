@@ -1,0 +1,42 @@
+# CourseProgress Type
+type CourseProgress {
+  id: String!
+  lecturesCompleted: Int!
+  assignmentsCompleted: Int!
+  quizzesCompleted: Int!
+  overallProgress: Int!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+}
+
+# Query and Mutation
+type Query {
+  # CourseProgress Queries
+  getCourseProgress(id: String!): CourseProgress
+  getAllCourseProgress: [CourseProgress!]!
+}
+
+type Mutation {
+  # CourseProgress Mutations
+  createCourseProgress(data: CreateCourseProgressInput!): CourseProgress!
+  updateCourseProgress(id: String!, data: UpdateCourseProgressInput!): CourseProgress!
+  deleteCourseProgress(id: String!): CourseProgress!
+}
+
+# Input Types
+input CreateCourseProgressInput {
+  lecturesCompleted: Int!
+  assignmentsCompleted: Int!
+  quizzesCompleted: Int!
+  overallProgress: Int!
+  # Define other input fields...
+}
+
+input UpdateCourseProgressInput {
+  lecturesCompleted: Int
+  assignmentsCompleted: Int
+  quizzesCompleted: Int
+  overallProgress: Int
+  # Define other input fields...
+}

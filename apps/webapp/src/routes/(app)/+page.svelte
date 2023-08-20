@@ -10,7 +10,7 @@
 
 <div class="flex justify-between">
   <div class="flex flex-col">
-    <div class="text-xl font-semibold leading-3">My Courses</div>
+    <div class="text-xl font-semibold leading-3">My course</div>
     <div class="text-sm breadcrumbs mb-5">
       <ul>
         <li>Home</li>
@@ -42,53 +42,53 @@
   </div>
 </div>
 <div class="flex space-x-2 my-5">
-  <div class="text-xl font-semibold leading-3">Courses</div>
+  <div class="text-xl font-semibold leading-3">course</div>
   <div class="text-sm opacity-30 leading-0">By Status</div>
 </div>
 
 <div class="grid grid-cols-3 gap-10">
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>
   <div class="col-span-1">
-    <a href="/courses/sytdf5esgdgdysL">
+    <a href="/course/sytdf5esgdgdysL">
       <CourseCard />
     </a>
   </div>

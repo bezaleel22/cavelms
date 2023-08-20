@@ -1,0 +1,207 @@
+# Role Enum
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+  SUPER_ADMIN
+  SUPPORT
+  ALUMNI
+  PARTNER
+  GUEST
+  REFEREE # Add REFEREE role here
+}
+
+# RegistrationStatus Enum
+enum RegistrationStatus {
+  CREATED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+# Other Enums
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  PDF
+  WORD_DOC
+  TEXT
+  PPT
+  SPREADSHEET
+  ARCHIVE
+  OTHERS
+}
+
+enum SettingType {
+  BOOLEAN
+  STRING
+  NUMBER
+  DATE
+  TIME
+}
+
+enum AllowedModel {
+  COURSE
+  ACTIVITY
+  COURSE_CONTENT
+  FILE
+  FORUM
+  FORUM_POST
+  FORUM_COMMENT
+  GRADE
+  QUIZ
+  QUESTION
+  SUBMISSION
+  ANSWER_CHOICE
+  MATCHING_PAIR
+  NOTIFICATION
+  TARGET
+  USER
+}
+
+enum AllowedPermission {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  UPDATE_PERMISSIONS
+  GRANT_PERMISSIONS
+  REVOKE_PERMISSIONS
+}
+
+enum ActivityType {
+  COURSE_VIEW
+  COURSE_ENROLLED
+  COURSE_COMPLETED
+  COURSE_PROGRESS
+  FORUM_POST_CREATED
+  FORUM_POST_UPDATED
+  FORUM_COMMENT_CREATED
+  FORUM_COMMENT_UPDATED
+  GRADE_RECEIVED
+  QUIZ_TAKEN
+  QUIZ_GRADE_RECEIVED
+  ASSIGNMENT_SUBMITTED
+  ASSIGNMENT_GRADE_RECEIVED
+  RESOURCE_ACCESSED
+  MEDIA_INTERACTION
+  PAGE_VIEW
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TRUE_FALSE
+  SHORT_ANSWER
+  ESSAY
+  MATCHING
+  NUMERIC
+}
+
+enum QuizType {
+  EXAM
+  ASSIGNMENT
+}
+
+enum ProctoringMethod {
+  NONE
+  MANUAL
+  AUTOMATED
+}
+
+enum TargetType {
+  TARGET
+  MINIMUM
+  MAXIMUM
+}
+
+enum RepeatInterval {
+  DAY
+  WEEK
+  MONTH
+  YEAR
+}
+
+enum NotificationType {
+  SYSTEM
+  USER_GENERATED
+}
+
+enum Currency {
+  USD
+  EUR
+  GBP
+  JPY
+  AUD
+  CAD
+  CHF
+  CNY
+  INR
+  SGD
+  AED
+  BRL
+  ZAR
+  MXN
+  SEK
+  NOK
+  DKK
+  PHP
+  HKD
+  NZD
+  THB
+  MYR
+  KRW
+  IDR
+  SAR
+  RUB
+  NGN
+  EGP
+  ZMW
+  KES
+  GHS
+  DZD
+  MAD
+  XOF
+  XAF
+  ETB
+  TZS
+  UGX
+  MZN
+  KWD
+  TND
+  # Add other currency values as needed...
+}
+
+enum PaymentStatus {
+  CREATED
+  PENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  DEBIT_CARD
+  PAYPAL
+  OTHER
+}
+
+enum InvoiceStatus {
+  CREATED
+  ISSUED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum TransactionStatus {
+  CREATED
+  PENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+# Define the other enums based on your Prisma schema...
+# Continue adding the remaining enums as needed.

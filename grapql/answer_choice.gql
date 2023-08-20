@@ -1,0 +1,44 @@
+# AnswerChoice Type
+type AnswerChoice {
+  id: String!
+  text: String!
+  isCorrect: Boolean!
+  feedback: String
+  weight: Int!
+  Question: Question
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  Answer: Answer
+}
+
+# Query and Mutation
+type Query {
+  # AnswerChoice Queries
+  getAnswerChoice(id: String!): AnswerChoice
+  getAllAnswerChoices: [AnswerChoice!]!
+}
+
+type Mutation {
+  # AnswerChoice Mutations
+  createAnswerChoice(data: CreateAnswerChoiceInput!): AnswerChoice!
+  updateAnswerChoice(id: String!, data: UpdateAnswerChoiceInput!): AnswerChoice!
+  deleteAnswerChoice(id: String!): AnswerChoice!
+}
+
+# Input Types
+input CreateAnswerChoiceInput {
+  text: String!
+  isCorrect: Boolean!
+  feedback: String
+  weight: Int!
+  # Define other input fields...
+}
+
+input UpdateAnswerChoiceInput {
+  text: String
+  isCorrect: Boolean
+  feedback: String
+  weight: Int
+  # Define other input fields...
+}

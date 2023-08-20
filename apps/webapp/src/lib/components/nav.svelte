@@ -31,17 +31,17 @@
   </div>
   <div class="flex-none gap-2 lg:block">
     <div class="dropdown dropdown-end m-6">
-      {#if $user?.auth?.avatarUrl}
-        <button tabindex="0" class="btn btn-circle avatar">
+      {#if $user?.avatarUrl}
+        <button tabindex="0" class="btn btn-circle btn-neutral avatar">
           <div class="w-8 rounded-full">
-            <img src={`/${$user?.auth?.avatarUrl}`} alt="Avatar Tailwind CSS Component" />
+            <img src={`/${$user?.avatarUrl}`} alt="Avatar Tailwind CSS Component" />
           </div>
         </button>
       {:else}
-        <button tabindex="0" class="btn btn-circle avatar placeholder">
+        <button tabindex="0" class="btn btn-circle btn-neutral avatar placeholder">
           <div class="w-8 rounded-full">
             <span class="uppercase">
-              {`${$user?.auth?.firstName?.charAt(0)}${$user?.auth?.lastName?.charAt(0)}`}
+              {`${$user?.firstName?.charAt(0)}${$user?.lastName?.charAt(0)}`}
             </span>
           </div>
         </button>

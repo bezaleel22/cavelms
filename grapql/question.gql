@@ -1,0 +1,69 @@
+# Question Type
+type Question {
+  id: String!
+  type: QuestionType!
+  text: String!
+  choices: [AnswerChoice!]!
+  correctAnswer: String!
+  feedback: String
+  hints: [String!]!
+  randomize: Boolean!
+  pointValue: Int!
+  categories: [String!]!
+  matchingPairs: [MatchingPair!]!
+  Quiz: Quiz
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+}
+
+# Query and Mutation
+type Query {
+  # Question Queries
+  getQuestion(id: String!): Question
+  getAllQuestions: [Question!]!
+}
+
+type Mutation {
+  # Question Mutations
+  createQuestion(data: CreateQuestionInput!): Question!
+  updateQuestion(id: String!, data: UpdateQuestionInput!): Question!
+  deleteQuestion(id: String!): Question!
+}
+
+# Input Types
+input CreateQuestionInput {
+  type: QuestionType!
+  text: String!
+  choices: [AnswerChoiceInput!]!
+  correctAnswer: String!
+  feedback: String
+  hints: [String!]!
+  randomize: Boolean!
+  pointValue: Int!
+  categories: [String!]!
+  matchingPairs: [MatchingPairInput!]!
+  # Define other input fields...
+}
+
+input UpdateQuestionInput {
+  type: QuestionType
+  text: String
+  choices: [AnswerChoiceInput]
+  correctAnswer: String
+  feedback: String
+  hints: [String]
+  randomize: Boolean
+  pointValue: Int
+  categories: [String]
+  matchingPairs: [MatchingPairInput]
+  # Define other input fields...
+}
+
+input AnswerChoiceInput {
+  # Define the fields required to create/update an answer choice...
+}
+
+input MatchingPairInput {
+  # Define the fields required to create/update a matching pair...
+}

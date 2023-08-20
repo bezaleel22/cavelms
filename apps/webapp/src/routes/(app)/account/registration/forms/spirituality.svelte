@@ -1,6 +1,6 @@
 <script>
-  import { storable } from "$lib/store/storable";
-  $storable.godsWorkings = $storable.godsWorkings ?? [];
+  import { spirit } from "$lib/store/storable";
+  $spirit.godsWorkings = $spirit.godsWorkings ?? [];
 </script>
 
 <div class="mt-10 sm:mt-0">
@@ -29,7 +29,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="born again"
@@ -45,7 +45,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="water baptism"
@@ -60,7 +60,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="holy ghost baptism"
@@ -75,7 +75,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="speak in tongues"
@@ -90,7 +90,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="spiritual gift"
@@ -105,7 +105,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="church worker"
@@ -120,7 +120,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="call of God"
@@ -135,7 +135,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="serving in a ministry"
@@ -150,7 +150,7 @@
                   <div class="flex items-center">
                     <div class="flex h-6 items-center">
                       <input
-                        bind:group={$storable.godsWorkings}
+                        bind:group={$spirit.godsWorkings}
                         type="checkbox"
                         name="godsWorkings"
                         value="founder and pioneer of a ministry"
@@ -164,7 +164,7 @@
                   <!-- end of item -->
 
                   <textarea
-                    bind:value={$storable.salvationBrief}
+                    bind:value={$spirit.salvationBrief}
                     required
                     class="textarea textarea-bordered col-span-3 my-5"
                     name="salvationBrief"
@@ -173,7 +173,7 @@
                   />
 
                   <textarea
-                    bind:value={$storable.reason}
+                    bind:value={$spirit.reason}
                     required
                     class="textarea textarea-bordered col-span-3 my-5"
                     name="reason"
@@ -194,7 +194,7 @@
                 <div class="grid grid-cols-6 gap-6">
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
-                      bind:value={$storable.pastorName}
+                      bind:value={$spirit.pastorName}
                       name="pastorName"
                       type="text"
                       id="pastorName"
@@ -208,7 +208,7 @@
 
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
-                      bind:value={$storable.pastorEmail}
+                      bind:value={$spirit.pastorEmail}
                       name="pastorEmail"
                       type="text"
                       id="pastorEmail"
@@ -222,7 +222,7 @@
 
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
-                      bind:value={$storable.pastorPhone}
+                      bind:value={$spirit.pastorPhone}
                       name="pastorPhone"
                       type="text"
                       id="pastorPhone"
@@ -236,7 +236,7 @@
 
                   <div class="relative col-span-6 sm:col-span-3">
                     <input
-                      bind:value={$storable.churchName}
+                      bind:value={$spirit.churchName}
                       name="churchName"
                       type="text"
                       id="churchName"
@@ -250,7 +250,7 @@
 
                   <div class="relative col-span-6">
                     <input
-                      bind:value={$storable.churchAddress}
+                      bind:value={$spirit.churchAddress}
                       name="churchAddress"
                       type="text"
                       id="churchAddress"

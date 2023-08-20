@@ -1,6 +1,11 @@
 <script>
-  import { storable } from "$lib/store/storable";
-  $storable.gender = $storable.gender ?? "male";
+  import { user } from "$lib/store/auth";
+  import { personal } from "$lib/store/storable";;
+  $personal.gender = $personal.gender ?? "MALE";
+  $personal.email = $user.email;
+  $personal.firstName = $user.firstName;
+  $personal.lastName = $user.lastName;
+
 </script>
 
 <div class="mt-10 sm:mt-0">
@@ -22,7 +27,7 @@
               <div class="grid grid-cols-6 gap-6">
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
-                    bind:value={$storable.firstName}
+                    bind:value={$personal.firstName}
                     name="firstName"
                     type="text"
                     id="firstName"
@@ -37,7 +42,7 @@
 
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
-                    bind:value={$storable.lastName}
+                    bind:value={$personal.lastName}
                     name="lastName"
                     type="text"
                     id="lastName"
@@ -49,30 +54,16 @@
                     Last Name
                   </label>
                 </div>
-
-                <div class="relative col-span-6 sm:col-span-3">
-                  <input
-                    bind:value={$storable.middleName}
-                    name="middleName"
-                    type="text"
-                    id="middleName"
-                    class=" input input-bordered floating-input peer focus:border-accent-focus"
-                    placeholder=" "
-                  />
-                  <label for="middleName" class="floating-label peer-focus:text-accent-focus">
-                    Middle Name
-                  </label>
-                </div>
                 <fieldset class="relative col-span-6 sm:col-span-6">
                   <legend class="">Gender</legend>
                   <div class="mt-4 space-y-3 grid grid-rows-3">
                     <div class="flex items-center">
                       <div class="flex h-6 items-center">
                         <input
-                          bind:group={$storable.gender}
+                          bind:group={$personal.gender}
                           type="radio"
                           name="gender"
-                          value="male"
+                          value="MALE"
                           checked
                           class="checkbox"
                         />
@@ -84,10 +75,10 @@
                     <div class="flex items-center">
                       <div class="flex h-6 items-center">
                         <input
-                          bind:group={$storable.gender}
+                          bind:group={$personal.gender}
                           type="radio"
                           name="gender"
-                          value="female"
+                          value="FEMALE"
                           class="checkbox"
                         />
                       </div>
@@ -111,7 +102,7 @@
 
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
-                    bind:value={$storable.dob}
+                    bind:value={$personal.dob}
                     name="dob"
                     type="date"
                     id="dob"
@@ -127,7 +118,7 @@
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
                     readonly
-                    bind:value={$storable.email}
+                    bind:value={$personal.email}
                     name="email"
                     type="email"
                     id="email"
@@ -142,7 +133,7 @@
 
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
-                    bind:value={$storable.phone}
+                    bind:value={$personal.phone}
                     name="phone"
                     type="text"
                     id="phoneNo"
@@ -157,7 +148,7 @@
 
                 <div class="relative col-span-6 lg:col-span-3">
                   <input
-                    bind:value={$storable.address}
+                    bind:value={$personal.address}
                     name="address"
                     type="text"
                     id="address"
@@ -172,7 +163,7 @@
 
                 <div class="relative col-span-6 sm:col-span-6 lg:col-span-3">
                   <input
-                    bind:value={$storable.city}
+                    bind:value={$personal.city}
                     name="city"
                     type="text"
                     id="city"
@@ -187,7 +178,7 @@
 
                 <div class="relative col-span-6 sm:col-span-6 lg:col-span-3">
                   <input
-                    bind:value={$storable.zip}
+                    bind:value={$personal.zip}
                     name="zip"
                     type="text"
                     id="zip"
@@ -201,7 +192,7 @@
 
                 <div class="relative col-span-6 sm:col-span-6 lg:col-span-3">
                   <input
-                    bind:value={$storable.state}
+                    bind:value={$personal.state}
                     name="state"
                     type="text"
                     id="region"
@@ -216,7 +207,7 @@
 
                 <div class="relative col-span-6 sm:col-span-3">
                   <input
-                    bind:value={$storable.country}
+                    bind:value={$personal.country}
                     name="country"
                     type="text"
                     id="country"

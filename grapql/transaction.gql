@@ -1,0 +1,43 @@
+# Transaction Type
+type Transaction {
+  id: String!
+  userId: String!
+  amount: Float!
+  transactionDate: String!
+  description: String
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+}
+
+# Query and Mutation
+type Query {
+  # Transaction Queries
+  getTransaction(id: String!): Transaction
+  getAllTransactions: [Transaction!]!
+}
+
+type Mutation {
+  # Transaction Mutations
+  createTransaction(data: CreateTransactionInput!): Transaction!
+  updateTransaction(id: String!, data: UpdateTransactionInput!): Transaction!
+  deleteTransaction(id: String!): Transaction!
+}
+
+# Input Types
+input CreateTransactionInput {
+  userId: String!
+  amount: Float!
+  transactionDate: String!
+  description: String
+  # Define other input fields...
+}
+
+input UpdateTransactionInput {
+  userId: String
+  amount: Float
+  transactionDate: String
+  description: String
+  # Define other input fields...
+}

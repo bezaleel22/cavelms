@@ -1,0 +1,46 @@
+# Reminder Type
+type Reminder {
+  id: String!
+  userId: String!
+  title: String!
+  description: String
+  dueDate: String!
+  isCompleted: Boolean!
+  createdAt: String!
+  updatedAt: String!
+  deletedAt: String
+  user: User!
+}
+
+# Query and Mutation
+type Query {
+  # Reminder Queries
+  getReminder(id: String!): Reminder
+  getAllReminders: [Reminder!]!
+}
+
+type Mutation {
+  # Reminder Mutations
+  createReminder(data: CreateReminderInput!): Reminder!
+  updateReminder(id: String!, data: UpdateReminderInput!): Reminder!
+  deleteReminder(id: String!): Reminder!
+}
+
+# Input Types
+input CreateReminderInput {
+  userId: String!
+  title: String!
+  description: String
+  dueDate: String!
+  isCompleted: Boolean!
+  # Define other input fields...
+}
+
+input UpdateReminderInput {
+  userId: String
+  title: String
+  description: String
+  dueDate: String
+  isCompleted: Boolean
+  # Define other input fields...
+}

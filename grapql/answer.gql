@@ -1,0 +1,51 @@
+# Answer Type
+type Answer {
+  id: String!
+  questionId: String!
+  choices: [AnswerChoice!]!
+  value: String!
+  isCorrect: Boolean!
+  weight: Int!
+  pointsAwarded: Int!
+  feedback: String
+  createdAt: String!
+  updatedAt: String!
+  Submission: Submission
+}
+
+# Query and Mutation
+type Query {
+  # Answer Queries
+  getAnswer(id: String!): Answer
+  getAllAnswers: [Answer!]!
+}
+
+type Mutation {
+  # Answer Mutations
+  createAnswer(data: CreateAnswerInput!): Answer!
+  updateAnswer(id: String!, data: UpdateAnswerInput!): Answer!
+  deleteAnswer(id: String!): Answer!
+}
+
+# Input Types
+input CreateAnswerInput {
+  questionId: String!
+  choices: [AnswerChoiceInput!]!
+  value: String!
+  isCorrect: Boolean!
+  weight: Int!
+  pointsAwarded: Int!
+  feedback: String
+  # Define other input fields...
+}
+
+input UpdateAnswerInput {
+  questionId: String
+  choices: [AnswerChoiceInput]
+  value: String
+  isCorrect: Boolean
+  weight: Int
+  pointsAwarded: Int
+  feedback: String
+  # Define other input fields...
+}

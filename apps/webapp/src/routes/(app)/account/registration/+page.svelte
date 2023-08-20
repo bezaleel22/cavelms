@@ -1,17 +1,25 @@
-<script>
+<script lang="ts">
   import { enhance } from "$app/forms";
-  import { Documents, Health, Personal, Qualification, Referees, Spirituality } from "./forms";
-  import { user } from "$lib/store/auth";
-  import { storable, qualification, document, ref1, ref2 } from "$lib/store/storable";
 
+  import {
+    personal,
+    spirit,
+    health,
+    qualification,
+    document,
+    ref1,
+    ref2,
+  } from "$lib/store/storable";
+  import { Documents, Health, Personal, Qualification, Referees, Spirituality } from "./forms";
 </script>
 
 <form
   action="?/register"
   method="post"
   use:enhance={({ data, cancel }) => {
-    const userData = $storable;
-    data.append("jsonData", JSON.stringify({ $storable, $qualification, $document, $ref1, $ref2 }));
+    const userData = { $personal, $spirit, $health, $qualification, $document, $ref1, $ref2 };
+    data.append("jsonData", JSON.stringify({ ...userData }));
+
     return ({ result, update }) => {
       console.log(result);
       update();

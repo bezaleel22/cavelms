@@ -14,14 +14,16 @@ model BaseModel {
   deletedAt DateTime?
 }
 
-enum Role {
-  STUDENT
-  TEACHER
-  ADMIN
-  SUPER_ADMIN
+enum RoleType {
+  SUPERUSER
+  ADMINISTRATOR
+  FACULTY
   SUPPORT
-  ALUMNI
+  STUDENT
+  REFEREE
   PARTNER
+  ALUMNI
+  PROSPECTIVE
   GUEST
 }
 
@@ -42,6 +44,23 @@ enum AllowedModel {
   NOTIFICATION
   TARGET
   USER
+  QUALIFICATION
+  REFEREE
+  TOKEN
+  CLAIMS
+  MEDIA_FILE
+  MEDIA
+  PLAYER_INFO
+  TAG
+  ASSIGNMENT
+  GLOBAL_SETTING
+  USER_SETTING
+  FORUM_TAG
+  REMINDER
+  PAYMENT
+  INVOICE
+  TRANSACTION
+  ALL
 }
 
 enum AllowedPermission {
@@ -49,9 +68,7 @@ enum AllowedPermission {
   READ
   UPDATE
   DELETE
-  UPDATE_PERMISSIONS
-  GRANT_PERMISSIONS
-  REVOKE_PERMISSIONS
+  ALL
 }
 
 enum MediaType {
@@ -68,14 +85,13 @@ enum MediaType {
 }
 
 enum SettingType {
-  BOOLEAN
-  STRING
-  NUMBER
-  DATE
-  TIME
+  COURSE
+  ACCOUNT
+  GLOBAL
+  MULTIMEDIA
 }
 
-enum UserSettingKeys {
+enum SettingKeys {
   EMAIL_NOTIFICATIONS_ENABLED
   DEFAULT_TIMEZONE
   DEFAULT_LANGUAGE
@@ -94,13 +110,8 @@ enum UserSettingKeys {
   ALLOW_PUSH_NOTIFICATIONS
   ENABLE_OFFLINE_MODE
   SHOW_COURSE_ACTIVITY_FEED
-}
-
-enum GlobalSettingKeys {
   ENROLLMENT_OPEN
   MAX_ENROLLMENT
-  DEFAULT_TIMEZONE
-  DEFAULT_LANGUAGE
   SHOW_INSTRUCTOR_INFO
   ALLOW_STUDENT_MESSAGES
   COURSE_PASSING_GRADE
@@ -169,11 +180,12 @@ enum RepeatInterval {
   YEAR
 }
 
-enum RegistrationStatus {
+enum EnrollmentStatus {
   CREATED
   IN_PROGRESS
   COMPLETED
   REJECTED
+  ACCEPTED
 }
 
 enum NotificationType {
@@ -181,46 +193,122 @@ enum NotificationType {
   USER_GENERATED
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum AuthMethodType {
+  EMAIL
+  GOOGLE
+  API_KEYS
+  // Add more authentication methods if needed
+}
+
+model Role {
+  id            String         @id @default(cuid())
+  name          String
+  roleType      RoleType?      @unique
+  permissions   Permission[]
+  allowedModels AllowedModel[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+  users         User[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String              @id @default(cuid())
+  modelType   AllowedModel?
+  permissions AllowedPermission[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  deletedAt   DateTime?
+  roles       Role                @relation(fields: [roleId], references: [id])
+  roleId      String
+
+  @@map("permissions")
+}
+
+model AuthMethod {
+  id         String         @id @default(cuid())
+  userId     String
+  credential String // Stores identifier or authentication key
+  method     AuthMethodType
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("auth_methods")
+}
+
 model User {
-  id                     String             @id @default(cuid())
-  externalId             Int                @unique @default(autoincrement())
-  firstName              String?            @db.VarChar(50)
-  lastName               String?            @db.VarChar(50)
-  fullName               String?            @db.VarChar(255)
-  email                  String             @unique @db.VarChar(100)
-  role                   Role?              @default(STUDENT)
-  permissionIds          String[]
-  phone                  String?
-  avatarUrl              String?
-  dob                    String?
-  gender                 String?
-  address                String?
-  city                   String?
-  state                  String?
-  country                String?
-  zip                    String?
-  nationality            String?
-  profession             String?
-  passwordSalt           String?
-  passwordHash           String?            @map(name: "passwordHash")
-  permissions            String[]
-  username               String?
-  isVerified             Boolean            @default(false)
-  about                  String?
-  wallet                 Float?
-  timeZone               String?
-  progress               Int?
-  tokens                 Token[]
-  isAuthenticated        Boolean?
-  regStatus              RegistrationStatus @default(CREATED)
-  matricNumber           String?
+  id          String   @id @default(cuid())
+  studentId   String?
+  externalId  Int?     @unique @default(autoincrement())
+  firstName   String   @db.VarChar(50)
+  lastName    String   @db.VarChar(50)
+  fullName    String?  @db.VarChar(255)
+  email       String   @unique
+  roleId      String
+  accessToken String?
+  disbled     Boolean?
+
+  phone        String?
+  avatarUrl    String?
+  dob          String?
+  gender       Gender?
+  address      String?
+  city         String?
+  state        String?
+  country      String?
+  zip          String?
+  nationality  String?
+  profession   String?
+  passwordHash String?
+  username     String?
+  isVerified   Boolean @default(false)
+  about        String?
+  wallet       Float?
+  timeZone     String?
+  tokens       Token[]
+  matricNumber String?
+
+  role          Role?          @relation(fields: [roleId], references: [id])
+  enrollments   Enrollment[]
+  notifications Notification[]
+  activities    Activity[]
+  courses       Course[]
+  media         Multimedia[]
+  forumPosts    ForumPost[]
+  forumComments ForumComment[]
+  reminders     Reminder[]
+  payments      Payment[]
+  invoices      Invoice[]
+
+  createdAt              DateTime?    @default(now())
+  updatedAt              DateTime?    @updatedAt
+  deletedAt              DateTime?
+  confirmedAt            DateTime?
+  confirmationMailSentAt DateTime?
+  AuthMethod             AuthMethod[]
+
+  @@map("users")
+}
+
+model Enrollment {
+  id                     String           @id @default(cuid())
+  userId                 String           @unique
+  status                 EnrollmentStatus @default(CREATED)
   platform               String?
   program                String?
   regNumber              String?
-  files                  String[]
-  courses                String[]
   salvationBrief         String?
-  godsWorkings           String?
+  godsWorkings           String[]
   reason                 String?
   churchName             String?
   churchAddress          String?
@@ -228,57 +316,37 @@ model User {
   pastorEmail            String?
   pastorPhone            String?
   churchInvolved         String?
-  healthConditions       String?
+  healthConditions       String[]
   healthIssueDescription String?
   scholarship            Boolean?
   scholarshipReason      String?
+  document               MediaFile[]
+  qualifications         Qualification[]
 
   // Define relationships
-  qualifications Qualification[]
-  referees       Referee[]
-  notifications  Notification[]
-  // ...
 
-  // Extend BaseModel for common fields like createdAt, updatedAt, deletedAt
-  createdAt              DateTime       @default(now())
-  updatedAt              DateTime       @updatedAt
-  deletedAt              DateTime?
-  confirmedAt            DateTime?
-  confirmationMailSentAt DateTime?
-  Claims                 Claims[]
-  Activity               Activity[]
-  Course                 Course[]
-  Enrollment             Enrollment[]
-  Media                  Media[]
-  ForumPost              ForumPost[]
-  ForumComment           ForumComment[]
-  Reminder               Reminder[]
-  Payment                Payment[]
-  Invoice                Invoice[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+  User        User      @relation(fields: [userId], references: [id])
+  mediaFileId String?
+
+  @@map("enrollments")
 }
 
 model Qualification {
-  id             String    @id @default(cuid())
+  id             String      @id @default(cuid())
   degree         String
   institution    String
   graduationYear String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
   deletedAt      DateTime?
-  User           User?     @relation(fields: [userId], references: [id])
+  Enrollment     Enrollment? @relation(fields: [enrollmentId], references: [id])
   userId         String?
-}
+  enrollmentId   String?
 
-model Referee {
-  id        String    @id @default(cuid())
-  fullName  String
-  email     String
-  phone     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-  User      User?     @relation(fields: [userId], references: [id])
-  userId    String?
+  @@map("qualifications")
 }
 
 model Token {
@@ -293,20 +361,8 @@ model Token {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-}
 
-model Claims {
-  id     String @id @default(cuid())
-  userId String
-  email  String
-  role   String
-
-  // Define relation to User model
-  user User @relation(fields: [userId], references: [id])
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  @@map("tokens")
 }
 
 model Notification {
@@ -324,6 +380,8 @@ model Notification {
   deletedAt   DateTime?
   User        User?            @relation(fields: [userId], references: [id])
   userId      String?
+
+  @@map("notifications")
 }
 
 model Activity {
@@ -339,10 +397,12 @@ model Activity {
   // Define relationships
   user   User   @relation(fields: [userID], references: [id])
   course Course @relation(fields: [courseID], references: [id])
+
+  @@map("activities")
 }
 
 model Course {
-  id                   String       @id @default(cuid())
+  id                   String    @id @default(cuid())
   userId               String
   code                 String
   title                String
@@ -362,49 +422,34 @@ model Course {
   tags                 String[]
   instructors          String[]
   assistants           String[]
-  enrollments          Enrollment[]
   forums               Forum[]
   quizzes              Quiz[]
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @updatedAt
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
   deletedAt            DateTime?
 
   // Define relationships
   user       User         @relation(fields: [userId], references: [id])
   // ...
   Activity   Activity[]
-  Media      Media[]
+  Media      Multimedia[]
   Assignment Assignment[]
   Payment    Payment[]
+
+  @@map("courses")
 }
 
-model Enrollment {
-  id             String   @id @default(cuid())
-  userId         String
-  courseId       String
-  role           Role
-  enrollmentDate DateTime @default(now())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  // Define relationships
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
-}
-
-model GlobalSetting {
-  id    String            @id @default(cuid())
+model Setting {
+  id    String      @id @default(cuid())
   type  SettingType
-  key   GlobalSettingKeys
+  key   SettingKeys
   value String
-}
 
-model UserSetting {
-  id     String          @id @default(cuid())
-  userId String
-  type   SettingType
-  key    UserSettingKeys
-  value  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("settings")
 }
 
 model MediaFile {
@@ -414,38 +459,52 @@ model MediaFile {
   encoding String?
   size     Int
   url      String
-  Media    Media[]
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  deletedAt    DateTime?
+  Multimedia   Multimedia? @relation(fields: [multimediaId], references: [id])
+  multimediaId String?
+  Enrollment   Enrollment? @relation(fields: [enrollmentId], references: [id])
+  enrollmentId String?
 }
 
-model Media {
-  id              String      @id @default(cuid())
-  courseId        String
-  userId          String
-  title           String
-  description     String?
-  category        String
-  mediaType       MediaType
-  tags            String[]
-  videoPlayerId   String
-  videoPlayerInfo PlayerInfo? @relation(fields: [videoPlayerId], references: [id])
-  mediaFileId     String
-  mediaFile       MediaFile   @relation(fields: [mediaFileId], references: [id])
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  deletedAt       DateTime?
+model Multimedia {
+  id          String      @id @default(cuid())
+  courseId    String
+  userId      String
+  title       String
+  description String?
+  category    String
+  mediaType   MediaType
+  tags        String[]
+  playerId    String
+  player      Player?     @relation(fields: [playerId], references: [id])
+  mediafiles  MediaFile[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
 
   // Define relationships
-  user   User   @relation(fields: [userId], references: [id])
-  course Course @relation(fields: [courseId], references: [id])
+  course       Course[]
+  User         User?    @relation(fields: [userId], references: [id])
+  enrollmentId String?
+
+  @@map("multimedias")
 }
 
-model PlayerInfo {
-  id           String  @id @default(cuid())
+model Player {
+  id           String       @id @default(cuid())
   currentTime  Int
   duration     Int
   thumbnailUrl String
   posterUrl    String?
-  Media        Media[]
+  Media        Multimedia[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deletedAt    DateTime?
+
+  @@map("players")
 }
 
 model Forum {
@@ -461,7 +520,8 @@ model Forum {
 
   // Define relationships
   course Course @relation(fields: [courseId], references: [id])
-  // ...
+
+  @@map("forums")
 }
 
 model ForumPost {
@@ -483,7 +543,8 @@ model ForumPost {
 
   // Define relationships
   user User @relation(fields: [userId], references: [id])
-  // ...
+
+  @@map("forum_posts")
 }
 
 model ForumComment {
@@ -502,7 +563,8 @@ model ForumComment {
 
   // Define relationships
   user User @relation(fields: [userId], references: [id])
-  // ...
+
+  @@map("forum_comments")
 }
 
 model Tag {
@@ -510,6 +572,12 @@ model Tag {
   name      String
   postIds   String[]
   courseIds String[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("tags")
 }
 
 model Grade {
@@ -523,17 +591,51 @@ model Grade {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+
+  @@map("grades")
 }
 
-model CourseProgress {
-  id                   String    @id @default(cuid())
-  lecturesCompleted    Int
-  assignmentsCompleted Int
-  quizzesCompleted     Int
-  overallProgress      Int
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
-  deletedAt            DateTime?
+model Metric {
+  id         String         @id @default(cuid())
+  name       String
+  metricType MetricType
+  value      Float
+  timestamp  DateTime
+  category   MetricCategory
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  deletedAt  DateTime?
+
+  @@map("metrics")
+}
+
+enum MetricType {
+  NUMBER
+  TIME
+  PERCENTAGE
+  COUNT
+  DURATION
+  RATING
+  MONEY
+  BOOLEAN
+  // Add other metric types as needed
+}
+
+enum MetricCategory {
+  USER_ACTIVITY
+  COURSE_ENROLLMENT
+  QUIZ_COMPLETION
+  ASSIGNMENT_SUBMISSION
+  FORUM_POSTS
+  FORUM_COMMENTS
+  MEDIA_INTERACTION
+  PAYMENT
+  INVOICE
+  TRANSACTION
+  USER_SETTING
+  GLOBAL_SETTING
+  REMINDER
+  // Add other categories as needed
 }
 
 model Assignment {
@@ -547,6 +649,8 @@ model Assignment {
   // Define relation to Course model
   course   Course @relation(fields: [courseId], references: [id])
   courseId String
+
+  @@map("assignments")
 }
 
 model Quiz {
@@ -580,6 +684,8 @@ model Quiz {
   updatedAt          DateTime         @updatedAt
   deletedAt          DateTime?
   Course             Course           @relation(fields: [courseId], references: [id])
+
+  @@map("quizzes")
 }
 
 model Question {
@@ -596,6 +702,12 @@ model Question {
   matchingPairs MatchingPair[]
   Quiz          Quiz?          @relation(fields: [quizId], references: [id])
   quizId        String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("questions")
 }
 
 model AnswerChoice {
@@ -608,10 +720,16 @@ model AnswerChoice {
   questionId String?
   Answer     Answer?   @relation(fields: [answerId], references: [id])
   answerId   String?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("answer_choices")
 }
 
 model Submission {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   quizID      String
   userID      String
   startTime   DateTime
@@ -623,8 +741,11 @@ model Submission {
   feedback    String[]
   startedAt   DateTime
   completedAt DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@map("submissions")
 }
 
 model Answer {
@@ -636,18 +757,26 @@ model Answer {
   weight        Int
   pointsAwarded Int
   feedback      String
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
   Submission    Submission?    @relation(fields: [submissionId], references: [id])
   submissionId  String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+
+  @@map("answers")
 }
 
 model MatchingPair {
-  id         String   @id @default(cuid())
-  question   Question @relation(fields: [questionId], references: [id])
+  id         String    @id @default(cuid())
+  question   Question  @relation(fields: [questionId], references: [id])
   left       String
   right      String
   questionId String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  @@map("matching_pairs")
 }
 
 model Target {
@@ -674,28 +803,33 @@ model Target {
 
   reminders Reminder[]
   // ...
+
+  @@map("targets")
 }
 
 model Reminder {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   targetId  String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   message   String
   sendTime  DateTime
-  sent      Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  sent      Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   // Define relationships
   target Target @relation(fields: [targetId], references: [id])
   // ...
   userId String
+
+  @@map("reminders")
 }
 
 model Payment {
   id            String        @id @default(cuid())
   amount        Float
-  currency      Currency
+  currency      String
   status        PaymentStatus
   method        PaymentMethod
   type          PaymentType
@@ -710,6 +844,8 @@ model Payment {
   course      Course?       @relation(fields: [courseId], references: [id])
   courseId    String?
   Transaction Transaction[]
+
+  @@map("payments")
 }
 
 model Invoice {
@@ -719,7 +855,7 @@ model Invoice {
   dueDate   DateTime
   status    InvoiceStatus
   amount    Float
-  currency  Currency
+  currency  String
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   deletedAt DateTime?
@@ -728,6 +864,8 @@ model Invoice {
   user        User          @relation(fields: [userId], references: [id])
   userId      String
   Transaction Transaction[]
+
+  @@map("invoices")
 }
 
 model Transaction {
@@ -742,6 +880,8 @@ model Transaction {
   // Define relationships
   payment Payment  @relation(fields: [paymentId], references: [id])
   invoice Invoice? @relation(fields: [invoiceId], references: [id])
+
+  @@map("transactions")
 }
 
 enum PaymentStatus {
@@ -784,48 +924,4 @@ enum PaymentType {
   SERVICE_FEE
   DONATION
   OTHER
-}
-
-enum Currency {
-  USD // United States Dollar
-  EUR // Euro
-  GBP // British Pound Sterling
-  JPY // Japanese Yen
-  AUD // Australian Dollar
-  CAD // Canadian Dollar
-  CHF // Swiss Franc
-  CNY // Chinese Yuan
-  INR // Indian Rupee
-  SGD // Singapore Dollar
-  AED // United Arab Emirates Dirham
-  BRL // Brazilian Real
-  ZAR // South African Rand
-  MXN // Mexican Peso
-  SEK // Swedish Krona
-  NOK // Norwegian Krone
-  DKK // Danish Krone
-  PHP // Philippine Peso
-  HKD // Hong Kong Dollar
-  NZD // New Zealand Dollar
-  THB // Thai Baht
-  MYR // Malaysian Ringgit
-  KRW // South Korean Won
-  IDR // Indonesian Rupiah
-  SAR // Saudi Arabian Riyal
-  RUB // Russian Ruble
-  NGN // Nigerian Naira
-  EGP // Egyptian Pound
-  ZMW // Zambian Kwacha
-  KES // Kenyan Shilling
-  GHS // Ghanaian Cedi
-  DZD // Algerian Dinar
-  MAD // Moroccan Dirham
-  XOF // West African CFA Franc
-  XAF // Central African CFA Franc
-  ETB // Ethiopian Birr
-  TZS // Tanzanian Shilling
-  UGX // Ugandan Shilling
-  MZN // Mozambican Metical
-  KWD // Kuwaiti Dinar
-  TND // Tunisian Dinar
 }

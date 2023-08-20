@@ -1,7 +1,7 @@
 <script>
   import { enhance } from "$app/forms";
   import { user } from "$lib/store/auth";
-  import { storable, qualification } from "$lib/store/storable";
+  import { qualification } from "$lib/store/storable";
   import { onMount } from "svelte";
 </script>
 
