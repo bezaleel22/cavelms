@@ -10,10 +10,6 @@
   $: ({ pathname } = $page.url);
 
   const expand = (node: HTMLElement, i: any) => (expanded = expanded != null ? expanded : i);
-
-  $: if (browser) {
-    console.log({ $routes });
-  }
   const granted = [RoleType.PROSPECTIVE].includes($user?.role?.roleType as never);
 </script>
 

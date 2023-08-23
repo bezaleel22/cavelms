@@ -1,25 +1,23 @@
 <script lang="ts">
-  import { enhance } from "$app/forms";
-  import type { PageData } from "./$houdini";
-  import type { Users$result } from "$houdini";
-  import Filter from "./filter.svelte";
   import { onMount } from "svelte";
-  import type { User } from "@prisma/client";
+  import type { PageData } from "./$houdini";
+  import Filter from "./filter.svelte";
+  import { dataStore } from "$lib/store/query";
 
   export let data: PageData;
-  $: ({ edges, pageInfo, Users } = data);
-
+  $: ({ Users } = data);
+  $: edges = $dataStore?.edges;
   onMount(() => {
-//  console.log({edges})
+    // console.log({ edges });
   });
 </script>
 
 <div class="card w-full bg-base-100 text-neutral-content">
   <div class="card-body items-center text-center">
     <div class="grid grid-flow-row w-full">
-      <!-- <Filter bind:users /> -->
-      
-      <!-- {#if edges}
+      <Filter />
+
+      {#if edges}
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
@@ -103,7 +101,7 @@
             </tfoot>
           </table>
         </div>
-      {/if} -->
+      {/if}
     </div>
   </div>
 </div>
