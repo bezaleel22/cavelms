@@ -6,7 +6,7 @@ const config = {
     url: "http://localhost:3001/rpc/graphql",
     headers: {
       Authentication(env) {
-        return `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYmV6bmV0IiwiZW1haWwiOiJiZXpuZXQyMkBnbWFpbC5jb20iLCJpYXQiOjE2OTIwMzgwMzAsImV4cCI6MTY5OTgxNDAzMH0.xFzezuIJaG1wvHc61K176kTWg-1rRsLXb5WOnyupy-w`;
+        return env.AUTH_SECRET;
       },
     },
   },

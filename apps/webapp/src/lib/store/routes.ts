@@ -126,7 +126,7 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
         {
           name: "User List",
           badge: undefined,
-          url: "/users/permission",
+          url: "/users",
           visible: true,
           roles: [RoleType.SUPERUSER],
         },
@@ -170,6 +170,36 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
         .find((link: any) => link.url === opts.path);
       return links;
     });
-  
+
   return { granted, routes: appRoutes };
+};
+
+type KeyArray = { [k: string]: any[] };
+
+export const computeMenus = (modules: any) => {
+  let menus: KeyArray = {};
+  let temp: string[] = [];
+  Object.keys(modules)
+    .filter((path) => path.split("/").includes("+page.svelte"))
+    .reduce((prev, cur) => {
+      let pathname = cur.split(")").pop() as string;
+      pathname = pathname.replace("+page.svelte", "").replace(/\/+$/, "");
+      let key = pathname?.split("/")[1];
+      if (prev == key) {
+        temp.push(pathname as never);
+        const links = temp
+          .filter((a) => a.split("/").includes(key as string))
+          .map((link) => {
+            return { url: link };
+          });
+        menus[key] = links;
+      }
+      return key;
+    }, "");
+  
+  const m = Object.values(menus).map((link) => {
+    return { name:'', links: link}
+  })
+
+  return { m };
 };

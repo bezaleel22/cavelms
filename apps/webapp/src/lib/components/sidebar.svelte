@@ -59,6 +59,7 @@
                 {#each route.links as link}
                   {#if link.visible}
                     <li use:expand={pathname == link.url ? i : null}>
+                      
                       <a
                         href={link.url}
                         class:active={pathname == link.url}

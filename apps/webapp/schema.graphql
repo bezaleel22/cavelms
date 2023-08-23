@@ -6813,7 +6813,7 @@ type users implements Node {
   dob: String
   email: String!
   enrollments: enrollments
-  externalId: Int
+  externalId: Int!
   firstName: String!
   forum_commentsCollection(
     """Query values in the collection after the provided cursor"""

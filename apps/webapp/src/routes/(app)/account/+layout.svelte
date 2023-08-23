@@ -25,21 +25,23 @@
 <div class="card w-full bg-base-200 text-neutral-content mb-5">
   <div class="card-body shadow-lg p-6 pb-1">
     <div class="grid grid-cols-12 mb-4">
-      {#if $user?.avatarUrl}
-        <div class="avatar col-span-2">
-          <div class="w-44 rounded-xl">
-            <img src="https://i.pravatar.cc/150?img=2" alt="" />
+      <div class="col-span-2">
+        {#if $user?.avatarUrl}
+          <div class="avatar">
+            <div class="w-44 rounded-xl">
+              <img src="https://i.pravatar.cc/150?img=2" alt="" />
+            </div>
           </div>
-        </div>
-      {:else}
-        <div class="avatar placeholder">
-          <div class="bg-neutral-focus text-neutral-content rrounded-xl w-44">
-            <span class="uppercase text-5xl px-20">
-              <div class="i-bx:user text-6xl"></div>
-            </span>
+        {:else}
+          <div class="avatar placeholder">
+            <div class="bg-neutral-focus text-neutral-content rounded-xl w-44">
+              <span class="text-6xl">
+                {`${$user?.firstName?.charAt(0)}${$user?.lastName?.charAt(0)}`}
+              </span>
+            </div>
           </div>
-        </div>
-      {/if}
+        {/if}
+      </div>
 
       <div class="flex flex-col col-span-7">
         <div class="font-semibold text-xl mb-2">{$user?.fullName}</div>

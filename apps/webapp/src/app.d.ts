@@ -16,5 +16,8 @@ declare global {
   var db: PrismaClient;
 
   type KeyValue = { [k: string]: string };
+  type Mutable<Type> = {
+    -readonly [Key in keyof Type]: Type[Key];
+  };
 }
 export {};

@@ -35,7 +35,7 @@
                     </h5>
                     <strong
                       ><h5>
-                        <a href="handbook.pdf" target="_blank">Download Student Handbok</a>
+                        <a href="/handbook.pdf" target="_blank">Download Student Handbok</a>
                       </h5></strong
                     >
                   </div>

@@ -17,7 +17,7 @@
               The Diploma in Theology Program will establish believers in the foundation of the
               Christian Faith.<br /><br />
             </h5>
-            <a href="diploma.php" class="item-btn btn-fill style-2">Learn More</a>
+            <a href="/diploma" class="item-btn btn-fill style-2">Learn More</a>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@
               The Postgraduate Diploma in Theology Program will develop you in foundational
               understanding of Biblical Truth.<br /><br />
             </h5>
-            <a href="pgdt.php" class="item-btn btn-fill style-2">Learn more</a>
+            <a href="/pgdt" class="item-btn btn-fill style-2">Learn more</a>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
     <div class="col-lg-4 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
-          <img src="images/media/category/category3.jpg" alt="Category" width="690" height="372" />
+          <img src="/images/media/category/category3.jpg" alt="Category" width="690" height="372" />
         </div>
         <div class="content-box">
           <div class="top-content">

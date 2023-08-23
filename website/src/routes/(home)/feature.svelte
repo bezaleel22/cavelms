@@ -62,7 +62,7 @@
               <h3 class="title"><strong>Scholarship</strong></h3>
               <h6 class="description">
                 Get the RCN theological Seminary Scholarship.<br />
-                <a href="financialaid.php">Read More</a>
+                <a href="/financialaid">Read More</a>
               </h6>
             </div>
           </div>
@@ -78,7 +78,7 @@
                 We establish believers in the foundations of Christian Faith.
               </h6>
               <p class="description">
-                <a href="explore.php"> Read More </a>
+                <a href="/explore"> Read More </a>
               </p>
             </div>
           </div>

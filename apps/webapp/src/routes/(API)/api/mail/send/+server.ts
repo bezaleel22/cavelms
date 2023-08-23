@@ -1,5 +1,5 @@
 import { mail } from "$lib/mail";
-import type { RequestEvent } from "../$types";
+import type { RequestEvent } from "@sveltejs/kit";
 
 export const POST = async ({ request }: RequestEvent) => {
   const html_body = await request.json();

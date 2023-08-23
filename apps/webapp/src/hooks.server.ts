@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { API_KEY, AUTH_SECRET } from "$env/static/private";
 import { dev } from "$app/environment";
 import { RoleType, setSession } from "$houdini";
-import { RBAC } from "$lib/store/routes";
+import { RBAC, computeMenus } from "$lib/store/routes";
 import { Gender } from "@prisma/client";
 
 export const handle = (async ({ event, resolve }) => {
@@ -30,32 +30,13 @@ export const handle = (async ({ event, resolve }) => {
   user.accessToken = jwt.sign(jwtUser, AUTH_SECRET, { expiresIn: "1m" });
   event.locals.authUser = user;
 
-  const modules = import.meta.glob("./routes/**/**.svelte");
-  let sub = { title: "", url: "" };
-  let submenu: { [k: string]: string[] } = {};
-  let arr: string[] = [];
-  const list = Object.keys(modules)
-    .filter((path) => path.split("/").includes("+page.svelte"))
-    .map((path) => {
-      let pathname = path.split(")").pop()?.replace("+page.svelte", "").replace(/\/+$/, "");
-      let title = pathname?.split("/")[1];
-      return { title, url: pathname };
-    });
-  list.reduce((prev, cur) => {
-    if (cur.title == prev.title && cur.title && cur.url) {
-      console.log({ title: cur.title, url: cur.url });
-      arr.push(cur.url as never);
-      submenu[cur.title] = arr.filter((a) => a.split("/").includes(cur.title as string));
-    }
-    return cur;
-  }, sub);
-
-  console.log({ submenu });
+  const modules =  import.meta.glob("./routes/**/**.svelte");
+  // console.log(computeMenus(modules));
 
   const { granted, routes } = RBAC({
     routId: event.params.id as string,
     path: event.url.pathname,
-    role: RoleType.PROSPECTIVE as string,
+    role: user.role?.roleType as string,
   });
 
   event.locals.routes = routes;

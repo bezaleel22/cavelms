@@ -36,7 +36,7 @@
       <div class="col-lg-7">
         <div class="advantage-box style-1">
           <div class="figure-box">
-            <img src="adv.png" alt="Advantage" width="633" height="704" />
+            <img src="/adv.png" alt="Advantage" width="633" height="704" />
           </div>
         </div>
       </div>

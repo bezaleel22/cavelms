@@ -35,7 +35,7 @@ CREATE TYPE "TargetType" AS ENUM ('TARGET', 'MINIMUM', 'MAXIMUM');
 CREATE TYPE "RepeatInterval" AS ENUM ('DAY', 'WEEK', 'MONTH', 'YEAR');
 
 -- CreateEnum
-CREATE TYPE "RegistrationStatus" AS ENUM ('CREATED', 'IN_PROGRESS', 'COMPLETED', 'REJECTED');
+CREATE TYPE "EnrollmentStatus" AS ENUM ('CREATED', 'IN_PROGRESS', 'COMPLETED', 'REJECTED', 'ACCEPTED');
 
 -- CreateEnum
 CREATE TYPE "NotificationType" AS ENUM ('SYSTEM', 'USER_GENERATED');
@@ -126,9 +126,10 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "roleId" TEXT NOT NULL,
     "accessToken" TEXT,
+    "disbled" BOOLEAN,
     "phone" TEXT,
     "avatarUrl" TEXT,
-    "dob" TIMESTAMP(3),
+    "dob" TEXT,
     "gender" "Gender",
     "address" TEXT,
     "city" TEXT,
@@ -143,7 +144,6 @@ CREATE TABLE "users" (
     "about" TEXT,
     "wallet" DOUBLE PRECISION,
     "timeZone" TEXT,
-    "isAuthenticated" BOOLEAN,
     "matricNumber" TEXT,
     "createdAt" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
@@ -158,12 +158,12 @@ CREATE TABLE "users" (
 CREATE TABLE "enrollments" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "regStatus" "RegistrationStatus" NOT NULL DEFAULT 'CREATED',
+    "status" "EnrollmentStatus" NOT NULL DEFAULT 'CREATED',
     "platform" TEXT,
     "program" TEXT,
     "regNumber" TEXT,
     "salvationBrief" TEXT,
-    "godsWorkings" TEXT,
+    "godsWorkings" TEXT[],
     "reason" TEXT,
     "churchName" TEXT,
     "churchAddress" TEXT,
@@ -171,7 +171,7 @@ CREATE TABLE "enrollments" (
     "pastorEmail" TEXT,
     "pastorPhone" TEXT,
     "churchInvolved" TEXT,
-    "healthConditions" TEXT,
+    "healthConditions" TEXT[],
     "healthIssueDescription" TEXT,
     "scholarship" BOOLEAN,
     "scholarshipReason" TEXT,

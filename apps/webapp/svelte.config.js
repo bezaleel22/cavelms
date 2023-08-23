@@ -11,6 +11,7 @@ const config = {
   kit: {
     adapter: adapter(),
     alias: {
+      route: path.resolve(".", "src/routes"),
       $houdini: path.resolve(".", "$houdini"),
     },
   },

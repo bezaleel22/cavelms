@@ -26,8 +26,8 @@
                 "
         >
           <div class="footer-terms">
-            <a href="contact.html">Privacy Policy</a>
-            <a href="contact.html">Terms of Use</a>
+            <a href=" ">Privacy Policy</a>
+            <a href=" ">Terms of Use</a>
           </div>
         </div>
       </div>

@@ -1,23 +1,20 @@
 <script lang="ts">
-    import Dragdrop from "$lib/components/dragdrop.svelte"
-    import MultiSelect from "$lib/components/MultiSelect.svelte"
-    import { Col, Modal, Row } from "sveltestrap"
-    export let isOpen: boolean
-    let loading: boolean
-    let value: string
-    let selected: []
-    const toggle = () => (isOpen = !isOpen)
-    const handleSubmit = async () => {
-      loading = true
-      // let payload = { userId, category, file: null };
-      // const resp = await file.query("create", payload, uploaded);
-      // if (!!resp?.pdata?.createFile) getDocuments();
-      loading = false
-      isOpen = !isOpen
-    }
-  </script>
-  
-  <Modal backdrop="static" header="New Course" size="lg" {isOpen} {toggle}>
+  export let isOpen: boolean;
+  let loading: boolean;
+  let value: string;
+  let selected: [];
+  const toggle = () => (isOpen = !isOpen);
+  const handleSubmit = async () => {
+    loading = true;
+    // let payload = { userId, category, file: null };
+    // const resp = await file.query("create", payload, uploaded);
+    // if (!!resp?.pdata?.createFile) getDocuments();
+    loading = false;
+    isOpen = !isOpen;
+  };
+</script>
+
+<!-- <Modal backdrop="static" header="New Course" size="lg" {isOpen} {toggle}>
     <form class="p-5 pt-4 pb-4">
       <Row class="mb-4">
         <Col lg={6}>
@@ -125,4 +122,4 @@
         </button>
       </div>
     </form>
-  </Modal>
+  </Modal> -->

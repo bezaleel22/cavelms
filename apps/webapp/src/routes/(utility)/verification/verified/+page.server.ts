@@ -9,7 +9,7 @@ import { convert } from "html-to-text";
 export const load: PageServerLoad = async (event) => {
   const verifyToken = event.url.searchParams.get("token") as string;
   const claim = jwt.verify(verifyToken, AUTH_SECRET) as jwt.JwtPayload;
-  const user = await db.user.update({ where: { id: claim.userId }, data: { isVerified: true } });
+  const user = await db.user.update({ where: { id: claim.tokenId }, data: { isVerified: true } });
   if (!user) {
     return fail(400, { message: "unable to update user" });
   }

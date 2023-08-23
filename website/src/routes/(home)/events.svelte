@@ -14,7 +14,7 @@
         </div>
         <div class="content-box">
           <h3 class="title">
-            <a href="profile.html">Apostle. Arome Osayi</a>
+            <a href=" ">Apostle. Arome Osayi</a>
           </h3>
           <h6 class="sub-title">Chairman</h6>
           <ul class="social inline-list">

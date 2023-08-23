@@ -43,7 +43,7 @@ const signup: Action = async (event) => {
     return fail(400, { messaage: "User not found" });
   }
 
-  const jwtUser = { email };
+  const jwtUser = { tokenId: user.id };
   const verifyToken = jwt.sign(jwtUser, AUTH_SECRET, { expiresIn: "7d" });
 
   const html_body = await renderTemplate("http://localhost:8080/email/signup.html", {

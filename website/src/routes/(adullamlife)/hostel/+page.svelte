@@ -58,7 +58,7 @@
               <div class="shape-wrap">
                 <img
                   class="motion-effects5"
-                  src="media/elements/element68.png"
+                  src="images/media/elements/element68.png"
                   alt="Element"
                   width="228"
                   height="228"

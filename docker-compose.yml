@@ -1,13 +1,89 @@
-version: '3'
+# Use root/example as user/password credentials
+version: '3.1'
+
+volumes:
+  pgdata:
+  redis_data:
 
 services:
-  webapp:
-    container_name: webapp
-    build:
-      dockerfile: ./apps/webapp/Dockerfile
-      context: .
+  minibase:
+    container_name: minibase
+    image: ghcr.io/onos9/onos9/minibase:latest
+    restart: unless-stopped
     ports:
-      - "8081:8081"
-    env_file:
-      - ./apps/webapp/.env
+      - 5406:5432
+    environment:
+      POSTGRES_USER: cavelms
+      POSTGRES_PASSWORD: 1414{bruno}
+      POSTGRES_DB: cavelms
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
  
+  # webapp:
+  #   container_name: webapp
+  #   build:
+  #     target: webapp
+  #     context: .
+  #   ports:
+  #     - "8080:3000"
+  #   env_file:
+  #     - ./.env
+  #   depends_on:
+  #     - minibase
+      
+  # website:
+  #   container_name: website
+  #   build:
+  #     target: website
+  #     context: .
+  #   ports:
+  #     - "8083:3000"
+  #   depends_on:
+  #     - minibase
+      
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    environment:
+      REDIS_PWD: 'my-redis'
+    ports:
+      - '6078:6379'
+    # command: redis-server --save 20 1 --loglevel warning --requirepass $$REDIS_PWD
+    volumes:
+      - redis_data:/data
+    
+  postgrest:
+    container_name: postgrest
+    image: postgrest/postgrest:v10.0.0
+    restart: unless-stopped
+    ports:
+      - 3001:3000
+    environment:
+      PGRST_DB_URI: postgres://cavelms:1414{bruno}@minibase:5432/cavelms
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: anonymous
+    depends_on:
+      - minibase
+    
+  graphiql:
+    container_name: graphiql
+    restart: unless-stopped
+    image: nginx
+    volumes:
+      - ./graphiql:/usr/share/nginx/html
+    ports:
+      - 4000:80
+    depends_on:
+      - postgrest
+  
+  swagger:
+   container_name: swaggerUI
+   restart: unless-stopped
+   image: swaggerapi/swagger-ui
+   ports:
+    - "8899:8080"
+   expose:
+    - "8080"
+   environment:
+    API_URL: http://localhost:3001/  

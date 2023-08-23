@@ -1,10 +1,11 @@
 import { browser } from "$app/environment";
 import { PROXY_URL } from "./constants";
 import { MediaInfo } from "./info";
+import RxPlayer from "rx-player";
 
 const VideoPlayer = async () => {
-  if (!browser) return;
-  const RxPlayer = (await import("rx-player")).default;
+  // if (!browser) return;
+  // const RxPlayer = (await import("rx-player")).default;
 
   class Player extends RxPlayer {
     video: HTMLVideoElement;

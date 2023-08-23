@@ -1,5 +1,5 @@
 query Users {
-  usersCollection(first: 2, after: null) {
+  usersCollection(first: 1, after: null) @paginate {
     pageInfo {
       startCursor
       endCursor
@@ -10,6 +10,18 @@ query Users {
       cursor
       node {
         id
+        fullName
+        email
+        firstName
+        lastName
+        avatarUrl
+        phone
+        country
+        city
+        enrollments {
+          program
+          platform
+        }
       }
     }
   }

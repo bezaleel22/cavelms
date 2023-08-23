@@ -6,7 +6,9 @@
         "build": "vite build",
         "preview": "vite preview",
         "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+        "prestart:migrate": "prisma migrate deploy",
+        "prod:migrate": "prisma db seed && node build"
     },
     "prisma": {
         "seed": "node prisma/seed.js"
