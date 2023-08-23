@@ -19,7 +19,7 @@ Navigate to the project directory
 docker compose up -d
 ```
 
-Start the webapp navigate to the webapp directory run the followin commanf
+to start the webapp, navigate to the webapp directory run the followin commanf
 ```bash
 npm install
 ```
