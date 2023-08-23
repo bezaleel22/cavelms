@@ -14,7 +14,7 @@ Navigate to the project directory
 cd cavelms
 ```
 
-Navigate to the project directory
+run the database and backend services
 ```bash
 docker compose up -d
 ```
@@ -24,7 +24,7 @@ To start the webapp, navigate to the webapp directory run the following command
 npm install
 ```
 
-The next step is to set up the database using Prisma.
+The next step is to initialise the database using Prisma cli.
 ```bash
 npx prisma db push
 npx prisma db seed
@@ -37,3 +37,7 @@ npm start
 
 Goto http://localhost:8080/
 
+To view the database shema
+```bash
+npx prisma studio
+```
