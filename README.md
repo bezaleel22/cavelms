@@ -2,7 +2,7 @@
 
 Cavelms is an E-learning platform. it includes a web application, services, and a website. The web app written in TypeScript and SvelteKit, while the services are written in Golang, and the website project is again built using TypeScript and SvelteKit.
 
-## Running the Development server
+### Running the Development server
 
 First, clone the repository 
 ```bash
