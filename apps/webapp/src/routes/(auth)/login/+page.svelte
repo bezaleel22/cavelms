@@ -6,7 +6,7 @@
   let isAlert = false;
   let message: boolean;
   export let form: ActionData;
-
+  let loading = false;
   $: if (form) {
     message = form?.message;
     isAlert = true;
@@ -36,13 +36,22 @@
             </div>
           </div>
         {/if}
-        <form action="?/login" method="post" use:enhance>
-          <div class="relative  mb-4">
+        <form
+          action="?/login"
+          method="post"
+          use:enhance={() => {
+            loading = true;
+            return ({ result, update }) => {
+              update();
+            };
+          }}
+        >
+          <div class="relative mb-4">
             <input
               name="email"
               type="email"
               id="email"
-              class=" input input-bordered floating-input peer focus:border-accent-focus "
+              class=" input input-bordered floating-input peer focus:border-accent-focus"
             />
             <label for="password" class=" floating-label peer-focus:text-accent-focus">
               Email
@@ -72,7 +81,12 @@
           </label>
 
           <div class="form-control mt-6">
-            <button class="btn">Login</button>
+            <button class="btn">
+              {#if loading}
+                <span class="loading loading-spinner loading-sm" />
+              {/if}
+              Login
+            </button>
           </div>
         </form>
         <span class="text-sm text-center mt-4">

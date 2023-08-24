@@ -4,6 +4,7 @@
   import { page } from "$app/stores";
 
   export let form: FormData;
+  let loading = false;
   let email = $page.url.searchParams.get("email");
   $: console.log(form);
   $: if (form && browser) email = form?.email ?? email;
@@ -27,9 +28,24 @@
       <div class="flex justify-center space-x-2">
         <span> Did’t receive an email?</span>
 
-        <form action="?/resend" method="post" use:enhance>
+        <form
+          action="?/resend"
+          method="post"
+          use:enhance={() => {
+            loading = true;
+            return ({ result, update }) => {
+              update();
+            };
+          }}
+        >
           <input hidden name="email" bind:value={email} type="text" />
-          <button class="btn-ghost text-primary">Resend</button>
+          <button class="btn-ghost text-primary">
+            {#if loading}
+              <span class="loading loading-spinner loading-sm" />
+            {:else}
+              Resend
+            {/if}
+          </button>
         </form>
       </div>
     </div>

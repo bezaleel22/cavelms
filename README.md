@@ -35,7 +35,7 @@ Start the dev server
 npm start
 ```
 
-Goto http://localhost:8080/
+Now goto http://localhost:8080/
 
 To view the database shema
 ```bash

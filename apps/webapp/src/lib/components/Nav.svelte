@@ -1,6 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import { user } from "$lib/store/auth";
+  import logo from "$lib/assets/images/logo11.svg";
 </script>
 
 <nav
@@ -23,10 +24,9 @@
       aria-label="Homepage"
       class="flex-0 btn btn-ghost px-2 md:hidden"
     >
-      <div class="font-title text-primary inline-flex text-2xl transition-all duration-200">
-        <span class="capitalize">Adu</span>
-        <span class="text-base-content uppercase">LLAM</span>
-      </div>
+    <div class="w-52 h-10 rounded">
+      <img src={logo} alt="" />
+    </div>
     </a>
   </div>
   <div class="flex-none gap-2 lg:block">

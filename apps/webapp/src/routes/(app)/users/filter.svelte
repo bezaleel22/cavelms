@@ -1,12 +1,21 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import type { User } from "$houdini";
+  import { dataStore } from "$lib/store/query";
 
-  export let users:any;
-
+  let form: HTMLFormElement;
+  $: isOpen = false;
   const filterUsers = () => {
-    const filtered = users.filter((user) => true);
-    console.log({ users });
+    isOpen = true;
+    const formData = new FormData(form);
+    const { platform, program } = Object.fromEntries(formData);
+    const filtered = $dataStore?.edges.filter(
+      (edge) =>
+        edge.node.enrollments?.platform == platform && edge.node.enrollments?.program == program
+    );
+
+    if ($dataStore) $dataStore = { ...$dataStore, edges: filtered || [] };
+    isOpen = false;
+    console.log({ filtered });
   };
 </script>
 
@@ -15,13 +24,13 @@
     <input type="text" placeholder="Search" class="input input-bordered" />
   </div>
   <div class="flex space-x-1">
-    <div class="dropdown dropdown-bottom dropdown-end">
+    <div class:dropdown-open={isOpen} class="dropdown dropdown-bottom dropdown-end">
       <button tabindex={0} class="btn btn-primary">
         <span class="i-bx:filter-alt text-lg m-0" />
         Filter
       </button>
       <div class="dropdown-content w-96 shadow-2xl z-[1] bg-base-200 rounded-box mt-3 p-5">
-        <form on:submit|preventDefault={filterUsers}>
+        <form bind:this={form}>
           <div class="grid grid-flow-row gap-5">
             <div class="relative">
               <select
@@ -51,8 +60,8 @@
             </div>
 
             <div class="flex justify-end">
-              <button class="btn mr-2">Reset</button>
-              <button class="btn btn-primary">Apply</button>
+              <button type="button" class="btn mr-2">Reset</button>
+              <button type="button" on:click={filterUsers} class="btn btn-primary">Apply</button>
             </div>
           </div>
         </form>

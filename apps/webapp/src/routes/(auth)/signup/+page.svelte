@@ -4,6 +4,7 @@
   import type { ActionData } from "./$types";
 
   export let form: ActionData;
+  let loading = false;
   $: if (form) {
     console.log(form);
   }
@@ -25,7 +26,16 @@
         <div class="font-medium self-center text-xl">
           <Brand />
         </div>
-        <form action="?/signup" method="post" use:enhance>
+        <form
+          action="?/signup"
+          method="post"
+          use:enhance={() => {
+            loading = true;
+            return ({ result, update }) => {
+              update();
+            };
+          }}
+        >
           <div class="relative mb-4">
             <input
               name="firstName"
@@ -111,6 +121,9 @@
           </div>
 
           <div class="form-control mt-2">
+            {#if loading}
+              <span class="loading loading-spinner loading-sm" />
+            {/if}
             <button class="btn">Signup</button>
           </div>
         </form>
