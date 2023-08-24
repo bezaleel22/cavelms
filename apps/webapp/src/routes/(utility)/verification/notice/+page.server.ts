@@ -19,7 +19,7 @@ const resend: Action = async ({ url, request }) => {
     return fail(400, { message: "user session is undefined" });
   }
 
-  const jwtUser = { userId: user.id, email: user.email };
+  const jwtUser = { tokenId: user.id };
   const verifyToken = jwt.sign(jwtUser, AUTH_SECRET, { expiresIn: "7d" });
   try {
     const html_body = await renderTemplate("http://localhost:8080/email/signup.html", {
@@ -33,7 +33,8 @@ const resend: Action = async ({ url, request }) => {
       plain_body: convert(html_body),
       html_body,
     };
-    await mail.sendMessage(messaage);
+    const resend = await mail.sendMessage(messaage);
+  //  console.log({ resend })
     return { email };
   } catch (error: any) {
     return fail(400, { error: error.message });

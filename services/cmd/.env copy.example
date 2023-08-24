@@ -1,0 +1,34 @@
+# App Configs
+APP_PORT=8000
+APP_HOST='http://localhost:8080'
+
+# JWT Configs
+JWT_ACCESS_SIGN_KEY=greatest-access-secret-ever
+JWT_REFRESH_SIGN_KEY=greatest-refresh-secret-ever
+JWT_ISSUER=Beznet
+
+# Mongo Configs
+MONGO_URI=mongodb://localhost:27017/
+MONGO_DB_NAME=cavelms
+MONGO_USER=root
+MONGO_PASSWORD=password
+
+ADMIN_EMAIL=admin@adullam.ng
+ADMIN_PASS='1234'
+
+# Redis Configs
+REDIS_HOST=localhost
+REDIS_PORT=6378
+
+# Admin Panel Configs
+WEBROOT=../cave-web/build
+FINANCIAL=http://dev.adullam.ng/tuition.php
+
+# ZohoMail Configs
+EMAIL_FROM=admin@adullam.ng
+CLIENT_ID="1000.YV85D0NZ7QHMLSHNK3HEIACCBN5NKN"
+CLIENT_SECRET=3a5b77e57283f47fec6df126d81d4d114fce32022a
+REDIRECT_URL="http://localhost:3000/settings"
+SCOPE=ZohoMail.accounts.ALL,ZohoMail.messages.ALL,ZohoMail.folders.ALL
+ZUID=745057424
+ACCOUNT_ID=7786889000000008002
