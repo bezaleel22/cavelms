@@ -10,12 +10,12 @@
   $: ({ pathname } = $page.url);
 
   const expand = (node: HTMLElement, i: any) => (expanded = expanded != null ? expanded : i);
-  const granted = [RoleType.PROSPECTIVE].includes($user?.role?.roleType as never);
+  const granted = [RoleType.PROSPECTIVE, RoleType.SUPERUSER].includes($user?.role?.roleType as never);
 </script>
 
 <div class="drawer-side">
   <label for="my-drawer" class="drawer-overlay" />
-  <aside class="w-64 h-screen bg-base-200">
+  <aside class="w-64 h-screen">
     <div class="flex justify-center">
       <Brand />
     </div>
@@ -37,7 +37,7 @@
     </div>
 
     <nav class="overflow-auto">
-      <ul class="menu bg-base-200 overflow-auto">
+      <ul class="menu overflow-auto">
         {#if granted}
           <li class="uppercase bg-base-300 rounded-md mb-10 mx-6">
             <a class:active={pathname == "/"} href="/">

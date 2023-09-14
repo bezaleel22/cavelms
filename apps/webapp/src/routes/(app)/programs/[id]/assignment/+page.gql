@@ -1,0 +1,16 @@
+query Assignments {
+  assignmentsCollection {
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        id
+      }
+    }
+  }
+}

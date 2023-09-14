@@ -56,7 +56,7 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
         {
           name: "Settings",
           badge: undefined,
-          url: "/account/settings",
+          url: "/account/preference",
           roles: [RoleType.SUPERUSER],
           visible: true,
         },

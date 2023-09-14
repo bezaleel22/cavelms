@@ -1,5 +1,5 @@
 <script>
-  import { document, Storable } from "$lib/store/storable";
+  import { document } from "$lib/store/storable";
 </script>
 
 <div class="mt-10 sm:mt-0">
@@ -25,7 +25,6 @@
                 <input
                   required
                   bind:value={$document.title}
-                  name="document.title"
                   type="text"
                   id="title"
                   class=" input input-bordered floating-input peer focus:border-accent-focus"
@@ -38,7 +37,6 @@
               <div class="relative col-span-6 sm:col-span-3">
                 <input
                   bind:value={$document.description}
-                  name="document.description"
                   type="text"
                   id="description"
                   class=" input input-bordered floating-input peer focus:border-accent-focus"

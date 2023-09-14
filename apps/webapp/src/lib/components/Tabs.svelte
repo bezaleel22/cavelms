@@ -1,31 +1,28 @@
 <script lang="ts">
-  
-  export let active = 1;
-  export let items: {
-    title: string;
-    component: ConstructorOfATypedSvelteComponent;
-  }[];
+  export let active: number;
+  export let titles: string[] = [];
+  export let withPane: boolean = false;
 </script>
 
-<div class="grid grid-row-2 w-full">
-  <div class="mb-4">
-    <div class="tabs float-right">
-      {#each items as item, i}
-        <button
-          class="tab tab-bordered lg:mx-8 {active === i ? 'tab-active' : ''}"
-          on:click={() => (active = i)}
-        >
-          {item.title}
-        </button>
-      {/each}
-    </div>
-  </div>
-
-  <div class="w-full">
-    {#each items as item, i}
-      {#if active == i}
-        <svelte:component this={item.component} />
-      {/if}
+{#if titles.length}
+  <div class="tabs">
+    {#each titles as title, i}
+      <a
+        href={title.toLowerCase()}
+        class:tab-active={active === i}
+        class="tab tab-bordered mr-6"
+        on:click={() => (active = i)}
+      >
+        <span class="capitalize">
+          {title}
+        </span>
+      </a>
     {/each}
   </div>
-</div>
+{/if}
+
+{#if withPane}
+  <div class="w-full p-6">
+    <slot />
+  </div>
+{/if}

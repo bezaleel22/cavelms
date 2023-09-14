@@ -5,7 +5,7 @@ import { API_KEY, AUTH_SECRET } from "$env/static/private";
 import { dev } from "$app/environment";
 import { RoleType, setSession } from "$houdini";
 import { RBAC, computeMenus } from "$lib/store/routes";
-import { Gender } from "@prisma/client";
+import type { $Enums } from "@prisma/client";
 
 export const handle = (async ({ event, resolve }) => {
   if (!API_KEY && dev) {
@@ -30,9 +30,15 @@ export const handle = (async ({ event, resolve }) => {
   user.accessToken = jwt.sign(jwtUser, AUTH_SECRET, { expiresIn: "1m" });
   event.locals.authUser = user;
 
-  const modules =  import.meta.glob("./routes/**/**.svelte");
-  // console.log(computeMenus(modules));
+  event.locals.settings = await db.setting.findMany({
+    where: {
+      roles: {
+        hasSome: [user.role?.roleType] as $Enums.RoleType[],
+      },
+    },
+  });
 
+  const modules = import.meta.glob("./routes/**/**.svelte");
   const { granted, routes } = RBAC({
     routId: event.params.id as string,
     path: event.url.pathname,

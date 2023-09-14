@@ -5,9 +5,10 @@ export const load = (async ({ locals }) => {
   if (!locals?.authUser) {
     throw redirect(302, "/login");
   }
-  
+
   return {
     user: locals?.authUser,
     routes: locals.routes,
+    settings: locals.settings,
   };
 }) satisfies PageServerLoad;

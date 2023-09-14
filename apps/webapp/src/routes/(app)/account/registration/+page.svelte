@@ -18,7 +18,7 @@
 <form
   action="?/register"
   method="post"
-  use:enhance={({ data, cancel }) => {
+  use:enhance={({ data }) => {
     loading = true;
     const userData = { $personal, $spirit, $health, $qualification, $document, $ref1, $ref2 };
     data.append("jsonData", JSON.stringify({ ...userData }));

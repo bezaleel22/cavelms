@@ -234,6 +234,41 @@ input BooleanFilter {
   is: FilterIs
 }
 
+enum CourseStatus {
+  COMPLETED
+  DELAYED
+  IN_PROGRESS
+  OVERDUE
+}
+
+"""
+Boolean expression comparing fields on type "CourseStatus"
+"""
+input CourseStatusFilter {
+  eq: CourseStatus
+  in: [CourseStatus!]
+  is: FilterIs
+  neq: CourseStatus
+}
+
+enum CourseType {
+  OTHERS
+  PRACTICUM
+  REGULAR
+  SHORT_COURSE
+  THEORY
+}
+
+"""
+Boolean expression comparing fields on type "CourseType"
+"""
+input CourseTypeFilter {
+  eq: CourseType
+  in: [CourseType!]
+  is: FilterIs
+  neq: CourseType
+}
+
 """
 An opaque string using for tracking a position in results during pagination
 """
@@ -2504,6 +2539,21 @@ input RoleTypeFilter {
   neq: RoleType
 }
 
+enum SemesterType {
+  FIRST
+  SECOND
+}
+
+"""
+Boolean expression comparing fields on type "SemesterType"
+"""
+input SemesterTypeFilter {
+  eq: SemesterType
+  in: [SemesterType!]
+  is: FilterIs
+  neq: SemesterType
+}
+
 enum SettingKeys {
   ALLOW_COURSE_COMMENTS
   ALLOW_COURSE_DISCOVERY
@@ -2554,7 +2604,7 @@ input SettingKeysFilter {
 enum SettingType {
   ACCOUNT
   COURSE
-  GLOBAL
+  GENERAL
   MULTIMEDIA
 }
 
@@ -2758,9 +2808,9 @@ type _prisma_migrationsUpdateResponse {
 
 type activities implements Node {
   activityType: ActivityType!
+  course: courses
   courseContentID: String
-  courseID: String!
-  courses: courses!
+  courseId: String
   createdAt: Datetime!
   deletedAt: Datetime
   id: String!
@@ -2768,8 +2818,8 @@ type activities implements Node {
   """Globally Unique Record Identifier"""
   nodeId: ID!
   updatedAt: Datetime!
-  userID: String!
-  users: users!
+  user: users!
+  userId: String!
 }
 
 type activitiesConnection {
@@ -2798,7 +2848,7 @@ input activitiesFilter {
   """
   and: [activitiesFilter!]
   courseContentID: StringFilter
-  courseID: StringFilter
+  courseId: StringFilter
   createdAt: DatetimeFilter
   deletedAt: DatetimeFilter
   id: StringFilter
@@ -2812,18 +2862,18 @@ input activitiesFilter {
   """
   or: [activitiesFilter!]
   updatedAt: DatetimeFilter
-  userID: StringFilter
+  userId: StringFilter
 }
 
 input activitiesInsertInput {
   activityType: ActivityType
   courseContentID: String
-  courseID: String
+  courseId: String
   createdAt: Datetime
   deletedAt: Datetime
   id: String
   updatedAt: Datetime
-  userID: String
+  userId: String
 }
 
 type activitiesInsertResponse {
@@ -2837,23 +2887,23 @@ type activitiesInsertResponse {
 input activitiesOrderBy {
   activityType: OrderByDirection
   courseContentID: OrderByDirection
-  courseID: OrderByDirection
+  courseId: OrderByDirection
   createdAt: OrderByDirection
   deletedAt: OrderByDirection
   id: OrderByDirection
   updatedAt: OrderByDirection
-  userID: OrderByDirection
+  userId: OrderByDirection
 }
 
 input activitiesUpdateInput {
   activityType: ActivityType
   courseContentID: String
-  courseID: String
+  courseId: String
   createdAt: Datetime
   deletedAt: Datetime
   id: String
   updatedAt: Datetime
-  userID: String
+  userId: String
 }
 
 type activitiesUpdateResponse {
@@ -3122,8 +3172,8 @@ type answersUpdateResponse {
 }
 
 type assignments implements Node {
-  course: courses!
-  courseId: String!
+  course: courses
+  courseId: String
   createdAt: Datetime!
   deletedAt: Datetime
   id: String!
@@ -3348,14 +3398,15 @@ type courses implements Node {
     orderBy: [assignmentsOrderBy!]
   ): assignmentsConnection
   assistants: [String]
-  categories: [String]
   code: String!
+  courseType: CourseType
   coverUrl: String
   createdAt: Datetime!
+  creditHours: String!
   deletedAt: Datetime
   description: String
-  endDate: Datetime
-  enrollmentEndDate: Datetime
+  dueDate: String
+  endDate: String
   forumsCollection(
     """Query values in the collection after the provided cursor"""
     after: Cursor
@@ -3378,8 +3429,26 @@ type courses implements Node {
   id: String!
   instructors: [String]
   language: String
-  matriculationEndDate: Datetime
-  maxStudents: Int
+  locked: Boolean!
+  multimediasCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: multimediasFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [multimediasOrderBy!]
+  ): multimediasConnection
 
   """Globally Unique Record Identifier"""
   nodeId: ID!
@@ -3402,6 +3471,8 @@ type courses implements Node {
     """Sort order to apply to the collection"""
     orderBy: [paymentsOrderBy!]
   ): paymentsConnection
+  platform: String!
+  program: String!
   quizzesCollection(
     """Query values in the collection after the provided cursor"""
     after: Cursor
@@ -3423,7 +3494,9 @@ type courses implements Node {
   ): quizzesConnection
   semester: String!
   shortDescription: String!
-  startDate: Datetime
+  startDate: String
+  status: CourseStatus
+  studentIds: [String]
   tags: [String]
   thumbnailUrl: String
   title: String!
@@ -3457,16 +3530,17 @@ input coursesFilter {
   """
   and: [coursesFilter!]
   code: StringFilter
+  courseType: CourseTypeFilter
   coverUrl: StringFilter
   createdAt: DatetimeFilter
+  creditHours: StringFilter
   deletedAt: DatetimeFilter
   description: StringFilter
-  endDate: DatetimeFilter
-  enrollmentEndDate: DatetimeFilter
+  dueDate: StringFilter
+  endDate: StringFilter
   id: StringFilter
   language: StringFilter
-  matriculationEndDate: DatetimeFilter
-  maxStudents: IntFilter
+  locked: BooleanFilter
   nodeId: IDFilter
 
   """Negates a filter"""
@@ -3476,9 +3550,12 @@ input coursesFilter {
   Returns true if at least one of its inner filters is true, otherwise returns false
   """
   or: [coursesFilter!]
+  platform: StringFilter
+  program: StringFilter
   semester: StringFilter
   shortDescription: StringFilter
-  startDate: DatetimeFilter
+  startDate: StringFilter
+  status: CourseStatusFilter
   thumbnailUrl: StringFilter
   title: StringFilter
   updatedAt: DatetimeFilter
@@ -3488,22 +3565,26 @@ input coursesFilter {
 
 input coursesInsertInput {
   assistants: [String]
-  categories: [String]
   code: String
+  courseType: CourseType
   coverUrl: String
   createdAt: Datetime
+  creditHours: String
   deletedAt: Datetime
   description: String
-  endDate: Datetime
-  enrollmentEndDate: Datetime
+  dueDate: String
+  endDate: String
   id: String
   instructors: [String]
   language: String
-  matriculationEndDate: Datetime
-  maxStudents: Int
+  locked: Boolean
+  platform: String
+  program: String
   semester: String
   shortDescription: String
-  startDate: Datetime
+  startDate: String
+  status: CourseStatus
+  studentIds: [String]
   tags: [String]
   thumbnailUrl: String
   title: String
@@ -3522,19 +3603,23 @@ type coursesInsertResponse {
 
 input coursesOrderBy {
   code: OrderByDirection
+  courseType: OrderByDirection
   coverUrl: OrderByDirection
   createdAt: OrderByDirection
+  creditHours: OrderByDirection
   deletedAt: OrderByDirection
   description: OrderByDirection
+  dueDate: OrderByDirection
   endDate: OrderByDirection
-  enrollmentEndDate: OrderByDirection
   id: OrderByDirection
   language: OrderByDirection
-  matriculationEndDate: OrderByDirection
-  maxStudents: OrderByDirection
+  locked: OrderByDirection
+  platform: OrderByDirection
+  program: OrderByDirection
   semester: OrderByDirection
   shortDescription: OrderByDirection
   startDate: OrderByDirection
+  status: OrderByDirection
   thumbnailUrl: OrderByDirection
   title: OrderByDirection
   updatedAt: OrderByDirection
@@ -3544,22 +3629,26 @@ input coursesOrderBy {
 
 input coursesUpdateInput {
   assistants: [String]
-  categories: [String]
   code: String
+  courseType: CourseType
   coverUrl: String
   createdAt: Datetime
+  creditHours: String
   deletedAt: Datetime
   description: String
-  endDate: Datetime
-  enrollmentEndDate: Datetime
+  dueDate: String
+  endDate: String
   id: String
   instructors: [String]
   language: String
-  matriculationEndDate: Datetime
-  maxStudents: Int
+  locked: Boolean
+  platform: String
+  program: String
   semester: String
   shortDescription: String
-  startDate: Datetime
+  startDate: String
+  status: CourseStatus
+  studentIds: [String]
   tags: [String]
   thumbnailUrl: String
   title: String
@@ -4626,7 +4715,8 @@ type metricsUpdateResponse {
 
 type multimedias implements Node {
   category: String!
-  courseId: String!
+  course: courses
+  courseId: String
   createdAt: Datetime!
   deletedAt: Datetime
   description: String
@@ -6019,10 +6109,11 @@ type settings implements Node {
   createdAt: Datetime!
   deletedAt: Datetime
   id: String!
-  key: SettingKeys!
+  key: String!
 
   """Globally Unique Record Identifier"""
   nodeId: ID!
+  roles: [RoleType]
   type: SettingType!
   updatedAt: Datetime!
   value: String!
@@ -6054,7 +6145,7 @@ input settingsFilter {
   createdAt: DatetimeFilter
   deletedAt: DatetimeFilter
   id: StringFilter
-  key: SettingKeysFilter
+  key: StringFilter
   nodeId: IDFilter
 
   """Negates a filter"""
@@ -6073,7 +6164,8 @@ input settingsInsertInput {
   createdAt: Datetime
   deletedAt: Datetime
   id: String
-  key: SettingKeys
+  key: String
+  roles: [RoleType]
   type: SettingType
   updatedAt: Datetime
   value: String
@@ -6101,7 +6193,8 @@ input settingsUpdateInput {
   createdAt: Datetime
   deletedAt: Datetime
   id: String
-  key: SettingKeys
+  key: String
+  roles: [RoleType]
   type: SettingType
   updatedAt: Datetime
   value: String
@@ -6813,7 +6906,7 @@ type users implements Node {
   dob: String
   email: String!
   enrollments: enrollments
-  externalId: Int!
+  externalId: Int
   firstName: String!
   forum_commentsCollection(
     """Query values in the collection after the provided cursor"""

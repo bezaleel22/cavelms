@@ -5,7 +5,7 @@
 </script>
 
 <nav
-  class="navbar bg-base-200 px-5
+  class="navbar px-5
   sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100
   text-base-content shadow-sm"
 >

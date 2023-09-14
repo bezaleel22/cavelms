@@ -61,7 +61,7 @@
           <div class="relative mb-4">
             <input
               name="email"
-              type="text"
+              type="email"
               id="email"
               class=" input input-bordered floating-input peer focus:border-accent-focus"
             />
