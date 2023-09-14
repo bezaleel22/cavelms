@@ -17,11 +17,14 @@
       <p class="py-6">
         We have sent an email to
         <span class="text-primary">{email}</span>
-        pelase follow a link to verify your email.
+        <br />Please follow the link to verify your email.
       </p>
+      <p>Ensure to check your spam or junk if you can't find your Email.</p>
+
       {#if !email}
         <a href="/login" class="btn btn-primary mb-4">Get Started</a>
       {/if}
+
       <div class="flex justify-center space-x-2">
         <span> Did’t receive an email?</span>
 

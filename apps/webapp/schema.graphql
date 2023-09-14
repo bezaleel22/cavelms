@@ -618,17 +618,6 @@ type Mutation {
     filter: MediaFileFilter
   ): MediaFileDeleteResponse!
 
-  """Deletes zero or more records from the `_prisma_migrations` collection"""
-  deleteFrom_prisma_migrationsCollection(
-    """
-    The maximum number of records in the collection permitted to be affected
-    """
-    atMost: Int! = 1
-
-    """Restricts the mutation's impact to records matching the criteria"""
-    filter: _prisma_migrationsFilter
-  ): _prisma_migrationsDeleteResponse!
-
   """Deletes zero or more records from the `activities` collection"""
   deleteFromactivitiesCollection(
     """
@@ -976,9 +965,6 @@ type Mutation {
   """Adds one or more `MediaFile` records to the collection"""
   insertIntoMediaFileCollection(objects: [MediaFileInsertInput!]!): MediaFileInsertResponse
 
-  """Adds one or more `_prisma_migrations` records to the collection"""
-  insertInto_prisma_migrationsCollection(objects: [_prisma_migrationsInsertInput!]!): _prisma_migrationsInsertResponse
-
   """Adds one or more `activities` records to the collection"""
   insertIntoactivitiesCollection(objects: [activitiesInsertInput!]!): activitiesInsertResponse
 
@@ -1103,22 +1089,6 @@ type Mutation {
     """
     set: MediaFileUpdateInput!
   ): MediaFileUpdateResponse!
-
-  """Updates zero or more records in the `_prisma_migrations` collection"""
-  update_prisma_migrationsCollection(
-    """
-    The maximum number of records in the collection permitted to be affected
-    """
-    atMost: Int! = 1
-
-    """Restricts the mutation's impact to records matching the criteria"""
-    filter: _prisma_migrationsFilter
-
-    """
-    Fields that are set will be updated for all records matching the `filter`
-    """
-    set: _prisma_migrationsUpdateInput!
-  ): _prisma_migrationsUpdateResponse!
 
   """Updates zero or more records in the `activities` collection"""
   updateactivitiesCollection(
@@ -1744,27 +1714,6 @@ input ProctoringMethodFilter {
 
 """The root type for querying data"""
 type Query {
-  """A pagable collection of type `_prisma_migrations`"""
-  _prisma_migrationsCollection(
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: _prisma_migrationsFilter
-
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Sort order to apply to the collection"""
-    orderBy: [_prisma_migrationsOrderBy!]
-  ): _prisma_migrationsConnection
-
   """A pagable collection of type `activities`"""
   activitiesCollection(
     """Query values in the collection after the provided cursor"""
@@ -2699,111 +2648,6 @@ input UUIDFilter {
   in: [UUID!]
   is: FilterIs
   neq: UUID
-}
-
-type _prisma_migrations implements Node {
-  applied_steps_count: Int!
-  checksum: String!
-  finished_at: Datetime
-  id: String!
-  logs: String
-  migration_name: String!
-
-  """Globally Unique Record Identifier"""
-  nodeId: ID!
-  rolled_back_at: Datetime
-  started_at: Datetime!
-}
-
-type _prisma_migrationsConnection {
-  edges: [_prisma_migrationsEdge!]!
-  pageInfo: PageInfo!
-}
-
-type _prisma_migrationsDeleteResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [_prisma_migrations!]!
-}
-
-type _prisma_migrationsEdge {
-  cursor: String!
-  node: _prisma_migrations!
-}
-
-input _prisma_migrationsFilter {
-  """
-  Returns true only if all its inner filters are true, otherwise returns false
-  """
-  and: [_prisma_migrationsFilter!]
-  applied_steps_count: IntFilter
-  checksum: StringFilter
-  finished_at: DatetimeFilter
-  id: StringFilter
-  logs: StringFilter
-  migration_name: StringFilter
-  nodeId: IDFilter
-
-  """Negates a filter"""
-  not: _prisma_migrationsFilter
-
-  """
-  Returns true if at least one of its inner filters is true, otherwise returns false
-  """
-  or: [_prisma_migrationsFilter!]
-  rolled_back_at: DatetimeFilter
-  started_at: DatetimeFilter
-}
-
-input _prisma_migrationsInsertInput {
-  applied_steps_count: Int
-  checksum: String
-  finished_at: Datetime
-  id: String
-  logs: String
-  migration_name: String
-  rolled_back_at: Datetime
-  started_at: Datetime
-}
-
-type _prisma_migrationsInsertResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [_prisma_migrations!]!
-}
-
-input _prisma_migrationsOrderBy {
-  applied_steps_count: OrderByDirection
-  checksum: OrderByDirection
-  finished_at: OrderByDirection
-  id: OrderByDirection
-  logs: OrderByDirection
-  migration_name: OrderByDirection
-  rolled_back_at: OrderByDirection
-  started_at: OrderByDirection
-}
-
-input _prisma_migrationsUpdateInput {
-  applied_steps_count: Int
-  checksum: String
-  finished_at: Datetime
-  id: String
-  logs: String
-  migration_name: String
-  rolled_back_at: Datetime
-  started_at: Datetime
-}
-
-type _prisma_migrationsUpdateResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [_prisma_migrations!]!
 }
 
 type activities implements Node {

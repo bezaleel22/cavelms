@@ -58,7 +58,7 @@ const signup: Action = async (event) => {
     html_body,
   };
 
-  console.log({ verifyToken });
+//  console.log({ verifyToken });
 
   await mail.sendMessage(messaage);
   throw redirect(302, `/verification/notice?email=${user?.email}`);

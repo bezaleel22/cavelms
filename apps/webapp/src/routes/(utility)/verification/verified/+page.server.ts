@@ -9,6 +9,7 @@ import { convert } from "html-to-text";
 export const load: PageServerLoad = async (event) => {
   const verifyToken = event.url.searchParams.get("token") as string;
   const claim = jwt.verify(verifyToken, AUTH_SECRET) as jwt.JwtPayload;
+  console.log({ claim })
   const user = await db.user.update({ where: { id: claim.tokenId }, data: { isVerified: true } });
   if (!user) {
     return fail(400, { message: "unable to update user" });
@@ -28,7 +29,7 @@ const resend: Action = async ({ url, request }) => {
     return fail(400, { message: "user session is undefined" });
   }
 
-  const jwtUser = { userId: user.id, email: user.email };
+  const jwtUser = { tokenId: user.id };
   const verifyToken = jwt.sign(jwtUser, AUTH_SECRET, { expiresIn: "7d" });
   try {
     const html_body = await renderTemplate("http://localhost:8080/email/signup.html", {
