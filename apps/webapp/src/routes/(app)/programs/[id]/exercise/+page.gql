@@ -1,5 +1,5 @@
-query Assignments {
-  assignmentsCollection {
+query Exercise {
+  exercisesCollection {
     pageInfo {
       startCursor
       endCursor

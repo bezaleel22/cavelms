@@ -9,7 +9,7 @@ import { CorsProxy } from "./plugin/cors-proxy";
 export default defineConfig({
   plugins: [
     houdini(),
-    // corsAnywherePlugin(),
+    corsAnywherePlugin(),
     sveltekit(),
     UnoCSS({
       presets: [

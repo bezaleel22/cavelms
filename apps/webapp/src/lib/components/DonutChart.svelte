@@ -10,7 +10,7 @@
         label: "My First Dataset",
         data: [300, 50, 100],
         backgroundColor: ["#7000e1", "#fc8800", "#00b0e8"],
-        hoverOffset: 4,
+        hoverOffset: 10,
         borderWidth: 0,
       },
     ],
@@ -20,12 +20,12 @@
     data: data,
     options: {
       responsive: true,
-      cutout: "80%",
-      spacing: 2,
+      cutout: "60%",
+      spacing: 4,
       animation: { animateScale: true },
       plugins: {
         legend: {
-          position: "right",
+          position: "top",
           display: true,
           labels: {
             usePointStyle: true,
@@ -48,6 +48,6 @@
   });
 </script>
 
-<div class="chart-container" style="position: relative; height:50vh">
-  <canvas bind:this={portfolio} />
+<div class="chart">
+  <canvas bind:this={portfolio}/>
 </div>

@@ -52,7 +52,7 @@ enum AllowedModel {
   MEDIA
   PLAYER_INFO
   TAG
-  ASSIGNMENT
+  EXERCISE
   GLOBAL_SETTING
   USER_SETTING
   FORUM_TAG
@@ -301,6 +301,7 @@ model User {
   role          Role?          @relation(fields: [roleId], references: [id])
   enrollments   Enrollment[]
   notifications Notification[]
+  events        Event[]
   activities    Activity[]
   courses       Course[]
   multimedias   Multimedia[]
@@ -385,6 +386,26 @@ model Token {
   @@map("tokens")
 }
 
+model Event {
+  id       String @id @default(cuid())
+  title    String
+  date     String
+  duration Int
+  repeat   Int
+  until    String
+  detail   String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  User      User?     @relation(fields: [userId], references: [id])
+  userId    String?
+  Course    Course?   @relation(fields: [courseId], references: [id])
+  courseId  String?
+
+  @@map("events")
+}
+
 model Notification {
   id          String           @id @default(cuid())
   senderId    String
@@ -400,6 +421,7 @@ model Notification {
   deletedAt   DateTime?
   User        User?            @relation(fields: [userId], references: [id])
   userId      String?
+  Course      Course           @relation(fields: [courseId], references: [id])
 
   @@map("notifications")
 }
@@ -452,11 +474,13 @@ model Course {
   program          String
   platform         String
 
-  user        User         @relation(fields: [userId], references: [id])
-  activities  Activity[]
-  multimedias Multimedia[]
-  assignments Assignment[]
-  payments    Payment[]
+  user         User           @relation(fields: [userId], references: [id])
+  activities   Activity[]
+  anouncements Notification[]
+  events       Event[]
+  multimedias  Multimedia[]
+  assignments  Exercise[]
+  payments     Payment[]
 
   @@map("courses")
 }
@@ -661,9 +685,9 @@ enum MetricCategory {
   // Add other categories as needed
 }
 
-model Assignment {
+model Exercise {
   id        String    @id @default(cuid())
-  // Define fields related to Assignment model if necessary
+  // Define fields related to Exercise model if necessary
   // ...
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -673,7 +697,7 @@ model Assignment {
   course   Course? @relation(fields: [courseId], references: [id])
   courseId String?
 
-  @@map("assignments")
+  @@map("exercises")
 }
 
 model Quiz {

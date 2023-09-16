@@ -2,6 +2,8 @@
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
   import { TabNav, TabPane } from "$lib/components/Tabs";
+  import { dataStore } from "$lib/store/query";
+  import type { Course$result } from "$houdini";
 
   let titles = ["overview", "videos", "documents", "assignments", "quizzes", "documents", "forum"];
   let active = titles.indexOf($page.url.pathname.split("/").pop() as string);
@@ -9,6 +11,7 @@
   export let form: FormData;
   $: if (browser) console.log(form);
 
+  $: course = $dataStore as Course$result["node"];
 </script>
 
 <div class="card w-full bg-base-200 text-neutral-content mb-5">
@@ -19,73 +22,40 @@
           <img src="https://www.adullam.ng/media/category/category3.jpg" alt="" />
         </div>
       </div>
-      <div class="flex flex-col col-span-7">
+      <div class="flex flex-col col-span-6">
         <div class="flex space-x-5">
-          <div class="font-semibold text-xl">Biblical Foundations of Leadership</div>
-          <div class="badge badge-outline my-auto badge-primary">InProgress</div>
+          <div class="font-semibold text-xl">{course?.title}</div>
+          <div class="badge badge-outline my-auto badge-primary">{course?.status}</div>
+        </div>
+        <div class="mb-3">
+          {course?.code}
         </div>
 
         <div class="flex opacity-30 mb-8 text-sm font-mono">
           <span class="flex mr-3 justify-center">
-            <p class="leading-2">
-              This programs is designed to establish the believer in the foundations of the
-              Christian Faith
-            </p>
+            <p class="leading-2">{course?.shortDescription}</p>
           </span>
         </div>
 
         <div class="flex space-x-6">
           <div class="border border-dotted border-base-content border-opacity-30 rounded p-3">
-            <p>Aug 19, 2023</p>
+            <p>{new Date(course?.startDate || "").toDateString()}</p>
             <p class="text-sm opacity-30">Start Date</p>
           </div>
           <div class="border border-dotted border-base-content border-opacity-30 rounded p-2">
-            <p>Dec 19, 2023</p>
-            <p class="text-sm opacity-30">End Date</p>
+            <p>{new Date(course?.dueDate || "").toDateString()}</p>
+            <p class="text-sm opacity-30">Due Date</p>
           </div>
           <div class="border border-dotted border-base-content border-opacity-30 rounded p-2">
-            <p>Dec 19, 2023</p>
+            <p>{new Date(course?.dueDate || "").toDateString()}</p>
             <p class="text-sm opacity-30">End Date</p>
-          </div>
-
-          <div class="avatar-group -space-x-6">
-            <div class="avatar">
-              <div class="w-16">
-                <img src="https://i.pravatar.cc/150?img=2" alt="" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-16">
-                <img src="https://i.pravatar.cc/150?img=3" alt="" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-16">
-                <img src="https://i.pravatar.cc/150?img=4" alt="" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-16">
-                <img src="https://i.pravatar.cc/150?img=5" alt="" />
-              </div>
-            </div>
-            <div class="avatar">
-              <div class="w-16">
-                <img src="https://i.pravatar.cc/150?img=6" alt="" />
-              </div>
-            </div>
-            <div class="avatar placeholder">
-              <div class="w-16 bg-neutral-focus text-neutral-content">
-                <span>+10</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-      <div class="flex flex-col col-span-3">
+      <div class="flex flex-col col-span-4 justify-between">
         <div class="flex justify-end space-x-2">
-          <button class="btn btn-active btn-sm">Add User</button>
-          <button class="btn btn-sm btn-primary">Add Target</button>
+          <button class="btn btn-active btn-sm">Add Target</button>
+          <button class="btn btn-sm btn-primary">Add User</button>
           <div class="dropdown dropdown-end">
             <button class="btn btn-sm">
               <div class="i-bx:dots-horizontal-rounded text-xl" />
@@ -95,6 +65,46 @@
               <li><button>Item 2</button></li>
             </ul>
           </div>
+        </div>
+
+        <div class="avatar-group justify-end -space-x-6">
+          <div class="avatar">
+            <div class="w-16">
+              <img src="https://i.pravatar.cc/150?img=2" alt="" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-16">
+              <img src="https://i.pravatar.cc/150?img=3" alt="" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-16">
+              <img src="https://i.pravatar.cc/150?img=4" alt="" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-16">
+              <img src="https://i.pravatar.cc/150?img=5" alt="" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-16">
+              <img src="https://i.pravatar.cc/150?img=6" alt="" />
+            </div>
+          </div>
+          <div class="avatar">
+            <div class="w-16">
+              <img src="https://i.pravatar.cc/150?img=6" alt="" />
+            </div>
+          </div>
+          <a href=" ">
+            <div class="avatar placeholder">
+              <div class="w-16 bg-neutral-focus text-neutral-content">
+                <span>+10</span>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </div>

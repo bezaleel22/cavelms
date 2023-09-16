@@ -1,32 +1,26 @@
-query Course {
-  coursesCollection(first: 1) {
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    edges {
-      cursor
-      node {
-        id
-        userId
-        title
-        code
-        shortDescription
-        description
-        year
-        startDate
-        endDate
-        thumbnailUrl
-        coverUrl
-        courseType
-        tags
-        instructors
-        studentIds
-        createdAt
-        updatedAt
-      }
+query Course($id: ID!) @cache(policy: CacheAndNetwork) {
+  node(nodeId: $id) {
+    nodeId
+    ... on courses {
+      id
+      userId
+      title
+      code
+      shortDescription
+      description
+      year
+      startDate
+      endDate
+      dueDate
+      thumbnailUrl
+      coverUrl
+      courseType
+      tags
+      status
+      instructors
+      studentIds
+      createdAt
+      updatedAt
     }
   }
 }

@@ -1,12 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { PageData } from "./$houdini";
   import Filter from "./filter.svelte";
-  import { dataStore } from "$lib/store/query";
+  import { dataList, dataStore } from "$lib/store/query";
+  import type { Users$result } from "$houdini";
 
-  export let data: PageData;
-  $: ({ Users } = data);
-  $: edges = $dataStore?.edges;
+  $: data = $dataList as Users$result["usersCollection"];
   onMount(() => {
     // console.log({ edges });
   });
@@ -17,7 +15,7 @@
     <div class="grid grid-flow-row w-full">
       <Filter />
 
-      {#if edges}
+      {#if data?.edges}
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
@@ -35,7 +33,7 @@
               </tr>
             </thead>
             <tbody>
-              {#each edges as user}
+              {#each data?.edges as user}
                 <tr>
                   <th>
                     <label>

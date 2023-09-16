@@ -1,4 +1,4 @@
-import { RoleType, type Prisma } from "@prisma/client";
+import { RoleType, type Prisma, CourseType, CourseStatus } from "@prisma/client";
 import { fail, redirect } from "@sveltejs/kit";
 import { mkdirSync, writeFileSync } from "fs";
 import type { Actions, PageServerLoad } from "./$types";
@@ -17,7 +17,7 @@ export const actions: Actions = {
     formdata.delete("cover");
 
     let data = Object.fromEntries(formdata) as KeyValue;
-    const year = event.locals?.settings.find((settings) => settings.key === "year")?.value
+    const year = event.locals?.settings.find((settings) => settings.key === "year")?.value;
     const dir = `static/uploads`;
 
     try {
@@ -27,10 +27,10 @@ export const actions: Actions = {
         writeFileSync(`${dir}/${cover.name}`, Buffer.from(ab));
         data.coverUrl = `/${dir}/${cover.name}`;
       }
-    
-      // console.log({ data });
-      const course = await db.course.create({ data: { userId, year, ...data } as any });
-      console.log({ course });
+
+      const course = await db.course.create({
+        data: { userId, year, status: CourseStatus.IN_PROGRESS, ...data } as any,
+      });
       if (!course) {
         return fail(400, { messaage: `Role: ${RoleType.REFEREE} does not exist` });
       }

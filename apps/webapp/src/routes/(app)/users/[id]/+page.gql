@@ -1,16 +1,11 @@
-query User($id: String!) {
-  usersCollection(filter: { id: { eq: $id } }) {
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    edges {
-      cursor
-      node {
-        id
-      }
+query User($id: ID!) {
+  node(nodeId: $id) {
+    nodeId
+    ... on users {
+      id
+
+      createdAt
+      updatedAt
     }
   }
 }

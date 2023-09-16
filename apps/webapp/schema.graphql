@@ -31,10 +31,10 @@ enum AllowedModel {
   ACTIVITY
   ALL
   ANSWER_CHOICE
-  ASSIGNMENT
   CLAIMS
   COURSE
   COURSE_CONTENT
+  EXERCISE
   FILE
   FORUM
   FORUM_COMMENT
@@ -662,17 +662,6 @@ type Mutation {
     filter: answersFilter
   ): answersDeleteResponse!
 
-  """Deletes zero or more records from the `assignments` collection"""
-  deleteFromassignmentsCollection(
-    """
-    The maximum number of records in the collection permitted to be affected
-    """
-    atMost: Int! = 1
-
-    """Restricts the mutation's impact to records matching the criteria"""
-    filter: assignmentsFilter
-  ): assignmentsDeleteResponse!
-
   """Deletes zero or more records from the `auth_methods` collection"""
   deleteFromauth_methodsCollection(
     """
@@ -705,6 +694,28 @@ type Mutation {
     """Restricts the mutation's impact to records matching the criteria"""
     filter: enrollmentsFilter
   ): enrollmentsDeleteResponse!
+
+  """Deletes zero or more records from the `events` collection"""
+  deleteFromeventsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: eventsFilter
+  ): eventsDeleteResponse!
+
+  """Deletes zero or more records from the `exercises` collection"""
+  deleteFromexercisesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: exercisesFilter
+  ): exercisesDeleteResponse!
 
   """Deletes zero or more records from the `forum_comments` collection"""
   deleteFromforum_commentsCollection(
@@ -988,9 +999,6 @@ type Mutation {
   """Adds one or more `answers` records to the collection"""
   insertIntoanswersCollection(objects: [answersInsertInput!]!): answersInsertResponse
 
-  """Adds one or more `assignments` records to the collection"""
-  insertIntoassignmentsCollection(objects: [assignmentsInsertInput!]!): assignmentsInsertResponse
-
   """Adds one or more `auth_methods` records to the collection"""
   insertIntoauth_methodsCollection(objects: [auth_methodsInsertInput!]!): auth_methodsInsertResponse
 
@@ -999,6 +1007,12 @@ type Mutation {
 
   """Adds one or more `enrollments` records to the collection"""
   insertIntoenrollmentsCollection(objects: [enrollmentsInsertInput!]!): enrollmentsInsertResponse
+
+  """Adds one or more `events` records to the collection"""
+  insertIntoeventsCollection(objects: [eventsInsertInput!]!): eventsInsertResponse
+
+  """Adds one or more `exercises` records to the collection"""
+  insertIntoexercisesCollection(objects: [exercisesInsertInput!]!): exercisesInsertResponse
 
   """Adds one or more `forum_comments` records to the collection"""
   insertIntoforum_commentsCollection(objects: [forum_commentsInsertInput!]!): forum_commentsInsertResponse
@@ -1168,22 +1182,6 @@ type Mutation {
     set: answersUpdateInput!
   ): answersUpdateResponse!
 
-  """Updates zero or more records in the `assignments` collection"""
-  updateassignmentsCollection(
-    """
-    The maximum number of records in the collection permitted to be affected
-    """
-    atMost: Int! = 1
-
-    """Restricts the mutation's impact to records matching the criteria"""
-    filter: assignmentsFilter
-
-    """
-    Fields that are set will be updated for all records matching the `filter`
-    """
-    set: assignmentsUpdateInput!
-  ): assignmentsUpdateResponse!
-
   """Updates zero or more records in the `auth_methods` collection"""
   updateauth_methodsCollection(
     """
@@ -1231,6 +1229,38 @@ type Mutation {
     """
     set: enrollmentsUpdateInput!
   ): enrollmentsUpdateResponse!
+
+  """Updates zero or more records in the `events` collection"""
+  updateeventsCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: eventsFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: eventsUpdateInput!
+  ): eventsUpdateResponse!
+
+  """Updates zero or more records in the `exercises` collection"""
+  updateexercisesCollection(
+    """
+    The maximum number of records in the collection permitted to be affected
+    """
+    atMost: Int! = 1
+
+    """Restricts the mutation's impact to records matching the criteria"""
+    filter: exercisesFilter
+
+    """
+    Fields that are set will be updated for all records matching the `filter`
+    """
+    set: exercisesUpdateInput!
+  ): exercisesUpdateResponse!
 
   """Updates zero or more records in the `forum_comments` collection"""
   updateforum_commentsCollection(
@@ -1828,27 +1858,6 @@ type Query {
     orderBy: [answersOrderBy!]
   ): answersConnection
 
-  """A pagable collection of type `assignments`"""
-  assignmentsCollection(
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: assignmentsFilter
-
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Sort order to apply to the collection"""
-    orderBy: [assignmentsOrderBy!]
-  ): assignmentsConnection
-
   """A pagable collection of type `auth_methods`"""
   auth_methodsCollection(
     """Query values in the collection after the provided cursor"""
@@ -1932,6 +1941,48 @@ type Query {
     """Sort order to apply to the collection"""
     orderBy: [enrollmentsOrderBy!]
   ): enrollmentsConnection
+
+  """A pagable collection of type `events`"""
+  eventsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: eventsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [eventsOrderBy!]
+  ): eventsConnection
+
+  """A pagable collection of type `exercises`"""
+  exercisesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: exercisesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [exercisesOrderBy!]
+  ): exercisesConnection
 
   """A pagable collection of type `forum_comments`"""
   forum_commentsCollection(
@@ -3171,97 +3222,6 @@ type answersUpdateResponse {
   records: [answers!]!
 }
 
-type assignments implements Node {
-  course: courses
-  courseId: String
-  createdAt: Datetime!
-  deletedAt: Datetime
-  id: String!
-
-  """Globally Unique Record Identifier"""
-  nodeId: ID!
-  updatedAt: Datetime!
-}
-
-type assignmentsConnection {
-  edges: [assignmentsEdge!]!
-  pageInfo: PageInfo!
-}
-
-type assignmentsDeleteResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [assignments!]!
-}
-
-type assignmentsEdge {
-  cursor: String!
-  node: assignments!
-}
-
-input assignmentsFilter {
-  """
-  Returns true only if all its inner filters are true, otherwise returns false
-  """
-  and: [assignmentsFilter!]
-  courseId: StringFilter
-  createdAt: DatetimeFilter
-  deletedAt: DatetimeFilter
-  id: StringFilter
-  nodeId: IDFilter
-
-  """Negates a filter"""
-  not: assignmentsFilter
-
-  """
-  Returns true if at least one of its inner filters is true, otherwise returns false
-  """
-  or: [assignmentsFilter!]
-  updatedAt: DatetimeFilter
-}
-
-input assignmentsInsertInput {
-  courseId: String
-  createdAt: Datetime
-  deletedAt: Datetime
-  id: String
-  updatedAt: Datetime
-}
-
-type assignmentsInsertResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [assignments!]!
-}
-
-input assignmentsOrderBy {
-  courseId: OrderByDirection
-  createdAt: OrderByDirection
-  deletedAt: OrderByDirection
-  id: OrderByDirection
-  updatedAt: OrderByDirection
-}
-
-input assignmentsUpdateInput {
-  courseId: String
-  createdAt: Datetime
-  deletedAt: Datetime
-  id: String
-  updatedAt: Datetime
-}
-
-type assignmentsUpdateResponse {
-  """Count of the records impacted by the mutation"""
-  affectedCount: Int!
-
-  """Array of records impacted by the mutation"""
-  records: [assignments!]!
-}
-
 type auth_methods implements Node {
   createdAt: Datetime!
   credential: String!
@@ -3378,25 +3338,6 @@ type courses implements Node {
     """Sort order to apply to the collection"""
     orderBy: [activitiesOrderBy!]
   ): activitiesConnection
-  assignmentsCollection(
-    """Query values in the collection after the provided cursor"""
-    after: Cursor
-
-    """Query values in the collection before the provided cursor"""
-    before: Cursor
-
-    """Filters to apply to the results set when querying from the collection"""
-    filter: assignmentsFilter
-
-    """Query the first `n` records in the collection"""
-    first: Int
-
-    """Query the last `n` records in the collection"""
-    last: Int
-
-    """Sort order to apply to the collection"""
-    orderBy: [assignmentsOrderBy!]
-  ): assignmentsConnection
   assistants: [String]
   code: String!
   courseType: CourseType
@@ -3407,6 +3348,44 @@ type courses implements Node {
   description: String
   dueDate: String
   endDate: String
+  eventsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: eventsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [eventsOrderBy!]
+  ): eventsConnection
+  exercisesCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: exercisesFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [exercisesOrderBy!]
+  ): exercisesConnection
   forumsCollection(
     """Query values in the collection after the provided cursor"""
     after: Cursor
@@ -3452,6 +3431,25 @@ type courses implements Node {
 
   """Globally Unique Record Identifier"""
   nodeId: ID!
+  notificationsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: notificationsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [notificationsOrderBy!]
+  ): notificationsConnection
   paymentsCollection(
     """Query values in the collection after the provided cursor"""
     after: Cursor
@@ -3878,6 +3876,224 @@ type enrollmentsUpdateResponse {
 
   """Array of records impacted by the mutation"""
   records: [enrollments!]!
+}
+
+type events implements Node {
+  course: courses
+  courseId: String
+  createdAt: Datetime!
+  date: String!
+  deletedAt: Datetime
+  detail: String!
+  duration: Int!
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  repeat: Int!
+  title: String!
+  until: String!
+  updatedAt: Datetime!
+  user: users
+  userId: String
+}
+
+type eventsConnection {
+  edges: [eventsEdge!]!
+  pageInfo: PageInfo!
+}
+
+type eventsDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [events!]!
+}
+
+type eventsEdge {
+  cursor: String!
+  node: events!
+}
+
+input eventsFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [eventsFilter!]
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  date: StringFilter
+  deletedAt: DatetimeFilter
+  detail: StringFilter
+  duration: IntFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: eventsFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [eventsFilter!]
+  repeat: IntFilter
+  title: StringFilter
+  until: StringFilter
+  updatedAt: DatetimeFilter
+  userId: StringFilter
+}
+
+input eventsInsertInput {
+  courseId: String
+  createdAt: Datetime
+  date: String
+  deletedAt: Datetime
+  detail: String
+  duration: Int
+  id: String
+  repeat: Int
+  title: String
+  until: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type eventsInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [events!]!
+}
+
+input eventsOrderBy {
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  date: OrderByDirection
+  deletedAt: OrderByDirection
+  detail: OrderByDirection
+  duration: OrderByDirection
+  id: OrderByDirection
+  repeat: OrderByDirection
+  title: OrderByDirection
+  until: OrderByDirection
+  updatedAt: OrderByDirection
+  userId: OrderByDirection
+}
+
+input eventsUpdateInput {
+  courseId: String
+  createdAt: Datetime
+  date: String
+  deletedAt: Datetime
+  detail: String
+  duration: Int
+  id: String
+  repeat: Int
+  title: String
+  until: String
+  updatedAt: Datetime
+  userId: String
+}
+
+type eventsUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [events!]!
+}
+
+type exercises implements Node {
+  course: courses
+  courseId: String
+  createdAt: Datetime!
+  deletedAt: Datetime
+  id: String!
+
+  """Globally Unique Record Identifier"""
+  nodeId: ID!
+  updatedAt: Datetime!
+}
+
+type exercisesConnection {
+  edges: [exercisesEdge!]!
+  pageInfo: PageInfo!
+}
+
+type exercisesDeleteResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [exercises!]!
+}
+
+type exercisesEdge {
+  cursor: String!
+  node: exercises!
+}
+
+input exercisesFilter {
+  """
+  Returns true only if all its inner filters are true, otherwise returns false
+  """
+  and: [exercisesFilter!]
+  courseId: StringFilter
+  createdAt: DatetimeFilter
+  deletedAt: DatetimeFilter
+  id: StringFilter
+  nodeId: IDFilter
+
+  """Negates a filter"""
+  not: exercisesFilter
+
+  """
+  Returns true if at least one of its inner filters is true, otherwise returns false
+  """
+  or: [exercisesFilter!]
+  updatedAt: DatetimeFilter
+}
+
+input exercisesInsertInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
+}
+
+type exercisesInsertResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [exercises!]!
+}
+
+input exercisesOrderBy {
+  courseId: OrderByDirection
+  createdAt: OrderByDirection
+  deletedAt: OrderByDirection
+  id: OrderByDirection
+  updatedAt: OrderByDirection
+}
+
+input exercisesUpdateInput {
+  courseId: String
+  createdAt: Datetime
+  deletedAt: Datetime
+  id: String
+  updatedAt: Datetime
+}
+
+type exercisesUpdateResponse {
+  """Count of the records impacted by the mutation"""
+  affectedCount: Int!
+
+  """Array of records impacted by the mutation"""
+  records: [exercises!]!
 }
 
 type forum_comments implements Node {
@@ -4864,6 +5080,7 @@ type multimediasUpdateResponse {
 }
 
 type notifications implements Node {
+  course: courses!
   courseId: String!
   createdAt: Datetime!
   deletedAt: Datetime
@@ -6906,6 +7123,25 @@ type users implements Node {
   dob: String
   email: String!
   enrollments: enrollments
+  eventsCollection(
+    """Query values in the collection after the provided cursor"""
+    after: Cursor
+
+    """Query values in the collection before the provided cursor"""
+    before: Cursor
+
+    """Filters to apply to the results set when querying from the collection"""
+    filter: eventsFilter
+
+    """Query the first `n` records in the collection"""
+    first: Int
+
+    """Query the last `n` records in the collection"""
+    last: Int
+
+    """Sort order to apply to the collection"""
+    orderBy: [eventsOrderBy!]
+  ): eventsConnection
   externalId: Int
   firstName: String!
   forum_commentsCollection(

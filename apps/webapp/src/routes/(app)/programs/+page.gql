@@ -1,5 +1,5 @@
 query Courses {
-  coursesCollection(first: 1) {
+  coursesCollection(first: 1) @cache(policy: CacheAndNetwork) {
     pageInfo {
       startCursor
       endCursor
@@ -9,6 +9,7 @@ query Courses {
     edges {
       cursor
       node {
+        nodeId
         id
         userId
         title
@@ -21,6 +22,9 @@ query Courses {
         thumbnailUrl
         coverUrl
         courseType
+        status
+        program
+        platform
         tags
         instructors
         studentIds

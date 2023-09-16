@@ -1,25 +1,21 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import type { Courses$result } from "$houdini";
-  import { dataStore } from "$lib/store/query";
-  import { onMount } from "svelte";
+  import { dataList } from "$lib/store/query";
 
   let form: HTMLFormElement;
   let modal: HTMLDialogElement;
   $: isOpen = false;
   $: program = "PGDT";
 
-  $: onMount(() => {
-    modal.showModal();
-  });
   const filterUsers = () => {
     isOpen = true;
     const formData = new FormData(form);
-    const result = $dataStore as Mutable<Courses$result["coursesCollection"]>;
+    const result = $dataList as Courses$result["coursesCollection"];
     const { code } = Object.fromEntries(formData);
     const filtered = result?.edges.filter((edge) => edge.node.code == code);
 
-    if ($dataStore) $dataStore = { ...$dataStore, edges: filtered || [] };
+    if ($dataList) $dataList = { ...$dataList, edges: filtered || [] };
     isOpen = false;
     console.log({ filtered });
   };
@@ -115,8 +111,8 @@
 
       <div class="relative col-span-6 lg:col-span-3">
         <select
-          name="semester"
-          id="type"
+          name="courseType"
+          id="courseType"
           class=" select input-bordered floating-input peer focus:border-accent-focus"
           placeholder=" "
         >
@@ -124,9 +120,10 @@
           <option value="THEORY">Theory</option>
           <option value="PRACTICUM">Practicum</option>
           <option value="REGULAR">Regular Course</option>
+          <option value="SHORT_COURSE">Short Course</option>
           <option value="OTHERS">Others</option>
         </select>
-        <label for="type" class="floating-label peer-focus:text-accent-focus">Course Type</label>
+        <label for="courseType" class="floating-label peer-focus:text-accent-focus">Course Type</label>
       </div>
 
       <div class="relative col-span-6 lg:col-span-3">

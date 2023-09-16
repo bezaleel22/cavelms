@@ -29,7 +29,7 @@ const defaultOptions = {
   showOnClick: true,
   showOnFocus: true,
   startView: 0,
-  title: "",
+  title: "Some Picker",
   todayBtn: false,
   todayBtnMode: 0,
   todayHighlight: false,
