@@ -47,8 +47,8 @@ CSS INDEX
 1. Variables 
 ========================================================================*/
 :root {
-  --font_family_body: "Roboto", sans-serif;
-  --font_family_heading: "Jost", sans-serif;
+  --font_family_body: "Times New Roman", Times, serif;
+  --font_family_heading: "Times New Roman", Times, serif;
   --color_primary: #0071dc;
   --color_secondary: #f7bc20;
   --color_text_body: #6b6b6b;
@@ -68,7 +68,7 @@ CSS INDEX
 ========================================================================*/
 body {
   font-family: var(--font_family_body);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.65;
   color: var(--color_text_body);
   font-weight: 400;

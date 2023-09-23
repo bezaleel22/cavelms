@@ -105,11 +105,11 @@
                 <h2 class="title">Arome Iduh.</h2>
                 <div class="d-flex align-items-center mb-4">
                   <div class="designation">
-                    <strong>Chaplain (Adullam Theological Seminary)</strong>
+                    <strong>Chaplain (RCN Theological Seminary - Adullam)</strong>
                   </div>
                 </div>
                 <h6 class="description">
-                  RCN Theological Seminary (Adullam) is a Christ-centered community that commits
+                  RCN Theological Seminary - Adullam is a Christ-centered community that commits
                   itself to develop/grounding students biblically, spiritually, and physically. As a
                   part of the rigorous training that goes on in the seminary, students attend chapel
                   twice a week throughout the academic school year. From powerful worship led by the

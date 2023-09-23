@@ -49,7 +49,7 @@
               <div class="content-box">
                 <h3 class="title"><strong>Our Vision</strong></h3>
                 <h5 class="description">
-                  RCN Theological Seminary seeks to establish the believer in the foundations of the
+                  RCN Theological Seminary - Adullam seeks to establish the believer in the foundations of the
                   Christian Faith. It begins to expose the believer to the realities of the Kingdom
                   of God, Truths about Spirit Life, the Government of God and the implications of
                   these realities in natural existence in their various ramifications in everyday

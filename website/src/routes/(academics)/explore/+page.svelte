@@ -1,4 +1,7 @@
-<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cave.jpg)">
+<div
+  class="breadcrumb-wrap-style-2"
+  style="background-image:url(/images/cave.jpg)"
+>
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Explore Programs</h1>
@@ -27,21 +30,32 @@
                   <br /> <br /> <br /> <br />
                   <div class="content-box">
                     <h6 class="description">
-                      The programs are designed to establish the believer in the foundations of the
-                      Christian Faith. It begins to expose the believer to the realities of the
-                      Kingdom of God, Truths about Spirit Life, the Government of God and the
-                      implications of these realities in natural existence in their various
-                      ramifications in everyday life situations. The programs have an objective of
-                      producing Kingdom foot soldiers, a workforce equipped with adequate capacities
-                      and tools for Kingdom Advance and colonization. Challenging realities on the
-                      field of Christian missions and the provisions of Kingdom resource to live
-                      triumphant in Kingdom enterprise are expounded. Moreover, the training equips
-                      the believer for Apostolic Invasions and Territorial Priesthood.
+                      The programs are designed to establish the believer in the
+                      foundations of the Christian Faith. It begins to expose
+                      the believer to the realities of the Kingdom of God,
+                      Truths about Spirit Life, the Government of God and the
+                      implications of these realities in natural existence in
+                      their various ramifications in everyday life situations.
+                      The programs have an objective of producing Kingdom foot
+                      soldiers, a workforce equipped with adequate capacities
+                      and tools for Kingdom Advance and colonization.
+                      Challenging realities on the field of Christian missions
+                      and the provisions of Kingdom resource to live triumphant
+                      in Kingdom enterprise are expounded. Moreover, the
+                      training equips the believer for Apostolic Invasions and
+                      Territorial Priesthood.
                     </h6>
                     <hr />
                     <!--beginig of explore-->
 
-                    <h4 class="title"><strong>PGDT Course Listing</strong></h4>
+                    <h5>
+                      <a
+                        href="https://file.llacademy.ng/api/public/dl/PF6nTOl9"
+                        class="text-primary">Download Course Listing Here</a
+                      >
+                    </h5>
+
+                    <!-- <h4 class="title"><strong>PGDT Course Listing</strong></h4>
                     <h5 class="title"><strong>First Semesters</strong></h5>
                     <h6 class="description">
                       Systematic Theology 1<br />
@@ -100,7 +114,7 @@
                       Introduction to Biblical Exegesis<br />
                       Principles of Christian Mentoring<br />
                       Ministry Practicum IV<br />
-                    </h6>
+                    </h6> -->
 
                     <!--end of explor-->
                   </div>
@@ -111,7 +125,12 @@
           <div class="col-xl-6 col-12">
             <div class="about-box style-3">
               <div class="figure-box">
-                <img src="/images/media/banner/banner7.png" alt="Baneer" width="930" height="815" />
+                <img
+                  src="/images/media/banner/banner7.png"
+                  alt="Baneer"
+                  width="930"
+                  height="815"
+                />
               </div>
               <div class="shape-wrap">
                 <img
