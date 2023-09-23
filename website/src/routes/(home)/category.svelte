@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row no-gutters">
-    <div class="col-lg-4 child-item">
+    <div class="col-lg-6 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
           <img src="/images/media/category/category1.jpg" alt="Category" width="690" height="372" />
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 child-item">
+    <div class="col-lg-6 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
           <img src="/images/media/category/category2.jpg" alt="Category" width="690" height="372" />
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4 child-item">
+    <!-- <div class="col-lg-4 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
           <img
@@ -67,6 +67,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

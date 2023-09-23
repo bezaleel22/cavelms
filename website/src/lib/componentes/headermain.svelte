@@ -76,12 +76,12 @@
                   <li class="menu-item">
                     <a href="/tuition">Tuition Fees</a>
                   </li>
-                  <li class="menu-item">
+                  <!-- <li class="menu-item">
                     <a href="https://admin.adullam.ng/#/platform/practicum">Practicum Log book</a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
-              <li class="menu-item menu-item-has-children">
+              <!-- <li class="menu-item menu-item-has-children">
                 <a href={null}>Admissions</a>
                 <ul class="sub-menu">
                   <li class="menu-item">
@@ -99,7 +99,7 @@
                     <a href="/health">Health Insurance </a>
                   </li>
                 </ul>
-              </li>
+              </li> -->
 
               <li class="menu-item menu-item-has-children">
                 <a href={null}>Life at Adullam</a>
@@ -107,13 +107,13 @@
                   <li class="menu-item">
                     <a href="/chapel">The Chapel </a>
                   </li>
-                  <li class="menu-item">
+                  <!-- <li class="menu-item">
                     <a href="/embassy">RCN Embassy</a>
                   </li>
 
                   <li class="menu-item">
                     <a href="/hostel">Housing & Hostels</a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
 

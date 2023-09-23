@@ -1,9 +1,9 @@
 <div class="swiper-container banner-figure">
   <div class="swiper-wrapper">
     <div class="swiper-slide" style="background-image: url(/images/media/slide/1.jpg)" />
-    <div class="swiper-slide" style="background-image: url(/images/media/slide/3.png)" />
+    <!-- <div class="swiper-slide" style="background-image: url(/images/media/slide/3.png)" /> -->
     <div class="swiper-slide" style="background-image: url(/images/media/slide/4.png)" />
-    <div class="swiper-slide" style="background-image: url(/images/media/slide/5.png)" />
+    <!-- <div class="swiper-slide" style="background-image: url(/images/media/slide/5.png)" /> -->
   </div>
   <div class="swiper-pagination" />
 </div>
@@ -31,7 +31,7 @@
     <div class="swiper-slide">
       <div class="container text-center">
         <h1 class="" style="color:white;">
-          <strong>RCN Theological Seminary.</strong>
+          <strong>RCN Theological Seminary - Adullam.</strong>
         </h1>
         <p style="color:white;">
           <strong>
@@ -50,7 +50,7 @@
     <div class="swiper-slide">
       <div class="container text-center">
         <h1 class="" style="color:white;">
-          <strong>RCN Theological Seminary.</strong>
+          <strong>RCN Theological Seminary - Adullam.</strong>
         </h1>
         <p style="color:white;">
           <strong>

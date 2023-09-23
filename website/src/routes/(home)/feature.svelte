@@ -61,7 +61,7 @@
               </div>
               <h3 class="title"><strong>Scholarship</strong></h3>
               <h6 class="description">
-                Get the RCN theological Seminary Scholarship.<br />
+                Get the RCN Theological Seminary - Adullam Scholarship.<br />
                 <a href="/financialaid">Read More</a>
               </h6>
             </div>
@@ -83,7 +83,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-12 child-item">
+        <!-- <div class="col-md-6 col-12 child-item">
           <div class="feature-box style-2 color-3">
             <div class="content-box">
               <div class="icon-box">
@@ -92,11 +92,11 @@
               <h3 class="title"><strong>Admission</strong></h3>
               <h6 class="description">
                 Adullam Postgraduate Diploma in Theology (PGDT) .
-                <!-- <a href='https://adullam.ng/diploma.php'>Click Here to Apply</a> -->
+                <a href='https://adullam.ng/diploma.php'>Click Here to Apply</a>
               </h6>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col-md-6 col-12 child-item">
           <div class="feature-box style-2 color-4">
             <div class="content-box">

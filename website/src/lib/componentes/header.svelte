@@ -104,13 +104,13 @@
                   <li class="menu-item">
                     <a href="/chapel">The Chapel </a>
                   </li>
-                  <li class="menu-item">
+                  <!-- <li class="menu-item">
                     <a href="/embassy">RCN Embassy</a>
                   </li>
 
                   <li class="menu-item">
                     <a href="/hostel">Housing & Hostels</a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
 
