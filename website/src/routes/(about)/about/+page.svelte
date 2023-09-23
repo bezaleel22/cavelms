@@ -1,7 +1,11 @@
 <script>
-</script> 
+</script>
 
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/media/slide/5.png) ">
+<svelte:head>
+  <title>About Us</title>
+</svelte:head>
+
+<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/media/slide/5.png) ">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Our Mission is to produce Kingdom foot soldiers.</h1>
@@ -16,24 +20,24 @@
     <div class="about-inner">
       <ul class="shape-wrap">
         <li class="wow fadeInRightMedium animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          <img src="images/media/elements/element71.png" alt="Element" width="222" height="222" />
+          <img src="/images/media/elements/element71.png" alt="Element" width="222" height="222" />
         </li>
         <li class="wow fadeInUp animated" data-wow-duration="1s" data-wow-delay="0.1s">
           <img
             class="motion-effects2"
-            src="images/media/elements/element72.png"
+            src="/images/media/elements/element72.png"
             alt="Element"
             width="111"
             height="123"
           />
         </li>
         <li class="wow fadeInUpMedium animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          <img src="images/media/elements/element73.png" alt="Element" width="52" height="52" />
+          <img src="/images/media/elements/element73.png" alt="Element" width="52" height="52" />
         </li>
         <li class="wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.1s">
           <img
             class="motion-effects4"
-            src="images/media/elements/element74.png"
+            src="/images/media/elements/element74.png"
             alt="Element"
             width="111"
             height="123"
@@ -42,19 +46,19 @@
         <li class="wow fadeInRight animated" data-wow-duration="1s" data-wow-delay="0.1s">
           <img
             class="motion-effects5"
-            src="images/media/elements/element75.png"
+            src="/images/media/elements/element75.png"
             alt="Element"
             width="176"
             height="176"
           />
         </li>
         <li class="wow fadeInDownMedium animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          <img src="images/media/elements/element76.png" alt="Element" width="58" height="59" />
+          <img src="/images/media/elements/element76.png" alt="Element" width="58" height="59" />
         </li>
         <li class="wow fadeInRight animated" data-wow-duration="1s" data-wow-delay="0.1s">
           <img
             class="motion-effects5"
-            src="images/media/elements/element77.png"
+            src="/images/media/elements/element77.png"
             alt="Element"
             width="203"
             height="202"
@@ -63,7 +67,7 @@
         <li class="wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.1s">
           <img
             class="motion-effects6"
-            src="images/media/elements/element78.png"
+            src="/images/media/elements/element78.png"
             alt="Element"
             width="365"
             height="365"
@@ -72,22 +76,22 @@
       </ul>
       <ul class="figure-wrap">
         <li class="wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          <img src="images/media/banner/about1.jpg" alt="About" width="270" height="300" />
+          <img src="/images/media/banner/about1.jpg" alt="About" width="270" height="300" />
         </li>
         <li class="wow fadeInUp animated" data-wow-duration="1s" data-wow-delay="0.2s">
-          <img src="images/media/banner/about2.jpg" alt="About" width="270" height="390" />
+          <img src="/images/media/banner/about2.jpg" alt="About" width="270" height="390" />
         </li>
         <li class="wow fadeInRight animated" data-wow-duration="1s" data-wow-delay="0.3s">
-          <img src="images/media/banner/about3.jpg" alt="About" width="330" height="210" />
+          <img src="/images/media/banner/about3.jpg" alt="About" width="330" height="210" />
         </li>
         <li class="wow fadeInUp animated" data-wow-duration="1s" data-wow-delay="0.4s">
-          <img src="images/media/banner/about4.jpg" alt="About" width="416" height="300" />
+          <img src="/images/media/banner/about4.jpg" alt="About" width="416" height="300" />
         </li>
         <li class="wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.5s">
-          <img src="images/media/banner/about5.jpg" alt="About" width="270" height="300" />
+          <img src="/images/media/banner/about5.jpg" alt="About" width="270" height="300" />
         </li>
         <li class="wow fadeInRight animated" data-wow-duration="1s" data-wow-delay="0.6s">
-          <img src="images/media/banner/about66.jpg" alt="About" width="360" height="284" />
+          <img src="/images/media/banner/about66.jpg" alt="About" width="360" height="284" />
         </li>
       </ul>
     </div>
@@ -98,7 +102,7 @@
     <div class="section-heading style-1">
       <h2 class="title">About us.</h2>
     </div>
-    <div class="inner-wrap" style="background-image:url(images/media/elements/element12.png)">
+    <div class="inner-wrap" style="background-image:url(/images/media/elements/element12.png)">
       <div class="row justify-content-center align-items-center">
         <h5>
           Adullam means Refuge or Justice of the people. It was mentioned eight (8) times in

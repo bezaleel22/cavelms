@@ -1,9 +1,9 @@
 <div class="swiper-container banner-figure">
   <div class="swiper-wrapper">
-    <div class="swiper-slide" style="background-image: url(images/media/slide/1.jpg)" />
-    <div class="swiper-slide" style="background-image: url(images/media/slide/3.png)" />
-    <div class="swiper-slide" style="background-image: url(images/media/slide/4.png)" />
-    <div class="swiper-slide" style="background-image: url(images/media/slide/5.png)" />
+    <div class="swiper-slide" style="background-image: url(/images/media/slide/1.jpg)" />
+    <div class="swiper-slide" style="background-image: url(/images/media/slide/3.png)" />
+    <div class="swiper-slide" style="background-image: url(/images/media/slide/4.png)" />
+    <div class="swiper-slide" style="background-image: url(/images/media/slide/5.png)" />
   </div>
   <div class="swiper-pagination" />
 </div>

@@ -1,5 +1,5 @@
-query Courses {
-  coursesCollection(first: 1) @cache(policy: CacheAndNetwork) {
+query Programs {
+  coursesCollection(first: 1) @cache(policy: CacheOrNetwork) {
     pageInfo {
       startCursor
       endCursor

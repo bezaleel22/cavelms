@@ -2,10 +2,16 @@
   import { onMount } from "svelte";
   import type { PageData } from "./$houdini";
   import Filter from "./filter.svelte";
-  import { dataList, dataStore } from "$lib/store/query";
   import type { Courses$result } from "$houdini";
+  import { dataList } from "$lib/store/data";
+  import { fetching } from "$lib/store/loader";
 
-  $: data = $dataList as Courses$result["coursesCollection"];
+  // export let data: PageData;
+  // $: ({ Courses } = data);
+  // $: $fetching = $Courses.fetching; 
+  // $: console.log({Courses});
+
+  $: dat = $dataList as Courses$result["coursesCollection"];
 </script>
 
 <div class="card w-full bg-base-100 text-neutral-content">
@@ -13,7 +19,7 @@
     <div class="grid grid-flow-row w-full">
       <Filter />
 
-      {#if data?.edges}
+      {#if dat?.edges}
         <div class="overflow-x-auto">
           <table class="table w-full">
             <thead>
@@ -31,7 +37,7 @@
               </tr>
             </thead>
             <tbody>
-              {#each data.edges as course}
+              {#each dat.edges as course}
                 <tr>
                   <th>
                     <label>

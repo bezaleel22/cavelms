@@ -1,13 +1,26 @@
-import { load_Users, type Users$result } from "$houdini";
-import { dataList } from "$lib/store/query";
-import { get } from "svelte/store";
-import type { PageLoad } from "./$houdini";
+import type { Users$result } from "$houdini";
+import { dataList } from "$lib/store/data";
+import { fetching } from "$lib/store/loader";
+import { error } from "@sveltejs/kit";
+import type { AfterLoadEvent, BeforeLoadEvent, OnErrorEvent, PageLoad } from "./$houdini";
 
-export const load: PageLoad = async (event) => {
-  const { Users } = await load_Users({ event });
-  const { data } = get(Users);
-  const { usersCollection } = data as Users$result;
+export function _houdini_beforeLoad({ data }: BeforeLoadEvent) {
+  fetching.set(true);
+  return {
+    d: "coursesCollection",
+  };
+}
 
+export function _houdini_afterLoad({ data }: AfterLoadEvent) {
+  console.log(data);
+  const { usersCollection } = data.Users as Users$result;
   dataList.set(usersCollection);
-  return { Users };
+  fetching.set(false);
+  return {
+    usersCollection,
+  };
+}
+
+export const _houdini_onError = (e: OnErrorEvent) => {
+  throw error(e.error.status, e.error.body.message);
 };

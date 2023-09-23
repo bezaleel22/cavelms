@@ -1,7 +1,14 @@
 <script>
 </script>
 
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/media/banner/banner12.png)">
+<svelte:head>
+  <title>Contact Us</title>
+</svelte:head>
+
+<div
+  class="breadcrumb-wrap-style-2"
+  style="background-image:url(/images/media/banner/banner12.png)"
+>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="/">Home</a></li>

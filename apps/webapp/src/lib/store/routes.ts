@@ -12,9 +12,9 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
       roles: [RoleType.PROSPECTIVE, RoleType.SUPERUSER],
       links: [
         {
-          name: "Overview",
+          name: "My Courses",
           badge: undefined,
-          url: "/account/overview",
+          url: "/account/courses",
           roles: [RoleType.SUPERUSER],
           visible: true,
         },
@@ -22,13 +22,6 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
           name: "Profile",
           badge: undefined,
           url: "/account/profile",
-          roles: [RoleType.SUPERUSER],
-          visible: true,
-        },
-        {
-          name: "Courses",
-          badge: undefined,
-          url: "/account/courses",
           roles: [RoleType.SUPERUSER],
           visible: true,
         },
@@ -64,12 +57,12 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
     },
 
     {
-      name: "Programs",
+      name: "Course Management",
       visible: true,
       roles: [RoleType.SUPERUSER],
       links: [
         {
-          name: "Program List",
+          name: "Course List",
           badge: undefined,
           url: "/programs",
           roles: [RoleType.SUPERUSER],
@@ -97,9 +90,9 @@ export const RBAC = (opts: { routId: string; role: string; path: string }) => {
           visible: !!id,
         },
         {
-          name: "Assignments",
+          name: "Exercise",
           badge: undefined,
-          url: `/programs/${id}/assignments`,
+          url: `/programs/${id}/exercise`,
           roles: [RoleType.SUPERUSER],
           visible: !!id,
         },
@@ -196,10 +189,10 @@ export const computeMenus = (modules: any) => {
       }
       return key;
     }, "");
-  
+
   const m = Object.values(menus).map((link) => {
-    return { name:'', links: link}
-  })
+    return { name: "", links: link };
+  });
 
   return { m };
 };

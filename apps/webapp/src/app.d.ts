@@ -9,7 +9,6 @@ declare global {
     interface Locals {
       authUser: (User & { role: Role | null }) | null;
       routes: any;
-      settings: Setting[];
     }
     // interface PageData {}
     // interface Platform {}

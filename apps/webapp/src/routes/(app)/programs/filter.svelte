@@ -1,7 +1,7 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
   import type { Courses$result } from "$houdini";
-  import { dataList } from "$lib/store/query";
+  import { dataList } from "$lib/store/data";
 
   let form: HTMLFormElement;
   let modal: HTMLDialogElement;

@@ -3,7 +3,7 @@
     <div class="col-lg-4 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
-          <img src="images/media/category/category1.jpg" alt="Category" width="690" height="372" />
+          <img src="/images/media/category/category1.jpg" alt="Category" width="690" height="372" />
         </div>
         <div class="content-box">
           <div class="top-content">
@@ -25,7 +25,7 @@
     <div class="col-lg-4 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
-          <img src="images/media/category/category2.jpg" alt="Category" width="690" height="372" />
+          <img src="/images/media/category/category2.jpg" alt="Category" width="690" height="372" />
         </div>
         <div class="content-box">
           <div class="top-content">
@@ -47,7 +47,12 @@
     <div class="col-lg-4 child-item">
       <div class="category-box style-3">
         <div class="figure-box">
-          <img src="/images/media/category/category3.jpg" alt="Category" width="690" height="372" />
+          <img
+            src="//images/media/category/category3.jpg"
+            alt="Category"
+            width="690"
+            height="372"
+          />
         </div>
         <div class="content-box">
           <div class="top-content">

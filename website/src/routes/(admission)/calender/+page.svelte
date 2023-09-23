@@ -1,9 +1,13 @@
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/cav7.jpg)">
+<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cav7.jpg)">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Academic Calender</h1>
   </div>
 </div>
+
+<svelte:head>
+  <title>Calender</title>
+</svelte:head>
 
 <section class="about-wrap-style-12 motion-effects-wrap">
   <div class="container">
@@ -43,12 +47,17 @@
           <div class="col-xl-6 col-12">
             <div class="about-box style-3">
               <div class="figure-box">
-                <img src="images/media/banner/banner9b.png" alt="Baneer" width="930" height="815" />
+                <img
+                  src="/images/media/banner/banner9b.png"
+                  alt="Baneer"
+                  width="930"
+                  height="815"
+                />
               </div>
               <div class="shape-wrap">
                 <img
                   class="motion-effects5"
-                  src="images/media/elements/element68.png"
+                  src="/images/media/elements/element68.png"
                   alt="Element"
                   width="228"
                   height="228"

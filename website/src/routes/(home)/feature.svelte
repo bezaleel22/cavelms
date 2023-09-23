@@ -13,13 +13,13 @@
             data-wow-duration="1s"
             data-wow-delay="0.1s"
           >
-            <img src="images/media/banner/banner18b.jpg" alt="Banner" width="1920" height="1920" />
+            <img src="/images/media/banner/banner18b.jpg" alt="Banner" width="1920" height="1920" />
           </div>
           <ul class="block-list shape-list">
             <li class="shape1 wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.5s">
               <img
                 class="motion-effects1"
-                src="images/media/elements/element49.png"
+                src="/images/media/elements/element49.png"
                 alt="Element"
                 width="84"
                 height="84"
@@ -28,7 +28,7 @@
             <li class="shape2 wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.7s">
               <img
                 class="motion-effects3"
-                src="images/media/elements/element50.png"
+                src="/images/media/elements/element50.png"
                 alt="Element"
                 width="322"
                 height="322"
@@ -41,7 +41,7 @@
             >
               <img
                 class="motion-effects4"
-                src="images/media/elements/element51.png"
+                src="/images/media/elements/element51.png"
                 alt="Element"
                 width="131"
                 height="109"

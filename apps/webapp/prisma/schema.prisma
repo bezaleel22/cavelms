@@ -148,6 +148,7 @@ enum ActivityType {
 }
 
 enum QuestionType {
+  MULTIPLE_CORRECT
   MULTIPLE_CHOICE
   TRUE_FALSE
   SHORT_ANSWER
@@ -252,9 +253,9 @@ model Permission {
   @@map("permissions")
 }
 
-model AuthMethod {
+model Session {
   id         String         @id @default(cuid())
-  userId     String
+  userId     String         @unique
   credential String // Stores identifier or authentication key
   method     AuthMethodType
 
@@ -310,13 +311,13 @@ model User {
   reminders     Reminder[]
   payments      Payment[]
   invoices      Invoice[]
+  sessions      Session[]
 
-  createdAt              DateTime?    @default(now())
-  updatedAt              DateTime?    @updatedAt
+  createdAt              DateTime? @default(now())
+  updatedAt              DateTime? @updatedAt
   deletedAt              DateTime?
   confirmedAt            DateTime?
   confirmationMailSentAt DateTime?
-  authMethod             AuthMethod[]
 
   @@map("users")
 }

@@ -2,10 +2,11 @@
   import Mobile from "./mobile.svelte";
 </script>
 
-<header class="header-style-2 sticky-on">
-  <div id="topbar-wrap" class="topbar style-3">
+<header class="header-style-4 sticky-on">
+  <div id="topbar-wrap" class="topbar style-4">
     <div class="container">
       <div class="topbar-row">
+
         <ul class="left-box inline-list align-items-center">
           <strong>
             <li>
@@ -39,7 +40,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="site-branding">
             <a href="/" class="logo">
-              <img src="images/media/logo-light.png" alt="Logo" width="101" height="37" />
+              <img src="/images/media/logo-light.png" alt="Logo" width="101" height="37" />
             </a>
           </div>
           <nav class="template-main-menu">
@@ -132,10 +133,11 @@
     </div>
   </div>
 </header>
+
 <div class="rt-header-menu mean-container position-relative" id="meanmenu">
   <div class="mean-bar">
     <a href={null}>
-      <img src="images/media/logo-mobile.png" alt="Logo" width="80" height="29" />
+      <img src="/images/media/logo-mobile.png" alt="Logo" width="80" height="29" />
     </a>
     <div class="mean-bar--right">
       <div class="actions user">

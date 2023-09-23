@@ -1,7 +1,11 @@
 <script>
 </script>
 
-<div class="breadcrumb-wrap-style-2"style="background-image:url(images/media/slide/5.png)">
+<svelte:head>
+  <title>Hostels</title>
+</svelte:head>
+
+<div class="breadcrumb-wrap-style-2" style="background-image:url(//images/media/slide/5.png)">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Hostels</h1>
@@ -53,12 +57,12 @@
           <div class="col-xl-6 col-12">
             <div class="about-box style-3">
               <div class="figure-box">
-                <img src="hostel.jpg" alt="Baneer" width="930" height="815" />
+                <img src="//images/hostel.jpg" alt="Baneer" width="930" height="815" />
               </div>
               <div class="shape-wrap">
                 <img
                   class="motion-effects5"
-                  src="images/media/elements/element68.png"
+                  src="//images/media/elements/element68.png"
                   alt="Element"
                   width="228"
                   height="228"

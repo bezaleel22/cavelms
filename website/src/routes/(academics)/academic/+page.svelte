@@ -1,4 +1,8 @@
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/n.jpg)">
+<svelte:head>
+  <title>Academic</title>
+</svelte:head>
+
+<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/n.jpg)">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Academics</h1>

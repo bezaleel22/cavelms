@@ -1,7 +1,11 @@
 <script>
 </script>
 
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/cav8.jpg)">
+<svelte:head>
+  <title>Partnership</title>
+</svelte:head>
+
+<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cav8.jpg)">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Donation & Partnership</h1>
@@ -93,12 +97,12 @@
           <div class="col-xl-6 col-12">
             <div class="about-box style-3">
               <div class="figure-box">
-                <img src="images/part.jpg" alt="Baneer" width="930" height="815" />
+                <img src="/images/part.jpg" alt="Baneer" width="930" height="815" />
               </div>
               <div class="shape-wrap">
                 <img
                   class="motion-effects5"
-                  src="images/media/elements/element68.png"
+                  src="/images/media/elements/element68.png"
                   alt="Element"
                   width="228"
                   height="228"

@@ -1,3 +1,11 @@
+<script lang="ts">
+  import type { Courses$result } from "$houdini";
+  import { dataList } from "$lib/store/data";
+
+
+  $: dat = $dataList as Courses$result["coursesCollection"];
+</script>
+
 <div class="overflow-x-auto">
   <div class="flex align-end justify-between my-2 md:p-2 md:pr-10">
     <h1 class="text-lg my-5 font-bold sm:text-xl">ALL COURSES</h1>

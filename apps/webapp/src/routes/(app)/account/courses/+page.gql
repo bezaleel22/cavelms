@@ -1,0 +1,36 @@
+query Courses {
+  coursesCollection(first: 1) @cache(policy: CacheOrNetwork) {
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    edges {
+      cursor
+      node {
+        nodeId
+        id
+        userId
+        title
+        code
+        shortDescription
+        description
+        year
+        startDate
+        endDate
+        thumbnailUrl
+        coverUrl
+        courseType
+        status
+        program
+        platform
+        tags
+        instructors
+        studentIds
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}

@@ -1,13 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Filter from "./filter.svelte";
-  import { dataList, dataStore } from "$lib/store/query";
   import type { Users$result } from "$houdini";
-
+  import { dataList } from "$lib/store/data";
+  
   $: data = $dataList as Users$result["usersCollection"];
-  onMount(() => {
-    // console.log({ edges });
-  });
+
 </script>
 
 <div class="card w-full bg-base-100 text-neutral-content">

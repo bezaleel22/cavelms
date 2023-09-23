@@ -1,4 +1,8 @@
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/media/banner/banner7.png">
+<svelte:head>
+  <title>Vision</title>
+</svelte:head>
+
+<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/media/banner/banner7.png">
   <br /><br /><br /><br /><br /><br />
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
@@ -60,13 +64,13 @@
         <div class="works-box style-1">
           <div class="inner">
             <div class="figure-box">
-              <img src="images/media/work/work.jpg" alt="Work" width="500" height="500" />
+              <img src="/images/media/work/work.jpg" alt="Work" width="500" height="500" />
             </div>
             <ul class="shape1 inline-list">
               <li class="wow animated zoomIn" data-wow-duration="1s" data-wow-delay="1.3s">
                 <img
                   class="motion-effects1"
-                  src="images/media/elements/element21.png"
+                  src="/images/media/elements/element21.png"
                   alt="Element"
                   width="175"
                   height="165"
@@ -75,7 +79,7 @@
               <li class="wow animated zoomIn" data-wow-duration="1s" data-wow-delay="1.7s">
                 <img
                   class="motion-effects3"
-                  src="images/media/elements/element22.png"
+                  src="/images/media/elements/element22.png"
                   alt="Element"
                   width="142"
                   height="136"
@@ -88,7 +92,7 @@
                   class="wow animated fadeInRightMedium"
                   data-wow-duration="1s"
                   data-wow-delay="1.7s"
-                  src="images/media/elements/element20.png"
+                  src="/images/media/elements/element20.png"
                   alt="Element"
                   width="391"
                   height="391"

@@ -10,7 +10,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/nicole.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/nicole.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for">Nicole</span>
           <ul class="testimonial-rating inline-list">
@@ -37,7 +37,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/le.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/le.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for">Lesley Uzohuo.</span>
           <ul class="testimonial-rating inline-list">
@@ -65,7 +65,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/li.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/li.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for">Andy A. Erick </span>
           <ul class="testimonial-rating inline-list">
@@ -93,7 +93,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/1.jpg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/1.jpg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for">Mr/Mrs Mbuyane </span>
           <ul class="testimonial-rating inline-list">
@@ -122,7 +122,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/2.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/2.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for"> Francis </span>
           <ul class="testimonial-rating inline-list">
@@ -151,7 +151,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/3.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/3.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for"> Tiekena McKoy-Harriott </span>
           <ul class="testimonial-rating inline-list">
@@ -178,7 +178,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/4.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/4.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for"> Collinpowell Ebai</span>
           <ul class="testimonial-rating inline-list">
@@ -207,7 +207,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/5.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/5.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for"> Hileni Magano Amakali </span>
           <ul class="testimonial-rating inline-list">
@@ -237,7 +237,7 @@
             <i class="flaticon-quote" />
           </div>
           <div class="figure-box">
-            <img src="images/shek.jpeg" alt="Testimonial" width="70" height="70" />
+            <img src="/images/shek.jpeg" alt="Testimonial" width="70" height="70" />
           </div>
           <span class="rating-for"> Comr Emeritus Shatikha </span>
           <ul class="testimonial-rating inline-list">

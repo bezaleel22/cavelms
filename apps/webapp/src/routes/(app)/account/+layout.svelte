@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import { enhance } from "$app/forms";
   import { page } from "$app/stores";
-  import { TabNav, TabPane } from "$lib/components/Tabs";
+  import { TabNav, TabPane } from "$lib/components/tabs";
   import { user } from "$lib/store/auth";
   import { routes } from "$lib/store/routes";
 

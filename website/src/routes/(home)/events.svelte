@@ -10,7 +10,7 @@
     >
       <div class="team-box style-1">
         <div class="figure-box">
-          <img src="images/apostle.jpg" alt="Team" width="930" height="1028" />
+          <img src="/images/apostle.jpg" alt="Team" width="930" height="1028" />
         </div>
         <div class="content-box">
           <h3 class="title">
@@ -41,11 +41,11 @@
     >
       <div class="team-box style-1">
         <div class="figure-box">
-          <img src="images/provost.jpg" alt="Team" width="930" height="1028" />
+          <img src="/images/provost.jpg" alt="Team" width="930" height="1028" />
         </div>
         <div class="content-box">
           <h5 class="title">
-            <a href="profile.html">Rev. Daniel Ogidi</a>
+            <a href=" ">Rev. Daniel Ogidi</a>
           </h5>
           <h6 class="sub-title">Provost</h6>
           <ul class="social inline-list">

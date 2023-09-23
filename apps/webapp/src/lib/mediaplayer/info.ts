@@ -161,10 +161,10 @@ export class MediaInfo {
       maxPlayoutRate: "1",
       frameRate: format.fps,
     };
-
+    console.log({ proxUrl, url: `${proxUrl}/${url.toString()}` });
     let children = [
       this.#el(document, "BaseURL", {}, [
-        document.createTextNode(`${proxUrl}${url.toString()}`),
+        document.createTextNode(`${proxUrl}/${url.toString()}`),
       ] as any),
       this.#el(
         document,
@@ -206,7 +206,7 @@ export class MediaInfo {
             value: format.audio_channels || "2",
           }),
           this.#el(document, "BaseURL", {}, [
-            document.createTextNode(`${proxUrl}${url.toString()}`),
+            document.createTextNode(`${proxUrl}/${url.toString()}`),
           ] as any),
           this.#el(
             document,

@@ -1,4 +1,4 @@
-export const PROXY_URL = "http://localhost:8888/";
+export const PROXY_URL = "http://localhost:8888";
 export const URLS = Object.freeze({
   YT_BASE: "https://www.youtube.com",
   YT_MUSIC_BASE: "https://music.youtube.com",

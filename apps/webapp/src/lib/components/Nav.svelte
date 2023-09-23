@@ -2,11 +2,12 @@
   import { enhance } from "$app/forms";
   import { user } from "$lib/store/auth";
   import logo from "$lib/assets/images/logo11.svg";
+  import Brand from "./Brand.svelte";
+  import PageLoader from "./PageLoader.svelte";
 </script>
 
 <nav
-  class="navbar px-5
-  sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100
+  class="navbar px-5 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-all duration-100
   text-base-content shadow-sm"
 >
   <div class="flex-none lg:hidden">
@@ -15,19 +16,16 @@
     </label>
   </div>
   <div class="flex-1">
-    <div class="form-control hidden md:block">
-      <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+    <div class="flex justify-center">
+      <Brand />
     </div>
-    <a
-      href="/"
-      aria-current="page"
-      aria-label="Homepage"
-      class="flex-0 btn btn-ghost px-2 md:hidden"
-    >
-    <div class="w-52 h-10 rounded">
-      <img src={logo} alt="" />
+    <div class="form-control hidden md:block px-10">
+      <input
+        type="text"
+        placeholder="Search"
+        class="input bg-opacity-0 input-bordered w-24 md:w-auto"
+      />
     </div>
-    </a>
   </div>
   <div class="flex-none gap-2 lg:block">
     <div class="dropdown dropdown-end m-6">

@@ -48,6 +48,7 @@
         "bcrypt": "^5.1.0",
         "chart.js": "^4.3.3",
         "cors-anywhere": "^0.4.4",
+        "dayjs": "^1.11.9",
         "hashids": "^2.3.0",
         "html-to-text": "^9.0.5",
         "http-proxy": "^1.18.1",

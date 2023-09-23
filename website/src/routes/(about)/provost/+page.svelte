@@ -1,8 +1,12 @@
+<svelte:head>
+  <title>Provost</title>
+</svelte:head>
+
 <section class="profile-wrap-style-1">
   <div class="container">
     <div class="profile-box">
       <div class="figure-box">
-        <img src="images/provost.jpg" alt="profile" width="420" height="420" />
+        <img src="/images/provost.jpg" alt="profile" width="420" height="420" />
       </div>
       <div class="content-box">
         <h2 class="title">Rev. Daniel Ogidi</h2>

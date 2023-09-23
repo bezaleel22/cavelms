@@ -1,7 +1,11 @@
 <script>
 </script>
 
-<div class="breadcrumb-wrap-style-2" style="background-image:url(images/cav6.jpg)">
+<svelte:head>
+  <title>Financial Aid</title>
+</svelte:head>
+
+<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cav6.jpg)">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Financial Aid</h1>
@@ -36,7 +40,7 @@
       <div class="col-lg-7">
         <div class="advantage-box style-1">
           <div class="figure-box">
-            <img src="/adv.png" alt="Advantage" width="633" height="704" />
+            <img src="/images/adv.png" alt="Advantage" width="633" height="704" />
           </div>
         </div>
       </div>

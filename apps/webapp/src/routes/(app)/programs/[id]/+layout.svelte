@@ -1,11 +1,11 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { TabNav, TabPane } from "$lib/components/Tabs";
-  import { dataStore } from "$lib/store/query";
+  import { TabNav, TabPane } from "$lib/components/tabs";
   import type { Course$result } from "$houdini";
+  import { dataStore } from "$lib/store/data";
 
-  let titles = ["overview", "videos", "documents", "assignments", "quizzes", "documents", "forum"];
+  let titles = ["overview", "videos", "documents", "exercise", "quizzes", "documents", "forum"];
   let active = titles.indexOf($page.url.pathname.split("/").pop() as string);
 
   export let form: FormData;

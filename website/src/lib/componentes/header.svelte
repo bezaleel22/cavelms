@@ -1,7 +1,6 @@
 <script>
   import Mobile from "./mobile.svelte";
 </script>
-
 <header class="header-style-2 sticky-on">
   <div id="sticky-placeholder" />
   <div id="topbar-wrap" class="topbar style-3">
@@ -38,7 +37,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="site-branding">
             <a href="index.php" class="logo"
-              ><img src="images/media/logo-dark.png" alt="Logo" width="101" height="37" /></a
+              ><img src="/images/media/logo-dark.png" alt="Logo" width="101" height="37" /></a
             >
           </div>
           <nav class="template-main-menu">
@@ -135,7 +134,7 @@
   <div class="topbar style-1" />
   <div class="mean-bar">
     <a href="index.php">
-      <img src="media/logo-mobile.png" alt="Logo" width="80" height="29" />
+      <img src="/media/logo-mobile.png" alt="Logo" width="80" height="29" />
     </a>
     <div class="mean-bar--right">
       <div class="actions user">

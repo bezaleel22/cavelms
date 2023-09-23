@@ -16,9 +16,6 @@
 <div class="drawer-side">
   <label for="my-drawer" class="drawer-overlay" />
   <aside class="w-64 h-screen">
-    <div class="flex justify-center">
-      <Brand />
-    </div>
 
     <div class="flex flex-col gap-3 items-center mb-5">
       <div class="avatar online placeholder">

@@ -1,4 +1,9 @@
+import type { Course$result, Courses$result, User$result, Users$result } from "$houdini";
 import { writable } from "svelte/store";
+
+export const dataStore = writable<Mutable<User$result["node"] | Course$result["node"]>>();
+export const dataList =
+  writable<Mutable<Courses$result["coursesCollection"] | Users$result["usersCollection"]>>();
 
 export const medias = writable([
   {
@@ -94,5 +99,3 @@ export const medias = writable([
     },
   },
 ]);
-
-

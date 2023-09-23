@@ -1,19 +1,22 @@
 <script lang="ts">
   import { enhance } from "$app/forms";
-  import { dataStore } from "$lib/store/query";
+  import type { Users$result } from "$houdini";
+  import { dataList } from "$lib/store/data";
 
   let form: HTMLFormElement;
   $: isOpen = false;
+
   const filterUsers = () => {
     isOpen = true;
     const formData = new FormData(form);
+    const result = $dataList as Users$result["usersCollection"];
     const { platform, program } = Object.fromEntries(formData);
-    const filtered = $dataStore?.edges.filter(
+    const filtered = result?.edges.filter(
       (edge) =>
         edge.node.enrollments?.platform == platform && edge.node.enrollments?.program == program
     );
 
-    if ($dataStore) $dataStore = { ...$dataStore, edges: filtered || [] };
+    if ($dataList) $dataList = { ...$dataList, edges: filtered || [] };
     isOpen = false;
     console.log({ filtered });
   };
