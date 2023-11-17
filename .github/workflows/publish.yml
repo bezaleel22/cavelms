@@ -31,7 +31,7 @@ jobs:
       env:
         REGISTRY: ghcr.io
         OWNER: my-organization-name
-        IMAGE_NAME: ${{ cavesite }}
+        IMAGE_NAME: cavesite
       uses: docker/build-push-action@v2
       with:
         context: .
