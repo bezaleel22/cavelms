@@ -50,7 +50,7 @@
 
                     <h5>
                       <a
-                        href="https://file.llacademy.ng/share/VH8mnJl1"
+                        href="https://file.llacademy.ng/api/public/dl/VH8mnJl1"
                         class="text-primary">Download Course Listing Here</a
                       >
                     </h5>
