@@ -21,6 +21,6 @@ jobs:
           tags: latest
           target: website
           registry: ghcr.io
-          dockerfile: ./docker/Dockerfile
+          dockerfile: ./Dockerfile
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT }}
