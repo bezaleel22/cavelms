@@ -2,7 +2,7 @@
 </script>
 
 <svelte:head>
-  <title>Dipoloma</title>
+  <title>Diploma</title>
 </svelte:head>
 
 <div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cav4.jpg)">
@@ -21,13 +21,12 @@
           <ul class="block-list about-list">
             <br /> <br />
             <div class="section-heading style-3">
-              <div class="sub-title">Diploma Program</div>
               <h2 class="title">Diploma Program</h2>
             </div>
             <li>
               <div class="content-box">
                 <h5 class="description">
-                  <strong>WHAT YOU WILL LEARN</strong><br />
+                  <h4 class="title"><strong>WHAT YOU WILL LEARN</strong></h4>
 
                   - Establish believers in the foundation of the Christian Faith<br />
                   - Develop spiritual stamina for Christian living in a failing world<br />
@@ -37,14 +36,22 @@
                 <h4 class="title"><strong>PROGRAM OPTION</strong></h4>
                 <h6 class="description">
                   We offer two program options:<br />
-                  <strong>
-                    - On Campus<br />
-                    - Online<br /></strong
-                  >
-                  <strong>PROGRAM LENGTH</strong><br />
-                  2 Years<br />
+                  - On-Campus: The On-Campus option is a full residency program. The academic activities
+                  have three requirements: a class attendance, a ministry practicum and a Field Trip.
+                  <br />
+                  <hr />
+                  - Online: The Online program was created in response to the global needs for spiritual
+                  training and equipping of those who cannot make it for the residency On-Campus option.
+                  Although designed to be still engaging and impactful, its duration is adjusted and
+                  compatible for the work and family demands of everyday life.<br /><br />
 
-                  <strong>ADMISSION REQUIREMENTS</strong><br />
+                  <h4 class="title"><strong>PROGRAM LENGTH</strong></h4>
+                  - Certificate - 1 year (2 semesters)<br />
+                  - Diploma - 2 years (4 semesters) <br />
+                  - Bachelor - 4 years (8 semesters) <br />
+                  <hr />
+
+                  <h4 class="title"><strong>ADMISSION REQUIREMENTS</strong></h4>
                   - A $10 non-refundable application fee<br />
                   - A completed Application form (available online)<br />
                   - A minimum of a Secondary School Certificate or its equivalent<br />
@@ -55,42 +62,16 @@
                   <br />
                   <hr />
 
-                  <strong>Fees</strong><br />
-                  <strong>Online program fees</strong><br />
-                  Tuition - $1000 PER SEMESTER (with 4 Semesters <br />
-                  Graduation Fee - $20 <br />
-                  Transcript - $20<br />
-                  Provost Scholarship Grant Available - The Provost Scholarship Grant available covers
-                  only 80% of the Tuition <br />
-                  <hr />
-                  <strong>
-                    NB. If you desire to benefit from the scholarship, please indicate interest in
-                    the Scholarship Section made available while you fill the application form for
-                    your respective program
-                  </strong>
+                  <h4 class="title"><strong>ENTRY REQUIREMENT</strong></h4>
+                  - Able to read and write in English Language<br />
+                  - A minimum of a Secondary School Certificate <br />
+                  or its equivalent (For those who are 18 years old or above; if they do not have a Secondary
+                  School Certificate, he/she must pass the mature candidate’s exam.) <br />
+                  - Minimum 2 years of ministry experience - Two referees
                   <hr />
                   <br />
-
-                  <strong>On campus program fees</strong><br />
-                  Tuition - $1000 PER SEMESTER (with 4 Semesters) <br />
-                  Health Insurance - $20 <br />
-                  Hostel Accommodation - $80 per annum (Optional) <br />
-                  Graduation Fee - $20 <br />
-                  Transcript - $20 <br />
-                  Provost Scholarship Grant Available - The Provost Scholarship Grant available covers
-                  only 87.5% of the Tuition <br />
-
-                  <hr />
-                  <strong>
-                    NB. If you desire to benefit from the scholarship, please indicate interest in
-                    the Scholarship Section made available while you fill the application form for
-                    your respective program
-                  </strong>
-                  <hr />
-                  <br />
-                  <br /><br />
                   <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSeR04IZFM7fRGV99Jn4DFil_vbFrj2h-ScmWSxhN4ZrJbhUtw/viewform?usp=sf_link"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLScNEjnMfOtMxZBrNg2nLDnbm_7hZ2hMCaOGR85D_MadOrtVEw/viewform?usp=sf_link"
                     class="btn btn-block btn-lg btn-primary">Apply Now</a
                   >
                 </h6>

@@ -2,13 +2,13 @@
 </script>
 
 <svelte:head>
-  <title>Dipoloma</title>
+  <title>Bachelor</title>
 </svelte:head>
 
 <div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cav4.jpg)">
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
-    <h1 class="title">Diploma Program</h1>
+    <h1 class="title">Bachelor Program</h1>
   </div>
 </div>
 
@@ -21,7 +21,7 @@
           <ul class="block-list about-list">
             <br /> <br />
             <div class="section-heading style-3">
-              <h2 class="title">Diploma Program</h2>
+              <h2 class="title">Bachelor Program</h2>
             </div>
             <li>
               <div class="content-box">
@@ -71,7 +71,7 @@
                   <hr />
                   <br />
                   <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSeR04IZFM7fRGV99Jn4DFil_vbFrj2h-ScmWSxhN4ZrJbhUtw/viewform?usp=sf_link"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLScNEjnMfOtMxZBrNg2nLDnbm_7hZ2hMCaOGR85D_MadOrtVEw/viewform?usp=sf_link"
                     class="btn btn-block btn-lg btn-primary">Apply Now</a
                   >
                 </h6>
