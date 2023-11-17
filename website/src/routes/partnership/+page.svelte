@@ -97,7 +97,7 @@
           <div class="col-xl-6 col-12">
             <div class="about-box style-3">
               <div class="figure-box">
-                <img src="/images/part.jpg" alt="Baneer" width="930" height="815" />
+                <img src="/images/partener.png" alt="Baneer" width="930" height="815" />
               </div>
               <div class="shape-wrap">
                 <img

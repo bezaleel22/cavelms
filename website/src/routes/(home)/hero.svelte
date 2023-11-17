@@ -1,13 +1,25 @@
+<script>
+  import { isMobile } from "$lib/store";
+
+  // $: console.log({ $isMobile });
+</script>
+
+
 <div class="swiper-container banner-figure">
   <div class="swiper-wrapper">
-    <div class="swiper-slide" style="background-image: url(/images/media/slide/1.jpg)" />
+    {#if $isMobile}
+      <div class="swiper-slide" style="background-image: url(/images/media/slide/2.jpg)" />
+    {:else}
+      <div class="swiper-slide" style="background-image: url(/images/media/slide/1.png)" />
+    {/if}
+
     <!-- <div class="swiper-slide" style="background-image: url(/images/media/slide/3.png)" /> -->
     <div class="swiper-slide" style="background-image: url(/images/media/slide/4.png)" />
     <!-- <div class="swiper-slide" style="background-image: url(/images/media/slide/5.png)" /> -->
   </div>
   <div class="swiper-pagination" />
 </div>
-<div class="swiper-container banner-text">
+<!-- <div class="swiper-container banner-text">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
       <div class="container text-center">
@@ -19,13 +31,12 @@
           accompanied with Spiritual impartations.
         </h4>
         <br /><br /><br />
-        <!--<div class="btn-wrap">-->
-        <!--  <a href="https://admin.adullam.ng/platform/sign-up/register" class="btn-fill style-1"-->
-        <!--    >Enroll Now<i-->
-        <!--      class="fas fa-long-arrow-alt-right"-->
-        <!--    ></i-->
-        <!--  ></a>-->
-        <!--</div>-->
+        <div class="btn-wrap">
+          <a href="https://portal.adullam.ng" class="btn-fill style-1">
+            Enroll Now
+            <i class="fas fa-long-arrow-alt-right" />
+          </a>
+        </div>
       </div>
     </div>
     <div class="swiper-slide">
@@ -59,14 +70,13 @@
           </strong>
         </p>
         <br /><br /> <br />
-        <!--<div class="btn-wrap">-->
-        <!--  <a href="https://portal.adullam.ng" class="btn-fill style-1"-->
-        <!--    >Enroll Now<i-->
-        <!--      class="fas fa-long-arrow-alt-right"-->
-        <!--    ></i-->
-        <!--  ></a>-->
-        <!--</div>-->
+        <div class="btn-wrap">
+          <a href="https://portal.adullam.ng" class="btn-fill style-1">
+            Enroll Now
+            <i class="fas fa-long-arrow-alt-right" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->

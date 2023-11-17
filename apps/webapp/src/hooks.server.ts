@@ -1,5 +1,6 @@
 import { dev } from "$app/environment";
 import { API_KEY, AUTH_SECRET } from "$env/static/private";
+import { handleProxy } from "$lib/proxy";
 import { db } from "$lib/server/database";
 import { RBAC } from "$lib/store/routes";
 import type { $Enums } from "@prisma/client";
@@ -43,39 +44,12 @@ export const handle = (async ({ event, resolve }) => {
     role: user.role?.roleType as string,
   });
 
+  // const fetchRes = await event.fetch(proxiedUrl.toString(), {
+  //   body: event.request.body,
+  //   method: event.request.method,
+  //   headers: event.request.headers,
+  // });
+
   event.locals.routes = routes;
   return await resolve(event);
 }) satisfies Handle;
-
-const handleProxy: Handle = async ({ event }) => {
-  const origin = event.request.headers.get("Origin");
-
-  console.log({ origin, url: event.url.origin });
-  // // reject requests that don't come from the webapp, to avoid your proxy being abused.
-  if (!origin || new URL(origin as string).origin !== event.url.origin) {
-    throw error(403, "All Request Forbidden.");
-  }
-
-
-
-  // strip `/api-proxy` from the request path
-  const strippedPath = event.url.pathname.substring(PROXY_PATH.length);
-
-  // build the new URL path with your API base URL, the stripped path and the query string
-  const urlPath = `${strippedPath}${event.url.search}`;
-  const proxiedUrl = new URL(urlPath);
-  // Strip off header added by SvelteKit yet forbidden by underlying HTTP request
-  // library `undici`.
-  // https://github.com/nodejs/undici/issues/1470
-  event.request.headers.delete("connection");
-
-  return fetch(proxiedUrl.toString(), {
-    // propagate the request method and body
-    body: event.request.body,
-    method: event.request.method,
-    headers: event.request.headers,
-  }).catch((err) => {
-    console.log("Could not proxy API request: ", err);
-    throw err;
-  });
-};

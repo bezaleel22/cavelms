@@ -1,10 +1,17 @@
-<script>
-  import { page } from "$app/stores";
+<script lang="ts">
+  import { afterNavigate, beforeNavigate } from "$app/navigation";
   import Footer from "$lib/componentes/footer.svelte";
+  import PageHeader from "$lib/componentes/pageheader.svelte";
   import Headermain from "$lib/componentes/headermain.svelte";
-  import Header from "$lib/componentes/header.svelte";
+  import { loading } from "$lib/store";
+  import { fade } from "svelte/transition";
   import "./styles.css";
-  
+
+  export let data;
+  $: ({ isHome } = data);
+
+  beforeNavigate(() => ($loading = true));
+  afterNavigate(() => ($loading = false));
 </script>
 
 <svelte:head>
@@ -12,17 +19,20 @@
 </svelte:head>
 
 <div class="app">
-  <div id="preloader" class="preloader">
-    <div class="loaders loader-1">
-      <div class="loader-outter" />
-      <div class="loader-inner" />
+  {#if $loading}
+    <div id="preloader" class="preloader" out:fade={{ duration: 1000 }}>
+      <div class="loaders loader-1">
+        <div class="loader-outter" />
+        <div class="loader-inner" />
+      </div>
     </div>
-  </div>
+  {/if}
+
   <div id="wrapper" class="wrapper">
-    {#if $page.url.pathname == "/"}
+    {#if isHome}
       <Headermain />
     {:else}
-      <Header />
+      <PageHeader />
     {/if}
 
     <main>

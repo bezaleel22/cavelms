@@ -37,7 +37,7 @@ COPY --from=builder /app/website/build ./build/
 
 ENV NODE_ENV=production
 EXPOSE 3000
-ENTRYPOINT ["node", "build"]
+ENTRYPOINT ["node", 
 
 #############################################
 # App Runner: Production image runner

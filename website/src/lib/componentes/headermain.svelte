@@ -6,7 +6,6 @@
   <div id="topbar-wrap" class="topbar style-4">
     <div class="container">
       <div class="topbar-row">
-
         <ul class="left-box inline-list align-items-center">
           <strong>
             <li>
@@ -40,7 +39,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="site-branding">
             <a href="/" class="logo">
-              <img src="/images/media/logo-light.png" alt="Logo" width="101" height="37" />
+              <img src="/logo11.png" alt="Logo" />
             </a>
           </div>
           <nav class="template-main-menu">
@@ -50,19 +49,19 @@
               <li class="menu-item menu-item-has-children">
                 <a href={null}>About Us</a>
                 <ul class="sub-menu">
-                  <li class="menu-item">
+                  <!-- <li class="menu-item">
                     <a href="/about">About Adullam</a>
-                  </li>
+                  </li> -->
                   <li class="menu-item">
-                    <a href="/vision">Vision & Mission</a>
+                    <a href="/mission">Mission Statement</a>
                   </li>
-                  <li class="menu-item">
+                  <!-- <li class="menu-item">
                     <a href="/provost">Office of the Provost</a>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
               <li class="menu-item menu-item-has-children">
-                <a href="/academic">Academics</a>
+                <a href=" ">Academics</a>
                 <ul class="sub-menu">
                   <li class="menu-item">
                     <a href="/explore">Explore Programs</a>
@@ -71,7 +70,13 @@
                     <a href="/pgdt">Post Graduate Diploma Training(PGDT)</a>
                   </li>
                   <li class="menu-item">
+                    <a href="/bachelor">Bachelor program</a>
+                  </li>
+                  <li class="menu-item">
                     <a href="/diploma">Diploma program </a>
+                  </li>
+                  <li class="menu-item">
+                    <a href="/certificate">Certificate program</a>
                   </li>
                   <li class="menu-item">
                     <a href="/tuition">Tuition Fees</a>
@@ -137,7 +142,7 @@
 <div class="rt-header-menu mean-container position-relative" id="meanmenu">
   <div class="mean-bar">
     <a href={null}>
-      <img src="/images/media/logo-mobile.png" alt="Logo" width="80" height="29" />
+      <img src="/logo11.png" alt="Logo" width="80" height="29" />
     </a>
     <div class="mean-bar--right">
       <div class="actions user">

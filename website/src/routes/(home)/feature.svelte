@@ -13,7 +13,7 @@
             data-wow-duration="1s"
             data-wow-delay="0.1s"
           >
-            <img src="/images/media/banner/banner18b.jpg" alt="Banner" width="1920" height="1920" />
+            <img src="/images/media/banner/banner18b.jpg" alt="Banner" />
           </div>
           <ul class="block-list shape-list">
             <li class="shape1 wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.5s">

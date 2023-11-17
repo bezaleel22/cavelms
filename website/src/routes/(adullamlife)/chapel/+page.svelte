@@ -14,21 +14,21 @@
     <div class="about-inner">
       <ul class="shape-wrap">
         <li class="wow fadeInRightMedium animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          src="/images/media/elements/element71.png" alt="Element" width="222" height="222" />
+          <img src="/images/media/elements/element71.png" alt="Element" width="222" height="222" />
         </li>
         <li class="wow fadeInUp animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          class="motion-effects2" src="/images/media/elements/element72.png" alt="Element"
+          <img class="motion-effects2" src="/images/media/elements/element72.png" alt="Element"
           width="111" height="123" />
         </li>
         <li class="wow fadeInUpMedium animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          src="/images/media/elements/element73.png" alt="Element" width="52" height="52" />
+          <img src="/images/media/elements/element73.png" alt="Element" width="52" height="52" />
         </li>
         <li class="wow fadeInLeft animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          class="motion-effects4" src="/images/media/elements/element74.png" alt="Element"
+          <img class="motion-effects4" src="/images/media/elements/element74.png" alt="Element"
           width="111" height="123" />
         </li>
         <li class="wow fadeInRight animated" data-wow-duration="1s" data-wow-delay="0.1s">
-          class="motion-effects5" src="/images/media/elements/element75.png" alt="Element"
+          <img class="motion-effects5" src="/images/media/elements/element75.png" alt="Element"
           width="176" height="176" />
         </li>
         <li class="wow fadeInDownMedium animated" data-wow-duration="1s" data-wow-delay="0.1s">

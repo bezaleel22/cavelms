@@ -3,7 +3,7 @@ import { DOMParser } from "linkedom";
 import type { XMLDocument } from "linkedom/types/xml/document";
 
 const INITIAL_PLAYER_RESPONSE = /\bytInitialPlayerResponse\s*=\s*\{/i;
-const PROXY_URL = "http://localhost:8888";
+const PROXY_URL = "http://localhost:8080/stream";
 const VID_HOST = "www.youtube.com";
 const BASE_URL = "https://www.youtube.com/watch?v=";
 const UPLOAD_URL = "https://studio.youtube.com/channel/UCDipfu1a-S7pjQwej0RvNpQ";

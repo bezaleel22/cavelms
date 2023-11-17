@@ -526,9 +526,9 @@
     }
 
     // Page Preloader
-    $("#preloader").fadeOut("slow", function () {
-      $(this).remove();
-    });
+    // $("#preloader").fadeOut("slow", function () {
+    //   $(this).remove();
+    // });
 
     // Popup
     var yPopup = $(".popup-youtube");

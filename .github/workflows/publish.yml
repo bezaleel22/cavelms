@@ -31,12 +31,12 @@ jobs:
       env:
         REGISTRY: ghcr.io
         OWNER: my-organization-name
-        IMAGE_NAME: ${{ github.repository }}
+        IMAGE_NAME: ${{ cavesite }}
       uses: docker/build-push-action@v2
       with:
         context: .
         file: ./Dockerfile
-        target: server
+        target: website
         push: true
         tags: |
           $REGISTRY/$OWNER/$IMAGE_NAME:$(date +%s)
