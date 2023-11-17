@@ -32,28 +32,18 @@
 
                       <hr />
                     </h6>
-                    <h6 class="title"><strong>On campus program fees</strong></h6>
+                    <!-- <h4 class="title"><strong>On campus program fees</strong></h4>
                     <h6 class="description">
                       Tuition Fees - $112 per credit Unit (Tuition Fees $2016 (PER SEMESTER))<br />
                       Graduation Fee - $20<br />
                       Transcript - $25
                       <hr />
-                    </h6>
-                    <h4 class="title"><strong>Diploma Program</strong></h4>
+                    </h6> -->
 
+                    <h4 class="title"><strong>Certificate/Diploma/Bachelor</strong></h4>
                     <h6 class="description">
-                      <strong>Online program fees<br /> </strong>
-                      Fees $1000 (PER SEMESTER)<br />
-                      Graduation Fee - $20<br />
-                      Transcript - $20
-                      <br />
-                      <hr />
-                    </h6>
-                    <h6 class="title"><strong>On campus program fees</strong></h6>
-                    <h6 class="description">
-                      Fees: $1000 (PER SEMESTER)<br />
-                      Graduation Fee - $20<br />
-                      Transcript - $20
+                      Each credit costs $5 USD (Rate: 800 naira per dollar) In total, each year of
+                      the programme is 40 credits or $200 USD.
                     </h6>
                   </div>
                 </li>

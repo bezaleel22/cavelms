@@ -19,10 +19,13 @@
     </ul>
   </li>
   <li class="list menu-item-parent menu-item-has-children">
-    <a class="animation" href=" ">Academics</a>
+    <a on:click|preventDefault class="animation" href=" ">Academics</a>
     <ul class="main-menu__dropdown sub-menu">
       <li class="menu-item">
         <a href="/explore">Explore Programs</a>
+      </li>
+      <li class="menu-item">
+        <a on:click|preventDefault href=" ">Practicum Log Book</a>
       </li>
       <li class="menu-item">
         <a href="/pgdt">Post Graduate Diploma Training(PGDT)</a>
