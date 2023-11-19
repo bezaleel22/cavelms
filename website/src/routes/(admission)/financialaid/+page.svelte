@@ -56,9 +56,6 @@
                 <div class="content-box">
                   <h3 class="title">80-91% Scholarship Grant</h3>
                   <h6 class="description">
-                    <br /><strong>Diploma in Theology (DIPLOMA)</strong><br />
-                    - 80% of Tuition for Online Students<br />
-                    - 87.5% of Tuition for On Campus Students<br />
                     <hr />
                     <strong>Post Graduate Diploma in Theology (PGDT)</strong><br />
                     - 85% of Tuition for Online Students<br />

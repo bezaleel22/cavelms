@@ -5,15 +5,15 @@ FROM node:lts-alpine as builder
 WORKDIR /app
 
 # BUILD WEBAPP
-# COPY ./apps/webapp/package*.json ./webapp/
-# RUN cd webapp && npm install
+COPY ./apps/webapp/package*.json ./webapp/
+RUN cd webapp && npm install
 
-# COPY ./apps/webapp/prisma ./webapp/prisma
-# RUN cd webapp && npx prisma generate
+COPY ./apps/webapp/prisma ./webapp/prisma
+RUN cd webapp && npx prisma generate
 
-# COPY ./apps/webapp ./webapp
-# RUN cd webapp && npm run build
-# RUN cd webapp && npm prune --production
+COPY ./apps/webapp ./webapp
+RUN cd webapp && npm run build
+RUN cd webapp && npm prune --production
 
 # BUILD WEBSITE
 COPY ./website/package*.json ./website/

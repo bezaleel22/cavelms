@@ -31,15 +31,13 @@ services:
   #   depends_on:
   #     - minibase
       
-  # website:
-  #   container_name: website
-  #   build:
-  #     target: website
-  #     context: .
-  #   ports:
-  #     - "8083:3000"
-  #   depends_on:
-  #     - minibase
+  cavesite:
+    container_name: cavesite
+    image: ghcr.io/onos9/cavesite:latest
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - 3000
       
   redis:
     image: redis:alpine

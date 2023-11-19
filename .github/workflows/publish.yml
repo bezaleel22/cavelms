@@ -14,13 +14,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         
-      - name: Build & push Docker image
+      - name: Build & push website image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: cavesite
           tags: latest
-          target: website
           registry: ghcr.io
           dockerfile: ./website/Dockerfile
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT }}
+      
+      # - name: Build & push webapp image
+      #   uses: mr-smithers-excellent/docker-build-push@v6
+      #   with:
+      #     image: caveapp
+      #     tags: latest
+      #     registry: ghcr.io
+      #     dockerfile: ./apps/webapp/Dockerfile
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GH_PAT }}

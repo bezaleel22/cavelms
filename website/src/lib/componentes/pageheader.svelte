@@ -64,9 +64,6 @@
                     <a href="/explore">Explore Programs</a>
                   </li>
                   <li class="menu-item">
-                    <a on:click|preventDefault href=" ">Practicum Log Book</a>
-                  </li>
-                  <li class="menu-item">
                     <a href="/pgdt">Post Graduate Diploma Training(PGDT)</a>
                   </li>
                   <li class="menu-item">
