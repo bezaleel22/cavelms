@@ -64,7 +64,7 @@
                     <a href="/explore">Explore Programs</a>
                   </li>
                   <li class="menu-item">
-                    <a href="/pgdt">Post Graduate Diploma Training(PGDT)</a>
+                    <a href="/pgdt">Post Graduate Diploma in Theology(PGDT)</a>
                   </li>
                   <li class="menu-item">
                     <a href="/bachelor">Bachelor program</a>

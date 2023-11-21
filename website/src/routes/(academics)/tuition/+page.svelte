@@ -23,7 +23,9 @@
               <ul class="block-list about-list">
                 <li>
                   <div class="content-box">
-                    <h4 class="title"><strong>Post Graduate Diploma Training. (PGDT)</strong></h4>
+                    <h4 class="title">
+                      <strong>Post Graduate Diploma in Theology. (PGDT)</strong>
+                    </h4>
                     <h6 class="title"><strong>On campus program fees</strong></h6>
                     <h6 class="description">
                       Tuition Fees - $112 per credit unit: $2016 (PER SEMESTER)<br />

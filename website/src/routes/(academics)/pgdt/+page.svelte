@@ -22,7 +22,7 @@
             <br /> <br />
             <div class="section-heading style-3">
               <div class="sub-title">Post Graduate Training</div>
-              <h2 class="title">Post Graduate Diploma Training (PGDT)</h2>
+              <h2 class="title">Post Graduate Diploma in Theology (PGDT)</h2>
             </div>
 
             <li>
@@ -49,10 +49,11 @@
                   impactful, its duration is extended more than the On-Campus option, and compatible
                   for the work and family demands of everyday life.
                   <br />
+                  <br />
                   <strong>PROGRAM LENGTH</strong><br />
-                  Campus option: 9 months (with two semesters)<br />
+                  Campus option: 12 months (with two semesters)<br />
                   Online Option: 15 months (with two semesters)<br />
-
+                  <br />
                   <strong>ADMISSION REQUIREMENTS</strong><br />
                   - A $10 non-refundable application fee<br />
                   - A completed Application form (available online)<br />

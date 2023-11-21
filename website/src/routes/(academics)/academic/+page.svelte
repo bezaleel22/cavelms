@@ -16,7 +16,8 @@
         <div class="d-flex justify-content-between flex-wrap">
           <div class="section-heading style-3">
             <div class="sub-title">Academics</div>
-            <strong><h4>Academic Schedule for Diploma & Post Graduate Diploma Training.</h4></strong
+            <strong
+              ><h4>Academic Schedule for Diploma & Post Graduate Diploma in Theology.</h4></strong
             >
           </div>
         </div>
@@ -72,7 +73,7 @@
             </div>
           </div>
           <div class="section-heading style-3">
-            <strong><h4>Post Graduate Diploma Training.</h4></strong>
+            <strong><h4>Post Graduate Diploma in Theology.</h4></strong>
           </div>
 
           <div class="col-xl-6 col-12">
