@@ -1,23 +1,23 @@
 # Use root/example as user/password credentials
 version: '3.1'
 
-volumes:
-  pgdata:
-  redis_data:
+# volumes:
+#   pgdata:
+#   redis_data:
 
 services:
-  minibase:
-    container_name: minibase
-    image: ghcr.io/onos9/onos9/minibase:latest
-    restart: unless-stopped
-    ports:
-      - 5406:5432
-    environment:
-      POSTGRES_USER: cavelms
-      POSTGRES_PASSWORD: 1414{bruno}
-      POSTGRES_DB: cavelms
-    volumes: 
-      - pgdata:/var/lib/postgresql/data
+  # minibase:
+  #   container_name: minibase
+  #   image: ghcr.io/onos9/onos9/minibase:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - 5406:5432
+  #   environment:
+  #     POSTGRES_USER: cavelms
+  #     POSTGRES_PASSWORD: 1414{bruno}
+  #     POSTGRES_DB: cavelms
+  #   volumes: 
+  #     - pgdata:/var/lib/postgresql/data
  
   # webapp:
   #   container_name: webapp
@@ -31,57 +31,57 @@ services:
   #   depends_on:
   #     - minibase
       
-  cavesite:
-    container_name: cavesite
+  caveapp:
+    container_name: caveapp
     image: ghcr.io/onos9/cavesite:latest
     restart: unless-stopped
     pull_policy: always
     ports:
       - 3000
       
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: unless-stopped
-    environment:
-      REDIS_PWD: 'my-redis'
-    ports:
-      - '6078:6379'
-    # command: redis-server --save 20 1 --loglevel warning --requirepass $$REDIS_PWD
-    volumes:
-      - redis_data:/data
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis
+  #   restart: unless-stopped
+  #   environment:
+  #     REDIS_PWD: 'my-redis'
+  #   ports:
+  #     - '6078:6379'
+  #   # command: redis-server --save 20 1 --loglevel warning --requirepass $$REDIS_PWD
+  #   volumes:
+  #     - redis_data:/data
     
-  postgrest:
-    container_name: postgrest
-    image: postgrest/postgrest:v10.0.0
-    restart: unless-stopped
-    ports:
-      - 3001:3000
-    environment:
-      PGRST_DB_URI: postgres://cavelms:1414{bruno}@minibase:5432/cavelms
-      PGRST_DB_SCHEMA: api
-      PGRST_DB_ANON_ROLE: anonymous
-    depends_on:
-      - minibase
+  # postgrest:
+  #   container_name: postgrest
+  #   image: postgrest/postgrest:v10.0.0
+  #   restart: unless-stopped
+  #   ports:
+  #     - 3001:3000
+  #   environment:
+  #     PGRST_DB_URI: postgres://cavelms:1414{bruno}@minibase:5432/cavelms
+  #     PGRST_DB_SCHEMA: api
+  #     PGRST_DB_ANON_ROLE: anonymous
+  #   depends_on:
+  #     - minibase
     
-  graphiql:
-    container_name: graphiql
-    restart: unless-stopped
-    image: nginx
-    volumes:
-      - ./graphiql:/usr/share/nginx/html
-    ports:
-      - 4000:80
-    depends_on:
-      - postgrest
+  # graphiql:
+  #   container_name: graphiql
+  #   restart: unless-stopped
+  #   image: nginx
+  #   volumes:
+  #     - ./graphiql:/usr/share/nginx/html
+  #   ports:
+  #     - 4000:80
+  #   depends_on:
+  #     - postgrest
   
-  swagger:
-   container_name: swaggerUI
-   restart: unless-stopped
-   image: swaggerapi/swagger-ui
-   ports:
-    - "8899:8080"
-   expose:
-    - "8080"
-   environment:
-    API_URL: http://localhost:3001/  
+  # swagger:
+  #  container_name: swaggerUI
+  #  restart: unless-stopped
+  #  image: swaggerapi/swagger-ui
+  #  ports:
+  #   - "8899:8080"
+  #  expose:
+  #   - "8080"
+  #  environment:
+  #   API_URL: http://localhost:3001/  
