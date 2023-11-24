@@ -83,6 +83,6 @@
   </li>
 
   <li class="menu-item menu-item-parent">
-    <a href="https://seminary.adullam.ng/main/login_form.php">Student Portal</a>
+    <a href="https://lms.adullam.ng/main/login_form.php">Student Portal</a>
   </li>
 </ul>

@@ -105,7 +105,7 @@
               </div>
               <h3 class="title"><strong>Student Portal</strong></h3>
               <h6 class="description">
-                Already a student? <a href="https://seminary.adullam.ng/main/login_form.php"
+                Already a student? <a href="https://lms.adullam.ng/main/login_form.php"
                   >Proceed to student control panel.
                 </a>
               </h6>

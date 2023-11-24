@@ -129,7 +129,7 @@
                 <a href="/contact">Contact us</a>
               </li>
               <li class="menu-item">
-                <a href="https://seminary.adullam.ng/main/login_form.php">Student Portal</a>
+                <a href="https://lms.adullam.ng/main/login_form.php">Student Portal</a>
               </li>
             </ul>
           </nav>
