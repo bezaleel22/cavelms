@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 </script>
 
 <svelte:head>
@@ -71,7 +71,7 @@
                   <hr />
                   <br />
                   <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLScNEjnMfOtMxZBrNg2nLDnbm_7hZ2hMCaOGR85D_MadOrtVEw/viewform?usp=sf_link"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSfdhLZStbcInos9bRBDKBUA1ybTyWjMXGZfvOsu-OPETpjFhA/viewform?usp=sf_link"
                     class="btn btn-block btn-lg btn-primary">Apply Now</a
                   >
                 </h6>
