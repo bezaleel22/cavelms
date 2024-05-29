@@ -36,7 +36,7 @@
                   about theology and its related discipline<br />
                   <hr />
                 </h5>
-                <h4 class="title">PROGRAM OPTION</h4>
+                <h4 class="title">PROGRAM OPTION AVAILABLE</h4>
                 <br />
                 <h6 class="description">
                   We offer two program options:<br />
