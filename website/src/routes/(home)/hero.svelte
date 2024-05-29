@@ -10,7 +10,7 @@ c<script>
     {#if $isMobile}
       <div class="swiper-slide" style="background-image: url(/images/media/slide/2.png)" />
     {:else}
-      <div class="swiper-slide" style="background-image: url(/images/media/slide/1.jpg)" />
+      <div class="swiper-slide" style="background-image: url(/images/media/slide/iec.jpg)" />
     {/if}
 
     <!-- <div class="swiper-slide" style="background-image: url(/images/media/slide/3.png)" /> -->
