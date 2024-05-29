@@ -10,7 +10,7 @@ c<script>
     {#if $isMobile}
       <div class="swiper-slide" style="background-image: url(/images/media/slide/2.png)" />
     {:else}
-      <div class="swiper-slide" style="background-image: url(/images/media/slide/iec.jpg)" />
+      <div class="swiper-slide" style="background-image: url(/images/media/slide/1.jpg)" />
     {/if}
 
     <!-- <div class="swiper-slide" style="background-image: url(/images/media/slide/3.png)" /> -->
@@ -19,6 +19,8 @@ c<script>
   </div>
   <div class="swiper-pagination" />
 </div>
+
+
 <div class="swiper-container banner-text">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
