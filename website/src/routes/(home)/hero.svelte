@@ -19,7 +19,7 @@ c<script>
   </div>
   <div class="swiper-pagination" />
 </div>
-<!-- <div class="swiper-container banner-text">
+<div class="swiper-container banner-text">
   <div class="swiper-wrapper">
     <div class="swiper-slide">
       <div class="container text-center">
@@ -79,4 +79,4 @@ c<script>
       </div>
     </div>
   </div>
-</div> -->
+</div>
