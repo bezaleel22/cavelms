@@ -28,7 +28,7 @@
             <li>
               <div class="content-box">
                 <h5 class="description">
-                  <strong>WHAT YOU WILL LEARN and Many More...</strong><br />
+                  <strong>WHAT YOU WILL LEARN and Many More...!!!!</strong><br />
                   - Develop foundational understanding of Biblical Truth<br />
                   - Develop contemporary strategies for effective Ministry within various contexts<br
                   />
