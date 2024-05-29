@@ -1,4 +1,4 @@
-c<script>
+<script>
   import { isMobile } from "$lib/store";
 
   // $: console.log({ $isMobile });
