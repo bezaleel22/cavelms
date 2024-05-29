@@ -33,12 +33,12 @@
           accompanied with Spiritual impartations.
         </h4>
         <br /><br /><br />
-        <div class="btn-wrap">
+        <!-- <div class="btn-wrap">
           <a href="https://portal.adullam.ng" class="btn-fill style-1">
             Enroll Now
             <i class="fas fa-long-arrow-alt-right" />
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="swiper-slide">
