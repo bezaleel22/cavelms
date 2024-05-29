@@ -55,11 +55,9 @@
                   Online Option: 15 months (with two semesters)<br />
                   <br />
                   <strong>ADMISSION REQUIREMENTS</strong><br />
-                  - A $10 non-refundable application fee<br />
+                  - A $20 non-refundable application fee<br />
                   - A completed Application form (available online)<br />
                   - A minimum of a Bachelor’s degree or its equivalent<br />
-                  - Official transcripts for highest earned degree and any master’s degree work<br
-                  />
                   - Two referees<br />
                   - All International students that wish to learn On-Campus are required to apply for
                   and secure a student visa for the duration of their study in the Nigerian Embassy in
@@ -67,7 +65,7 @@
                   <hr />
                   <strong>Fees</strong><br />
                   <strong>On campus program fees</strong><br />
-                  Tuition Fees - $2016 PER SEMESTER<br />
+                  Tuition Fees - $8 to $10 per credit<br />
                   Graduation Fee - $20<br />
                   Transcript - $25<br />
                   Provost Scholarship Grant Available - The Provost Scholarship Grant available covers
