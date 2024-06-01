@@ -53,7 +53,7 @@
     </div>
     <div class="col-xl-6 col-12 d-flex align-items-center">
       <div class="row gutters-3">
-        <div class="col-md-6 col-12 child-item">
+    <!--    <div class="col-md-6 col-12 child-item">
           <div class="feature-box style-2 color-1">
             <div class="content-box">
               <div class="icon-box">
@@ -66,7 +66,7 @@
               </h6>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="col-md-6 col-12 child-item">
           <div class="feature-box style-2 color-2">
             <div class="content-box">

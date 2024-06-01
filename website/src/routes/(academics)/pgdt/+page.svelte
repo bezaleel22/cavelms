@@ -40,13 +40,13 @@
                 <br />
                 <h6 class="description">
                   We offer two program options:<br />
-                  <strong>- On-Campus:</strong> The On-Campus option is a full residency program.
+                  <strong>- On-campus:</strong> The On-campus option is a full residency program.
                   The academic activities has three requirements: a class attendance, a ministry
                   practicum and Field Trip<br />
                   <strong>- Online:</strong> The Online program was created in response to the
                   global needs for spiritual training and equipping of those who cannot make it for
-                  the residency On-Campus option. Although designed to be still engaging and
-                  impactful, its duration is extended more than the On-Campus option, and compatible
+                  the residency On-campus option. Although designed to be still engaging and
+                  impactful, its duration is extended more than the On-campus option, and compatible
                   for the work and family demands of everyday life.
                   <br />
                   <br />
@@ -59,37 +59,14 @@
                   - A completed Application form (available online)<br />
                   - A minimum of a Bachelor’s degree or its equivalent<br />
                   - Two referees<br />
-                  - All International students that wish to learn On-Campus are required to apply for
+                  - All International students that wish to learn On-campus are required to apply for
                   and secure a student visa for the duration of their study in the Nigerian Embassy in
                   their country before travelling in
                   <hr />
                   <strong>Fees</strong><br />
                   <strong>On campus program fees</strong><br />
                   Tuition Fees - $8 to $10 per credit<br />
-                  Graduation Fee - $20<br />
-                  Transcript - $25<br />
-                  Provost Scholarship Grant Available - The Provost Scholarship Grant available covers
-                  only 91% of the Tuition <br />
-                  <hr />
-                  <strong>
-                    NB. If you desire to benefit from the scholarship, please indicate interest in
-                    the Scholarship Section made available while you fill the application form for
-                    your respective program
-                  </strong>
-                  <hr />
-                  <br />
-                  <strong>Online program fees</strong><br />
-                  Tuition Fees - $2016 PER SEMESTER <br />
-                  Graduation Fee - $20 <br />
-                  Transcript - $25<br />
-                  Provost Scholarship Grant Available - The Provost Scholarship Grant available covers
-                  only 85% of the Tuition <br />
-                  <hr />
-                  <strong>
-                    NB. If you desire to benefit from the scholarship, please indicate interest in
-                    the Scholarship Section made available while you fill the application form for
-                    your respective program
-                  </strong>
+                  
                   <hr />
                   <br /><br />
                   <a

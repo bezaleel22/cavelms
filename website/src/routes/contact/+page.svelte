@@ -41,7 +41,7 @@
           </div>
           <div class="content-box">
             <label for="">Email Us</label>
-            <h3 class="title">adullam.rcn@gmail.com</h3>
+            <h3 class="title">rcnts.adullam@gmail.com</h3>
           </div>
         </div>
       </div>
