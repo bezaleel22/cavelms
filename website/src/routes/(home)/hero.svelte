@@ -8,7 +8,7 @@
 <div class="swiper-container banner-figure">
   <div class="swiper-wrapper">
     {#if $isMobile}
-      <div class="swiper-slide" style="background-image: url(/images/media/slide/2.png)" />
+      <div class="swiper-slide" style="background-image: url(/images/media/slide/iec.jpg)" />
     {:else}
       <div class="swiper-slide" style="background-image: url(/images/media/slide/iec.jpg)" />
     {/if}
