@@ -12,10 +12,12 @@
               <i class="fas fa-phone-alt" /> +234 802 216 4432, +234 706 515 8197
             </li>
             <li>
-              <i class="fas fa-map-marker-alt" /> 4 Remnant Avenue, opposite State Library, Makurdi,
-              Benue State.
+              <i class="fas fa-map-marker-alt" /> 4 Remnant Avenue, opposite State
+              Library, Makurdi, Benue State.
             </li>
-            <li><i class="far fa-clock" /> Mon - Sat 8.00 - 4.00 GMT+1</li></strong
+            <li>
+              <i class="far fa-clock" /> Mon - Sat 8.00 - 4.00 GMT+1
+            </li></strong
           >
         </ul>
         <ul class="right-box inline-list">
@@ -24,7 +26,10 @@
             <a href={null}><i class="fab fa-twitter" /></a>
             <a href={null}><i class="fab fa-instagram" /></a>
             <a href={null}><i class="fab fa-pinterest-p" /></a>
-            <a href="https://www.youtube.com/channel/UCg7kJOsWDdksyuUv5HiIvFg" target="_blank">
+            <a
+              href="https://www.youtube.com/channel/UCg7kJOsWDdksyuUv5HiIvFg"
+              target="_blank"
+            >
               <i class="fab fa-youtube" />
             </a>
           </li>
@@ -79,6 +84,11 @@
                     <a href="/certificate">Certificate program</a>
                   </li>
                   <li class="menu-item">
+                    <a href="https://adullam.chahms.com.ng/user/register.php">
+                      Masters program
+                    </a>
+                  </li>
+                  <li class="menu-item">
                     <a href="/tuition">Tuition Fees</a>
                   </li>
                   <!-- <li class="menu-item">
@@ -129,7 +139,9 @@
                 <a href="/contact">Contact us</a>
               </li>
               <li class="menu-item">
-                <a href="https://lms.adullam.ng/main/login_form.php">Student Portal</a>
+                <a href="https://lms.adullam.ng/main/login_form.php"
+                  >Student Portal</a
+                >
               </li>
             </ul>
           </nav>
