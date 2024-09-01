@@ -4860,7 +4860,29 @@ body.slidemenuon .sidebarBtn .bar:nth-child(4) {
 
 .main-banner-wrap-style-4 .banner-figure .swiper-slide {
   background-size: cover;
-  background-position: center;
+  background-position: center center;
+}
+
+.slider-img {
+  object-fit: cover;
+  height: 100vh;
+  opacity: 0.3;
+}
+
+.slider-img-box {
+  height: 100vh;
+    width: 100vw;
+    background: black;
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.2);
+  }
 }
 
 .main-banner-wrap-style-4 .banner-text {

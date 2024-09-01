@@ -695,22 +695,22 @@
     //   },
     // });
 
-    var bannerFigure = new Swiper(".banner-figure", {
-      spaceBetween: 0,
-      speed: 500,
-      // effect: "fade",
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-        renderBullet: function (index, className) {
-          return (
-            '<span class="' + className + '">' + 0 + (index + 1) + "</span>"
-          );
-        },
-      },
-    });
+    // var bannerFigure = new Swiper(".banner-figure", {
+    //   spaceBetween: 0,
+    //   speed: 500,
+    //   // effect: "fade",
+    //   pagination: {
+    //     el: ".swiper-pagination",
+    //     clickable: true,
+    //     renderBullet: function (index, className) {
+    //       return (
+    //         '<span class="' + className + '">' + 0 + (index + 1) + "</span>"
+    //       );
+    //     },
+    //   },
+    // });
 
-    console.log("Swiper is loaded:", bannerFigure);
+    // console.log("Swiper is loaded:", bannerFigure);
     var testimonial_carousel = new Swiper(".testimonial-carousel", {
       effect: "coverflow",
       centeredSlides: true,
