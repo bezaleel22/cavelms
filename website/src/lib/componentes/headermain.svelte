@@ -4,7 +4,7 @@
 
 <header class="header-style-4 sticky-on">
   <div id="topbar-wrap" class="topbar style-4">
-    <div class="container">
+    <div style="margin-left: 20px; margin-right: 20px;">
       <div class="topbar-row">
         <ul class="left-box inline-list align-items-center">
           <strong>

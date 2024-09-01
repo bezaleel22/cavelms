@@ -46,9 +46,11 @@ CSS INDEX
 /*=======================================================================
 1. Variables 
 ========================================================================*/
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 :root {
-  --font_family_body: "Times New Roman", Times, serif;
-  --font_family_heading: "Times New Roman", Times, serif;
+  --font_family_body: "Poppins", sans-serif;
+  --font_family_heading: "Poppins", sans-serif;
   --color_primary: #0071dc;
   --color_secondary: #f7bc20;
   --color_text_body: #6b6b6b;
