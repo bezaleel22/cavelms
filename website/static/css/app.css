@@ -2530,7 +2530,7 @@ header.header-style-4 {
 }
 
 header.header-style-4 .navbar-wrap {
-  background-color: rgba(0, 0, 0, 0.21);
+  /* background-color: rgba(0, 0, 0, 0.21); */
 }
 
 header.header-style-4 nav.template-main-menu > ul.menu > li.menu-item > a {
@@ -3574,7 +3574,7 @@ header.sticky-on.sticky.header-style-4 .navbar-wrap {
 }
 
 .topbar.style-4 {
-  background-color: rgba(0, 0, 0, 0.21);
+  /* background-color: rgba(0, 0, 0, 0.21); */
   color: #d4d2d2;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
