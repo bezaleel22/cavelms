@@ -85,7 +85,7 @@
                   </li>
                   <li class="menu-item">
                     <a href="https://adullam.chahms.com.ng/user/register.php">
-                      Masters program
+                      Masters of Art in Theology
                     </a>
                   </li>
                   <li class="menu-item">
