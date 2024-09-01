@@ -5,7 +5,10 @@
   <title>PGDT</title>
 </svelte:head>
 
-<div class="breadcrumb-wrap-style-2" style="background-image:url(/images/cave3.jpg)">
+<div
+  class="breadcrumb-wrap-style-2"
+  style="background-image:url(/images/cave3.jpg)"
+>
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
     <h1 class="title">Post-Graduate Program</h1>
@@ -30,24 +33,27 @@
                 <h5 class="description">
                   <strong>WHAT YOU WILL LEARN</strong><br />
                   - Develop foundational understanding of Biblical Truth<br />
-                  - Develop contemporary strategies for effective Ministry within various contexts<br
-                  />
-                  - How to engage in high-level, publishable critical research, analysis, and writing
-                  about theology and its related discipline<br />
+                  - Develop contemporary strategies for effective Ministry within
+                  various contexts<br />
+                  - How to engage in high-level, publishable critical research, analysis,
+                  and writing about theology and its related discipline<br />
                   <hr />
                 </h5>
                 <h4 class="title">PROGRAM OPTION AVAILABLE</h4>
                 <br />
                 <h6 class="description">
                   We offer two program options:<br />
-                  <strong>- On-campus:</strong> The On-campus option is a full residency program.
-                  The academic activities has three requirements: a class attendance, a ministry
-                  practicum and Field Trip<br />
-                  <strong>- Online:</strong> The Online program was created in response to the
-                  global needs for spiritual training and equipping of those who cannot make it for
-                  the residency On-campus option. Although designed to be still engaging and
-                  impactful, its duration is extended more than the On-campus option, and compatible
-                  for the work and family demands of everyday life.
+                  <strong>- On-campus:</strong> The On-campus option is a full
+                  residency program. The academic activities has three
+                  requirements: a class attendance, a ministry practicum and
+                  Field Trip<br />
+                  <strong>- Online:</strong> The Online program was created in
+                  response to the global needs for spiritual training and
+                  equipping of those who cannot make it for the residency
+                  On-campus option. Although designed to be still engaging and
+                  impactful, its duration is extended more than the On-campus
+                  option, and compatible for the work and family demands of
+                  everyday life.
                   <br />
                   <br />
                   <strong>PROGRAM LENGTH</strong><br />
@@ -59,20 +65,23 @@
                   - A completed Application form (available online)<br />
                   - A minimum of a Bachelor’s degree or its equivalent<br />
                   - Two referees<br />
-                  - All International students that wish to learn On-campus are required to apply for
-                  and secure a student visa for the duration of their study in the Nigerian Embassy in
-                  their country before travelling in
+                  - All International students that wish to learn On-campus are required
+                  to apply for and secure a student visa for the duration of their
+                  study in the Nigerian Embassy in their country before travelling
+                  in
                   <hr />
                   <strong>Fees</strong><br />
                   <strong>On campus program fees</strong><br />
                   Tuition Fees - $8 to $10 per credit<br />
-                  
+
                   <hr />
                   <br /><br />
                   <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSebcC3oWR-gXKJVLrQ5ZHPlCIYsmU2Zn-Scivnq-HZH5JcU9Q/viewform?usp=sf_link"
-                    class="btn btn-block btn-lg btn-primary">Apply Now</a
+                    href="https://adullam.chahms.com.ng/user/register.php"
+                    class="btn btn-block btn-lg btn-primary"
                   >
+                    Apply Now
+                  </a>
                 </h6>
               </div>
             </li>
