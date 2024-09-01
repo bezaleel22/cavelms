@@ -8,7 +8,7 @@
   <div class="swiper-wrapper">
     <div
       class="swiper-slide"
-      style="background-image: url(/images/media/slide/iec.jpg)"
+      style="background-image: url(/images/media/slide/5.png)"
     >
       <div class="container banner-text text-center">
         <h1 style="color:white;">
@@ -23,7 +23,7 @@
         <br />
         <div class="btn-wrap">
           <a
-            href="https://adullam.chahms.com.ng/user/register.php"
+           href="https://adullam.chahms.com.ng/user/register.php"
             class="btn-fill style-1"
           >
             Enroll Now
@@ -102,7 +102,7 @@
         <br />
         <div class="btn-wrap">
           <a
-            href="https://adullam.chahms.com.ng/user/register.php"
+             href="https://adullam.chahms.com.ng/user/register.php"
             class="btn-fill style-1"
           >
             Enroll Now
