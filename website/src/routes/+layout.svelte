@@ -19,14 +19,14 @@
 </svelte:head>
 
 <div class="app">
-  <!-- {#if $loading}
+  {#if $loading}
     <div id="preloader" class="preloader" out:fade={{ duration: 1000 }}>
       <div class="loaders loader-1">
         <div class="loader-outter" />
         <div class="loader-inner" />
       </div>
     </div>
-  {/if} -->
+  {/if}
 
   <div id="wrapper" class="wrapper">
     {#if isHome}
