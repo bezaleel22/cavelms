@@ -13,15 +13,12 @@
 
   beforeNavigate(() => ($loading = true));
   afterNavigate(() => ($loading = false));
-
-  onMount(() => {
-    $loading = false;
-  });
 </script>
 
 <svelte:head>
   <meta name="description" content="RCN Theological Seminary - Adullam" />
 </svelte:head>
+<svelte:window on:load={() => ($loading = false)} />
 
 <div class="app">
   {#if $loading}
