@@ -18,7 +18,12 @@
 <svelte:head>
   <meta name="description" content="RCN Theological Seminary - Adullam" />
 </svelte:head>
-<svelte:window on:load={() => ($loading = false)} />
+<svelte:document
+  on:loadeddata={() => {
+    $loading = false;
+    console.log("loadeddata");
+  }}
+/>
 
 <div class="app">
   {#if $loading}
