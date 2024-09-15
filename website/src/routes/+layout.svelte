@@ -12,19 +12,18 @@
   $: ({ isHome } = data);
 
   beforeNavigate(() => ($loading = true));
-  afterNavigate(() => ($loading = false));
-
-  onMount(() => {
-    document.addEventListener("DOMContentLoaded",() => {
-      $loading = false
-      console.log('DOMContentLoaded')
-    });
-  });
+  // afterNavigate(() => ($loading = false));
 </script>
 
 <svelte:head>
   <meta name="description" content="RCN Theological Seminary - Adullam" />
 </svelte:head>
+<svelte:document
+  on:load={() => {
+    $loading = false;
+    console.log("Document Loaded");
+  }}
+/>
 
 <div class="app">
   {#if $loading}
