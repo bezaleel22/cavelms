@@ -11,8 +11,8 @@
   export let data;
   $: ({ isHome } = data);
 
-  beforeNavigate(() => ($loading = true));
-  afterNavigate(() => ($loading = false));
+  // beforeNavigate(() => ($loading = true));
+  // afterNavigate(() => ($loading = false));
 
   onMount(() => {
     if (document.readyState === "loading") {
