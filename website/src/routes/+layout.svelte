@@ -12,18 +12,25 @@
   $: ({ isHome } = data);
 
   beforeNavigate(() => ($loading = true));
-  // afterNavigate(() => ($loading = false));
+  afterNavigate(() => ($loading = false));
+
+  onMount(() => {
+    if (document.readyState === "loading") {
+      // Loading hasn't finished yet
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("DOM fully loaded and parsed");
+        $loading = false;
+      });
+    } else {
+      // `DOMContentLoaded` has already fired
+      $loading = false;
+    }
+  });
 </script>
 
 <svelte:head>
   <meta name="description" content="RCN Theological Seminary - Adullam" />
 </svelte:head>
-<svelte:document
-  on:load={() => {
-    $loading = false;
-    console.log("Document Loaded");
-  }}
-/>
 
 <div class="app">
   {#if $loading}
