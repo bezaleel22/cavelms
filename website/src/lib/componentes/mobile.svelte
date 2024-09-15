@@ -37,9 +37,7 @@
         <a href="/certificate">Certificate program</a>
       </li>
       <li class="menu-item">
-        <a href="https://adullam.chahms.com.ng/user/register.php">
-          Masters of Art in Theology
-        </a>
+        <a href="/masters"> Masters of Art in Theology </a>
       </li>
       <li class="menu-item">
         <a href="/tuition">Tuition Fees</a>

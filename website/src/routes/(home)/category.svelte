@@ -112,7 +112,7 @@
     </div>
     <div class="col-lg-6 child-item">
       <div class="category-box style-3">
-        <a href="https://adullam.chahms.com.ng/user/register.php">
+        <a href="/masters">
           <div class="figure-box">
             <img src="/images/media/category/category1.jpg" alt="Category" />
           </div>

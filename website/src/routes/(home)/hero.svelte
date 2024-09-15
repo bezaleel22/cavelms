@@ -49,11 +49,8 @@
           <br />
           <br />
           <div class="btn-wrap">
-            <a
-              href="https://adullam.chahms.com.ng/user/register.php"
-              class="btn-fill style-1"
-            >
-              Enroll Now
+            <a href="/explore" class="btn-fill style-1">
+              Explore Programs
               <i class="fas fa-long-arrow-alt-right" />
             </a>
           </div>
@@ -78,10 +75,10 @@
         <br />
         <div class="btn-wrap">
           <a
-            href="https://adullam.chahms.com.ng/user/register.php"
+            href="/explore"
             class="btn-fill style-1"
           >
-            Enroll Now
+            Explore Programs
             <i class="fas fa-long-arrow-alt-right" />
           </a>
         </div>
@@ -104,10 +101,10 @@
         <br />
         <div class="btn-wrap">
           <a
-            href="https://adullam.chahms.com.ng/user/register.php"
+            href="/explore"
             class="btn-fill style-1"
           >
-            Enroll Now
+            Explore Programs
             <i class="fas fa-long-arrow-alt-right" />
           </a>
         </div>
@@ -130,10 +127,10 @@
         <br />
         <div class="btn-wrap">
           <a
-            href="https://adullam.chahms.com.ng/user/register.php"
+            href="/explore"
             class="btn-fill style-1"
           >
-            Enroll Now
+            Explore Programs
             <i class="fas fa-long-arrow-alt-right" />
           </a>
         </div>

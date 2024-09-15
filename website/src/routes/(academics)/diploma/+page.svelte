@@ -81,10 +81,7 @@
                   - Minimum 2 years of ministry experience - Two referees
                   <hr />
                   <br />
-                  <a
-                    href="https://adullam.chahms.com.ng/user/register.php"
-                    class="btn btn-block btn-lg btn-primary"
-                  >
+                  <a href="https://adullam.chahms.com.ng/user/register.php" class="btn btn-block btn-lg btn-primary">
                     Apply Now
                   </a>
                 </h6>

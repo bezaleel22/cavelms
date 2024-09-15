@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 </script>
 
 <svelte:head>
-  <title>Bachelor</title>
+  <title>MASTER OF ARTS IN THEOLOGY</title>
 </svelte:head>
 
 <div
@@ -11,7 +11,7 @@
 >
   <nav aria-label="breadcrumb" />
   <div class="inner-banner-title">
-    <h1 class="title">Bachelor Program</h1>
+    <h1 class="title">MASTER OF ARTS IN THEOLOGY</h1>
   </div>
 </div>
 
@@ -24,39 +24,43 @@
           <ul class="block-list about-list">
             <br /> <br />
             <div class="section-heading style-3">
-              <h2 class="title">Bachelor Program</h2>
+              <h2 class="title">MASTER OF ARTS IN THEOLOGY</h2>
             </div>
             <li>
               <div class="content-box">
                 <h5 class="description">
                   <h4 class="title"><strong>WHAT YOU WILL LEARN</strong></h4>
-
-                  - Establish believers in the foundation of the Christian Faith<br
-                  />
-                  - Develop spiritual stamina for Christian living in a failing world<br
-                  />
-                  - Develop skills in critical theological research writing.<br
-                  />
+                  - Advanced knowledge and understanding of the Bible within its
+                  historical, cultural, literary, and theological contexts<br />
+                  - Proficiency in interpreting biblical texts firsthand <br />
+                  - Foundations, principles, and practices of defending the Christian
+                  faith in the contemporary world <br />
+                  - Critical thinking skills to articulate compelling responses to
+                  intellectual challenges facing Christianity <br />
                   <hr />
                 </h5>
-                <h4 class="title"><strong>PROGRAM OPTION</strong></h4>
+                <h4 class="title"><strong>PROGRAM OPTION AVAILABLE</strong></h4>
                 <h6 class="description">
+                  - BIBLICAL STUDIES: OLD TESTAMENT & NEW TESTAMENT <br />
+                  - CHRISTIAN APOLOGETICS <br />
+                  <br />
+                  <hr />
                   We offer two program options:<br />
-                  - On-Campus: The On-Campus option is a full residency program.
+                  - On-campus: The On-campus option is a full residency program.
                   The academic activities have three requirements: a class attendance,
-                  a ministry practicum and a Field Trip.
+                  a ministry practicum and Field Trip
                   <br />
                   <hr />
                   - Online: The Online program was created in response to the global
                   needs for spiritual training and equipping of those who cannot
-                  make it for the residency On-Campus option. Although designed to
-                  be still engaging and impactful, its duration is adjusted and compatible
-                  for the work and family demands of everyday life.<br /><br />
+                  make it for the residency On-campus option. Although designed to
+                  be still engaging and impactful. Please note that the only MA program
+                  available online is the Chistian Apologetics option<br /><br
+                  />
 
                   <h4 class="title"><strong>PROGRAM LENGTH</strong></h4>
-                  <!-- - Certificate - 1 year (2 semesters)<br /> -->
-                  <!-- - Diploma - 2 years (4 semesters) <br /> -->
-                  - Bachelor - 4 years (8 semesters) <br />
+                  Campus option: 24 months (with four semesters)<br />
+                  Online Option: 24 months (with four semesters) <br />
                   <hr />
 
                   <h4 class="title"><strong>ADMISSION REQUIREMENTS</strong></h4>
@@ -73,15 +77,21 @@
                   <hr />
 
                   <h4 class="title"><strong>ENTRY REQUIREMENT</strong></h4>
-                  - Able to read and write in English Language<br />
-                  - A minimum of a Secondary School Certificate <br />
-                  or its equivalent (For those who are 18 years old or above; if
-                  they do not have a Secondary School Certificate, he/she must pass
-                  the mature candidate’s exam.) <br />
-                  - Minimum 2 years of ministry experience - Two referees
+                  - A $20 non-refundable application fee<br />
+                  - A completed Application form (available online) <br />
+                  - A minimum of a Bachelor of Theology or a Postgraduate Diploma
+                  of Theology <br />
+                  - Two referees <br />
+                  - All International students that wish to learn On-campus are required
+                  to apply for and secure a student visa for the duration of their
+                  study in the Nigerian Embassy in their country before travelling
+                  in <br />
                   <hr />
                   <br />
-                  <a href="https://adullam.chahms.com.ng/user/register.php" class="btn btn-block btn-lg btn-primary">
+                  <a
+                    href="https://adullam.chahms.com.ng/user/register.php"
+                    class="btn btn-block btn-lg btn-primary"
+                  >
                     Apply Now
                   </a>
                 </h6>

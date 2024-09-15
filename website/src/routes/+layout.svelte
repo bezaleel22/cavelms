@@ -6,12 +6,17 @@
   import { loading } from "$lib/store";
   import { fade } from "svelte/transition";
   import "./styles.css";
+  import { onMount } from "svelte";
 
   export let data;
   $: ({ isHome } = data);
 
   beforeNavigate(() => ($loading = true));
   afterNavigate(() => ($loading = false));
+
+  onMount(() => {
+    $loading = false;
+  });
 </script>
 
 <svelte:head>
@@ -26,19 +31,19 @@
         <div class="loader-inner" />
       </div>
     </div>
+  {:else}
+    <div id="wrapper" class="wrapper">
+      {#if isHome}
+        <Headermain />
+      {:else}
+        <PageHeader />
+      {/if}
+
+      <main>
+        <slot />
+      </main>
+    </div>
+
+    <Footer />
   {/if}
-
-  <div id="wrapper" class="wrapper">
-    {#if isHome}
-      <Headermain />
-    {:else}
-      <PageHeader />
-    {/if}
-
-    <main>
-      <slot />
-    </main>
-  </div>
-
-  <Footer />
 </div>
