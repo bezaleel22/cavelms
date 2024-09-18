@@ -55,7 +55,7 @@
 
                   <h4 class="title"><strong>PROGRAM LENGTH</strong></h4>
                   <!-- - Certificate - 1 year (2 semesters)<br /> -->
-                  - Diploma - 2 years (4 semesters) <br />
+                  - Diploma - 3 years (6 semesters) <br />
                   <!-- - Bachelor - 4 years (8 semesters) <br /> -->
                   <hr />
 
